@@ -22,7 +22,8 @@ The `md.css` is used for Markdown preview in Visual Studio Code.
 Index
 --------------------------------------------------
 
- - [Chapter01](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh1.md)
+ - [Chapter01](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh01.md)
+ - [Chapter02](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh02.md)
 
 --------------------------------------------------
 
