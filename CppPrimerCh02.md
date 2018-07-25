@@ -203,7 +203,6 @@ const int &r3 = r1 * 2; //  refer to const expression
 ```
 
 **For the compiler will replace const object with constant when compiling**  
-
 A `const reference` (also `pointer to const`) cannot change the value it refer to
 
 bind a reference to different type:
@@ -285,7 +284,7 @@ decltype(*p) rr{ii};    //  a reference is yielded
 
 ### 2.6 Defining Our Own Data Structures
 
-#### 2.6.1 
+#### 2.6.1
 
 Remember the semicolon at the end of a class definition
 
