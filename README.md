@@ -24,6 +24,7 @@ Index
 
  - [Chapter01](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh01.md)
  - [Chapter02](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh02.md)
+ - [Chapter03](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh03.md)
 
 --------------------------------------------------
 
