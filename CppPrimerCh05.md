@@ -38,9 +38,9 @@ Dangling `else` : in C++ else is matched with the closest preceding unmatched if
 #### 5.3.2 The `switch` Statement
 
 ```cpp
-switch (condition) 
+switch (condition)
 {
-    case 1: 
+    case 1:
         statement1;
         break;
     case 2:
@@ -66,7 +66,7 @@ case false:
 ```
 
 Any control jumped to the false case would bypass the initialization of i  
-If needed, defining the variables inside a block `{ }` 
+If needed, defining the variables inside a block `{ }`
 
 --------------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ Generally used when:
 `for (initializer; conditon; expression) statement`
 
 A for header can omit any of the three statements  
-including the `condition` **while the `while` loop must have a condition** 
+including the `condition` **while the `while` loop must have a condition**
 
 #### 5.4.3 Range for Statement
 
