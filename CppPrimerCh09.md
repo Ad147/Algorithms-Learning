@@ -1,10 +1,14 @@
-C++ Primer Notas de Estudio
-===========================
+CppPrimerCh09.md
+
+C++ Primer Notes
+================================================================================
+
 Ad  
 init: May09.2018
 
 Chapter9 Sequential Containers
----------------------------
+--------------------------------------------------------------------------------
+
 ### 9.1 Overview of the Sequential Containers
 
 ||Sequential | Container | Types
@@ -30,7 +34,7 @@ Chapter9 Sequential Containers
     - decide whether actually need to add elements in the middle, or using vector and `sort()`
     - if must, using `list` for the input phase and copy to vector
 
------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 9.2 Container Library Overview
 
@@ -164,7 +168,7 @@ Comparing two containers:
 ##### Relational operators use their element's relational operator
 which means if the element type has no relational operator defined, the comparison between containers is unvalid.
 
-----------------------------------------
+--------------------------------------------------------------------------------
 
 ### 9.3 Sequential Container Operations
 
@@ -274,7 +278,7 @@ After removing an element:
 
 ##### Avoid storing the iterator returned from end()
 
-------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 9.4 How a `vector` Grows
 
@@ -291,7 +295,7 @@ c.reserve(n)        | allocate space for at least n elements
 > Every implementation is required to follow a strategy that ensures that it is efficient to use push_back to add elements to a vector.  
 > The execution time of creating an n-element vector by calling push_back n times on an initially empty vector must never be more than a constant multiple of n.
 
--------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 9.5 Additional `string` Operations
 
@@ -330,17 +334,17 @@ b, e            | in the range by iter b and e
 initializer list| comma-separated list of chars enclosed in brace
 
 ##### args for replace and insert depend on how range or pos is specified
-||||||
-:---------------:|:------------:|:-----------:|:------------:|:----------:
-replace          | replace      | insert      | insert       | args can be
-(pos, len, args) | (b, e, args) | (pos, args) | (iter, args) |
-yes              | yes          | yes         | no           | str
-yes              | no           | yes         | no           | str, pos, len
-y|y|y|n|cp, len
-y|y|n|n|cp
-y|y|y|y|n, c
-n|y|n|y|b2, e2
-n|y|n|y|initializer list
+|  |
+| :--------------: | :----------: | :---------: | :----------: | :--------------: |
+| replace          | replace      | insert      | insert       | args can be      |
+| (pos, len, args) | (b, e, args) | (pos, args) | (iter, args) |
+| yes              | yes          | yes         | no           | str              |
+| yes              | no           | yes         | no           | str, pos, len    |
+| y                | y            | y           | n            | cp, len          |
+| y                | y            | n           | n            | cp               |
+| y                | y            | y           | y            | n, c             |
+| n                | y            | n           | y            | b2, e2           |
+| n                | y            | n           | y            | initializer list |
 
 ##### The many overloaded ways to change a string
 
@@ -404,7 +408,7 @@ stold(s, p)     | p has the same behavior as integer
 - when converting to number, the first non-whitespace char in s must be a char that can appear in a number (numbers and `+-.`):  
 `d = stod(s2.substr(s2.find_first_of("+-.0123456789")));`
 
---------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 9.6 Container Adaptors (`stack` `queue` `priority_queue`)
 
@@ -429,11 +433,11 @@ a.swap(b)   |
 - can override the default:  
 `stack<int, vector<int>> istk;`
 
-|     | vector | deque | list
-------|:------:|:-----:|:----:
-stack | y      | y     | y
-queue |        | y     | y
-pri_q | y      | y     | 
+|       | vector | deque | list  |
+| ----- | :----: | :---: | :---: |
+| stack | y      | y     | y     |
+| queue |        | y     | y     |
+| pri_q | y      | y     |
 
 ##### Stack Adaptor (defined in `stack`)
 
@@ -455,4 +459,6 @@ q.top()     | returns, not remove, the highest-priority element. (valid for pri_
 q.push(item)| create an element with value item or constructed from args at the end
 q.emplace(args) | of the queue or in its appropriate position in pri_q
 
-----------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+EOF
