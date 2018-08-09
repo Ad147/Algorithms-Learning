@@ -11,26 +11,29 @@ Chapter9 Sequential Containers
 
 ### 9.1 Overview of the Sequential Containers
 
-||Sequential | Container | Types
--|--------------------------|-|-
-`vector`    | flexible-size array   | fast random access    | fast insert/delete at back
-`deque`     | double-ended queue    | fast random access    | fast insert/delete at front or back
-`list`      | Doubly linked list    | only bidirectional sequential access  | fast insert/delete at any point
-`forward_list`  | Singly linked list| only sequential access in one direction   | fast insert/delete at any 
-`array`     | Fixed-size array      | fast random access    | cannot add or remove elements
-`string`    | similar to vector constains characters | fast random access   | fast insert/delete at the back
+###### Sequential Container Types
+
+|                |                                        |                                         |                                     |
+| -------------- | -------------------------------------- | --------------------------------------- | ----------------------------------- |
+| `vector`       | flexible-size array                    | fast random access                      | fast insert/delete at back          |
+| `deque`        | double-ended queue                     | fast random access                      | fast insert/delete at front or back |
+| `list`         | Doubly linked list                     | only bidirectional sequential access    | fast insert/delete at any point     |
+| `forward_list` | Singly linked list                     | only sequential access in one direction | fast insert/delete at any           |
+| `array`        | Fixed-size array                       | fast random access                      | cannot add or remove elements       |
+| `string`       | similar to vector constains characters | fast random access                      | fast insert/delete at the back      |
 
 `C++11` The `forward_list` and `array` were added by the new standard.  
 `array` is a safer, easier-to-use alternative to built-in arrays.
 - `forward_list` does not have `size` operation
 
 ##### Deciding which sequential container to use
-- unless with a good reason, use a `vector`
-- if the program has lots of small elements and space overhead matters, donot use `list` `forward_list`
-- if requiring random access, use `vector` or `deque`
-- if need to insert/delete in the middle, use `list` `forward_list`
-- if need insert/delete at the front and back, use `deque`
-- if need insert in the middle only in reading, and then need random access:
+
+ - unless with a good reason, use a `vector`
+ - if the program has lots of small elements and space overhead matters, donot use `list` `forward_list`
+ - if requiring random access, use `vector` or `deque`
+ - if need to insert/delete in the middle, use `list` `forward_list`
+ - if need insert/delete at the front and back, use `deque`
+ - if need insert in the middle only in reading, and then need random access:
     - decide whether actually need to add elements in the middle, or using vector and `sort()`
     - if must, using `list` for the input phase and copy to vector
 
@@ -38,59 +41,61 @@ Chapter9 Sequential Containers
 
 ### 9.2 Container Library Overview
 
-||Container Operations (for all container types)
--|--------------------
-**Type Aliases**    | 
-iterator            | type of iterator for this container type
-const_iterator      | can read but not change
-size_type           | unsigned integral type big enough
-difference_type     | signed integral type holds the distance between two iterators
-value_type          | element type
-reference           | element's lvalue type, like value_type&
-const_reference     | const lvalue
-**Construction**    |
-C c;                | default constructor, empty container
-C c1(c2);           | copy
-C c(b, e);          | copy elements from the range denoted by iterators b and e (not for array)
-C c{a, b, c}        | list initialization
-**Assignment and swap** |
-c1 = c2             | replace elements in c1 with those in c2
-c1 = {a, b, c}      | replace with the list (not for array)
-a.swap(b)           | swap elements in a with those in b
-swap(a, b)          | equivalent to above
-**Size**            |
-c.size()            | number of elements (not for forward_list)
-c.max_size()        | maximum number of elements c can hold
-c.empty()           | false if c has any elements
-**Add/Remove Elements** | (not valid for array) Note: the interface to these operations varies by container type
-c.insert(args)      | copy element(s) as specified by args into c
-c.emplace(inits)    | use inits to construct an element in c
-c.erase(args)       | remove element(s) specified by args
-c.clear()           | remove all elements from c; return void
-**Equality and**    | **Relational Operations**
-==, !=              | for all types
-<, <=, >, >=        | (not valid for unordered associative containers)
-**Obtain Iterators**|
-c.begin(), c.end()  | return iterator to the first, one past the last element in c
-c.cbegin(), c.cend()| return const_iterator
-**Addtional Members**| **of Reversible Containers** (not valid for forward_list)
-reverse_iterator    | iterator that addresses elements in reverse order
-const_reverse_iterator | reverse iterator that cannot write
-c.rbegin(), c.rend()| return iterator to the last ,one past the first element
-c.crbegin(), c.crend()| return const_reverse_iterator
+|                         | Container Operations (for all container types)                                         |
+| ----------------------- | -------------------------------------------------------------------------------------- |
+| **Type Aliases**        |
+| iterator                | type of iterator for this container type                                               |
+| const_iterator          | can read but not change                                                                |
+| size_type               | unsigned integral type big enough                                                      |
+| difference_type         | signed integral type holds the distance between two iterators                          |
+| value_type              | element type                                                                           |
+| reference               | element's lvalue type, like value_type&                                                |
+| const_reference         | const lvalue                                                                           |
+| **Construction**        |
+| C c;                    | default constructor, empty container                                                   |
+| C c1(c2);               | copy                                                                                   |
+| C c(b, e);              | copy elements from the range denoted by iterators b and e (not for array)              |
+| C c{a, b, c}            | list initialization                                                                    |
+| **Assignment and swap** |
+| c1 = c2                 | replace elements in c1 with those in c2                                                |
+| c1 = {a, b, c}          | replace with the list (not for array)                                                  |
+| a.swap(b)               | swap elements in a with those in b                                                     |
+| swap(a, b)              | equivalent to above                                                                    |
+| **Size**                |
+| c.size()                | number of elements (not for forward_list)                                              |
+| c.max_size()            | maximum number of elements c can hold                                                  |
+| c.empty()               | false if c has any elements                                                            |
+| **Add/Remove Elements** | (not valid for array) Note: the interface to these operations varies by container type |
+| c.insert(args)          | copy element(s) as specified by args into c                                            |
+| c.emplace(inits)        | use inits to construct an element in c                                                 |
+| c.erase(args)           | remove element(s) specified by args                                                    |
+| c.clear()               | remove all elements from c; return void                                                |
+| **Equality and**        | **Relational Operations**                                                              |
+| ==, !=                  | for all types                                                                          |
+| <, <=, >, >=            | (not valid for unordered associative containers)                                       |
+| **Obtain Iterators**    |
+| c.begin(), c.end()      | return iterator to the first, one past the last element in c                           |
+| c.cbegin(), c.cend()    | return const_iterator                                                                  |
+| **Addtional Members**   | **of Reversible Containers** (not valid for forward_list)                              |
+| reverse_iterator        | iterator that addresses elements in reverse order                                      |
+| const_reverse_iterator  | reverse iterator that cannot write                                                     |
+| c.rbegin(), c.rend()    | return iterator to the last ,one past the first element                                |
+| c.crbegin(), c.crend()  | return const_reverse_iterator                                                          |
 
 #### 9.2.1 Iterators
 
 ##### Iterator ranges
+
 is denoted by a pair of iterators
 
 is called a left-inclusive interval.
 
 ##### Programming Implications of Using Left-Inclusive Ranges
+
 three convinient properties:
-- if begin == end, the range is empty
-- if begin != end, then begin refers to the first element
-- imcrement begin until begin == end
+ - if begin == end, the range is empty
+ - if begin != end, then begin refers to the first element
+ - imcrement begin until begin == end
 
 #### 9.2.2 Container Type Members
 
@@ -101,23 +106,25 @@ three convinient properties:
 #### 9.2.4 Defining and Initializing a Container
 
 ##### Initializing a container as a copy of another container:
-1. directly copy. must match
-2. (excepting array) copy a range of elements denoted by a pair of iterators  
-the container can be difference and the elements should be able to converted
 
-||Defining and Initializing Containers
--|------------------------------------------------------------
-C c;        | default constructor. elements default-initialized if c is an array, empty container otherwise
-C c1(c2)    | copy. they must have the same type. (also same size for array)
-C c1 = c2   | as above
-C c{a, b, c}| list initialization. elements type must match (compatible)
-C c = {a, b, c} |as above
-C c(b,e)    | elements in the range b and e. (not valid for array)
-|| **for sequential containers: (not include array)**
-C seq(n)    | seq has n value-initialized elements. (not valid for string)
-C seq(n, t) | seq has n elements with value t.
+ 1. directly copy. must match
+ 2. (excepting array) copy a range of elements denoted by a pair of iterators  
+    the container can be difference and the elements should be able to converted
+
+|                    | Defining and Initializing Containers                                                          |
+| ------------------ | --------------------------------------------------------------------------------------------- |
+| C c;               | default constructor. elements default-initialized if c is an array, empty container otherwise |
+| C c1(c2)           | copy. they must have the same type. (also same size for array)                                |
+| C c1 = c2          | as above                                                                                      |
+| C c{a, b, c}       | list initialization. elements type must match (compatible)                                    |
+| C c = {a, b, c}    | as above                                                                                      |
+| C c(b,e)           | elements in the range b and e. (not valid for array)                                          |
+| **for sequential** | **containers: (not include array)**                                                           |
+| C seq(n)           | seq has n value-initialized elements. (not valid for string)                                  |
+| C seq(n, t)        | seq has n elements with value t.                                                              |
 
 ##### Library `array`s have fixed size
+
 `array<int, 42> ia;`
 
 A default-constructed array has as many elements as its size with the default initialized value.
@@ -126,28 +133,29 @@ It is worth noting that the library `array` type is able to copy or assign.
 
 #### 9.2.5 Assignment and `swap`
 
-|| Container Assignment Operations
--|--------------------------------
-c1 = c2     | replace c1. must be the same type.
-c = {a, b}  | (not valid for array)
-swap(c1, c2)| exchange elements. they must have the same type. swap is usually much faster than copying
-c1.swap(c2) |
-|           | **assign operations not valid for associative containers or array**
-seq.assign(b, e)    | the iterator b, e must not refer to elements in seq
-seq.assign(il)      | replace with elements in initializer list il
-seq.assign(n, t)    | the same as the constructor
+|                  | Container Assignment Operations                                                           |
+| ---------------- | ----------------------------------------------------------------------------------------- |
+| c1 = c2          | replace c1. must be the same type.                                                        |
+| c = {a, b}       | (not valid for array)                                                                     |
+| swap(c1, c2)     | exchange elements. they must have the same type. swap is usually much faster than copying |
+| c1.swap(c2)      |
+|                  | **assign operations not valid for associative containers or array**                       |
+| seq.assign(b, e) | the iterator b, e must not refer to elements in seq                                       |
+| seq.assign(il)   | replace with elements in initializer list il                                              |
+| seq.assign(n, t) | the same as the constructor                                                               |
 
 Because the size of the right-hand operand might differ from the size of the left-hand operand, the array type does not support assign and it does not allow assignment from {}
 
 ##### Using `swap`
+
 > Excepting `array`, `swap` does not copy, delete or insert any elements and is guaranteed to run in constant time.
 
-- with the exception of `string`, iterators, references and pointers into the containers are not invalidated. They refer to the same elements as thay did before swap:  
+ - with the exception of `string`, iterators, references and pointers into the containers are not invalidated. They refer to the same elements as thay did before swap:  
 iter denoted the element in vec1 before swap, and then denoted the element in vec2
 
-- a call to swap on a `string` may invalidate iterators, references and pointers
+ - a call to swap on a `string` may invalidate iterators, references and pointers
 
-- swapping arrays does exchange the elements
+ - swapping arrays does exchange the elements
 
 `C++11` as a matter of habit, it is best to use the nonmember version of swap.
 
@@ -161,11 +169,12 @@ Exception: `forward_list` provides `max_size` and `empty`, but not `size`
 - `>` `>=` ... : except the unordered associative containers
 
 Comparing two containers:
-- if both have the same size and elements, they are equal
-- if they have different sizes but every element of the smaller one is equal to the correspoding element, then the smaller one is less
-- if neither container is an initial subsequence of the other, then the comparison depends on comparing the first unequal elements.
+ - if both have the same size and elements, they are equal
+ - if they have different sizes but every element of the smaller one is equal to the correspoding element, then the smaller one is less
+ - if neither container is an initial subsequence of the other, then the comparison depends on comparing the first unequal elements.
 
 ##### Relational operators use their element's relational operator
+
 which means if the element type has no relational operator defined, the comparison between containers is unvalid.
 
 --------------------------------------------------------------------------------
@@ -174,7 +183,7 @@ which means if the element type has no relational operator defined, the comparis
 
 #### 9.3.1 Adding Elements to a Sequential Container
 
-|| Operations That Add Elements to a Sequential Container (not for array)
+| | Operations That Add Elements to a Sequential Container (not for array)
 -|-------------------------------------------------------
 c.push_back(t)          | creates an element with value t or constructed from args at the end of c. return void (not for forward_list)
 c.emplace_back(args)    | as above
@@ -195,17 +204,19 @@ c.insert(p, il)         | il is a braced list of element values
 ##### Adding elements at a specified point in the container
 
 ##### Inserting a Range of Elements
+
 `C++11` insert that take a count or a range return an iterator to the first element inserted.
 
 ##### Using the return from insert
 
 ##### Using the Emplace Operations
+
 `C++11` introduced `emplace_front` `emplace` `emplace_back` that construct rather than copy elements.  
 Passing arguments to a constructor for the element type.
 
 #### 9.3.2 Accessing Elements
 
-|| Operations to Access Elements in a Sequential Container
+| | Operations to Access Elements in a Sequential Container
 -|--------------------------------------------------------
 || `at` and subscipt operator valid only for string, vector, deque and array.
 c.back()    | returns a reference to the last element in c. undefined if c is empty (not for forward_list)
@@ -214,20 +225,22 @@ c[n]        | returns a reference to the element indexed by the unsigned integra
 c.at(n)     | returns a reference to the element indexed by n. if the index is out of range, throws an out_of_range exception
 
 ##### The access members return references
+
 If the container is a const, the return will be a reference to const
 
 ##### Subscripting and safe random access
+
 If wanting to ensure the index is valid, use `at` member instead.
 
 #### 9.3.3 Erasing Elements
 
-|| `erase` Operations on Sequential Containers (not valid for array)
--|------------------------------------------------------------------
-c.pop_back()    | removes last element. undefined if c is empty. returns void (not for forward_list)
-c.pop_front()   | removes first element. undefined if empty. returns void (not for vector and string)
-c.erase(p)      | removes the element denoted by iterator p and returns an iterator to the one after the deleted
-c.erase(b, e)   | removes the range denoted by iterator b and e. returns an iterator to the element after the last one that was deleted
-c.clear()       | removes all the elements in c. return void
+|               | `erase` Operations on Sequential Containers (not valid for array)                                                     |
+| ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| c.pop_back()  | removes last element. undefined if c is empty. returns void (not for forward_list)                                    |
+| c.pop_front() | removes first element. undefined if empty. returns void (not for vector and string)                                   |
+| c.erase(p)    | removes the element denoted by iterator p and returns an iterator to the one after the deleted                        |
+| c.erase(b, e) | removes the range denoted by iterator b and e. returns an iterator to the element after the last one that was deleted |
+| c.clear()     | removes all the elements in c. return void                                                                            |
 
 > Removing elements anywhere but the beginning or end of a `deque` invalidates all iterators, references and pointers.  
 > (for vector or string, invalidates the after deleted elements.)
@@ -265,14 +278,14 @@ c.resize(n, t)  | resize c to have n elements. any elements added have value t
 **Invalidating iterators, references and pointers:**
 
 After adding elements to a container:
-- `vector` `string` : invalidating the after ones. invalidating all if reallocated
-- `deque` : invalidating all if added to middle. invalidating iterators but not ref and ptr if added at front or back
-- `list` `forward_list` : remain valid
+ - `vector` `string` : invalidating the after ones. invalidating all if reallocated
+ - `deque` : invalidating all if added to middle. invalidating iterators but not ref and ptr if added at front or back
+ - `list` `forward_list` : remain valid
 
 After removing an element:
-- `list` `f_list` : remain valid
-- `deque` : invalidated all if removed at middle. invalidate o-t-e iterator if remove at back. invalidate nothing if removing at front
-- `vector` `string` : remain valid before the removal point
+ - `list` `f_list` : remain valid
+ - `deque` : invalidated all if removed at middle. invalidate o-t-e iterator if remove at back. invalidate nothing if removing at front
+ - `vector` `string` : remain valid before the removal point
 
 ##### Writing loops that change a container
 
@@ -334,10 +347,11 @@ b, e            | in the range by iter b and e
 initializer list| comma-separated list of chars enclosed in brace
 
 ##### args for replace and insert depend on how range or pos is specified
-|  |
+
+|                  |
 | :--------------: | :----------: | :---------: | :----------: | :--------------: |
 | replace          | replace      | insert      | insert       | args can be      |
-| (pos, len, args) | (b, e, args) | (pos, args) | (iter, args) |
+| (pos, len, args) | (b, e, args) | (pos, args) | (iter, args) |                  |
 | yes              | yes          | yes         | no           | str              |
 | yes              | no           | yes         | no           | str, pos, len    |
 | y                | y            | y           | n            | cp, len          |
@@ -369,6 +383,7 @@ cp, pos     | look for the C-style null-teminated string pointed to by cp.
 cp, pos, n  | look for the first n characters in the array pointed to by cp. no default for pos and n
 
 ##### To loop through a string finding all occurrence:
+
 ```cpp
 string::size_type pos = 0;
 while ((pos = name.find_first_of(numbers, pos)) != string::npos)
@@ -405,7 +420,7 @@ stof(s, p)      | return the initial numeric substring in s as float, double or 
 stod(s, p)      | 
 stold(s, p)     | p has the same behavior as integer
 
-- when converting to number, the first non-whitespace char in s must be a char that can appear in a number (numbers and `+-.`):  
+ - when converting to number, the first non-whitespace char in s must be a char that can appear in a number (numbers and `+-.`):  
 `d = stod(s2.substr(s2.find_first_of("+-.0123456789")));`
 
 --------------------------------------------------------------------------------
@@ -422,42 +437,43 @@ container_type  | type of the underlying container on which the adaptor is imple
 A a;        | create a new empty adaptor named a
 A a(c);     | create a new adaptor named a with a copy of the container c
 relational operators    | each adaptor supports all the relational operators. return the result of comparing containers
-a.empty()   | 
-a.size()    | 
+a.empty()   |
+a.size()    |
 swap(a, b)  | a and b must have the same type, including the type of the container
 a.swap(b)   |
 
 ##### Defining an adaptor
-- By default both `stack` and `queue` are implemented in terms of deque
-- `priority_queue` is implemented on a vector
-- can override the default:  
-`stack<int, vector<int>> istk;`
+
+ - By default both `stack` and `queue` are implemented in terms of deque
+ - `priority_queue` is implemented on a vector
+ - can override the default:  
+   `stack<int, vector<int>> istk;`
 
 |       | vector | deque | list  |
 | ----- | :----: | :---: | :---: |
 | stack | y      | y     | y     |
 | queue |        | y     | y     |
-| pri_q | y      | y     |
+| pri_q | y      | y     |       |
 
 ##### Stack Adaptor (defined in `stack`)
 
-|| Stack Operations in Addition to Common Operations
--|--------------------------------------------------
-s.pop()         | removes, but does not return, the top element from the stack
-s.push(item)    | creates a new top element on stack by copying or moving item,
-s.emplace(args) | or by constructing the element from args
-s.top()         | returns, but does not remove, the top element
+|                 | Stack Operations in Addition to Common Operations             |
+| --------------- | ------------------------------------------------------------- |
+| s.pop()         | removes, but does not return, the top element from the stack  |
+| s.push(item)    | creates a new top element on stack by copying or moving item, |
+| s.emplace(args) | or by constructing the element from args                      |
+| s.top()         | returns, but does not remove, the top element                 |
 
 ##### Queue Adaptors
 
-|| queue, priority_queue Operations in Addition to Common ones
--|------------------------------------------------------------
-q.pop()     | removes, but not return, the front element or highest-priority element
-q.front()   | returns, but not remove, the front element of q. for queue
-q.back()    | the back element. valid only for queue
-q.top()     | returns, not remove, the highest-priority element. (valid for pri_q)
-q.push(item)| create an element with value item or constructed from args at the end
-q.emplace(args) | of the queue or in its appropriate position in pri_q
+|                 | queue, priority_queue Operations in Addition to Common ones            |
+| --------------- | ---------------------------------------------------------------------- |
+| q.pop()         | removes, but not return, the front element or highest-priority element |
+| q.front()       | returns, but not remove, the front element of q. for queue             |
+| q.back()        | the back element. valid only for queue                                 |
+| q.top()         | returns, not remove, the highest-priority element. (valid for pri_q)   |
+| q.push(item)    | create an element with value item or constructed from args at the end  |
+| q.emplace(args) | of the queue or in its appropriate position in pri_q                   |
 
 --------------------------------------------------------------------------------
 
