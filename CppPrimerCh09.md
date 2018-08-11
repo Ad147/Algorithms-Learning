@@ -341,7 +341,7 @@ s.replace(range, args)  | remove range of characters from s and replace them wit
 str             | string
 str, pos, len   | up to len chars from str starting at pos
 cp, len         | up to len chars from the array pointed to by cp
-cp              | null-terminated array 
+cp              | null-terminated array
 n, c            | n copies of char c
 b, e            | in the range by iter b and e
 initializer list| comma-separated list of chars enclosed in brace
@@ -379,7 +379,7 @@ s.find_last_not_of(args)| find the last character in s that is not in args
 -|----------------------
 c, pos      | look for the char c starting at position posin s. pos defaults to 0
 s2, pos     | look for the string s2 starting at position pos in s. pos defaults to 0
-cp, pos     | look for the C-style null-teminated string pointed to by cp. 
+cp, pos     | look for the C-style null-teminated string pointed to by cp.
 cp, pos, n  | look for the first n characters in the array pointed to by cp. no default for pos and n
 
 ##### To loop through a string finding all occurrence:
@@ -410,14 +410,14 @@ pos1, n1, cp, n2        | compares n1 chars at pos1 in s to n2 chars starting fr
 || Conversions between `string` and Numbers
 -|-----------------------------------------
 to_string(val); | overloaded functions returning the string representation of val. val can be any arithmetic type
-stoi(s, p, b)   | return the initial substring of s that has numeric content as an int, 
+stoi(s, p, b)   | return the initial substring of s that has numeric content as an int,
 stol(s, p, b)   | long
 stoul(s, p, b)  | unsigned long, long long, unsigned long long.
 stoll(s, p, b)  | b indicates the numeric base to use for the conversion. defaulted 10
 stoull(s, p, b) | p is a pointer to a size_t in which to put the index of the first nonnumeric character in s.
 ||p defaults to 0, in which case the function does not store the index
 stof(s, p)      | return the initial numeric substring in s as float, double or long double
-stod(s, p)      | 
+stod(s, p)      |
 stold(s, p)     | p has the same behavior as integer
 
  - when converting to number, the first non-whitespace char in s must be a char that can appear in a number (numbers and `+-.`):  
