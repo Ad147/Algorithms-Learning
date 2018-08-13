@@ -22,11 +22,11 @@ The `md.css` is used for Markdown preview in Visual Studio Code.
 Index
 --------------------------------------------------
 
- - [Chapter01](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh01.md)
- - [Chapter02](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh02.md)
- - [Chapter03](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh03.md)
- - [Chapter04](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh04.md)
- - [Chapter05](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh05.md)
+ - [Chapter01 Getting Started](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh01.md)
+ - [Chapter02 Variables and Basic Types](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh02.md)
+ - [Chapter03 Strings, Vectors, and Arrays](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh03.md)
+ - [Chapter04 Expressions](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh04.md)
+ - [Chapter05 Statements](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh05.md)
  - [Chapter06](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh06.md)
  - [Chapter07](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh07.md)
  - [Chapter08](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh08.md)
