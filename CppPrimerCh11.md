@@ -1,10 +1,13 @@
-C++ Primer Notas de Estudio
-===========================
+CppPrimerCh11.md
+
+C++ Primer Notes
+================================================================================
+
 Ad  
 init: May17.2018
 
 Chapter11 Associative Container
--------------------------------
+--------------------------------------------------------------------------------
 
 || Asscociative Container Types
 -|-----------------------------
@@ -33,7 +36,7 @@ for (const auto &w : word_count)
     cout << w.first << w.second << endl;
 ```
 
----------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 11.2 Overview of the Associative Containers
 
@@ -64,6 +67,8 @@ p1 relop p2             | relational operators (< > <= >=). p1 < p2 if p1.first 
 p1 == p2, p1 != p2      |
 
 The data members of pair is public: `first` and `second`
+
+--------------------------------------------------------------------------------
 
 ### 11.3 Operations on Associative Containers
 
@@ -145,7 +150,7 @@ for (auto pos = c.equal_range(search_item); pos.first != pos.second; ++pos.first
 
 #### 11.3.6 A Word Transformation Map
 
-----------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 11.4 The Unodered Containers
 
@@ -177,4 +182,6 @@ c.reserve(n)            | reorganize so that c can hold n elements without a reh
 - define an unordered multimap with user-define functions:  
 `unordered_multiset<SaleData, decltype(hashFunc)*, decltype(equalOperatorFunc)*> uomset;`
 
---------------------------------------------------------
+--------------------------------------------------------------------------------
+
+EOF
