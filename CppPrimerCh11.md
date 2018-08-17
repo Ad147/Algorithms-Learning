@@ -47,11 +47,12 @@ for (const auto &w : word_count)
 By default, the key type use `<` to compare keys
 
 ##### Key Types for Ordered Containers
+
 can supply own operation to use in place of `<`  
 the comparison function must have properties:
-- 2 keys cannot both be "less than" each other
-- 传递性: if k1 < k2, k2 < k3 => k1 < k3
-- if neither of two keys is "less than" the other, then they are equal
+ - 2 keys cannot both be "less than" each other
+ - 传递性: if k1 < k2, k2 < k3 => k1 < k3
+ - if neither of two keys is "less than" the other, then they are equal
 
 #### 11.2.3 The `pair` Type `<utility>` (template)
 
@@ -85,21 +86,22 @@ value_type  | for sets, same as key_type. for maps, `pair<const key_type, mapped
 ##### Iterators for sets are const
 
 ##### Associative Containers and Algorithms
+
 In general, do not use the generic algorithms with the associative containers.
-- associatives have member `find` which is much faster than generic find
+ - associatives have member `find` which is much faster than generic find
 
 #### 11.3.2 Adding Elements
 
 || Associative Container `insert` Operations
 -|------------------------------------------
 c.insert(v)     | v is value_type object
-c.emplace(args) | for map and set, the element is inserted only if the correspoding key is not already in c. 
+c.emplace(args) | for map and set, the element is inserted only if the correspoding key is not already in c.
 || **returns a pair of an iterator to the element and a bool indicating whether the element was inserted**
 || for multimap and multiset, inserts the given element and returns an iterator to the new element.
 c.insert(b, e)  | b and e are c::value_type. returns void
 c.insert(il)    | il is a braced list. returns void
 || for map and set, inserts elements with keys not in c. for multi, insert each
-c.insert(p, v)  | like insert(v), but uses iterator p as a hint indicating where to begin search. 
+c.insert(p, v)  | like insert(v), but uses iterator p as a hint indicating where to begin search.
 c.emplace(p, args) | returns an iterator to the element with the given key
 
 #### 11.3.3 Erasing Elements
@@ -179,7 +181,7 @@ c.max_load_factor()     | average bucket size that c tries to maintain. c adds b
 c.rehash(n)             | reorganize storage so that bucket_count >= n and bucket_count > size/max_load_factor
 c.reserve(n)            | reorganize so that c can hold n elements without a rehash
 
-- define an unordered multimap with user-define functions:  
+ - define an unordered multimap with user-define functions:  
 `unordered_multiset<SaleData, decltype(hashFunc)*, decltype(equalOperatorFunc)*> uomset;`
 
 --------------------------------------------------------------------------------
