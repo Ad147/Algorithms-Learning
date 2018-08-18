@@ -101,7 +101,9 @@ unlike parameters, the value of a captured variable is copied when the lambda is
 
 ##### Implicit captures (can mix with explicit)
 
-|                      | Lambda Capture List                                                                                              |
+###### Lambda Capture List
+
+|                      |                                                                                                                  |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | []                   | Empty capture list. The lambda may not use variables                                                             |
 | [names]              | names is a comma-separated list of names local to the enclosing function. defaults to be copied                  |
@@ -147,7 +149,9 @@ by using `ref()` `cref()` (`<functional>`): returns an object that contains the 
 
 #### 10.4.1 Insert Iterators
 
-|                 | Insert iterator operations                                              |
+###### Insert iterator operations
+
+|                 |                                                                         |
 | --------------- | ----------------------------------------------------------------------- |
 | it = t          | inserts t at the position denoted by it. call push_back/front or insert |
 | *it, ++it, it++ | do nothing to it. each returns it                                       |
@@ -160,7 +164,9 @@ by using `ref()` `cref()` (`<functional>`): returns an object that contains the 
 
 The stream iterators treat their corresponding stream as a sequence of elements of a specified type.
 
-|                              | `istream_iterator` Operations                                            |
+###### `istream_iterator` Operations
+
+|                              |                                                                          |
 | ---------------------------- | ------------------------------------------------------------------------ |
 | istream_iterator\<T> in(is); | in reads values of type T from input stream is                           |
 | istream_iterator\<T> end;    | off-the-end iterator for an istream_iterator that reads values of type T |
@@ -172,7 +178,9 @@ The stream iterators treat their corresponding stream as a sequence of elements 
 
 ##### `istream_iterator` are permitted to use lazy evaluation
 
-|                                 | `ostream_iterator` Operations                                               |
+###### `ostream_iterator` Operations
+
+|                                 |                                                                             |
 | ------------------------------- | --------------------------------------------------------------------------- |
 | ostream_iterator\<T> out(os);   | out writes values of type T to output                                       |
 | ostream_iterator\<T> out(os, d) | writes values followed by d. d points to a null-terminated character array. |
@@ -273,7 +281,9 @@ Algorithms that take an element value typically have a second named version that
  - the generic `sort` can not used in lists
  - other in the table can achive much better performance than generic ones
 
-|                       | Algorithms That are Members of `list` and `forward_list`               |
+###### Algorithms That are Members of `list` and `forward_list`
+
+|                       |                                                                        |
 | --------------------- | ---------------------------------------------------------------------- |
 | lst.merge(lst2)       | Merges elements from lst2 onto lst. Both lists must be sorted. use `<` |
 | lst.merge(lst2, comp) | Elements are removed from lst2. use the given comp                     |
@@ -287,12 +297,14 @@ Algorithms that take an element value typically have a second named version that
 
 ##### The `splice` members is particular to list data structure
 
-|| Arguments to the list and forward_list splice Members
--|------------------------------------------------------
-|| `lst.splice(args)` or `flst.splice_after(args)`
-(p, lst2)       | p is an iterator to an element in lst. moves all lst2 into lst before p. remove lst2. lst2 should be the same type and not be lst
-(p, lst2, p2)   | p2 is a valid iterator into lst2. moves the element p2 into lst. lst2 can be the same as lst
-(p, lst2, b, e) | b and e must denote a valid range in lst2. lst2 can be the same as lst but p must not denote an element in the given range.
+###### Arguments to the list and forward_list splice Members
+
+|                 |                                                                                                                                   |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+|                 | `lst.splice(args)` or `flst.splice_after(args)`                                                                                   |
+| (p, lst2)       | p is an iterator to an element in lst. moves all lst2 into lst before p. remove lst2. lst2 should be the same type and not be lst |
+| (p, lst2, p2)   | p2 is a valid iterator into lst2. moves the element p2 into lst. lst2 can be the same as lst                                      |
+| (p, lst2, b, e) | b and e must denote a valid range in lst2. lst2 can be the same as lst but p must not denote an element in the given range.       |
 
 ##### The list-specific operations do not change the containers
 
