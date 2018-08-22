@@ -33,6 +33,7 @@ Index
  - [Chapter09 Sequential Containers](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh09.md)
  - [Chapter10 Generic Algorithms](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh10.md)
  - [Chapter11 Associative Container](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh11.md)
+ - [Chapter12 Dynamic Memory](https://github.com/Ad147/CppPrimer-Notes/blob/master/CppPrimerCh11.md)
 
 --------------------------------------------------
 
