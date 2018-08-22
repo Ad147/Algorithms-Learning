@@ -1,10 +1,13 @@
-C++ Primer Notas de Estudio
-===========================
+CppPrimerCh12.md
+
+C++ Primer Notes
+================================================================================
+
 Ad  
 init: May20.2018
 
 Chapter12 Dynamic Memory
--------------------------------
+--------------------------------------------------------------------------------
 
 ### 12.1 Dynamic Memory and Smart Pointers
 
@@ -159,7 +162,7 @@ w.use_count()   | the numer of shared_ptr that shares ownership with w
 w.expired()     | returns true if w.use_count() is zero
 w.lock()        | if expired is true, returns a null shared_ptr. otherwise returns a shared_ptr
 
--------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 12.2 Dynamic Arrays
 
@@ -220,7 +223,7 @@ uninitialized_copy_n(b, n, b2)  | copies n elements starting at b into memory b2
 uninitialized_fill(b, e, t)     | constructs objs in the range of raw memory denoted by b, e as a copy of t
 uninitialized_fill_n(b, n, t)   | constructs an unsigned number n objs starting at b
 
----------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 12.3 Using the Library: A Text-Query Program
 
@@ -228,4 +231,6 @@ uninitialized_fill_n(b, n, t)   | constructs an unsigned number n objs starting 
 
 #### 12.3.2 Defining the Query Program Classes
 
--------------------------------------------------------
+--------------------------------------------------------------------------------
+
+EOF
