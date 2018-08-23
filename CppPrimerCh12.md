@@ -21,26 +21,29 @@ Chapter12 Dynamic Memory
 
 #### 12.1.1 The `shared_ptr` Class
 
-|| Operations Common to `shared_ptr` and `unique_ptr`
--|---------------------------------------------------
-shared_ptr<T> sp    | null smart pointer that can point to objects of type T
-unique_ptr<T> up    | 
-p                   | use p as a condition; true if p points to an object
-*p                  | Dereference p to get the object to which p points
-p->mem              | 
-p.get()             | returns the built-in pointer in p. use with caution
-swap(p, q)          | swaps the pointers in p and q
-p.swap(q)           | 
+###### Operations Common to `shared_ptr` and `unique_ptr`
 
+|                   |                                                        |
+| ----------------- | ------------------------------------------------------ |
+| shared_ptr\<T> sp | null smart pointer that can point to objects of type T |
+| unique_ptr\<T> up |
+| p                 | use p as a condition; true if p points to an object    |
+| *p                | Dereference p to get the object to which p points      |
+| p->mem            |
+| p.get()           | returns the built-in pointer in p. use with caution    |
+| swap(p, q)        | swaps the pointers in p and q                          |
+| p.swap(q)         |
 
-|| Operations Specific to `shared_ptr`
--|------------------------------------
-make_shared<T>(args)    | returns a shared_ptr pointing to a dynamically allocated object of type T. Uses args to initialize that object
-shared_ptr<T> p(q)      | copy q to p. increments the count in q. 
-p = q                   | p and q are shared_ptrs holding pointers that can be converted. 
-||decrement p's reference count and increments q's; delete p if counts 0
-p.unique()              | returns true if p.use_count() is one; false otherwise
-p.use_count()           | returns the number of objects sharing with p; a slow operation
+###### Operations Specific to `shared_ptr`
+
+|                      |                                                                                                                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| make_shared<T>(args) | returns a shared_ptr pointing to a dynamically allocated object of type T. Uses args to initialize that object |
+| shared_ptr<T> p(q)   | copy q to p. increments the count in q.                                                                        |
+| p = q                | p and q are shared_ptrs holding pointers that can be converted.                                                |
+|                      | decrement p's reference count and increments q's; delete p if counts 0                                         |
+| p.unique()           | returns true if p.use_count() is one; false otherwise                                                          |
+| p.use_count()        | returns the number of objects sharing with p; a slow operation                                                 |
 
 ##### The `make_shared` function (the safest way)
 `shared_ptr<int> p = make_shared<int>(42);`
@@ -90,17 +93,19 @@ or deleting the same ptr value, is undefined
 
 `shared_ptr<int> p(new int(42));`
 
-|| Other Ways to Define and Change shared_ptrd
--|--------------------------------------------
-shared_ptr<T> p(q)  | p manages the object to which the built-in pointer q points;
-|| q must point to memory allocated by new and convertible T*
-shared_ptr<T> p(u)  | p assumes ownership from the unique_ptr u; makes u null
-shared_ptr<T> p(q, d) | p assumes ownership for the object to which the built-in pointer q points. q must convertable
-|| p will use the callable object d in place of delete to free q.
-shared_ptr<T> p(p2, d) | p is a copy of the shared_ptr p2 as described in table 12.2 except p uses d in place of delete
-p.reset()               | if p is the only shared_ptr pointing at its object, reset frees the object.
-p.reset(q)              | if the optional built-in pointer q is passed, makes p point to q, otherwise null.
-p.reset(q, d)           | if d is supplied, call d to free q otherwise delete
+######  Other Ways to Define and Change shared_ptrd
+
+|                        |                                                                                                |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| shared_ptr<T> p(q)     | p manages the object to which the built-in pointer q points;                                   |
+|                        | q must point to memory allocated by new and convertible T*                                     |
+| shared_ptr<T> p(u)     | p assumes ownership from the unique_ptr u; makes u null                                        |
+| shared_ptr<T> p(q, d)  | p assumes ownership for the object to which the built-in pointer q points. q must convertable  |
+|                        | p will use the callable object d in place of delete to free q.                                 |
+| shared_ptr<T> p(p2, d) | p is a copy of the shared_ptr p2 as described in table 12.2 except p uses d in place of delete |
+| p.reset()              | if p is the only shared_ptr pointing at its object, reset frees the object.                    |
+| p.reset(q)             | if the optional built-in pointer q is passed, makes p point to q, otherwise null.              |
+| p.reset(q, d)          | if d is supplied, call d to free q otherwise delete                                            |
 
 Cannot implicily convert a butlt-in pointer to a smart pointer.
 
@@ -124,16 +129,18 @@ If an exceptiong happens between the new and the delete, and is not caught insid
 
 #### 12.1.5 `unique_ptr`
 
-|| `unique_ptr` Operations (see also table 12.1)
--|----------------------------------------------
-unique_ptr<T> u1    | null pointer. use delete to free
-unique_ptr<T, D> u2 | use callable obejct of type D to free
-unique_ptr<T, D> u(d) | null pointer used d which is type D to free
-u = nullptr         | deletes the object. makes null
-u.release()         | relinquishes control of the pointer u had held; returns pointer u had held and null u
-u.reset()           | deletes the object u points
-u.reset(q)          | if the built-in pointer q is supplied, makes u point to that object.
-u.reset(nullptr)    | Ohterwise makes u null.
+###### `unique_ptr` Operations (see also table 12.1)
+
+|                       |                                                                                       |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| unique_ptr\<T> u1     | null pointer. use delete to free                                                      |
+| unique_ptr<T, D> u2   | use callable obejct of type D to free                                                 |
+| unique_ptr<T, D> u(d) | null pointer used d which is type D to free                                           |
+| u = nullptr           | deletes the object. makes null                                                        |
+| u.release()           | relinquishes control of the pointer u had held; returns pointer u had held and null u |
+| u.reset()             | deletes the object u points                                                           |
+| u.reset(q)            | if the built-in pointer q is supplied, makes u point to that object.                  |
+| u.reset(nullptr)      | Ohterwise makes u null.                                                               |
 
 cannot copy or assign unique_ptr, can transfer ownership from one unique_ptr to another:  
 - `unique_ptr<int> p2(p1.release());`  
@@ -152,15 +159,17 @@ Once last shared_ptr goes away, the object deleted.
 
 cannot use a weak_ptr to access its object directly. To access using lock()
 
-|| `weak_ptr`s
--|---------------------------------
-weak_ptr<T> w   | null weak_ptr that can point at objects of type T
-weak_ptr<T> w(sp) | points to the same object as the shared_ptr sp.
-w = p           | p can be a shared_ptr or a weak_ptr. w shares ownership with p
-w.reset()       | null w
-w.use_count()   | the numer of shared_ptr that shares ownership with w
-w.expired()     | returns true if w.use_count() is zero
-w.lock()        | if expired is true, returns a null shared_ptr. otherwise returns a shared_ptr
+###### `weak_ptr`s
+
+|                    |                                                                               |
+| ------------------ | ----------------------------------------------------------------------------- |
+| weak_ptr\<T> w     | null weak_ptr that can point at objects of type T                             |
+| weak_ptr\<T> w(sp) | points to the same object as the shared_ptr sp.                               |
+| w = p              | p can be a shared_ptr or a weak_ptr. w shares ownership with p                |
+| w.reset()          | null w                                                                        |
+| w.use_count()      | the numer of shared_ptr that shares ownership with w                          |
+| w.expired()        | returns true if w.use_count() is zero                                         |
+| w.lock()           | if expired is true, returns a null shared_ptr. otherwise returns a shared_ptr |
 
 --------------------------------------------------------------------------------
 
@@ -184,27 +193,31 @@ Using an allocator generally provides better performance and more flexible memor
 
 `unique_ptr<int[]> u(new int[10]);`
 
-|| `unique_ptr` to Arrays
--|-----------------------------------
-|| member access operators (dot and arrow) are not supported for unique_ptrs to arrays
-unique_ptr<T[]> u   | u can point to a dynamically array of type T
-unique_ptr<T[]> u(p)| u points to the dynamically allocated array to which the built-in pointer p points. 
-u[i]    | returns the object at position i in the array. u must point to an array
+###### `unique_ptr` to Arrays
+
+|                      |                                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------- |
+|                      | member access operators (dot and arrow) are not supported for unique_ptrs to arrays |
+| unique_ptr<T[]> u    | u can point to a dynamically array of type T                                        |
+| unique_ptr<T[]> u(p) | u points to the dynamically allocated array to which the built-in pointer p points. |
+| u[i]                 | returns the object at position i in the array. u must point to an array             |
 
 shared_ptr provides no direct support for managing a dynamic array.  
 if use shared_ptr to manage dynamic array, must provide own deleter
 
 #### 12.2.2 The `allocator` Class (decouple the allocation and construction)
 
-|| Standard `allocator` Class and Customized Algorithms
--|-----------------------------------------------------
-allocator<T> a      | defines an allocator object named a that can allocate memory for type T
-a.allocate(n)       | allocates raw, unconstructed memory to hold n objects
-a.deallocate(p, n)  | deallocates memory held n objs starting at p.
-|| p must be returned from allocate, n must be the size with p created
-|| the user must run destroy on any objs that were constructed in this memory before calling deallocate
-a.construct(p, args)| p must point to raw memory
-a.destroy(p)        | runs the destructor on the object pointed to by p
+###### Standard `allocator` Class and Customized Algorithms
+
+|                      |                                                                                                      |
+| -------------------- | ---------------------------------------------------------------------------------------------------- |
+| allocator\<T> a      | defines an allocator object named a that can allocate memory for type T                              |
+| a.allocate(n)        | allocates raw, unconstructed memory to hold n objects                                                |
+| a.deallocate(p, n)   | deallocates memory held n objs starting at p.                                                        |
+|                      | p must be returned from allocate, n must be the size with p created                                  |
+|                      | the user must run destroy on any objs that were constructed in this memory before calling deallocate |
+| a.construct(p, args) | p must point to raw memory                                                                           |
+| a.destroy(p)         | runs the destructor on the object pointed to by p                                                    |
 
 ##### allocators allocate unconstructed memory
 
@@ -214,14 +227,16 @@ a.destroy(p)        | runs the destructor on the object pointed to by p
 
 ##### Algorithms to copy and fill uninitialized memory
 
-|| `allocator` Algorithms
--|--------------------------------------------
-|| These functions construct elements in the destination, rather than assigning to them
-uninitialized_copy(b, e, b2)    | copies elements from  range denoted by iterators b and e into unconstructed, raw memory denoted by b2.
-|| the memory must be large enough
-uninitialized_copy_n(b, n, b2)  | copies n elements starting at b into memory b2
-uninitialized_fill(b, e, t)     | constructs objs in the range of raw memory denoted by b, e as a copy of t
-uninitialized_fill_n(b, n, t)   | constructs an unsigned number n objs starting at b
+###### `allocator` Algorithms
+
+|                                |                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------ |
+|                                | These functions construct elements in the destination, rather than assigning to them                   |
+| uninitialized_copy(b, e, b2)   | copies elements from  range denoted by iterators b and e into unconstructed, raw memory denoted by b2. |
+|                                | the memory must be large enough                                                                        |
+| uninitialized_copy_n(b, n, b2) | copies n elements starting at b into memory b2                                                         |
+| uninitialized_fill(b, e, t)    | constructs objs in the range of raw memory denoted by b, e as a copy of t                              |
+| uninitialized_fill_n(b, n, t)  | constructs an unsigned number n objs starting at b                                                     |
 
 --------------------------------------------------------------------------------
 
