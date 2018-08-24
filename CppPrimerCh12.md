@@ -11,13 +11,13 @@ Chapter12 Dynamic Memory
 
 ### 12.1 Dynamic Memory and Smart Pointers
 
-- `new` : allocates, and optionally initializes, returns a pointer
-- `delete` : takes a pointer to a dynamic object, destroys that object, and frees
+ - `new` : allocates, and optionally initializes, returns a pointer
+ - `delete` : takes a pointer to a dynamic object, destroys that object, and frees
 
 `C++11` `smart pointer` `<memory>` (template):
-- `shared_ptr` : allows multiple pointers to refer to the same object
-- `unique_ptr` : owns the object it points
-- `weak_ptr` : managed by a shared_ptr
+ - `shared_ptr` : allows multiple pointers to refer to the same object
+ - `unique_ptr` : owns the object it points
+ - `weak_ptr` : managed by a shared_ptr
 
 #### 12.1.1 The `shared_ptr` Class
 
@@ -36,16 +36,17 @@ Chapter12 Dynamic Memory
 
 ###### Operations Specific to `shared_ptr`
 
-|                      |                                                                                                                |
-| -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| make_shared<T>(args) | returns a shared_ptr pointing to a dynamically allocated object of type T. Uses args to initialize that object |
-| shared_ptr<T> p(q)   | copy q to p. increments the count in q.                                                                        |
-| p = q                | p and q are shared_ptrs holding pointers that can be converted.                                                |
-|                      | decrement p's reference count and increments q's; delete p if counts 0                                         |
-| p.unique()           | returns true if p.use_count() is one; false otherwise                                                          |
-| p.use_count()        | returns the number of objects sharing with p; a slow operation                                                 |
+|                       |                                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| make_shared\<T>(args) | returns a shared_ptr pointing to a dynamically allocated object of type T. Uses args to initialize that object |
+| shared_ptr\<T> p(q)   | copy q to p. increments the count in q.                                                                        |
+| p = q                 | p and q are shared_ptrs holding pointers that can be converted.                                                |
+|                       | decrement p's reference count and increments q's; delete p if counts 0                                         |
+| p.unique()            | returns true if p.use_count() is one; false otherwise                                                          |
+| p.use_count()         | returns the number of objects sharing with p; a slow operation                                                 |
 
 ##### The `make_shared` function (the safest way)
+
 `shared_ptr<int> p = make_shared<int>(42);`
 
 Once a shared_ptr counter goes to zero, the ptr automatically frees the memory
@@ -55,9 +56,9 @@ Once a shared_ptr counter goes to zero, the ptr automatically frees the memory
 ##### Classes with resources that have dynamic lifetime
 
 Programs tend to use dynamic memory for one of three purposes:
-1. They do not know how many objects they'll need
-2. dont know the precise type needed
-3. want to share data between several objects
+ 1. They do not know how many objects they'll need
+ 2. dont know the precise type needed
+ 3. want to share data between several objects
 
 Container classes are an example of classes that use dynamic memory.
 
@@ -67,14 +68,17 @@ Container classes are an example of classes that use dynamic memory.
 `vector<int> *pv = new vector<int>{1,2,3};`
 
 ##### Dynamic allocated const objects
+
 `const int *pci = new const int(201);`
 
 ##### Memory exhaustion
+
 if `new` is unable to allocate the requested storage, it throws an exception of type `bad_alloc`  
 prevent new from throwing an exception by using a different form (`<new>`):
 - `int *p = new (nothrow) int;` : if allocation fails, returns a null pointer
 
 ##### Pointer value and delete
+
 Deleting a ptr not allocated by new  
 or deleting the same ptr value, is undefined
 
@@ -93,23 +97,23 @@ or deleting the same ptr value, is undefined
 
 `shared_ptr<int> p(new int(42));`
 
-######  Other Ways to Define and Change shared_ptrd
+###### Other Ways to Define and Change shared_ptrd
 
-|                        |                                                                                                |
-| ---------------------- | ---------------------------------------------------------------------------------------------- |
-| shared_ptr<T> p(q)     | p manages the object to which the built-in pointer q points;                                   |
-|                        | q must point to memory allocated by new and convertible T*                                     |
-| shared_ptr<T> p(u)     | p assumes ownership from the unique_ptr u; makes u null                                        |
-| shared_ptr<T> p(q, d)  | p assumes ownership for the object to which the built-in pointer q points. q must convertable  |
-|                        | p will use the callable object d in place of delete to free q.                                 |
-| shared_ptr<T> p(p2, d) | p is a copy of the shared_ptr p2 as described in table 12.2 except p uses d in place of delete |
-| p.reset()              | if p is the only shared_ptr pointing at its object, reset frees the object.                    |
-| p.reset(q)             | if the optional built-in pointer q is passed, makes p point to q, otherwise null.              |
-| p.reset(q, d)          | if d is supplied, call d to free q otherwise delete                                            |
+|                         |                                                                                                |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| shared_ptr\<T> p(q)     | p manages the object to which the built-in pointer q points;                                   |
+|                         | q must point to memory allocated by new and convertible T*                                     |
+| shared_ptr\<T> p(u)     | p assumes ownership from the unique_ptr u; makes u null                                        |
+| shared_ptr\<T> p(q, d)  | p assumes ownership for the object to which the built-in pointer q points. q must convertable  |
+|                         | p will use the callable object d in place of delete to free q.                                 |
+| shared_ptr\<T> p(p2, d) | p is a copy of the shared_ptr p2 as described in table 12.2 except p uses d in place of delete |
+| p.reset()               | if p is the only shared_ptr pointing at its object, reset frees the object.                    |
+| p.reset(q)              | if the optional built-in pointer q is passed, makes p point to q, otherwise null.              |
+| p.reset(q, d)           | if d is supplied, call d to free q otherwise delete                                            |
 
 Cannot implicily convert a butlt-in pointer to a smart pointer.
 
-##### Dont mix ordinary pointers and smart pointers 
+##### Dont mix ordinary pointers and smart pointers
 
 Once give shared_ptr responsibility for a pointer, should no longer use a built-in pointer to access the memory.
 
@@ -121,11 +125,11 @@ If an exceptiong happens between the new and the delete, and is not caught insid
 
 > #### Caution: Smart Pointer Pitfalls
 > To use smart pointers correctlly, must adhere to a set of conventions:
-> - Do not use the same built-in pointer value to initialize (or reset) more than one smart pointer.
-> - Do not delete the pointer returned from get().
-> - Do not use get() to initialize or reset another smart pointer.
-> - If you use a pointer returned by get(), remember that the pointer will become invalid when the last corresponding smart pointer goes away.
-> - If you use a smart pointer to manage a resource other than memory allocated by new, remember to pass a deleter.
+>  - Do not use the same built-in pointer value to initialize (or reset) more than one smart pointer.
+>  - Do not delete the pointer returned from get().
+>  - Do not use get() to initialize or reset another smart pointer.
+>  - If you use a pointer returned by get(), remember that the pointer will become invalid when the last corresponding smart pointer goes away.
+>  - If you use a smart pointer to manage a resource other than memory allocated by new, remember to pass a deleter.
 
 #### 12.1.5 `unique_ptr`
 
@@ -143,10 +147,11 @@ If an exceptiong happens between the new and the delete, and is not caught insid
 | u.reset(nullptr)      | Ohterwise makes u null.                                                               |
 
 cannot copy or assign unique_ptr, can transfer ownership from one unique_ptr to another:  
-- `unique_ptr<int> p2(p1.release());`  
-- `p2.reset(p3.release());`
+ - `unique_ptr<int> p2(p1.release());`  
+ - `p2.reset(p3.release());`
 
 ##### Passing and Returning `unique_ptr`s
+
 One exception that can copy a unique_ptr:  
 copy or assign a unique_ptr that is about to be destroyed. (returning)
 
@@ -187,6 +192,7 @@ Using an allocator generally provides better performance and more flexible memor
 ##### It is legal to dynamically allocate an empty array
 
 ##### Freeing dynamic arrays
+
 `delete [] pa;`
 
 ##### Smart pointers and dynamic arrays
