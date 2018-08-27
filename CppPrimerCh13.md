@@ -1,12 +1,13 @@
+CppPrimerCh13.md
 
 C++ Primer Notes
-===========================
+================================================================================
 
 Ad  
 init: 2018Jun08
 
 Chapter13 Copy Control
--------------------------------
+--------------------------------------------------------------------------------
 
 ### 13.1 Copy, Assign and Destroy
 
@@ -75,7 +76,7 @@ The destructor is used automatically whenever an object of its type is destroyed
 
 Prior to `C++11`, classes prevented copies by declaring members as private, and did not define them.
 
-------------------------------------------------------
+--------------------------------------------------------------------------------
 
 ### 13.2 Copy Control and Resource Management
 
@@ -157,6 +158,8 @@ HasPtr &HasPtr::operator=(const HasPtr &hp)
 }
 ```
 
+--------------------------------------------------------------------------------
+
 ### 13.3 Swap
 
 Swapping two objects involves a copy and 2 assignments,  
@@ -200,6 +203,8 @@ HasPtr &HasPtr::operator=(HasPtr rhs)
 ```
 
 > Assignment operators that use copy and swap are automaticlly exception safe and correctly handle self-assignment.
+
+--------------------------------------------------------------------------------
 
 ### 13.4 A Copy-Control Example
 
