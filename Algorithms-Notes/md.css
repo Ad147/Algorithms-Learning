@@ -1,0 +1,437 @@
+/* .vscode-body  */
+
+body {
+    font-family: "Source Serif Pro", "思源宋体", "Source Sans Pro", "思源黑体";
+    font-size: 16px;
+    color: #DCDCDC;
+    background-color: #1E2328;
+}
+
+
+/* .vscode-body  */
+
+em,
+
+/* .vscode-body  */
+
+strong,
+
+/* .vscode-body  */
+
+h2,
+
+/* .vscode-body  */
+
+h3,
+
+/* .vscode-body  */
+
+h4,
+
+/* .vscode-body  */
+
+h5,
+
+/* .vscode-body  */
+
+h6,
+
+/* .vscode-body  */
+
+ul,
+
+/* .vscode-body  */
+
+ol,
+
+/* .vscode-body  */
+
+table,
+
+/* .vscode-body  */
+
+a,
+
+/* .vscode-body  */
+
+blockquote {
+    font-family: "Source Sans Pro", "思源黑体", "Source Serif Pro", "思源宋体";
+}
+
+
+/* .vscode-body  */
+
+h1 {
+    font-family: "Cambria", "楷体", "思源宋体";
+}
+
+
+/* .vscode-body  */
+
+em,
+
+/* .vscode-body  */
+
+strong {
+    color: #DC6496;
+}
+
+
+/* .vscode-body  */
+
+h1,
+
+/* .vscode-body  */
+
+h2,
+
+/* .vscode-body  */
+
+h3,
+
+/* .vscode-body  */
+
+h4,
+
+/* .vscode-body  */
+
+h5,
+
+/* .vscode-body  */
+
+h6 {
+    color: #64C8DC;
+    margin: 1em 0;
+}
+
+
+/* .vscode-body  */
+
+h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #64C8DC;
+}
+
+
+/* .vscode-body  */
+
+h2 {
+    font-size: 2em;
+    font-weight: 600;
+    border-bottom: 1px solid #64C8DC;
+}
+
+
+/* .vscode-body  */
+
+h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+
+/* .vscode-body  */
+
+h4 {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+
+/* .vscode-body  */
+
+h5 {
+    font-size: 1em;
+    font-weight: 400;
+    font-style: italic;
+    padding-left: 1em;
+}
+
+
+/* .vscode-body  */
+
+h6 {
+    font-size: 1em;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+    margin-right: 50%;
+    border: 1px solid #64C8DC;
+}
+
+
+/* .vscode-body  */
+
+hr {
+    height: 1px;
+    background-color: #64C8DC;
+    margin: 3em 0;
+}
+
+
+/* .vscode-body  */
+
+a {
+    color: #64DCC8;
+}
+
+
+/* .vscode-body  */
+
+ul,
+
+/* .vscode-body  */
+
+ol {
+    color: #6496DC;
+    padding-left: 2em;
+}
+
+
+/* .vscode-body  */
+
+ol ol,
+
+/* .vscode-body  */
+
+ul ol {
+    list-style-type: lower-roman;
+}
+
+
+/* .vscode-body  */
+
+ul ul ol,
+
+/* .vscode-body  */
+
+ul ol ol,
+
+/* .vscode-body  */
+
+ol ul ol,
+
+/* .vscode-body  */
+
+ol ol ol {
+    list-style-type: lower-alpha;
+}
+
+
+/* .vscode-body  */
+
+table {
+    margin: 1em 0;
+}
+
+
+/* .vscode-body  */
+
+table tr {
+    background-color: #282828;
+}
+
+
+/* .vscode-body  */
+
+table tr:nth-child(2n) {
+    background-color: #323232;
+}
+
+
+/* .vscode-body  */
+
+table tr:first-child {
+    border-top: 2px solid #64C8DC;
+}
+
+
+/* .vscode-body  */
+
+table th {
+    color: #64C8DC;
+    background-color: #141414;
+    text-align: center;
+    text-align-last: center;
+}
+
+
+/* .vscode-body  */
+
+table td {
+    color: #6496DC;
+}
+
+
+/* .vscode-body  */
+
+table th,
+
+/* .vscode-body  */
+
+table td {
+    padding: 0.25em 0.5em;
+    border: none;
+}
+
+
+/* .vscode-body  */
+
+blockquote {
+    font-style: italic;
+    color: #64DCC8;
+    background-color: #323232;
+    margin: 0;
+    padding: 0 1em;
+    border-left: 0.25em solid #64DCC8;
+}
+
+
+/* .vscode-body  */
+
+code {
+    font-family: "consolas";
+    font-size: 0.875em;
+    color: #DCC864;
+    background-color: #323232;
+    padding: 0.1em 0.5em;
+    border-radius: 0.25em;
+}
+
+
+/* .vscode-body  */
+
+pre code {
+    color: #DCDCDC;
+    padding: 0;
+}
+
+pre:not(.hljs),
+pre.hljs code>div {
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+
+/* .vscode-dark  */
+
+pre:not(.hljs),
+
+/* .vscode-dark  */
+
+code>div {
+    background-color: rgba(30, 30, 30, 0.75);
+}
+
+
+/* Theme based on visual studio dark */
+
+.hljs-keyword,
+.hljs-literal,
+.hljs-symbol,
+.hljs-name {
+    color: #64DCC8;
+    font-style: italic;
+}
+
+.hljs-link {
+    color: #64DCC8;
+    text-decoration: underline;
+}
+
+.hljs-built_in,
+.hljs-type {
+    color: #64C8DC;
+}
+
+.hljs-number,
+.hljs-class {
+    color: #DC6496;
+}
+
+.hljs-string,
+.hljs-meta-string {
+    color: #DCC864;
+}
+
+.hljs-regexp,
+.hljs-template-tag {
+    color: #FF0000;
+}
+
+.hljs-subst,
+.hljs-function,
+.hljs-title,
+.hljs-formula {
+    color: #6496DC;
+}
+
+.hljs-params {
+    color: #808080;
+}
+
+.hljs-comment,
+.hljs-quote {
+    color: #808080;
+    font-style: italic;
+}
+
+.hljs-doctag {
+    color: green;
+}
+
+.hljs-meta,
+.hljs-meta-keyword,
+.hljs-tag {
+    color: #64DCC8;
+    font-style: italic;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+    color: yellow;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-builtin-name {
+    color: cyan;
+}
+
+.hljs-section {
+    color: magenta;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: 600;
+}
+
+.hljs-punctuation,
+.hljs-operator {
+    color: green;
+}
+
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+    color: red;
+}
+
+.hljs-addition {
+    background-color: #144212;
+    display: inline-block;
+    width: 100%;
+}
+
+.hljs-deletion {
+    background-color: #700000;
+    display: inline-block;
+    width: 100%;
+}
