@@ -18,6 +18,41 @@ Init: 2018Jul31
 
 > As Java is very similar to C++, many of the contents are ignored.
 
+```java
+// binary search
+// file: BinarySearch.java
+import java.util.Arrays;
+
+public class BinarySearch
+{
+    public static int rank(int key, int[] a)
+    {
+        int lo = 0;
+        int hi = a.length - 1;
+        while (lo <= hi)
+        {
+            int mid = lo + (hi - lo) / 2;
+            if (key < a[mid]) hi = mid - 1;
+            else if (key > a[mid]) lo = mid + 1;
+            else return mid;
+        }
+        return -1;
+    }
+
+    public static void main(String[] args)
+    {
+        int[] whitelist = In.readInts(args[0]);
+        Arrays.sort(whitelist);
+        while (!StdIn.isEmpty())
+        {
+            int key = StdIn.readInt();
+            if (rank(key, whitelist) == -1)
+                StdOut.println(key);
+        }
+    }
+}
+```
+
 #### Basic Structure of a Java Program
 
 A Java program (class) is either a *library of static methods* (functions) or a *data type definition*.
@@ -97,9 +132,12 @@ double[] a = new double[N];
 int[] a = {1, 1, 2};
 ```
 
-###### Task: matrix-matrix multiplication (square matrices) a[][]*b[][] = c[][]
+###### Task: matrix-matrix multiplication
 
 ```java
+// matrix-matrix multiplication
+// square matrices
+// a[][]*b[][] = c[][]
 int N = a.length;
 double[][] c = new double[N][N];
 for (int i = 0; i < N; ++i)
@@ -112,6 +150,169 @@ for (int i = 0; i < N; ++i)
 ```
 
 #### Static Methods
+
+###### Square root method
+
+```java
+// sqare root (Newton's method)
+public static double qurt(double c) // signature of the method
+{                                   // method body
+    if (c < 0) return Double.NaN;
+    double err = 1e-15;
+    double t = c;
+    while (Math.abs(t - c/t) > err * t)
+        t = (c/t + t) / 2.0;
+    return t;
+}
+```
+
+##### Properties of methods
+
+ - Arguments are passed by value
+ - Method names can be overloaded
+ - A method has a single return value but may have multiple return statements
+ - A method can have side effects
+
+##### Recursion
+
+There are 3 improtant rules of thumb in developing recursive programs:
+ - The recursion has a base case-we always include a conditional statement as the first statement in the program that has a return
+ - Recursive calls must address subproblems that are smaller in some sense, so that recursive calls converge (收敛) to the base case
+ - Recursive calls should not address subproblems that overlap
+
+```java
+// recursive rank() in BinarySearch
+public static int rank(int key, in[] a)
+{return rank(key, a, 0, a.length - 1);}
+
+public static int rank(int key, int[] a, int lo, int hi)
+{
+    // index of key in a[], if present, is not smaller than lo and not larger than hi
+    if (lo > hi) return -1;
+    int mid = lo + (hi - lo) / 2;
+    if (key < a[mid]) return rank(key, a, lo, mid - 1);
+    else if (key > a[mid]) return rank(key, a, mid + 1, hi);
+    else return mid;
+}
+```
+
+##### Basic programming model
+
+##### Modular programming
+
+##### Unit testing
+
+##### External Libraries
+
+ - Standard system libraries: `Math Integer Double String StringBuilder System`
+ - Improted system libraries: `java.util.Arrays`
+ - Our standard libraries: `StdIn StdOut StdDraw StdRandom StdStats In Out`
+
+#### APIs
+
+###### `public class Math`
+
+|                                         |                                     |
+| --------------------------------------- | ----------------------------------- |
+| `static double abs(double a)`           | absolute value                      |
+| `static double max(double a, double b)` | maximum of a & b                    |
+| `static double min(double a, double b)` | minimum of a & b                    |
+|                                         |
+| `static double sin(double theta)`       | sine function                       |
+| `static double cos(double theta)`       | cosine function                     |
+| `static double tan(double theta)`       | tangent function                    |
+| Note: angles are radians.               | `toDegree() toRadians()` to convert |
+| `asin() acos() atan()` for inverse      |
+| `static double exp(double a)`           | exponential (e^a)                   |
+| `static double log(double a)`           | natural log (ln a)                  |
+| `static double pow(double a, double b)` | raise a to the bth power (a^b)      |
+|                                         |
+| `static double random()`                | random number in [0, 1)             |
+| `static double sqrt(double a)`          | square root                         |
+|                                         |
+| `static double E`                       | value of e (constant)               |
+| `static double PI`                      | value of pi (constant)              |
+
+##### Java libraries
+
+##### Our standard libraries
+
+###### `public class StdRandom`
+
+|                                               |                                |
+| --------------------------------------------- | ------------------------------ |
+| `static void initialize(long seed)`           | initialize                     |
+| `static double random()`                      | real between 0 and 1           |
+| `static int uniform(int N)`                   | integer between 0 and N-1      |
+| `static int uniform(int lo, int hi)`          | integer between lo and hi-1    |
+| `static double uniform(double lo, double hi)` | real between lo and hi         |
+| `static boolean bernoulli(double p)`          | true with probability p        |
+| `static double gaussian()`                    | normal, mean 0, std dev 1      |
+| `static double gaussion(double m, double s)`  | normal, mean m, std dev s      |
+| `static int discrete(double[] a)`             | i with probability a[i]        |
+| `static void shuffle(double[] a)`             | randomly shuffle the array a[] |
+
+```java
+// Implementations of static methods in StdRandom library
+
+// intending random double in [a, b)
+public static double uniform(double a, double b)
+{return a + StdRandom.random() * (b-a)};
+
+// intending random int in [0..N)
+public static int uniform(int N)
+{return (int) (StdRandom.random() * N;)}
+
+// intending random int in [lo..hi)
+public static int uniform(int lo, int hi)
+{return lo + StdRandom.uniform(hi - lo);}
+
+// intending random int drawn from discrete distribution
+// (i with probability a[i])
+public static int discrete(double[] a)
+{
+    // entries in a[] must sum to 1
+    double r = StdRandom.random();
+    double sum = 0.0;
+    for (int i = 0; i < a.length; i++)
+    {
+        sum += a[i];
+        if (sum >= r) return i;
+    }
+    return -1;
+}
+
+// randomly shuffle the elements in an array of double values
+public static void shuffle(double[] a)
+{
+    int N = a.length;
+    for (int i = 0; i < N; i++)
+    {
+        // exchange a[i] with random element in a[i..N-1]
+        int r = i + StdRandom.uniform(N-i);
+        double temp = a[i];
+        a[i] = a[r];
+        a[r] = temp;
+    }
+}
+```
+
+###### `public class StdStats`
+
+|                                    |                          |
+| ---------------------------------- | ------------------------ |
+| `static double max(double[] a)`    | largest value            |
+| `static double min(double[] a)`    | smallest value           |
+| `static double mean(double[] a)`   | average                  |
+| `static double var(double[] a)`    | sample variance (方差)   |
+| `static double stddev(double[] a)` | sample stadard deviation |
+| `static double median(double[] a)` | median                   |
+
+##### Your own libraries
+
+It is worthwhile to consider every program that you write as a library implementation.
+
+#### Strings
 
 ### 1.2 Data Abstraction
 
