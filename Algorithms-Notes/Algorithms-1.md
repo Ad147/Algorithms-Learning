@@ -314,6 +314,105 @@ It is worthwhile to consider every program that you write as a library implement
 
 #### Strings
 
+A `String` is a Java data type but not a primitive type
+
+##### Concatenation
+
+ - Concatenation operator (+)
+
+##### Conversion
+
+ - `parseInt(String s)`: convert s to int
+ - `toString(int i)`
+ - `parseDouble(String s)`: convert s to double
+ - `toString(double x)`
+
+##### Automatic conversion
+
+If one of the arguments of `+` is a String, Java automatically converts the other to a String.
+
+##### COmmand-ine arguments
+
+#### Input and output
+
+##### Commands and arguments
+
+###### Typical operating-system commands
+
+|                                                      |                      |
+| ---------------------------------------------------- | -------------------- |
+| .java file name                                      | compile Java program |
+| .class file name (no ext) and command-line arguments | run Java program     |
+| any text file name                                   | print file contents  |
+
+##### Standard output
+
+| `public class StdOut`               |                              |
+| ----------------------------------- | ---------------------------- |
+| `static void print(String s)`       | print s                      |
+| `static void println(String s)`     | print s, followed by newline |
+| `static void println()`             | print a newline              |
+| `static void printf(String f, ...)` | formatted print              |
+
+##### Standard input
+
+| `public class StdIn` |                                     |
+| -------------------- | ----------------------------------- |
+| `isEmpty()`          |                                     |
+| `readInt()`          |                                     |
+| `readDouble()`       |
+| `readChar()`         |
+| `readString()`       |
+| `hasNextLine()`      | is there another line in the input? |
+| `readLine()`         |
+| `readAll()`          |
+
+##### Redirection and piping
+
+`% java RandomSeq 1000 100.0 200.0 > data.txt`  
+write the output to `data.txt`
+
+`% java Average < data.txt`  
+read from the txt
+
+`% java RandomSeq 1 0 2 | java Average`
+"piping": redirect the output of one program to the input of another
+
+##### Input and output from a file
+
+###### Read data from files
+
+| `public class In`                          |                 |
+| ------------------------------------------ | --------------- |
+| `static int[] readInts(String name)`       | read int values |
+| `static double[] readDoubles(String name)` |
+| `static String[] readStrings(String name)` |
+
+| `public class Out`                           |                  |
+| -------------------------------------------- | ---------------- |
+| `static void write(int[] a, String name)`    | write int values |
+| `static void write(double[] a, String name)` |
+| `static void write(String[] a, String name)` |
+
+Note: *StdIn and StdOut are supported (omit name argument)*
+
+##### Standard drawing (basic methods)
+
+ - `StdDraw.point(x0, y0)`
+ - `StdDraw.line(x0, y0, x1, y1)`
+ - `text(x, y, s)`
+ - `circle/filledCircle(x, y, r)`
+ - `ellipse/square/rectangle/polygon()`
+
+##### Stadard drawing (control methods)
+
+`setXscale()/setPenRadius()/setPenColor()/setFont()/setCanvasSize()/Clear()/show()`  
+Using predefined colors: `StdDraw.RED` and so on
+
+ - There are some examples of `StdDraw` plotting on the book
+
+#### Binary Search
+
 ### 1.2 Data Abstraction
 
 ### 1.3 Bags, Queues, and Stacks
