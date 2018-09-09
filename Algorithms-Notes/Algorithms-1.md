@@ -413,6 +413,22 @@ Using predefined colors: `StdDraw.RED` and so on
 
 #### Binary Search
 
+##### Binary search
+
+##### Development client
+
+For every algorithm implementation, we include a development client main() that can use with sample input files to learn about the algorithm and to test its performance.
+
+##### Whitelisting
+
+> When possible, our development clients are intended to mirror practical situations and demonstrate the need for the algorithm at hand. The process is known as *whitelisting*
+
+##### Performance
+
+#### Perspective
+
+#### Q&A
+
 ### 1.2 Data Abstraction
 
 ### 1.3 Bags, Queues, and Stacks
