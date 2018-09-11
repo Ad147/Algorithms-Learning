@@ -429,6 +429,15 @@ For every algorithm implementation, we include a development client main() that 
 
 #### Q&A
 
+ - Q. How to initialize a double variable to infinity?
+ - A. `Double.POSITIVE_INFINITY` & `Double.NEGATIVE_INFINITY`
+
+ - Q. Use < and > to compare String?
+ - A. No. The operators are only for primitive types
+
+ - Q. Can a static method take another static method as an argument in Java?
+ - A. No.
+
 ### 1.2 Data Abstraction
 
 ### 1.3 Bags, Queues, and Stacks
