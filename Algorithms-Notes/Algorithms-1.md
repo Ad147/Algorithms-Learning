@@ -438,7 +438,57 @@ For every algorithm implementation, we include a development client main() that 
  - Q. Can a static method take another static method as an argument in Java?
  - A. No.
 
+--------------------------------------------------------------------------------
+
+> For the reason that C++ is preferred to use, the rest parts of this chapter will be simplified.
+
 ### 1.2 Data Abstraction
+
+#### Using abstract data types
+
+##### API for an abstract data type
+
+###### An API for a counter
+
+| `public class Counter` |                                     |
+| ---------------------- | ----------------------------------- |
+| `Counter(String id)`   | create a counter named id           |
+| `void increment()`     | increment the counter by one        |
+| `int tally()`          | number of increments since creation |
+| `String toString()`    | string representation               |
+
+Even though the basis of a data-type definition is a set of values, the role of the values is not visible from the API, only the operations on those values.
+
+##### Inherited methods
+
+##### Client code
+
+##### Objects
+
+##### Creating objects
+
+Each time that a client uses `new()`, the system
+ - Allocates memory space for the object
+ - Invokes the constructor to initialize its value
+ - Returns a reference to the object
+
+##### Invoking instance methods
+
+##### Using objects
+
+##### Assignment statements
+
+The assignment statement does not create a new object, just another reference to an existing object. known as "aliasing".
+
+##### Objects as arguments
+
+##### Objects as return values
+
+##### Arrays are objects
+
+##### Arrays of objects
+
+#### Examples of abstract date types
 
 ### 1.3 Bags, Queues, and Stacks
 
