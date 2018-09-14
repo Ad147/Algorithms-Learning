@@ -440,7 +440,7 @@ For every algorithm implementation, we include a development client main() that 
 
 --------------------------------------------------------------------------------
 
-> For the reason that C++ is preferred to use, the rest parts of this chapter will be simplified.
+> As C++ is preferred, the rest of this chapter will be simply noted.
 
 ### 1.2 Data Abstraction
 
@@ -489,6 +489,28 @@ The assignment statement does not create a new object, just another reference to
 ##### Arrays of objects
 
 #### Examples of abstract date types
+
+###### A list of selected ADTs used in this book
+
+##### Geometric objects
+
+###### Some APIs for grometric objects
+
+##### Information Processing
+
+###### Sample APIs for commercial applications (dates and transactions)
+
+##### Strings.
+
+###### Java `String` API (partial list of methods)
+
+###### Typical string-processing code
+
+##### Input and output revisited
+
+###### API for our data type for input/output streams and drawings
+
+// #### Implementing an abstract data type
 
 ### 1.3 Bags, Queues, and Stacks
 
