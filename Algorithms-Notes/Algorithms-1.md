@@ -510,7 +510,28 @@ The assignment statement does not create a new object, just another reference to
 
 ###### API for our data type for input/output streams and drawings
 
-// #### Implementing an abstract data type
+#### Implementing an abstract data type
+
+###### Anatomy of a class that defines a data type (class Counter)
+
+##### Instance variables
+
+##### Constructors
+
+##### Instance methods
+
+##### Scope
+
+##### API, clients, and implementations
+
+To develop an abstract data type, we think about the needs of a client, then accommodate them in an ADT, folllowing three steps:
+ - Specify an API. Two goals when specifying an API, first, to enable clear and correct client code. Second, to be able to implement the operations.
+ - Implement a Java class that meets the API specifications: choose the instance variables, write constructors and the instance methods.
+ - Develop multiple test clients to validate the design decisions.
+
+###### An abstract data type for a simple counter
+
+
 
 ### 1.3 Bags, Queues, and Stacks
 
