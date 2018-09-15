@@ -531,7 +531,154 @@ To develop an abstract data type, we think about the needs of a client, then acc
 
 ###### An abstract data type for a simple counter
 
+| `public class Counter` |                                      |
+| ---------------------- | ------------------------------------ |
+| `Counter(String id)`   | create a counter named id            |
+| `void increment()`     | increment the counter                |
+| `int tally()`          | number of increments sincce creation |
+| `String toString()`    | string representation                |
 
+###### typical client
+
+```java
+public class Flips
+{
+    public static void main(String[] args)
+    {
+        int T = Integer.parseInt(args[0]);
+
+        Counter heads = new Counter("heads");
+        Counter tails = new Counter("tails");
+
+        for (int t = 0; t < T; t++)
+            if (StdRandom.bernoulli(0.5))
+                heads.increment();
+            else tails.increment();
+
+        StdOut.println(heads);
+        StdOut.println(tails);
+        int d = heads.tally() - tails.tally();
+        StdOut.println("delta: " + Math.abs(d));
+    }
+}
+```
+
+###### implementation
+
+```java
+public class Counter
+{
+    private final String name;
+    private int count;
+
+    public Counter(String id)
+    {name = id;}
+
+    public void increment()
+    {count++;}
+
+    public int tally()
+    {return count;}
+
+    public String toString()
+    {return count + " " + name;}
+}
+```
+
+###### application
+
+```java
+% java Flips 1000000
+500172 heads
+499828 tails
+delta: 344
+```
+
+#### More ADT implementations
+
+##### Date
+
+###### An ADT to encapsulate dates, with **two implementations**
+
+| API: `public class Date`             |                       |
+| ------------------------------------ | --------------------- |
+| `Date(int month, int day, int year)` | create a date         |
+| `int month()`                        | month                 |
+| `int day()`                          | day                   |
+| `int year()`                         | year                  |
+| `String toString()`                  | string representation |
+
+###### test client
+
+```java
+public static void main(String[] args)
+{
+    int m = Integer.parseInt(args[0]);
+    int d = Integer.parseInt(args[1]);
+    int y = Integer.parseInt(args[2]);
+    Data data = new Date(m, d, y);
+    StdOut.println(date);
+}
+```
+
+###### implementation (first)
+
+```java
+public class Date
+{
+    private final int month;
+    private final int day;
+    private final int year;
+
+    public Date(int m, int d, int y)
+    {month = m; day = d; year = y;}
+
+    public int month()
+    {return month;}
+    public int day()
+    {return day;}
+    public int year()
+    {return year;}
+    public String toString()
+    {return month() + "/" + day() + "/" + year();}
+}
+```
+
+###### alternate implementation
+
+```java
+public class Date
+{
+    private final int value;
+
+    public Date(int m, int d, int y)
+    {value = y * 512 + m * 32 + d;}
+
+    public int month()
+    {return (value / 32) % 16;}
+    public int day()
+    {return value % 32;}
+    public int year()
+    {return value / 512;}
+    public String toString()
+    {return month() + "/" + day() + "/" + year();}
+}
+```
+
+###### application of Date
+
+```java
+% java Date 12 31 1999
+12/31/1999
+```
+
+##### Maintaining multiple implementations
+
+##### Accumulator
+
+##### Visual accumulator
+
+// #### Data-type design
 
 ### 1.3 Bags, Queues, and Stacks
 
