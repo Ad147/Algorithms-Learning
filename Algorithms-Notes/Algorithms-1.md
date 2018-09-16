@@ -678,9 +678,47 @@ public class Date
 
 ##### Visual accumulator
 
-// #### Data-type design
+#### Data-type design
 
-### 1.3 Bags, Queues, and Stacks
+##### Encapsulation
+
+> You do not need to know how a data type is implemented in order to use it and you can assume that a client knows nothing but the API.
+
+##### Designing APIs
+
+> Provide to clients the methods they need and no others.
+
+##### ALgorithms and abstract date types
+
+###### Binary search recast as an object-oriented program (an ADT for search in a set of integers)
+
+##### Interface inheritance
+
+##### Implementation inheritance
+
+##### String conversion
+
+##### Wrapper types
+
+##### Equality
+
+Some properties of `equals()`
+
+Some steps to build `equals()`
+
+##### Memory management
+
+##### Immutability
+
+##### Design by contract
+
+##### Exceptions and errors
+
+##### Assertions
+
+##### Summary
+
+// ### 1.3 Bags, Queues, and Stacks
 
 ### 1.4 Analysis of Algorithms
 
