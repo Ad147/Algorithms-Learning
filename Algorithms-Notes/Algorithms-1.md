@@ -718,7 +718,105 @@ Some steps to build `equals()`
 
 ##### Summary
 
-// ### 1.3 Bags, Queues, and Stacks
+### 1.3 Bags, Queues, and Stacks
+
+The implementations here are models of implementations later in the book and **worthy of careful study**.
+
+#### APIs of the three
+
+###### APIs for fundamantal generic iterable collections
+
+| `public class Bag<Item> implements Iterable<Item>` |                            |
+| -------------------------------------------------- | -------------------------- |
+| `Bag()`                                            | create an empty bag        |
+| `void add(Item item)`                              | add an item                |
+| `boolean isEmpty()`                                | is the bag empty           |
+| `int size()`                                       | number of items in the bag |
+
+| `public class Queue<Item> implements Iterable<Item>` |                                      |
+| ---------------------------------------------------- | ------------------------------------ |
+| `Queue()`                                            | create an empty queue                |
+| `void enqueue(Item item)`                            | add an item                          |
+| `Item dequeue()`                                     | remove the least recently added item |
+| `boolean isEmpty()`                                  | empty                                |
+| `int size()`                                         | number of items                      |
+
+| `public class Stack<Item> implements Iterable<Item>` |                                     |
+| ---------------------------------------------------- | ----------------------------------- |
+| `Stack()`                                            | create an empty stack               |
+| `void push(Item item)`                               | add an item                         |
+| `Item pop()`                                         | remove the most recently added item |
+| `boolean isEmpty()`                                  | empty                               |
+| `int size()`                                         | number of items                     |
+
+##### Generics
+
+##### Autoboxing
+
+Automatically casting a primitive type to a wrapper type is known as auto *boxing*.
+
+##### Iterable collections
+
+##### Bags
+
+A bag is a collection where removing items is not supported.
+Its purpose is to provide clients with the ability to collect items and to iterate.
+The order of iteration is unspecified.
+
+##### FIFO queues (first-in-first-out)
+
+##### Pushdown stacks (LIFO)
+
+##### Arithmetic expression evaluation
+
+Manipulate the stacks in four cases:
+ - Push *operands* onto the operand stack
+ - Push *operators* onto the operator stack
+ - Ignore *left* parenthese
+ - On encountering a *right* parenthesis, pop an operator, pop the requisite number of operands, and push onto the operand stack the result of applying that operator to those operands.
+
+###### Dijkstra's Two-Stack Algorithm for Expression Evaluation
+
+```java
+public class  Evaluate
+{
+    public static void main(String[] args)
+    {
+        Stack<String> ops  = new Stack<String>();
+        Stack<Double> vals = new Stack<Double>();
+        while (!StdIn.isEmpty())
+        {
+            // Read token, push if operator.
+            String s = StdIn.readString();
+            if      (s.equals("("))               ;
+            else if (s.equals("+"))    ops.push(s);
+            else if (s.equals("-"))    ops.push(s);
+            else if (s.equals("*"))    ops.push(s);
+            else if (s.equals("/"))    ops.push(s);
+            else if (s.equals("sqrt")) ops.push(s);
+            else if (s.equals(")"))
+            {
+                // Pop, evaluate, and push result if token is ")".
+                String op = ops.pop();
+                double v = vals.pop();
+                if      (op.equals("+"))    v = vals.pop() + v;
+                else if (op.equals("-"))    v = vals.pop() - v;
+                else if (op.equals("*"))    v = vals.pop() * v;
+                else if (op.equals("/"))    v = vals.pop() / v;
+                else if (op.equals("sqrt")) v = Math.sqrt(v);
+                vals.push(v);
+            }  // Token not operator or paren: push double value.
+            else vals.push(Double.parseDouble(s));
+        }
+        StdOut.println(vals.pop());
+    }
+}
+```
+
+This Stack client uses two stacks to evaluate arithmetic expressions.
+For simplicity, this code *assumes that the expression is fully parenthesized*, with numbers and characters separated by whitespace.
+
+// #### Implementing collections
 
 ### 1.4 Analysis of Algorithms
 
