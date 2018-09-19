@@ -816,7 +816,101 @@ public class  Evaluate
 This Stack client uses two stacks to evaluate arithmetic expressions.
 For simplicity, this code *assumes that the expression is fully parenthesized*, with numbers and characters separated by whitespace.
 
-// #### Implementing collections
+#### Implementing collections
+
+##### Fixed-capacity stack
+
+###### Implementation of `FixedCapacityStackOfStrings`
+
+```java
+public class FixedCapacityStackOfStrings
+{
+    private String[] a;
+    private int N;
+
+    public FixedCapacityStackOfStrings(int cap)
+    {a = new String[cap];}
+    public boolean isEmpty() {return N == 0;}
+    public int size() {return N;}
+    public void push(String item) {a[N++] = item;}
+    public String pop() {return a[--N];}
+}
+```
+
+##### Generics of the ADT
+
+To make the ADT generic, replace `String` with `Item`.
+And declare the class with a *type parameter* `Item`:  
+`public class FixedCapacityStack<Item>`  
+For generic array creation is disallowed in Java, use:  
+`a = (Item[]) new Object[cap];`
+
+##### Array resizing
+
+Modify the array implementation to dynamically adjust the size of the array a[].
+ - When the array is full, copy the data to an new array of double size
+ - When poping the array to only 1/4 data left, make the size 1/2
+
+##### Loitering
+
+Setting the array entry corresponding to the popped item to `null` to avoid loitering.
+
+##### Iteration
+
+Use `interface Iterable<Item>` to make the container iterable
+
+###### **Algorithm 1.1** Pushdown (LIFO) stack (resizing array implementation)
+
+```java
+import java.util.Iterator;
+public class ResizingArrayStack<Item> implements Iterable<Item>
+{
+    private Item[] a = (Item[]) new Object[1];
+    private int N = 0;
+
+    public boolean isEmpty() {return N == 0;}
+    public int size() {return N;}
+
+    public void resize(int max)
+    {
+        // move stack to a new array of size max
+        Item[] temp = (Item[]) new Object[max];
+        for (int i = 0; i < N; i++)
+            temp[i] = a[i];
+        a = temp;
+    }
+
+    public void push(Item item)
+    {
+        // add item to top of stack
+        if (N == a.length) resize(2 * a.length);
+        a[N++] = item;
+    }
+
+    public Item pop()
+    {
+        // remove item from top of stack
+        Item item = a[--N];
+        a[N] = null;
+        if (N > 0 && N == a.length / 4) resize(a.length/2);
+        return item;
+    }
+
+    public Iterator<Item> iterator()
+    {return new ReverseArrayIterator();}
+
+    private class ReverseArrayIterator implements Iterator<Item>
+    {
+        // support LIFO interation
+        private int i = N;
+        public boolean hasNext() {return i > 0;}
+        public Item next() {return a[--i];}
+        public void remove() {}
+    }
+}
+```
+
+This generic, iterable implementation of stack API is a model for collection ADTs that with an array.
 
 ### 1.4 Analysis of Algorithms
 
