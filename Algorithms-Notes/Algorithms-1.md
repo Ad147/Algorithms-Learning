@@ -912,6 +912,179 @@ public class ResizingArrayStack<Item> implements Iterable<Item>
 
 This generic, iterable implementation of stack API is a model for collection ADTs that with an array.
 
+#### Linked lists
+
+> A linked list is a recursive data structure that is either empty (null) or a reference to a node having a generic item and a reference to a linked list.
+
+##### Node record
+
+##### Building a linked list
+
+##### Insert at the beginning
+
+##### Remove from the beginning
+
+##### Insert at the end
+
+##### Insert/remove at other positions
+
+Easy operations for linked lists:
+ - Insert at the beginning
+ - Remove from the beginning
+ - Insert at the end
+not so easy:
+ - Remove a given node (including the tail)
+ - Insert a new node **before** a given node
+
+##### Traversal
+
+##### Stack implementation
+
+###### **Algorithm 1.2** Pushdown stack (linked-list implementation)
+
+```java
+public class Stack<Item>
+{
+    private Node first; // top of stack (most recently added node)
+    private int N; // number of items
+    private class Node
+    {
+        // nested class to define nodes
+        Item item;
+        Node next;
+    }
+
+    public boolean isEmpty() {return first == null;} // or N == 0
+    public int size() {return N;}
+    public void push(Item item)
+    {
+        // add item to top of stack
+        Node oldfirst = first;
+        first = new Node();
+        first.item = item;
+        first.next = oldfirst;
+        N++;
+    }
+    public Item pop()
+    {
+        // remove item from top of stack
+        Item item = first.item;
+        first = first.next;
+        N--;
+        return item;
+    }
+    // see p155 for iterator()
+}
+```
+
+##### Queue implementation
+
+###### **Algorithm 1.3** FIFO queue
+
+```java
+public class Queue<Item>
+{
+    private Node first; // link to least recently added node
+    private Node last; // link to most recently added node
+    private int N; // number of items on the queue
+    private class Node
+    {
+        // nested class to define nodes
+        Item item;
+        Node next;
+    }
+
+    public boolean isEmpty() {return first == null;}
+    public int size() {return N;}
+    public void enqueue(Item item)
+    {
+        // add item to the end of the list
+        Node oldlast = last;
+        last = new Node();
+        last.item = item;
+        last.next = null;
+        if (isEmpty()) first = last;
+        else oldlast.next = last;
+        N++;
+    }
+    public Item dequeue()
+    {
+        // remove item from the beginning of the list
+        Item item = first.item;
+        first = first.next;
+        if (isEmpty()) last = null;
+        N--;
+        return item;
+    }
+    // see p155 for iterator() implementation
+}
+```
+
+##### Bag implementation
+
+###### **Algorithm 1.4** Bag
+
+```java
+import java.util.Iterator;
+public class Bag<Item> implements Iterable<Item>
+{
+    private Node first; // first node in list
+    private class Node
+    {
+        Item item;
+        Node next;
+    }
+
+    public void add(Item item)
+    {
+        // same as push() in Stack
+        Node oldfirst = first;
+        first = new Node();
+        first.item = item;
+        first.next = oldfirst;
+    }
+    public Iterator<Item> iterator()
+    {return new ListIterator();}
+    private class ListIterator implements Iterator<Item>
+    {
+        private Node current = first;
+        public boolean hasNext() {return current != null;}
+        public void remove() {}
+        public Item next()
+        {
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
+}
+```
+
+#### Overview
+
+##### Data structures
+
+In approaching a new application domain, to identify computational challenges and use data abstraction to address them, proceeding as follows:
+ - Specify an API
+ - Develop client code with reference to specify application
+ - Describe a data structure (representation of the set of values) that can serve as the basis for the instance variables in a class that will implement an ADT that meets the specification in the API
+ - Describe algorithms (approaches to implementing the set of operations) that can serve as the basis for implementing the instance methods in the class
+ - Analyze the performance characteristics of the algorithms
+
+###### Examples of data structures developed in this book
+
+| data structure                 | section  | ADT                    | representation            |
+| ------------------------------ | -------- | ---------------------- | ------------------------- |
+| parent-link tree               | 1.5      | UnionFind              | array of integers         |
+| binary search tree             | 3.2, 3.3 | BST                    | two links per node        |
+| string                         | 5.1      | String                 | array, offset, and length |
+| binary heap                    | 2.4      | PQ                     | array of objects          |
+| hash table (separate chaining) | 3.4      | SeparateChainingHashST | arrays of linked lists    |
+| hash table (linear probing)    | 3.4      | LinearProbingHashST    | two arrays of objects     |
+| graph adjacency lists          | 4.1, 4.2 | Graph                  | array of Bag objects      |
+| trie                           | 5.2      | TrieST                 | node with array of links  |
+| ternary search trie            | 5.3      | TST                    | three links per node      |
+
 ### 1.4 Analysis of Algorithms
 
 ### 1.5 Case Study: Union-Find
