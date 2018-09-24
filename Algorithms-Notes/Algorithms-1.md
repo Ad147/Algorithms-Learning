@@ -1219,4 +1219,53 @@ Example: *Binary search*. The input model is the array a[] of size N; the inner 
 | binomial coefﬁcients     | (N k) ~ N^k / k!  when k is a small constant                  |
 | exponential              | (1 – 1/x)^x ~ 1/e                                             |
 
+#### Order-of-growth classifications
+
+###### Summary of common order-of-growth hypotheses
+
+| description  | order of growth | typical code framework                     | description        | example           |
+| ------------ | --------------- | ------------------------------------------ | ------------------ | ----------------- |
+| constant     | 1               | a = b + c;                                 | statement          | add two numbers   |
+| logarithmic  | log N           | binary search p47                          | divide in half     | binary search     |
+| linear       | N               | loop                                       | loop               | ﬁnd the maximum   |
+| linearithmic | N log N         | alg2.4 merge sort / 2.5 quick sort         | divide and conquer | mergesort         |
+| quadratic    | N^2             | alg2.1 selection sort / 2.2 insertion sort | double loop        | check all pairs   |
+| cubic        | N^3             | ThreeSum                                   | triple loop        | check all triples |
+| exponential  | 2^N             | see chapter 6                              | exhasutive search  | check all subsets |
+
+#### Designing faster algorithms
+
+Using mergesort and binary search to improve the ThreeSum
+
+##### Warmup: 2-sum
+
+O(N log N)
+
+```java
+Arrays.sort(a);
+int N = a.length;
+int cnt = 0;
+for (int i = 0; i < N; i++)
+    if (BinarySearch.rank(-a[i], a) > i)
+        cnt++;
+return cnt;
+```
+
+##### Fast algorithm for 3-sum
+
+O(N^2 log N)
+
+```java
+Arrays.sort(a);
+int N = a.length;
+int cnt = 0;
+for (int i = 0; i < N; i++)
+    for (int j = i + 1; j < N; j++)
+        if (BinarySearch.rank(-a[i]-a[j], a) > j)
+            cnt++;
+return cnt;
+```
+
+// #### Doubling ratio experiments
+
 ### 1.5 Case Study: Union-Find
