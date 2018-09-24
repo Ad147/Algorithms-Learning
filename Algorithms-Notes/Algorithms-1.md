@@ -1087,4 +1087,136 @@ In approaching a new application domain, to identify computational challenges an
 
 ### 1.4 Analysis of Algorithms
 
+#### Scientific method
+
+The same approach that scientists use to understand the natural world is effective for studying the running time of programs:
+ - *Observe* some feature of the natural world, generally with precise measurements
+ - *Hypothesize* a model that is consistent with the observations
+ - *Predict* events using the hypothesis
+ - *Verify* the predictions by making further observations
+ - *Validate* by repeating until the hypothesis and observations agree
+
+> As Einstein famously is reported to have said "No amount of experimentation can ever prove me right; a single experiment can prove me wrong"
+
+#### Observations
+
+we now focus on the goal of better quantifying the relationship between problem size and running time.
+
+##### Example (`ThreeSum`)
+
+```java
+public static int count(int[] a)
+{
+    int N = a.length;
+    int cnt = 0;
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            for (int k = 0; k < N; k++)
+                if (a[i] + a[j] + a[k] == 0)
+                    cnt++;
+    return cnt;
+}
+```
+
+##### Stopwatch
+
+###### class Stopwatch
+
+```java
+public class Stopwatch
+{
+    private final long start;
+    public Stopwatch()
+    {start = System.currentTimeMillis();}
+    public double elapsedTime()
+    {
+        long now = System.currentTimeMillis();
+        return (now - start) / 1000.0;
+    }
+}
+```
+
+##### Analysis of experimental data
+
+lg( T(N) ) = 3 * lg( N ) + lg( a )  
+==> T(N) = a * N^3
+
+#### Mathematical models
+
+Knuth’s basic insight is simple: the total running time of a program is determined by two primary factors:
+ - The cost of executing each statement
+ - The frequency of execution of each statement
+
+The former is a property of the computer, the Java compiler and the operating system; the latter is a property of the program and the input.
+
+##### Tilde approximations
+
+> Definition. We write ~f(N) to represent any function that, when divided by f(N), approaches 1 as N grows, and we write g(N) ~ f(N) to indicate that g(N)/f(N) approaches 1 as N grows.
+
+###### Order of growth
+
+| description  | function  |
+| ------------ | --------- |
+| constant     | 1         |
+| logarithmic  | log N     |
+| linear       | N         |
+| linearithmic | N * log N |
+| quadratic    | N^2       |
+| cubic        | N^3       |
+| exponential  | 2^ N      |
+
+##### Approximate running time
+
+##### Order-of-growth hypothesis
+
+> Property A. The order of growth of the running time of  ThreeSum (to compute the number of triples that sum to 0 among N numbers) is N 3.
+>
+> Evidence: Let T(N ) be the running time of ThreeSum for N numbers. The mathematical model just described suggests that T(N ) ~ aN 3 for some machine-dependent constant a; experiments on many computers (including yours and ours) validate that approximation.
+
+##### Analysis of algorithms
+
+*Separating the algorithm from the implementation* is a powerful concept because it allows us to develop knowledge about the performance of algorithms and then apply that knowledge to any computer.
+
+##### Cost model
+
+> 3-sum cost model. When studying algorithms to solve the 3-sum problem, we count  array accesses (the number of times an array entry is accessed, for read or write).
+>
+> Proposition B.  The brute-force 3-sum algorithm uses ~N 3/2 array accesses to compute the number of triples that sum to 0 among N numbers.
+>
+> Proof: The algorithm accesses each of the 3 numbers for each of the ~N 3/6 triples.
+
+##### Summary of mathematical models
+
+For many programs, developing a mathematical model of running time reduces to the following steps:
+ - Develop an input model, including a deﬁnition of the problem size
+ - Identify the inner loop
+ - Deﬁne a cost model that includes operations in the inner loop
+ - Determine the frequency of execution of those operations for the given input. Doing so might require mathematical analysis—we will consider some examples in the context of speciﬁc fundamental algorithms later in the book
+
+Example: *Binary search*. The input model is the array a[] of size N; the inner loop is the statements in the single while loop; the  cost model is the compare operation (compare the values of two array entries); and the analysis, discussed in Section 1.1 and given in full detail in Proposition B in Section 3.1, shows that the number of compares is at most lg N + 1
+
+###### Commonly encountered functions in the analysis of algorithms
+
+| description              | notation | definition                                  |
+| ------------------------ | -------- | ------------------------------------------- |
+| ﬂoor                     | ⎣x⎦      | largest integer not greater than x          |
+| ceiling                  | ⎡x⎤      | smallest integer not smaller than x         |
+| natural logarithm        | ln N     | log e N (x such that e^x = N)               |
+| binary logarithm         | lg N     | log 2 N (x such that 2^x = N)               |
+| integer binary logarithm | ⎣lg N⎦   | largest integer not greater than lg N       |
+|                          |          | (# bits in binary representation of N ) – 1 |
+| harmonic numbers         | HN       | 1 + 1/2 + 1/3 + 1/4 + ... + 1/N             |
+| factorial                | N!       | 1 + 2 + 3 + 4 + ... + N                     |
+
+###### Useful approximations for the analysis of algorithms
+
+| description              | approximation                                                 |
+| ------------------------ | ------------------------------------------------------------- |
+| harmonic sum             | HN  =  1 + 1/2 + 1/3 + 1/4 + . . . + 1/N  ~  ln N             |
+| triangular sum           | 1 + 2 + 3 + 4 + . . . + N  ~  N^2/2                           |
+| geometric sum            | 1 + 2 + 4 + 8 + . . . + N   =  2N  – 1  ~  2N  when N = 2^n   |
+| Stirling's approximation | lg N !  =   lg 1 + lg 2 + lg 3 + lg 4 + . . . + lg N ~ N lg N |
+| binomial coefﬁcients     | (N k) ~ N^k / k!  when k is a small constant                  |
+| exponential              | (1 – 1/x)^x ~ 1/e                                             |
+
 ### 1.5 Case Study: Union-Find
