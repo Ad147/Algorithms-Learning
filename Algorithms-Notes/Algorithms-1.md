@@ -1349,6 +1349,35 @@ There are many reasons that you might get inconsistent or misleading results whe
 
 ##### Amortized analysis
 
-Proposition E. In the   r esizing array implementation of Stack (Algorithm 1.1), the average number of array accesses for any sequence of operations starting from an empty data structure is constant in the worst case. Proof sketch: For each push() that causes the array to grow ( say from size N to size 2N), consider the N/2  1 push() operations that most recently caused the stack size to grow to k, for k from N/2 + 2 to N. Averaging the 4N array accesses to grow the array with N/2 array accesses (one for each push), we get an average cost of 9 array accesses per operation. Proving that the number of array accesses used by any sequence of M operations is proportional to M is more intricate (see Exercise 1.4.32)
+> **Proposition E.** In the resizing array implementation of Stack (Algorithm 1.1), the average number of array accesses for any sequence of operations starting from an empty data structure is constant in the worst case.
+>
+> **Proof sketch:** For each push() that causes the array to grow ( say from size N to size 2N), consider the N/2 - 1 push() operations that most recently caused the stack size to grow to k, for k from N/2 + 2 to N. Averaging the 4N array accesses to grow the array with N/2 array accesses (one for each push), we get an average cost of 9 array accesses per operation. Proving that the number of array accesses used by any sequence of M operations is proportional to M is more intricate (see Exercise 1.4.32)
 
-### 1.5 Case Study: Union-Find
+#### Memory
+
+##### Objects memory usage
+
+An `Integer` object uses 24 bytes (16 bytes of overhead, 4 bytes for its `int` instance variable, and 4 bytes of padding)
+
+##### Linked lists memory usage
+
+##### Arrays memory usage
+
+###### Typical memory requirements for arrays of int values, double values, objects, and arrays
+
+##### String objects
+
+##### String values and substrings
+
+#### Perspective of 1.4
+
+Perhaps the most common mistake made in programming is to pay too much attention to performance characteristics. **Your ﬁrst priority is to make your code clear and correct.**
+
+#### Q&A of 1.4
+
+**Q.** I’ve seen other notations for describing order of growth. What’s the story?  
+**A.** The "big-Oh" notation is widely used: we say that f(N) is O(g(N)) if there exist constants c and N0 such that |f(N)| < c g(N) for all N > N0. This notation is very useful in providing asymptotic  upper bounds on the performance of algorithms, which is important in the theory of algorithms. But it is not useful for predicting performance or for comparing algorithms.  
+**Q.** Why not?  
+**A.** The primary reason is that it describes only an upper bound on the running time. Actual performance might be much better. The running time of an algorithm might be both O(N^2) and ~ a*N logN. As a result, it cannot be used to justify tests like our doubling ratio test (see Proposition C on page 193).
+
+// ### 1.5 Case Study: Union-Find
