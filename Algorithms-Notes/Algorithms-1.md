@@ -1266,6 +1266,89 @@ for (int i = 0; i < N; i++)
 return cnt;
 ```
 
-// #### Doubling ratio experiments
+#### Doubling ratio experiments
+
+A simple and effective shortcut for predicting performance and for determining the approximate order of growth of the running time of any program:
+ - Develop an input generator that produces inputs that model the inputs expected in practice (such as the random integers in `timeTrial()` in `DoublingTest`
+ - Run the program `DoublingRatio` given below, a modiﬁcation of `DoublingTest` that calculates the ratio of each running time with the previous
+ - Run until the ratios approach a limit 2^b
+
+This test is not effective if the ratios do not approach a limiting value, but they do for many, many programs, implying the following conclusions:
+ - The order of growth of the running time is approximately N^b
+ - To predict running times, multiply the last observed running time by 2^b and double N, continuing as long as desired. If you want to predict for an input size that is not a power of 2 times N, you can adjust ratios accordingly
+
+###### program to perform experiments
+
+```java
+public class DoublingRatio
+{
+    public static double timeTrial(int N)
+    {
+        // Time ThreeSum.count() for N random 6-digit ints.
+        int MAX = 1000000;
+        int[] a = new int[N];
+        for (int i = 0; i < N; i++)
+            a[i] = StdRandom.uniform(-MAX, MAX);
+        Stopwatch timer = new Stopwatch();
+        int cnt = ThreeSum.count(a);
+        return timer.elapsedTime();
+    } 
+
+
+    public static void main(String[] args)
+    {
+        double prev = timeTrial(125);
+        for (int N = 250; true; N += N)
+        {
+            double time = timeTrial(N);
+            StdOut.printf("%6d %7.1f ", N, time);
+            StdOut.printf("%5.1f\n", time/prev);
+            prev = time;
+        }
+    }
+}
+```
+
+Why does the ratio approach a constant?
+
+> **Proposition C. (Doubling ratio)** If T(N)  ~ aN^b lgN then T(2N)/T(N) ~ 2^b .
+>
+> **Proof:** Immediate from the following calculation:  
+> T(2N)/T(N)  = a(2N)^b lg(2N) / aN^b lgN  
+> = 2^b (1 + lg2 / lgN)  
+> ~ 2b  
+
+##### Estimating the feasibility of solving large problems.
+##### Estimating the value of using a faster computer
+
+#### Caveats
+
+There are many reasons that you might get inconsistent or misleading results when trying to analyze program performance in detail. All of them have to do with the idea that one or more of the basic assumptions underlying our hypotheses might be not quite correct.
+
+ - Large constants
+ - Nondominant inner loop
+ - Instruction time
+ - System considerations
+ - Too close to call
+ - Strong dependence on inputs
+ - Multiple problem parameters
+
+#### Coping with dependence on inputs
+
+##### Input models
+
+##### Worst-case performance guarantees
+
+> **Proposition D.** In the linked-list implementations of Bag (Algorithm 1.4), Stack (Algorithm 1.2), and Queue (Algorithm 1.3), all operations take constant time in the worst case.
+>
+> **Proof:** Immediate from the code. The number of instructions executed for each operation is bounded by a small constant. Caveat : This argument depends upon the (reasonable) assumption that the Java system creates a new Node in constant time.
+
+##### Randomized algorithm
+
+##### Sequences of operations
+
+##### Amortized analysis
+
+Proposition E. In the   r esizing array implementation of Stack (Algorithm 1.1), the average number of array accesses for any sequence of operations starting from an empty data structure is constant in the worst case. Proof sketch: For each push() that causes the array to grow ( say from size N to size 2N), consider the N/2  1 push() operations that most recently caused the stack size to grow to k, for k from N/2 + 2 to N. Averaging the 4N array accesses to grow the array with N/2 array accesses (one for each push), we get an average cost of 9 array accesses per operation. Proving that the number of array accesses used by any sequence of M operations is proportional to M is more intricate (see Exercise 1.4.32)
 
 ### 1.5 Case Study: Union-Find
