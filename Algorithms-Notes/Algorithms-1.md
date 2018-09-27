@@ -1380,4 +1380,21 @@ Perhaps the most common mistake made in programming is to pay too much attention
 **Q.** Why not?  
 **A.** The primary reason is that it describes only an upper bound on the running time. Actual performance might be much better. The running time of an algorithm might be both O(N^2) and ~ a*N logN. As a result, it cannot be used to justify tests like our doubling ratio test (see Proposition C on page 193).
 
-// ### 1.5 Case Study: Union-Find
+### 1.5 Case Study: Union-Find
+
+#### Dynamic connectivity
+
+The input is a sequence of pairs of integers, where each integer represents an object of some type and we are to interpret the pair p q as meaning “p is connected to q.”
+We assume that “is connected to” is an *equivalence* relation, which means that it is
+ - Reﬂexive : p is connected to p
+ - Symmetric : If p is connected to q, then q is connected to p
+ - Transitive : If p is connected to q and q is connected to r, then p is connected to r
+
+Our goal is to write a program to ﬁlter out extraneous pairs (pairs where both objects are in the same equivalence class) from the sequence.
+
+This problem arises applications such as the following:
+ - Networks (computers, electrical circuit, social network)
+ - Variable-name equivalence
+ - Mathematical sets
+
+###### Union-find API
