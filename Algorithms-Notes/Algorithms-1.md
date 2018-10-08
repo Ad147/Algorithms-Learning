@@ -1398,3 +1398,204 @@ This problem arises applications such as the following:
  - Mathematical sets
 
 ###### Union-find API
+
+| `public class UF`                 |                                              |
+| --------------------------------- | -------------------------------------------- |
+| `UF(int N)`                       | initialize N sites with int names (0 to N-1) |
+| `void union(int p, int q)`        | add connection between p and q               |
+| `int find(int p)`                 | component identifier for p (0 to N-1)        |
+| `boolean connected(int p, int q)` | ture if p and q are in the same component    |
+| `int count()`                     | number of components                         |
+
+> **Union-find cost model**  
+> When studying algorithms to implement the union-find API, we count array access (the number of times an array entry is accessed, for read or write).
+
+###### Algorithm 1.5 Union-find implementation
+
+```java
+public class UF
+{
+    private int[] id;  // access to component id (site indexed)
+    private int count; // number of components
+
+    public UF(int N)
+    {
+        // initialize component id array
+        count = N;
+        id = new int[N];
+        for (int i = 0; i < N; i++)
+            id[i] = i;
+    }
+    public int count()
+    { return count; }
+    public boolean connected(int p, int q)
+    { return find(p) == find(q); }
+    
+    public int find(int p)
+    public void union(int p, int q)
+    // see p222 (quick-find), p224 (quick-union) and p228 (weighted)
+
+    public static void main(String[] args)
+    {
+        // solve dynamic connectivity problem on StdIn
+        int N = StdIn.readInt();
+        UF uf = new UF(N);
+        while (!StdIn.isEmpty())
+        {
+            int p = StdIn.readInt();
+            int q = StdIn.readInt();
+            if (uf.connected(p, q)) continue;
+            uf.union(p, q);
+            StdOut.println(p + " " + q);
+        }
+        StdOut.println(uf.count() + " conponents");
+    }
+}
+```
+
+#### Implementations of UF
+
+##### Quick-find
+
+```java
+public int find(int p)
+{ return id[p]; }
+
+public void union(int p, int q)
+{
+    // put p and q into the same component
+    int pID = find(p);
+    int qID = find(q);
+
+    // nothing to do if p and q are already in the same component
+    if (pID == qID) return;
+
+    // rename p's component to q's name
+    for (int i = 0; i < id.length; i++)
+        if (id[i] == pID) id[i] = qID;
+    count--;
+}
+```
+
+##### Quick-find analysis
+
+> **Proposition F**  
+> The quick-find algorithm uses one array access for each call to find() and between N + 3 and 2N + 1 array accesses for each call to union() that combines two components.
+>
+> **Proof**  
+> Immediate from the code. Each call to connected() test two entries in the id[] array, one for each of the two calls to find(). Each call to union() that combines two components does so by making two calls to find(), testing each of the N entries in the id[] array, and changing between 1 and N - 1 of them.
+
+##### Quick-union
+
+```java
+private int find(int p)
+{
+    // find component name
+    while (p != id[p]) p = id[p];
+    return p;
+}
+public void union(int p, int q)
+{
+    // give p and q the same root
+    int pRoot = find(p);
+    int qRoot = find(q);
+    if (pRoot == qRoot) return;
+    id[pRoot] = qRoot;
+    count--;
+}
+```
+
+##### Forest-of-trees representation
+
+##### Quick-union analysis
+
+> **Definition**  
+> The size of a tree is its number of nodes.  
+> The depth of a node in a tree is the number of links on the path from it to the root.  
+> The height of a tree is the maximum depth among its nodes. 
+
+> **Proposition G**  
+> The number of array accesses used by find() in quick-union is 1 plus the twice the depth of the node corresponding to the given site. The number of array accesses used by union() and connected() is the cost of the two find() operations (plus 1 for union() if the given sites are in different trees).  
+> **Proof**  
+> Immediate from the code.
+
+##### Weighted quick-union
+
+##### Weighted quick-union analysis
+
+###### Algorithm 1.5 (continued) Union-find implementation (weighted quick-union)
+
+```java
+public class WeightedQuickUnionUF
+{
+    private int[] sz;
+    // other same as class UF
+
+    public WeightedQuickUnionUF(int N)
+    {
+        sz = new int[N]; // size of component for roots (site indexed)
+        for (int i = 0; i < N; i++) sz[i] = 1;
+        // other as UF
+    }
+
+    private int find(int p)
+    {
+        // follow links to find a root
+        while (p != id[p]) p = id[p];
+        return p;
+    }
+    public void union(int p, int q)
+    {
+        int i = find(p);
+        int j = find(q);
+        if (i = j) return;
+        // make smaller root point to lager one
+        if (sz[i] < sz[j]) { id[i] = j; sz[j] += sz[i]; }
+        else { id[j] = i; sz[i] += sz[j]; }
+        count--;
+    }
+}
+```
+
+> **Proposition H**  
+> The depth of any node in a forest built by weighted quick-union for N sites is at most lg N.  
+> **Proof:**  
+> We prove a stronger fact by (strong) induction: The height of every tree of size k in the forest is at most lg k. The base case follows from the fact that the tree height is 0 when k is 1. By the inductive hypothesis, assume that the tree height of a tree of size i is at most lg i for all i < k. When we combine a tree of size i with a tree of size j with i <= j and i + j = k, we increase the depth of each node in the smaller set by 1, but they are now in a tree of size i + j = k, so the property is preserved because 1+ lg i = lg(i + i ) <= lg(i + j ) = lg k.
+>
+> **Corollary**  
+> For weighted quick-union with N sites, the worst-case order of growth of the cost of find(), connected(), and union() is log N.  
+> **Proof**  
+> Each operation does at most a constant number of array accesses for each node on the path from a node to a root in the forest.
+
+###### Performance characteristics of union-find algorithms
+
+| algorithm              | order of growth | for N sites        | (worst case)          |
+| :--------------------: | :-------------: | :----------------: | :-------------------: |
+|                        | constructor     | union              | find                  |
+| quick-find             | N               | N                  | 1                     |
+| quick-union            | N               | tree height        | tree height           |
+| weighted quick-union   | N               | lg N               | lg N                  |
+| weighted quick-union   | N               | very, very nearly, | but not quite 1       |
+| with  path compression |                 | (amortized)        | (see Exercise 1.5.13) |
+| impossible             | N               | 1                  | 1                     |
+
+##### Optimal algorithms
+
+Weighted quick-union with path compression
+
+#### Perspective of 1.5
+
+Basic steps for problems:
+ - Decide on a complete and speciﬁc problem statement, including identifying fundamental abstract operations that are intrinsic to the problem and an API
+ - Carefully develop a succinct implementation for a straightforward algorithm, using a well-thought-out development client and realistic input data
+ - Know when an implementation could not possibly be used to solve problems on the scale contemplated and must be improved or abandoned
+ - Develop improved implementations through a process of stepwise reﬁnement, validating the efﬁcacy of ideas for improvement through empirical analysis, mathematical analysis, or both
+ - Find high-level abstract representations of data structures or algorithms in operation that enable effective high-level design of improved versions
+ - Strive for worst-case performance guarantees when possible, but accept good performance on typical data when available
+ - Know when to leave further improvements for detailed in-depth study to skilled researchers and move on to the next problem
+
+#### Q&A of 1.5
+
+--------------------------------------------------------------------------------
+
+EOF
