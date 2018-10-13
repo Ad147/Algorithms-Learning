@@ -262,3 +262,78 @@ If you need a solution to a sorting problem, and are working in a situation wher
 
 Q. Why so many sorting algorithms?  
 A. One reason is that the performance of many algorithms depends on the input values, so different algorithms might be appropriate for different applications having different kinds of input. For example, *insertion sort* is the method of choice for partially sorted or tiny arrays. Other constraints, such as space and treatment of equal keys, also come into play. We will revisit this question in Section 2.5.
+
+--------------------------------------------------------------------------------
+
+### 2.2 Mergesort
+
+The mergesort guarantees to sort any array of N items in time proportional to NlogN.  
+Its prime disadvantage is that it uses extra space proportional to N.
+
+#### Abstract in-place merge
+
+###### Abstract in-place merge implementation
+
+```java
+public static void merge(Comparable[] a, int lo, int mid, int hi)
+{
+    // merge a[lo...mid] with a[mid+1..hi]
+    int i = lo, j = mid + 1;
+    for (int k = lo; k <= hi; k++) // copy a[lo..hi] to aux[lo..hi]
+        aux[k] = a[k];
+    for (int k = lo; k <= hi; k++) // merge back to a[lo..hi]
+        if      (i > mid)              a[k] = aux[j++];
+        else if (j > hi)               a[k] = aux[i++];
+        else if (less(aux[j], aux[i])) a[k] = aux[j++];
+        else                           a[k] = aux[i++];
+}
+```
+
+#### Top-down mergesort
+
+> **Proposition F.**  
+> Top-down mergesort uses between ½ N lg N and N lg N compares to sort any array of length N.
+>
+> **Proof:**  
+> Let C(N) be the number of compares needed to sort an array of length N. We have C(0) = C(1) = 0 and for N > 0 we can write a   r ecurrence relationship that directly mirrors the recursive sort() method to establish an upper bound: C(N )  C(⎣N/2⎦)   C(⎡N/2⎤)  N The ﬁrst term on the right is the number of compares to sort the left half of the array, the second term is the number of compares to sort the right half, and the third......
+
+###### Algorithm 2.4 Top-down mergesort
+
+```java
+public class Merge
+{
+    private static Comparable[] aux; // auxiliary array for merges
+    public static void sort(Comparable[] a)
+    {
+        aux = new Comparable[a.length]; // allcate space just once
+        sort(a, 0, a.length - 1);
+    }
+    private static void sort(Comparable[] a, int lo, int hi)
+    {
+        // sort a[lo..hi]
+        if (hi <= lo) return;
+        int mid = lo + (hi - lo) / 2;
+        sort(a, lo, mid); // sort left half
+        sort(a, mid + 1, hi); // sort right half
+        merge(a, lo, mid, hi); // merge results (code on page 271)
+    }
+}
+```
+
+> **Proposition G.**  
+> Top-down mergesort uses at most 6N lg N array accesses to sort an array of length N.
+>
+> **Proof:**  
+> Each merge uses at most 6N array accesses (2N for the copy, 2N for the move back, and at most 2N for compares). The result follows from the same argument as for Proposition F.
+
+We can cut the running time of mergesort substantially with some carefully considered modifications.
+
+##### Use insertion sort for small subarrays
+
+Because the recursion guarantees that the method will be used often for small cases, and insertion sort is simple and therefore likely to be faster than mergesort for tiny subarrays.
+
+##### Test whether the array is already in order
+
+##### Eliminate the copy to the auxiliary array
+
+#### Bottom-up mergesort
