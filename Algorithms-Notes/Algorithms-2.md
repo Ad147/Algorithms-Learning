@@ -381,3 +381,179 @@ A version of bottom-up mergesort is the method of choice for sorting data organi
 >
 > **Proof:**  
 > Precisely, we mean by this statement that both the number of compares used by mergesort in the worst case and the minimum number of compares that any compare-based sorting algorithm can guarantee are ~N lg N. Propositions H and I establish these facts.
+
+--------------------------------------------------------------------------------
+
+### 2.3 Quicksort
+
+The quicksort algorithm’s desirable features are that it is in-place (uses only a small auxiliary stack) and that it requires time proportional to N log N on the average to sort an array of length N.  
+Its primary drawback is that it is fragile in the sense that some care is involved in the implementation to be sure to avoid bad performance.
+
+#### The basic algorithm
+
+Quicksort is complementary to mergesort:
+for mergesort, we break the array into two subarrays to be sorted and then combine the ordered subarrays to make the whole ordered array;
+for quicksort, we rearrange the array such that, when the two subarrays are sorted, the whole array is ordered.
+In the ﬁrst instance, we do the two recursive calls before working on the whole array;
+in the second instance, we do the two recursive calls after working on the whole array.
+For mergesort, the array is divided in half;
+for quicksort, the position of the partition depends on the contents of the array.
+
+###### Algorithm 2.5 Quicksort
+
+```java
+public class Quick
+{
+    public static void sort(Comparable[] a)
+    {
+        StdRandom.shuffle(a); // eliminate dependence on input
+        sort(a, 0, a.length - 1);
+    }
+    private static void sort(Comparable[] a, int lo, int hi)
+    {
+        if (hi <= lo) return;
+        int j = partition(a, lo, hi); // Partition (see p291)
+        sort(a, lo, j - 1); // sort left part
+        sort(a, j + 1, hi); // sort right part
+    }
+}
+```
+
+It is a  randomized algorithm, because it randomly shufﬂes the array before sorting it.
+Our reason for doing so is to be able to predict (and depend upon) its performance characteristics, as discussed below.
+
+To complete the implementation, we need to implement the partitioning method. We use the following general strategy: First, we arbitrarily choose a[lo] to be the   partitioning item—the one that will go into its ﬁnal position. Next, we scan from the left end of the array until we ﬁnd an entry greater than (or equal to) the partitioning item, and we scan from the right end of the array until we ﬁnd an entry less than (or equal to) the partitioning item. The two items that stopped the scans are out of place in the ﬁnal partitioned array, so we exchange them. Continuing in this way, we ensure that no array entries to the left of the left index i are greater than the partitioning item, and no array entries to the right of the right index j are less than the partitioning item. When the scan indices cross, all that we need to do to complete the partitioning process is to exchange the partitioning item a[lo] with the rightmost entry of the left subarray (a[j]) and return its index j.
+
+###### Quicksort partitioning
+
+```java
+private static int partition(Comparable[] a, int lo, int hi)
+{
+    // partition into a[lo..i-1], a[i], a[i+1..hi]
+    int i = lo, j = hi + 1; // left and right scan indices
+    Comparable v = a[lo]; // partitioning item
+    while (true)
+    {
+        // scan right, scan left, check for san complete, and exchange
+        while (less(a[++i], v)) if (i == hi) break;
+        while (less(v, a[--j])) if (j == lo) break;
+        if (i >= j) break;
+        exch(a, i, j);
+    }
+    exch(a, lo, hi); // put v = a[j] into position
+    return j; // with a[lo..j-1] <= a[j] <= a[j+1..hi]
+}
+```
+
+##### Partitioning in place
+
+##### Staying in bounds
+
+##### Preserving randomness
+
+##### Terminating the loop
+
+##### Handling items with keys equal to the partitioning item's key
+
+It is best to stop the left scan for items with keys greater than or equal to the partitioning item’s key and the right scan for items with key less than or equal to the partitioning item’s key, as in Algorithm 2.5. Even though this policy might seem to create unnecessary exchanges involving items with keys equal to the partitioning item’s key, it is crucial to avoiding quadratic running time in certain typical applications (see Exercise 2.3.11).
+
+##### Terminating the recursion
+
+#### Performance characteristics
+
+The inner loop of quicksort (in the partitioning method) increments an index and compares an array entry against a ﬁxed value. This simplicity is one factor that makes quicksort quick: it is hard to envision a shorter inner loop in a sorting algorithm.
+
+The second factor that makes quicksort quick is that it uses few compares.
+
+> **Proposition K.**  
+> Quicksort uses ~ 2N ln N compares (and one-sixth that many exchanges) on the average to sort an array of length N with distinct keys.
+>
+> **Proof:**  
+> long..
+
+Despite its many assets, the basic quicksort program has one potential liability: it can be extremely inefﬁcient if the partitions are unbalanced. For example, it could be the case that the ﬁrst partition is on the smallest item, the second partition on the next smallest item, and so forth, so that the program will remove just one item for each call, leading to an excessive number of partitions of large subarrays. Avoiding this situation is the primary reason that we randomly shufﬂe the array before using quicksort. This action makes it so unlikely that bad partitions will happen consistently that we need not worry about the possibility.
+
+> **Proposition L.**  
+> Quicksort uses ~ N 2/2 compares in the worst case, but random shufﬂing protects against this case.
+
+In summary, you can be sure that the running time of Algorithm 2.5 will be within a constant factor of 1.39N lg N whenever it is used to sort N items.
+
+#### Algorithmic improvaments
+
+##### Cutoff to insertion sort
+
+ - Quicksort is slower than insertion sort for tiny subarrays
+ - Being recursive, quicksort's sort() is certain to call itself for tiny subarrays
+
+A simple change to Algorithm 2.5 accomplishes this improvement: replace the statement  
+`if (hi <= lo) return;`  
+in sort() with a statement that invokes insertion sort for small subarrays:  
+`if (hi <= lo + M) {  Insertion.sort(a, lo, hi); return;  }`  
+The optimum value of the cutoff M is system-dependent, but any value between 5 and 15 is likely to work well in most situations  (see Exercise 2.3.25).
+
+##### Median-of-three partitioning
+
+##### Entropy-optimal sorting
+
+Arrays with large numbers of duplicate keys arise frequently in applications.
+In such situations, the quicksort implementation that we have considered has acceptable performance, but it can be substantially improved.
+For example, a subarray that consists solely of items that are equal (just one key value) does not need to be processed further, but our implementation keeps partitioning down to small subarrays.
+In a situation where there are large numbers of duplicate keys in the input array, the recursive nature of quicksort ensures that subarrays consisting solely of items with keys that are equal will occur often.
+There is potential for signiﬁcant improvement, from the linearithmic-time performance of the implementations seen so far to linear-time performance.
+
+One straightforward idea is to partition the array into    three parts, one each for items with keys smaller than, equal to, and larger than the partitioning item’s key.
+
+Dijkstra’s solution to this problem leads to the remarkably simple partition code shown on the next page.
+It is based on a single left-to-right pass through the array that maintains a pointer lt such that a[lo..lt-1] is less than v, a pointer gt such that a[gt+1, hi] is greater than v, and a pointer i such that a[lt..i-1] are equal to v and a[i..gt] are not yet examined.
+Starting with i equal to lo, we process a[i] using the 3-way comparison given us by the Comparable interface (instead of using less()) to directly handle the three possible cases:
+ - a[i] less than v: exchange a[lt] with a[i] and increment both lt and
+ - a[i] greater than v: exchange a[i] with a[gt] and decrement gt
+ - a[i] equal to v: increment i
+
+Each of these operations both maintains the invariant and decreases the value of gt-i (so that the loop terminates). Furthermore, every item encountered leads to an exchange except for those items with keys equal to the partitioning item’s key.
+
+###### Quicksort with 3-way partitioning
+
+```java
+public class
+{
+    private static void sort(Comparable[] a, int lo, int hi)
+    {
+        // see p289 for public sort() that calls this method
+        if (hi <= lo) return;
+        int lt = lo, i = lo + 1, gt = hi;
+        Comparable v = a[lo];
+        while (i <= gt)
+        {
+            int cmp = a[i].compareTo(v);
+            if (cmp < 0) exch(a, lt++, i++);
+            if (cmp > 0) exch(a, i, gt--);
+            else i++;
+        } // now a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]
+        sort(a, lo, lt - 1);
+        sort(a, gt + 1, hi);
+    }
+}
+```
+
+it uses many more exchanges than the standard 2-way partitioning method for the common case when the number of duplicate keys in the array is not high.
+In the 1990s  J. Bentley and  D. McIlroy developed a clever implementation that overcomes this problem (see Exercise 2.3.22), and observed that 3-way partitioning makes quicksort asymptotically faster than mergesort and other methods in practical situations involving large numbers of equal keys.
+
+> **Proposition M.**  
+> No compare-based s orting algorithm can guarantee to sort N items  with fewer than NH - N compares, where H is the  Shannon entropy, deﬁned from the frequencies of key values.
+>
+> **Proof sketch:**  
+> This result follows from a (relatively easy) generalization of the lower bound proof of Proposition I in Section 2.2.
+>
+> **Proposition N.**  
+> Quicksort with 3 -way partitioning uses ~ (2ln 2) N H compares to sort N items, where H is the Shannon entropy, deﬁned from the frequencies of key values.
+>
+> **Proof sketch:**  
+> This result follows from a (relatively difﬁcult) generalization of the average-case analysis of quicksort in Proposition K. As with distinct keys, this costs about 39 percent more than the optimum (but within a constant factor) .
+
+#### Q&A of 2.3
+
+Q. Randomly shufﬂing the array seems to take a signiﬁcant fraction of the total time for the sort. Is doing so really worthwhile?  
+A. Yes. It protects against the worst case and makes the running time predictable. Hoare proposed this approach when he presented the algorithm in 1960—it is a prototypical (and among the ﬁrst) randomized algorithm.
+
+--------------------------------------------------------------------------------
