@@ -272,7 +272,7 @@ Its prime disadvantage is that it uses extra space proportional to N.
 
 #### Abstract in-place merge
 
-###### Abstract in-place merge implementation
+###### Abstract in-place merge code
 
 ```java
 public static void merge(Comparable[] a, int lo, int mid, int hi)
@@ -337,3 +337,47 @@ Because the recursion guarantees that the method will be used often for small ca
 ##### Eliminate the copy to the auxiliary array
 
 #### Bottom-up mergesort
+
+Another way to implement mergesort is to organize the merges so that we do all the merges of tiny subarrays on one pass, then do a second pass to merge those subarrays in pairs, and so forth, continuing until we do a merge that encompasses the whole array.
+
+###### Bottom-up mergesort code
+
+```java
+public class MergeBU
+{
+    private static Comparable[] aux;
+    // see p271 for merger() code
+
+    public static void sort(Comparable[] a)
+    {
+        // do lg N passes of pairwise merges
+        int N = a.length;
+        aux = new Comparable[N];
+        for (int sz = 1; sz < N; sz = sz+sz) // sz: subarray size
+            for (int lo = 0; lo < N - sz; lo += sz + sz) // lo: subarray index
+                merge(a, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, N-1));
+    }
+}
+```
+
+> **Proposition H.**  
+> Bottom-up mergesort uses between ½ N lg N and N lg N compares  and at most 6N lg N array accesses to sort an array of length N.
+>
+> **Proof:**  
+> The number of passes through the array is precisely ⎣lg N⎦ (that is precisely the value of n such that 2n   N < 2n1). For each pass, the number of array accesses is exactly 6N and the number of compares is at most N and no less than N/ 2.
+
+A version of bottom-up mergesort is the method of choice for sorting data organized in a  *linked list*. Consider the list to be sorted sublists of size 1, then pass through to make sorted subarrays of size 2 linked together, then size 4, and so forth. This method rearranges the links to sort the list *in place* (without creating any new list nodes).
+
+#### The complexity of sorting
+
+> **Proposition I.**  
+> No c ompare-based sorting algorithm can guarantee to sort N items with fewer than lg(N !) ~ N lg N compares.
+>
+> **Proof:**  
+> very long...
+>
+> **Proposition J.**  
+> Mergesort is an asymptotically optimal compare-based sorting algorithm.
+>
+> **Proof:**  
+> Precisely, we mean by this statement that both the number of compares used by mergesort in the worst case and the minimum number of compares that any compare-based sorting algorithm can guarantee are ~N lg N. Propositions H and I establish these facts.
