@@ -557,3 +557,99 @@ Q. Randomly shufﬂing the array seems to take a signiﬁcant fraction of the to
 A. Yes. It protects against the worst case and makes the running time predictable. Hoare proposed this approach when he presented the algorithm in 1960—it is a prototypical (and among the ﬁrst) randomized algorithm.
 
 --------------------------------------------------------------------------------
+
+### 2.4 Priority Queues
+
+We can use any priority queue as the basis for a sorting algorithm by inserting a sequence of items, then successively removing the smallest to get them out, in order.
+An important sorting algorithm known as heapsort also follows naturally from our heapbased priority-queue implementations.
+
+#### API of priority queues
+
+###### API for a generic priority queue
+
+| `public class`       | `MaxPQ< Key extends Comparable<Key>>`           |
+| -------------------- | ----------------------------------------------- |
+| `MaxPQ()`            | create a priority queue                         |
+| `MaxPQ(int max)`     | create a priority queue of initial capacity max |
+| `MaxPQ(Key[] a)`     | create a priority queue from the keys in a[]    |
+| `void insert(Key v)` | insert a key into the priority queue            |
+| `Key max()`          | return the largest key Key                      |
+| `delMax()`           | return and remove the largest key               |
+| `boolean isEmpty()`  | is the priority queue empty?                    |
+| `int size()`         | number of keys in the priority queue            |
+
+##### A priority-queue client
+
+###### A priority-queue client code
+
+```java
+public class TopM
+{
+    public static void main(String[] args)
+    {
+        // Print the top M lines in the input stream.
+        int M = Integer.parseInt(args[0]);
+        MinPQ<Transaction> pq = new MinPQ<Transaction>(M+1);
+        while (StdIn.hasNextLine())
+        {
+            // Create an entry from the next line and put on the PQ.
+            pq.insert(new Transaction(StdIn.readLine()));
+            if (pq.size() > M)
+                pq.delMin(); // Remove minimum if M+1 entries on the PQ.
+        } // Top M entries are on the PQ.
+        Stack<Transaction> stack = new Stack<Transaction>();
+        while (!pq.isEmpty()) stack.push(pq.delMin());
+        for (Transaction t : stack) StdOut.println(t);
+    }
+}
+```
+
+Given an integer M from the command line and an input stream where each line contains a transaction, this MinPQ client prints the M lines whose numbers are the highest.
+It does so by using our Transaction class (see page 79, Exercise 1.2.19, and Exercise 2.1.21) to build a priority queue using the numbers as keys, deleting the minimum after each insertion once the size of the priority queue reaches M.
+Once all the transactions have been processed, the top M come off the priority queue in increasing order, so this code puts them on a stack, then iterates through the stack to reverse the order and print them in increasing order.
+
+#### Elementary implementations
+
+We can use an array or a linked list, kept in order or unordered. These implementations are useful for small priority queues, situations where one of the two operations are predominant, or situations where some assumptions can be made about the order of the keys involved in the operations.
+
+##### Array representation (unordered)
+
+##### Array representation (ordered)
+
+##### Linked-list representations
+
+The signiﬁcant difference between implementing stacks or queues and implementing priority queues has to do with performance. For stacks and queues, we were able to develop implementations of all the operations that take constant time; for priority queues, all of the elementary implementations just discussed have the property that either the insert or the remove the maximum operation takes linear time in the worst case.
+The *heap* data structure that we consider next enables implementations where both operations are guaranteed to be fast.
+
+#### Heap definitions
+
+> **Definition.**  
+> A binary tree is *heap-ordered* if the key in each node is larger than or equal to the keys in that node’s two children (if any).
+>
+> **Proposition O.**  
+> The  largest key in a heap-ordered binary tree is found at the root.
+>
+> **Proof:**  
+> By induction on the size of the tree.
+
+##### Binary heap representation
+
+If we use a linked representation for heap-ordered binary trees, we would need to have three links associated with each key to allow travel up and down the tree (each node would have one pointer to its parent and one to each child).
+
+It is particularly convenient, instead, to use a *complete binary tree* like the one drawn at right.
+We draw such a structure by placing the root node and then proceeding down the page and from left to right, drawing and connecting two nodes beneath each node on the previous level until we have drawn N nodes.
+Complete trees provide the opportunity to use a compact array representation that does not involve explicit links. Speciﬁcally, we represent complete binary trees sequentially within an array by putting the nodes in  level order, with the root at position 1, its children at positions 2 and 3, their children in positions 4, 5, 6, and 7, and so on.
+
+> **Definition.**  
+> A binary heap is a collection of keys arranged in a complete heap-ordered binary tree, represented in level order in an array (not using the ﬁrst entry).
+
+In a heap, the parent of the node in position k is in position *⎣k /2⎦* and, conversely, the two children of the node in position k are in positions *2k* and *2k + 1*.
+
+Instead of using explicit links (as in the binary tree structures that we will consider in Chapter 3), we can travel up and down by doing simple arithmetic on array indices: to move up the tree from a[k] we set k to k/2; to move down the tree we set k to 2\*k or 2\*k+1.
+
+> **Proposition P.**  
+> The height of a complete  binary tree of size N is ⎣ lg N ⎦ .
+>
+> **Proof:**  
+> The stated result is easy to prove by induction or by noting that the height increases by 1 when N is a power of 2.
+
