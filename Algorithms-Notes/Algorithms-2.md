@@ -440,7 +440,7 @@ private static int partition(Comparable[] a, int lo, int hi)
         if (i >= j) break;
         exch(a, i, j);
     }
-    exch(a, lo, hi); // put v = a[j] into position
+    exch(a, lo, j); // put v = a[j] into position
     return j; // with a[lo..j-1] <= a[j] <= a[j+1..hi]
 }
 ```
@@ -515,7 +515,7 @@ Each of these operations both maintains the invariant and decreases the value of
 ###### Quicksort with 3-way partitioning
 
 ```java
-public class
+public class Quick3way
 {
     private static void sort(Comparable[] a, int lo, int hi)
     {
@@ -835,3 +835,139 @@ When space is very tight (for example, in an embedded system or on a low-cost mo
 However, it is rarely used in typical applications on modern systems because it has poor  cache performance: array entries are rarely compared with nearby array entries, so the number of cache misses is far higher than for quicksort, mergesort, and even shellsort, where most compares are with nearby entries.
 
 --------------------------------------------------------------------------------
+
+### 2.5 Applications
+
+#### Sorting various types of data
+
+##### Transaction example
+
+##### Pointer sorting
+
+##### Keys are immutable
+
+##### Exchanges are inexpensive
+
+##### Alternate ordering
+
+##### Items with multiple keys
+
+##### Priority queues with comparators
+
+###### Insertion sorting with a Comparator
+
+##### Stability
+
+A sorting method is stable if it preserves the relative order of equal keys in the array.
+
+stable: insertion sort and mergesort  
+unstable: selection sort, shellsort, quicksort, and heapsort
+
+There are ways to trick any sort into stable behavior (see Exercise 2.5.18), but using a stable algorithm is generally preferable when stability is an essential requirement.
+
+#### Which sorting algorithm should I use?
+
+###### Performance characteristics of sorting algorithms
+
+| algorithm       | stable? | in place? | running time          | extra space | notes                                                     |
+| --------------- | ------- | --------- | --------------------- | ----------- | --------------------------------------------------------- |
+| selection sort  | no      | yes       | N^2                   | 1           |                                                           |
+| insertion sort  | yes     | yes       | between N and N^2     | 1           | depends on order of items                                 |
+| shellsort       | no      | yes       | N log N ? N^6/5 ?     | 1           |                                                           |
+| quicksort       | no      | yes       | N log N               | lg N        | probabilistic guarantee                                   |
+| 3-way quicksort | no      | yes       | between N and N log N | lg N        | probabilistic, also depends on distribution of input keys |
+| mergesort       | yes     | no        | N log N               | N           |                                                           |
+| heapsort        | no      | yes       | N log N               | 1           |                                                           |
+
+In all cases but shellsort (where the growth rate is only an estimate), insertion sort (where the growth rate depends on the order of the input keys), and both versions of quicksort (where the growth rate is probabilitic and may depend on the distribution of input key values), multiplying these growth rates by appropriate constants gives an effective way to predict running time.
+
+> **Property T.**  
+> Quicksort is the fastest general-purpose sort.
+>
+> **Evidence:**  
+> This hypothesis is supported by countless implementations of quicksort on countless computer systems since its invention decades ago. Generally, the reason that quicksort is fastest is that it has only a few instructions in its inner loop (and it does well with  cache memories because it most often references data sequentially) so that its running time is ~c N lg N with the value of c smaller than the corresponding constants for other linearithmic sorts. With 3-way partitioning, quicksort becomes linear for certain key distributions likely to arise in practice, where other sorts are linearithmic.
+
+Thus, in most practical situations, **quicksort** is the method of choice.  
+if stability is important and space is available, mergesort might be best.
+
+##### Sorting primitive types
+
+In some performance-critical applications, the focus may be on sorting numbers, so it is reasonable to avoid the costs of using references and sort primitive types instead.
+If we are doing nothing more than sorting a huge array of numbers, we avoid paying the cost of storing an equal number of references plus the extra cost of accessing the numbers through the references, not to mention the cost of invoking compareTo() and less() methods.
+
+##### Java system sort
+
+`java.util.Arrays.sort()`. With overloading of argument types, this name actually represents a collection of methods:
+ - A different method for each primitive type
+ - A method for data types that implement Comparable
+ - A method that uses a Comparator
+
+Java’s systems programmers have chosen to use quicksort (with 3-way partitioning) to implement the primitive-type methods, and mergesort for reference-type methods.
+The primary practical implications of these choices are, as just discussed, to trade speed and memory usage (for primitive types) for stability (for reference types).
+
+#### Reductions
+
+The idea that we can use sorting algorithms to solve other problems is an example of a basic technique in algorithm design known as *reduction*.
+A reduction is a situation where an algorithm developed for one problem is used to solve another.
+
+##### Duplicates
+
+##### Rankings
+
+##### Priority-queue redctions
+
+##### Median and order statistics
+
+###### Selecting the k smallest elements in a[]
+
+```java
+public static Comparable select(Comparable[] a, int k)
+{
+    StdRandom.shuffle(a);
+    int lo = 0, hi = a.length - 1;
+    while (hi > lo)
+    {
+        int j = partition(a, lo, hi);
+        if (j == k) return a[k];
+        else if (j > k) hi = j - 1;
+        else if (j < k) lo = j + 1;
+    }
+    return a[k];
+}
+```
+
+> **Proposition U.**  
+> Partitioning-based selection is a linear-time algorithm, on average.
+>
+> **Proof:**  
+> An analysis similar to, but signiﬁcantly more complex than, the proof of Proposition K for quicksort leads to the result that the average number of compares is ~ 2N  2k ln(N/k)   2(N  k) ln(N/(N  k)), which is linear for any allowed value of k. For example, this formula says that ﬁnding the median (k = N/2) requires ~ (2  2 ln 2)N compares, on the average.  Note that the worst case is quadratic but randomization protects against that possibility, as with quicksort.
+
+#### A brief survey of sorting applications
+
+##### Commercial computing
+
+##### Search for information
+
+##### Operations research
+
+The ﬁeld of  operations research (OR) develops and applies mathematical models for problem-solving and decision-making.
+
+##### Event-driven simulation
+
+##### Numerical computations
+
+##### Combinatorial search
+
+**Beyond such direct applications** (and we have only indicated a small fraction of those), sorting and priority queues are an essential abstraction in algorithm design
+
+##### Prim's algorithm and Dijkstra's algorithm
+
+##### Kruskal's algorithm
+
+##### Huffman compression
+
+##### String-processing
+
+--------------------------------------------------------------------------------
+
+EOF
