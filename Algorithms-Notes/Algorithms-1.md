@@ -814,6 +814,8 @@ Some steps to build `equals()`
 
 ##### Summary
 
+--------------------------------------------------------------------------------
+
 ### 1.3 Bags, Queues, and Stacks
 
 The implementations here are models of implementations later in the book and **worthy of careful study**.
@@ -1181,6 +1183,8 @@ In approaching a new application domain, to identify computational challenges an
 | trie                           | 5.2      | TrieST                 | node with array of links  |
 | ternary search trie            | 5.3      | TST                    | three links per node      |
 
+--------------------------------------------------------------------------------
+
 ### 1.4 Analysis of Algorithms
 
 #### Scientific method
@@ -1475,6 +1479,8 @@ Perhaps the most common mistake made in programming is to pay too much attention
 **A.** The "big-Oh" notation is widely used: we say that f(N) is O(g(N)) if there exist constants c and N0 such that |f(N)| < c g(N) for all N > N0. This notation is very useful in providing asymptotic  upper bounds on the performance of algorithms, which is important in the theory of algorithms. But it is not useful for predicting performance or for comparing algorithms.  
 **Q.** Why not?  
 **A.** The primary reason is that it describes only an upper bound on the running time. Actual performance might be much better. The running time of an algorithm might be both O(N^2) and ~ a*N logN. As a result, it cannot be used to justify tests like our doubling ratio test (see Proposition C on page 193).
+
+--------------------------------------------------------------------------------
 
 ### 1.5 Case Study: Union-Find
 

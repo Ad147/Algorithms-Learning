@@ -653,3 +653,185 @@ Instead of using explicit links (as in the binary tree structures that we will c
 > **Proof:**  
 > The stated result is easy to prove by induction or by noting that the height increases by 1 when N is a power of 2.
 
+#### Algorithms on heaps
+
+###### Compare and exchange methods for heap implementations
+
+```java
+private boolean less(int i, int j)
+{ return pq[i].compareTo(pq[j]) < 0; }
+
+private void exch(int i, int j)
+{ Key t = pq[i]; pq[i] = pq[j]; pq[j] = t; }
+```
+
+##### Bottom-up reheapify (swim)
+
+If the heap order is violated because a node’s key becomes larger than that node’s parent’s key, then we can make progress toward ﬁxing the violation by exchanging the node with its parent.
+But the node may still be larger than its parent.
+We can ﬁx that violation in the same way, and so forth, moving up the heap until we reach a node with a larger key, or the root.
+
+###### Bottom-up reheapify (swim) implementation
+
+```java
+private void swim(int k)
+{
+    while (k > 1 && less(k/2, k))
+    {
+        exch(k/2, k);
+        k = k/2;
+    }
+}
+```
+
+##### Top-down reheapify (sink)
+
+If the heap order is violated because a node’s key becomes smaller than one or both of that node’s children’s keys, then we can make progress toward ﬁxing the violation by exchanging the node with the *larger* of its two children.
+This switch may cause a violation at the child;
+we ﬁx that violation in the same way, and so forth, moving down the heap until we reach a node with both children smaller (or equal), or the bottom.
+
+###### Top-down reheapify (sink) implementation
+
+```java
+private void sink(int k)
+{
+    while (2 * k <= N)
+    {
+        int j = 2 * k;
+        if (j < N && less(j, j + 1)) j++;
+        if (!less(k, j)) break;
+        exch(k, j);
+        k = j;
+    }
+}
+```
+
+##### Insert
+
+We add the new key at the end of the array, increment the size of the heap, and then swim up through the heap with that key to restore the heap condition.
+
+##### Remove the maximum
+
+We take the largest key off the top, put the item from the end of the heap at the top, decrement the size of the heap, and then sink down through the heap with that key to restore the heap condition.
+
+###### Algorithm 2.6 Heap priority queue
+
+```java
+public class MaxPQ<Key extends Comparable<Key>>
+{
+    private Key[] pq;  // heap-ordered complete binary tree
+    private int N = 0; // in pq[1..N] with pq[0] unused
+
+    public MaxPQ(int maxN)
+    { pq = (Key[]) new Comparable[maxN + 1]; }
+
+    public boolean isEmpty()
+    { return N == 0; }
+
+    public int size()
+    { return N; }
+
+    public void insert(Key v)
+    {
+        pq[++N] = v;
+        swim(N);
+    }
+
+    public Key delMax()
+    {
+        Key max = pq[1]; // retrieve max key from top
+        exch(1, N--);    // exchange with last item
+        pq[N+1] = null;  // avoid loitering
+        sink(1);         // restore heap property
+        return max;
+    }
+
+    // see above for implementations of these helper methods
+    private boolean less(int i, int j)
+    private void exch(int i, int j)
+    private void swim(int k)
+    private void sink(int k)
+}
+```
+
+The priority queue is maintained in a heap-ordered complete binary tree in the array pq[] with pq[0] unused and the N keys in the priority queue in pq[1] through pq[N]. To implement insert(), we increment N, add the new element at the end, then use swim() to restore the heap order. For delMax(), we take the value to be returned from pq[1], then move pq[N] to pq[1], decrement the size of the heap, and use sink() to restore the heap condition. We also set the now-unused position pq[N+1] to null to allow the system to reclaim the memory associated with it. Code for dynamic array resizing is omitted, as usual (see Section 1.3). See Exercise 2.4.19 for the other constructors.
+
+> **Proposition Q.**  
+> In an N-key priority queue, the heap algorithms require no more than 1 + lg N compares for insert and no more than 2 lg N  compares for remove the maximum.
+>
+> **Proof:**  
+> By Proposition P, both operations involve moving along a path between the root and the bottom of the heap whose number of links is no more than lg N. The remove the maximum operation requires two compares for each node on the path (except at the bottom): one to ﬁnd the child with the larger key, the other to decide whether that child needs to be promoted.
+
+##### Multiway heaps
+
+modify our code to build heaps based on an array representation of complete heap-ordered *ternary* trees, with an entry at position k larger than or equal to entries at positions 3k-1, 3k, and 3k+1 and smaller than or equal to entries at position ⎣(k+1)/3⎦, for all indices between 1 and N in an array of N items, and not much more difﬁcult to use d-ary heaps for any given d.
+There is a tradeoff between the lower cost from the reduced tree height (log d N) and the higher cost of ﬁnding the largest of the d children at each node. This tradeoff is dependent on details of the implementation and the expected relative frequency of operations.
+
+##### Array resizing
+
+##### Immutability of keys
+
+##### Index priority queue
+
+> **Proposition Q (continued).**  
+> In an index priority queue of size N, the number of compares required is proportional to at most log N for insert, change priority, delete, and remove the minimum.
+>
+> **Proof:**  
+> Immediate from inspection of the code and the fact that all paths in a heap are of length at most ~lg N.
+
+##### Index priority-queue client
+
+###### Multiway merge priority-queue client
+
+#### Heapsort
+
+Heapsort breaks into two phases: *heap construction*, where we reorganize the original array into a heap, and the *sortdown*, where we pull the items out of the heap in decreasing order to build the sorted result.  
+use swim() and sink() directly. Doing so allows us to sort an array without needing any extra space, by maintaining the heap within the array to be sorted.
+
+##### Heap construction
+
+Certainly we can accomplish this task in time proportional to N log N, by proceeding from left to right through the array, using swim() to ensure that the items to the left of the scanning pointer make up a heap-ordered complete tree, like successive priorityqueue insertions.  
+A clever method that is much more efﬁcient is to proceed from right to left, using sink() to make subheaps as we go. Every position in the array is the root of a small subheap; sink() works for such subheaps, as well.
+If the two children of a node are heaps, then calling sink() on that node makes the subtree rooted at the parent a heap. This process establishes the heap order inductively.
+The scan starts halfway back through the array because we can skip the subheaps of size 1. The scan ends at position 1, when we ﬁnish building the heap with one call to sink().
+
+> **Proposition R.**  
+> Sink-based heap construction uses fewer than 2N compares and fewer than N exchanges to construct a heap from N items.
+>
+> **Proof:**  
+> This fact follows from the observation that most of the heaps processed are small. For example, to build a heap of 127 elements, we process 32 heaps of size 3, 16 heaps of size 7, 8 heaps of size 15, 4 heaps of size 31, 2 heaps of size 63, and 1 heap of size 127, so 32·1 + 16·2 + 8·3 + 4·4 + 2·5 + 1·6 = 120 exchanges (twice as many compares) are required (at worst). See Exercise 2.4.20 for a complete proof.
+
+##### Sortdown
+
+> **Proposition S.**  
+> Heapsort uses fewer than 2N lg N + 2N compares (and half that many exchanges) to sort N items.
+>
+> **Proof:**  
+> The 2 N term covers the cost of heap construction (see Proposition R). The 2 N lg N term follows from bounding the cost of each sink operation during the sortdown by 2lg N (see Proposition PQ).
+
+
+###### Algorithm 2.7 Heapsort
+
+```java
+public static void sort(Comparable[] a)
+{
+    int N = a.length;
+    for (int k = N/2; k >= 1; k--)
+        sink(a, k, N);
+    while (N > 1)
+    {
+        exch(a, 1, N--);
+        sink(a, 1, N);
+    }
+}
+```
+
+This code sorts a[1] through a[N] using the sink() method (modiﬁed to take a[] and N as arguments). The for loop constructs the heap; then the while loop exchanges the largest element a[1] with a[N] and then repairs the heap, continuing until the heap is empty. Decrementing the array indices in the implementations of exch() and less() gives an implementation that sorts  a[0] through a[N-1], consistent with our other sorts.
+
+##### Sink to the bottom, then swim
+
+**Heapsort is significant** in the study of the complexity of sorting (see page 279) because it is the only method that we have seen that is optimal (within a constant factor) in its use of both time and space—it is guaranteed to use ~2N lg N compares and constant extra space in the worst case.
+When space is very tight (for example, in an embedded system or on a low-cost mobile device) it is popular because it can be implemented with just a few dozen lines (even in machine code) while still providing optimal performance.
+However, it is rarely used in typical applications on modern systems because it has poor  cache performance: array entries are rarely compared with nearby array entries, so the number of cache misses is far higher than for quicksort, mergesort, and even shellsort, where most compares are with nearby entries.
+
+--------------------------------------------------------------------------------
