@@ -145,8 +145,8 @@ h5 {
     font-size: 1em;
     font-weight: 400;
     font-style: italic;
-    padding-left: 0.5em;
-    border-left: 0.1em solid #64C8DC;
+    /* padding-left: 0.5em; */
+    /* border-left: 0.1em solid #64C8DC; */
 }
 
 
