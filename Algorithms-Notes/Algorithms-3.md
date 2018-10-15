@@ -190,3 +190,64 @@ public class FrequencyCounter
 
 This ST client counts the frequency of occurrence of the strings in standard input, then prints out one that occurs with highest frequency.
 The command-line argument speciﬁes a lower bound on the length of keys considered.
+
+#### Sequential search in an unordered linked list
+
+###### ALGORITHM 3.1 Sequential search (in an unordered linked list)
+
+```java
+public class SequentialSearchST<Key, Value>
+{
+    private Node first; // first node in the linked list
+
+    private class Node
+    {
+        // linked list node
+        Key key;
+        Value val;
+        Node next;
+        public Node(Key key, Value val, Node next)
+        {
+            this.key = key;
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    public Value get(Key key)
+    {
+        // search for key, return associated value
+        for (Node x = first; x != null; x = x.next)
+            if (key.equals(x.key))
+                return x.val; // search hit
+        return null;          // search miss
+    }
+
+    public void put(Key key, Value val)
+    {
+        // search for key. update value if found; grow table if new
+        for (Node x = first; x != null; x = x.next)
+            if (ket.equals(x.key))
+            { x.val = val; return; }       // search hit: update val
+        first = new Node(key, val, first); // search miss: add new node
+    }
+}
+// Implementations of size(), keys(), and eager delete() are left for exercises.
+```
+
+Analyzing symbol-table algorithms is more complicated than analyzing sorting algorithms because of the difﬁculty of characterizing the sequence of operations that might be invoked by a given client.
+As noted for FrequencyCounter, the most common situation is that, while search and insert patterns are unpredictable, they certainly are not random.
+For this reason, we pay careful attention to worst-case performance.
+
+> **Proposition A.**  
+> Search misses and  insertions in an (unordered) linked-list symbol table having N key-value pairs both require N compares, and search hits N compares in the worst case. In particular, inserting N distinct keys into an initially empty linked-list symbol table uses ~N 2/2 compares.
+>
+> **Proof:**  
+> When searching for a key that is not in the list, we test every key in the table against the search key. Because of our policy of disallowing duplicate keys, we need to do such a search before each insertion.
+>
+> **Corollary.**  
+> Inserting N distinct keys into an initially empty linked-list symbol table uses ~N 2/2 compares.
+
+It is easy to show that the average number of compares for a random search hit is ~ N/2: the get() method in Algorithm 3.1 uses 1 compare to ﬁnd the ﬁrst key, 2 compares to ﬁnd the second key, and so forth, for an average cost of (1 + 2 + ... + N )/ N = (N + 1)/2 ~ N/2.
+
+#### Binary search in an ordered array
