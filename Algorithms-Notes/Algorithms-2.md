@@ -809,7 +809,6 @@ The scan starts halfway back through the array because we can skip the subheaps 
 > **Proof:**  
 > The 2 N term covers the cost of heap construction (see Proposition R). The 2 N lg N term follows from bounding the cost of each sink operation during the sortdown by 2lg N (see Proposition PQ).
 
-
 ###### Algorithm 2.7 Heapsort
 
 ```java
