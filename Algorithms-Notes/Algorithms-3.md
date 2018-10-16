@@ -251,3 +251,164 @@ For this reason, we pay careful attention to worst-case performance.
 It is easy to show that the average number of compares for a random search hit is ~ N/2: the get() method in Algorithm 3.1 uses 1 compare to ﬁnd the ﬁrst key, 2 compares to ﬁnd the second key, and so forth, for an average cost of (1 + 2 + ... + N )/ N = (N + 1)/2 ~ N/2.
 
 #### Binary search in an ordered array
+
+###### Algorithms 3.2 Binary search (in an ordered array)
+
+```java
+public class BinarySearchST<Key extends Comparable<Key>, Value>
+{
+    private Key[] keys;
+    private Value[] vals;
+    private int N;
+
+    public BinarySearchST(int capacity)
+    {
+        // see algorithm 1.1 for standard array-resizing code
+        keys = (Key[]) new Comparable[capacity];
+        vals = (Value[]) new Object[capacity];
+    }
+    public int size()
+    { return N; }
+
+    public Value get(Key key)
+    {
+        if (isEmpty()) return null;
+        int i = rank(key);
+        if (i < N && keys[i].compareTo(key) == 0) return vals[i];
+        else return null;
+    }
+    public int rank(Key key)
+    // see p381
+
+    public void put(Key key, Value val)
+    {
+        // search for key. update value if found; grow table if new
+        int i = rank(key);
+        if (i < N && keys[i].compareTo(key) == 0)
+        { vals[i] = val; return; }
+        for (int j = N; j > i; j--)
+        { keys[j] = keys[j-1]; vals[j] = vals[j-1]; }
+        keys[i] = key;
+        vals[i] = val;
+        N++;
+    }
+
+    public void delete(Key key)
+    // see exercise 3.1.16 for this method
+}
+```
+
+This ST implementation keeps the keys and values in parallel arrays.
+The put() implementation moves larger keys one position to the right before growing the table as in the array-based stack implementation in Section 1.3. Array-resizing code is omitted here.
+
+##### Binary search
+
+###### Recursive binary search
+
+```java
+public int rank(Key key, int lo, int hi)
+{
+    if (hi < lo) return lo;
+    int mid = lo + (hi - lo) / 2;
+    int cmp = key.compareTo(keys[mid]);
+    if (cmp < 0)
+        return rank(key, lo, mid-1);
+    else if (cmp > 0)
+        return rank(key, mid+1, hi);
+    else
+        return mid;
+}
+```
+
+##### Other operations
+
+###### Algorithm 3.2 (continued) Binary search in an ordered array (iterative)
+
+```java
+public int rank(Key key)
+{
+    int lo = 0, hi = N - 1;
+    while (lo <= hi)
+    {
+        int mid = lo + (hi - lo) / 2;
+        int cmp = key.compareTo(keys[mid]);
+        if (cmp < 0) hi = mid - 1;
+        else if (cmp > 0) lo = mid + 1;
+        else return mid;
+    }
+    return lo;
+}
+```
+
+This method uses the classic method described in the text to compute the number of keys in the table that are smaller than key. Compare key with the key in the middle: if it is equal, return its index; if it is less, look in the left half; if it is greater, look in the right half.
+
+###### Algorithm 3.2 (continued) Ordered symbol-table operations for binary search
+
+```java
+public Key min()
+{ return keys[0]; }
+public Key max()
+{ return keys[N-1]; }
+public Key select(int k)
+{ return keys[k]; }
+public Key ceiling(Key key)
+{
+    int i = rank(key);
+    return keys[i];
+}
+public Key floor(Key key)
+// see exercise 3.1.17
+public Key delete(Key key)
+// see exercise 3.1.16
+public Iterable<Key> keys(Key lo, Key hi)
+{
+    Queue<Key> q = new Queue<Key>();
+    for (int i = rank(lo); i < rank(hi); i++)
+    q.enqueue(keys[i]);
+    if (contains(hi))
+        q.enqueue(keys[rank(hi)]);
+    return q;
+}
+```
+
+#### Analysis of binary search
+
+> **Proposition B.**  
+> Binary search in an ordered array with N keys uses no more than lg N + 1 compares for a search (successful or unsuccessful).
+>
+> **Proof:**
+> long..
+
+Despite its guaranteed logarithmic search, BinarySearchST still does not enable us to use clients like FrequencyCounter to solve huge problems, because the put() method is too slow.
+Binary search reduces the number of compares, but not the running time, because its use does not change the fact that the number of array accesses required to build a symbol table in an ordered array is quadratic in the size of the array when keys are randomly ordered (and in typical practical situations where the keys, while not random, are well-described by this model).
+
+> **Proposition B (continued).**  
+> Inserting a new key into an ordered array of size N uses  ~ 2N array accesses in the worst case, so inserting N keys into an initially empty table uses ~ N 2 array accesses in the worst case.
+>
+> **Proof:** Same as for Proposition A.
+
+#### Preview
+
+For a static table (with no insert operations allowed), it is worthwhile to initialize and sort the table, as in the version of binary search that we considered in Chapter 1 (see page 99).
+Even when the bulk of the key-value pairs is known before the bulk of the searches (a common situation in applications), it is worthwhile to add to BinarySearchST a constructor that initializes and sorts the table (see Exercise 3.1.12).
+
+###### Cost summary for basic symbol-table implementations
+
+| algorithm (data structure)                | worst-case cost | (after N inserts) | average-case cost | (after N random inserts) | efficiently support ordered operations? |
+| ----------------------------------------- | --------------- | ----------------- | ----------------- | ------------------------ | --------------------------------------- |
+|                                           | search          | insert            | search hit        | insert                   |                                         |
+| sequential search (unordered linked list) | N               | N                 | N/2               | N                        | no                                      |
+| binary search (ordered array)             | lg N            | 2N                | lg N              | N                        | yes                                     |
+
+###### Pros and cons of symbol-table implementations
+
+| underlying data structure       | implementation         | pros                                        | cons                                     |
+| ------------------------------- | ---------------------- | ------------------------------------------- | ---------------------------------------- |
+| linked list (sequential search) | SequentialSearchST     | best for tiny STs                           | slow for large STs                       |
+| ordered array (binary search)   | BinarySearchST         | optimal search and space, order-based ops   | slow insert                              |
+| binary search tree              | BST                    | easy to implement, order-based ops          | no guarantees space for links            |
+| balanced BST                    | RedBlackBST            | optimal search and insert, order-based ops  | space for links                          |
+| hash table                      | SeparateChainingHashST | fast search/insert for common types of data | need hash for each type                  |
+|                                 | LinearProbingHashST    |                                             | no order-based ops space for links/empty |
+
+--------------------------------------------------------------------------------
