@@ -656,7 +656,15 @@ public Iterable<Key> keys(Key lo, Key hi)
     keys(root, queue, lo, hi);
     return queue;
 }
-private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {   if (x == null) return;   int cmplo = lo.compareTo(x.key);   int cmphi = hi.compareTo(x.key);   if (cmplo < 0) keys(x.left, queue, lo, hi);   if (cmplo <= 0 && cmphi >= 0) queue.enqueue(x.key);   if (cmphi > 0) keys(x.right, queue, lo, hi); }
+private void keys(Node x, Queue<Key> queue, Key lo, Key hi)
+{
+    if (x == null) return;
+    int cmplo = lo.compareTo(x.key);
+    int cmphi = hi.compareTo(x.key);
+    if (cmplo < 0) keys(x.left, queue, lo, hi);
+    if (cmplo <= 0 && cmphi >= 0) queue.enqueue(x.key);
+    if (cmphi > 0) keys(x.right, queue, lo, hi);
+}
 ```
 
 ##### Analysis of order-based operations
@@ -666,3 +674,25 @@ private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {   if (x == null) r
 >
 > **Proof:**  
 > All of these methods go down one or two paths in the tree. The length of any path is no more than the height, by deﬁnition.
+
+**In summary**, BSTs are not difﬁcult to implement and can provide fast search and insert for practical applications of all kinds *if* the key insertions are well-approximated by the random-key model.
+
+###### Cost summary for basic symbol-table implementations (updated)
+
+| algorithm (data structure)                | worst-case cost | (after N inserts) | average-case cost | (after N random inserts) | efficiently support ordered operations? |
+| ----------------------------------------- | --------------- | ----------------- | ----------------- | ------------------------ | --------------------------------------- |
+|                                           | search          | insert            | search hit        | insert                   |                                         |
+| sequential search (unordered linked list) | N               | N                 | N/2               | N                        | no                                      |
+| binary search (ordered array)             | lg N            | 2N                | lg N              | N                        | yes                                     |
+| binary tree search (BST)                  | N               | N                 | 1.39 lg N         | 1.39 lg N                | yes                                     |
+
+#### Q&A of binary search trees
+
+Q.  I’ve seen BSTs before, but not using recursion. What are the tradeoffs?
+
+A. Generally,  recursive implementations are a bit easier to verify for correctness; nonrecursive implementations are a bit more *efﬁcient*.
+See Exercise 3.2.13 for an implementation of get(), the one case where you might notice the improved efﬁciency.
+If trees are unbalanced, the depth of the  function-call stack could be a problem in a recursive implementation.
+Our primary reason for using recursion is to ease the transition to the balanced BST implementations of the next section, which deﬁnitely are easier to implement and debug with recursion.
+
+--------------------------------------------------------------------------------
