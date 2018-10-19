@@ -696,3 +696,120 @@ If trees are unbalanced, the depth of the  function-call stack could be a proble
 Our primary reason for using recursion is to ease the transition to the balanced BST implementations of the next section, which deﬁnitely are easier to implement and debug with recursion.
 
 --------------------------------------------------------------------------------
+
+### 3.3 Balanced Search Trees
+
+#### 2-3 search trees
+
+> **Definition.**  
+> A 2-3 search tree is a tree that is either empty or
+>  - A 2-node, with one key (and associated value) and two links, a left link to a 2-3 search tree with smaller keys, and a right link to a 2-3 search tree with larger keys
+>  - A 3-node, with two keys (and associated values) and three links, a left link to a 2-3 search tree with smaller keys, a middle link to a 2-3 search tree with keys between the node’s keys, and a right link to a 2-3 search tree with larger keys
+>
+> As usual, we refer to a link to an empty tree as a null link.
+
+##### Search in a 2-3 tree
+
+##### Insert into a 2-node
+
+The primary reason that 2-3 trees are useful is that we can do insertions and still maintain perfect balance.
+It is easy to accomplish this task if the node at which the search terminates is a 2-node: we just replace the node with a 3-node containing its key and the new key to be inserted.
+
+##### Insert into a tree consisting of a single 3-node
+
+To be able to perform the insertion, we temporarily put the new key into a 4-node, a natural extension of our node type that has three keys and four links. Creating the 4-node is convenient because it is easy to convert it into a 2-3 tree made up of three 2-nodes, one with the middle key (at the root), one with the smallest of the three keys (pointed to by the left link of the root), and one with the largest of the three keys (pointed to by the right link of the root). Such a tree is a 3-node BST and also a perfectly balanced 2-3 search tree, with all the null links at the same distance from the root.
+
+##### Insert into a 3-node whose parent is a 2-node
+
+In this case, we can still make room for the new key while maintaining perfect balance in the tree, by making a temporary 4-node as just described, then splitting the 4-node as just described, but then, instead of creating a new node to hold the middle key, moving the middle key to the node’s parent.
+
+##### Insert into a 3-node whose parent is a 3-node
+
+Again, we make a temporary 4-node as just described, then split it and insert its middle key into the parent. The parent was a 3-node, so we replace it with a temporary new 4-node containing the middle key from the 4-node split. Then, we perform precisely the same transformation on that node. That is, we split the new 4-node and insert its middle key into its parent. Extending to the general case is clear: we continue up the tree, splitting 4-nodes and inserting their middle keys in their parents until reaching a 2-node, which we replace with a 3-node that does not need to be further split, or until reaching a 3-node at the root.
+
+##### Splitting the root
+
+If we have 3-nodes along the whole path from the insertion point to the root, we end up with a temporary 4-node at the root.
+In this case we can proceed in precisely the same way as for insertion into a tree consisting of a single 3-node. We split the temporary 4-node into three 2-nodes, increasing the height of the tree by 1.
+
+##### Local transformations
+
+##### Global properties
+
+these local transformations preserve the global properties that the tree is ordered and perfectly balanced: the number of links on the path from the root to any null link is the same.
+
+**Unlike standard BSTs**, which grow down from the top, 2-3 trees grow up from the bottom.
+
+> **Proposition F.**  
+> Search and insert operations in a 2-3 tree with N keys are guaranteed to visit at most lg N nodes.
+>
+> **Proof:** The height of an N-node 2-3 tree is between  ⎣log3 N⎦ = ⎣(lg N)/(lg 3)⎦ (if the tree is all 3-nodes) and  ⎣lg N⎦ (if the tree is all 2-nodes) (see Exercise 3.3.4).
+
+The primary purpose of balancing is to provide insurance against a bad worst case, but we would prefer the overhead cost for that insurance to be low.
+
+#### Red-black BSTs
+
+##### Encoding 3-nodes
+
+The basic idea behind red-black BSTs is to encode 2-3 trees by starting with standard BSTs (which are made up of 2-nodes) and adding extra information to encode 3-nodes. We think of the links as being of two different types: red links, which bind together two 2-nodes to represent 3-nodes, and black links, which bind together the 2-3 tree.  Speciﬁcally, we represent 3-nodes as two 2-nodes connected by a single red link that  leans left (one of the 2-nodes is the left child of the other).
+We refer to BSTs that represent 2-3 trees in this way as red-black BSTs.
+
+##### An equivalent d eﬁnition
+
+Another way to proceed is to deﬁne red-black BSTs as BSTs having red and black links and satisfying the following three restrictions:
+ - Red links lean left
+ - No node has two red links connected to it
+ - The tree has perfect black balance: every path from the root to a null link has the same number of black links.
+
+There is a 1-1 correspondence between red-black BSTs deﬁned in this way and 2-3 trees.
+
+##### A 1-1 correspondence
+
+we get the best of both worlds: the simple and efﬁcient search method from standard BSTs and the efﬁcient insertion-balancing method from 2-3 trees.
+
+##### Color representation
+
+we encode the color of links in nodes, by adding a boolean instance variable color to our Node data type, which is true if the link from the parent is red and false if tit is black.
+
+##### Rotations
+
+The implementation that we will consider might allow right-leaning red links or two red links in a row during an operation, but it always corrects these conditions before completion, through judicious use of an operation called rotation that switches the orientation of red links.
+
+##### Resetting the link in the parent after a rotation
+
+##### Insert into a single 2-node
+
+A red-black BST with 1 key is just a single 2-node. Inserting the second key immediately shows the need for having a rotation operation. If the new key is smaller than the key in the tree, we just make a new (red) node with the new key and we are done: we have a red-black BST that is equivalent to a single 3-node. But if the new key is larger than the key in the tree, then attaching a new (red) node gives a right-leaning red link, and the code root = rotateLeft(root); completes the insertion by rotating the red link to the left and updating the tree root link. The result in both cases is the red-black representation of a single 3-node, with two keys, one left-leaning red link, and black height 1.
+
+##### Insert into a 2-node at the bottom
+
+We insert keys into a red-black BST as usual into a BST, adding a new node at the bottom (respecting the order), but always connected to its parent with a red link. If the parent is a 2-node, then the same two cases just discussed are effective.
+
+##### Insert into a tree with two keys (in a 3-node)
+
+This case reduces to three subcases: the new key is either less than both keys in the tree, between them, or greater than both of them. Each of the cases introduces a node with two red links connected to it; our goal is to correct this condition.
+ - The simplest of the three cases is when the new key is larger than the two in the tree and is therefore attached on the rightmost link of the 3-node, making a balanced tree with the middle key at the root, connected with red links to nodes containing a smaller and a larger key. If we ﬂip the colors of those two links from red to black, then we have a balanced tree of height 2 with three nodes, exactly what we need to maintain our 1-1 correspondence to 2-3 trees. The other two cases eventually reduce to this case.
+ - If the new key is smaller than the two keys in the tree and goes on the left link, then we have two red links in a row, both leaning to the left, which we can reduce to the previous case (middle key at the root, connected to the others by two red links) by rotating the top link to the right.
+ - If the new key goes between the two keys in the tree, we again have two red links in a row, a right-leaning one below a left-leaning one, which we can reduce to the previous case (two red links in a row, to the left) by rotating left the bottom link.
+
+##### Flipping colors
+
+In addition to ﬂipping the colors of the children from red to black, we also ﬂip the color of the parent from black to red. A critically important characteristic of this operation is that, like rotations, it is a local transformation that preserves perfect black balance in the tree.
+
+##### Keeping the root black
+
+Note that the black height of the tree increases by 1 whenever the color of the color of the root is ﬂipped from black to red.
+
+##### Insert into a 3-node at the bottom
+
+Now suppose that we add a new node at the bottom that is connected to a 3-node. The same three cases just discussed arise.
+
+##### Passing a red link up the tree
+
+**In summary, we can maintain** our 1-1 correspondence between 2-3 trees and red-black BSTs during insertion by judicious use of three simple operations: left rotate, right rotate, and color ﬂip.
+We can accomplish the insertion by performing the following operations, one after the other, on each node as we pass up the tree from the point of insertion:
+ - If the right child is red and the left child is black, rotate left
+ - If both the left child and its left child are red, rotate right
+ - If both children are red, ﬂip colors
+
+#### Implementation
