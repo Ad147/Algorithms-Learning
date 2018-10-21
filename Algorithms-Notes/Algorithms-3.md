@@ -679,12 +679,12 @@ private void keys(Node x, Queue<Key> queue, Key lo, Key hi)
 
 ###### Cost summary for basic symbol-table implementations (updated)
 
-| algorithm (data structure)                | worst-case cost | (after N inserts) | average-case cost | (after N random inserts) | efficiently support ordered operations? |
-| ----------------------------------------- | --------------- | ----------------- | ----------------- | ------------------------ | --------------------------------------- |
-|                                           | search          | insert            | search hit        | insert                   |                                         |
-| sequential search (unordered linked list) | N               | N                 | N/2               | N                        | no                                      |
-| binary search (ordered array)             | lg N            | 2N                | lg N              | N                        | yes                                     |
-| binary tree search (BST)                  | N               | N                 | 1.39 lg N         | 1.39 lg N                | yes                                     |
+| algorithm (data structure)                | worst-case cost | (after N inserts) | average-case cost | (after N random inserts) | efficiently support |
+| ----------------------------------------- | --------------- | ----------------- | ----------------- | ------------------------ | ------------------- |
+|                                           | search          | insert            | search hit        | insert                   | ordered operations? |
+| sequential search (unordered linked list) | N               | N                 | N/2               | N                        | no                  |
+| binary search (ordered array)             | lg N            | 2N                | lg N              | N                        | yes                 |
+| binary tree search (BST)                  | N               | N                 | 1.39 lg N         | 1.39 lg N                | yes                 |
 
 #### Q&A of binary search trees
 
@@ -813,3 +813,180 @@ We can accomplish the insertion by performing the following operations, one afte
  - If both children are red, ﬂip colors
 
 #### Implementation
+
+###### Algorithm 3.4 Insert for red-black BSTs
+
+```java
+public class RedBlackBST<Key extends Comparable<Key>, Value>
+{
+    private Node root;
+    private class Node // BST node with color bit (see p433)
+
+    private boolean isRed(Node h)    // see p433
+    private Node rotateLeft(Node h)  // see p434
+    private Node rotateRight(Node h) // see p434
+    private void flipColors(Node h)  // see p436
+    private int size()               // see p398
+
+    public void put(Key key, Value val)
+    {
+        // search for key. update value if found; grow table if new
+        root = put(root, key, val);
+        root.color = BLACK;
+    }
+    private Node put(Node h, Key key, Value val)
+    {
+        if (h == null) // do standard insert, with red link to parent
+            return new Node(key, val, 1, RED);
+        int cmp = key.cmopareTo(h.key);
+        if (cmp < 0) h.left = put(h.left, key, val);
+        else if (cmp > 0) h.right = put(h.right, key, val);
+        else h.val = val;
+
+        if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right)) flipColor(h);
+
+        h.N = size(h.left) + size(h.right) + 1;
+        return h;
+    }
+}
+```
+
+###### Node representation for red-black BSTs
+
+```java
+private static final boolean RED = true;
+private static final boolean BLACK = false;
+private class Node
+{
+    Key key;          // key
+    Value val;        // associated date
+    Node left, right; // subtrees
+    int N;            // # nodes in this subtree
+    boolean color;    // color of link from parent to this node
+
+    Node(Key key, Value val, int N, boolean color)
+    {
+        this.key = key;
+        this.val = val;
+        this.N = N;
+        this.color = color;
+    }
+}
+
+private boolean isRed(Node x)
+{
+    if (x == null) return false;
+    return x.color == RED;
+}
+```
+
+###### Left rotate (right link of h)
+
+```java
+Node rotateLeft(Node h)
+{
+    Node x = h.right;
+    h.right = x.left;
+    x.left = h;
+    x.color = h.color;
+    h.color = RED;
+    x.N = h.N;
+    h.N = size(h.left) + size(h.right) + 1;
+    return x;
+}
+```
+
+###### Right rotate (left link of h)
+
+```java
+Node rotateRight(Node h)
+{
+    Node x = h.left;
+    h.left = x.right;
+    x.right = h;
+    x.color = h.color;
+    h.color = RED;
+    x.N = h.N;
+    h.N = size(h.left) + size(h.right) + 1;
+    return x;
+}
+```
+
+###### Flipping colors to split a 4-node
+
+```java
+void flipColors(Node h)
+{
+    h.color = RED;
+    h.left.color = BLACK;
+    h.right.color = BLACK;
+}
+```
+
+The code for the recursive put() for red-black BSTs is identical to put() in elementary BSTs except for the three if statements after the recursive calls, which provide near-perfect balance in the tree by maintaining a 1-1 correspondence with 2-3 trees, on the way up the search path. The ﬁrst rotates left any right-leaning 3-node (or a right-leaning red link at the bottom of a temporary 4-node); the second rotates right the top link in a temporary 4-node with two left-leaning red links; and the third ﬂips colors to pass a red link up the tree (see text).
+
+#### Deletion in red-black BSTs
+
+##### Top-down 2-3-4 trees
+
+To implement this algorithm with redblack BSTs, we
+ - Represent 4-nodes as a balanced subtree of three 2-nodes, with both the left and right child connected to the parent with a red link
+ - Split 4-nodes on the way down the tree with color ﬂips
+ - Balance 4-nodes on the way up the tree with rotations, as for insertion
+
+##### Delete the minimum
+
+To ensure that we do not end up on a 2-node, we perform appropriate transformations on the way down the tree to preserve the invariant that the current node is not a 2-node (it might be a 3-node or a temporary 4-node).
+First, at the root, there are two possibilities: if the root is a 2-node and both children are 2-nodes, we can just convert the three nodes to a 4-node; otherwise we can borrow from the right sibling  if necessary to ensure that the left child of the root is not a 2-node. Then, on the way down the tree, one of the following cases must hold:
+ - If the left child of the current node is not a 2-node, there is nothing to do.
+ - If the left child is a 2-node and its immediate sibling is not a 2-node, move a key from the sibling to the left child.
+ - If the left child and its immediate sibling are 2-nodes, then combine them with the smallest key in the parent to make a 4-node, changing the parent from a 3-node to a 2-node or from a 4-node to a 3-node.
+
+Following this process as we traverse left links to the bottom, we wind up on a 3-node or a 4-node with the smallest key, so we can just remove it, converting the 3-node to a 2-node or the 4-node to a 3-node. Then, on the way up the tree, we split any unused temporary 4-nodes.
+
+##### Delete in red-black BSTs
+
+#### Properties of red-black BSTs
+
+*all symbol-table operations in red-black BSTs are guaranteed to be logarithmic in the size of the tree* (except for range search, which additionally costs time proportional to the number of keys returned). We repeat and emphasize this point because of its importance.
+
+##### Analysis of red-black BSTs
+
+> **Proposition G.**  
+> The height of a red-black BST with N nodes is no more than 2 lg N.
+>
+> **Proof sketch:**  
+> The worst case is a 2-3 tree that is all 2-nodes except that the leftmost path is made up of 3-nodes. The path taking left links from the root is twice as long as the paths of length ~ lg N that involve just 2-nodes. It is possible, but not easy, to develop key sequences that cause the construction of red-black BSTs whose average path length is the worst-case 2 lg N. If you are mathematically inclined, you might enjoy exploring this issue by working Exercise 3.3.24.
+>
+> **Property H.**  
+> The average length of a path from the root to a node in a red-black BST with N nodes is ~1.00 lg N.
+>
+> **Evidence:**  
+> Typical trees, such as the one at the bottom of the previous page (and even the one built by inserting keys in increasing order at the bottom of this page) are quite well-balanced, by comparison with typical BSTs (such as the tree depicted on page 405). The table at the top of this page shows that path lengths (search costs) for our FrequencyCounter application are about 40 percent lower than from elementary BSTs, as expected. This performance has been observed in countless applications and experiments since the invention of red-black BSTs.
+
+##### Ordered symbol-table API
+
+One of the most appealing features of red-black BSTs is that the complicated code is limited to the put() (and deletion) methods.
+Our code for the minimum/maximum, select, rank, ﬂoor, ceiling and range queries in standard BSTs can be used *without any change*, since it operates on BSTs and has no need to refer to the node color.
+
+Algorithm 3.4, together with these methods (and the deletion methods), leads to a complete implementation of our ordered symbol-table API.
+
+> **Proposition I.**  
+> In a red- black BST, the following operations take logarithmic time in the worst case: search, insertion, ﬁnding the minimum, ﬁnding the maximum, ﬂoor, ceiling, rank, select, delete the minimum, delete the maximum, delete, and range count.
+>
+> **Proof:**  
+> We have just discussed get(), put(), and the deletion operations. For the others, the code from Section 3.2 can be used verbatim (it just ignores the node color). Guaranteed logarithmic performance follows from Propositions E and G, and the fact that each algorithm performs a constant number of operations on each node examined.
+
+###### Cost summary for basic symbol-table implementations (updated 2)
+
+| algorithm (data structure)                | worst-case cost | (after N inserts) | average-case cost | (after N random inserts) | efficiently support |
+| ----------------------------------------- | --------------- | ----------------- | ----------------- | ------------------------ | ------------------- |
+|                                           | search          | insert            | search hit        | insert                   | ordered operations? |
+| sequential search (unordered linked list) | N               | N                 | N/2               | N                        | no                  |
+| binary search (ordered array)             | lg N            | 2N                | lg N              | N                        | yes                 |
+| binary tree search (BST)                  | N               | N                 | 1.39 lg N         | 1.39 lg N                | yes                 |
+| 2-3 tree search (red-black BST)           | 2 lg N          | 2 lg N            | 1.00 lg N         | 1.00 lg N                | yes                 |
+
+--------------------------------------------------------------------------------
