@@ -990,3 +990,100 @@ Algorithm 3.4, together with these methods (and the deletion methods), leads to 
 | 2-3 tree search (red-black BST)           | 2 lg N          | 2 lg N            | 1.00 lg N         | 1.00 lg N                | yes                 |
 
 --------------------------------------------------------------------------------
+
+### 3.4 Hash Tables
+
+Search algorithms that use hashing consist of two separate parts.
+The ﬁrst part is to compute a hash function that transforms the search key into an array index.
+Ideally, different keys would map to different indices.
+This ideal is generally beyond our reach, so we have to face the possibility that two or more different keys may hash to the same array index.
+Thus, the second part of a hashing search is a   collision-resolution process that deals with this situation.
+After describing ways to compute hash functions, we shall consider two different approaches to collision resolution: *separate chaining* and *linear probing*.
+
+Hashing is a classic example of a  time-space tradeoff. If there were no memory limitation, then we could do any search with only one memory access by simply using the key as an index in a (potentially huge) array.
+
+With hashing, you can implement search and insert for symbol tables that require constant (amortized) time per operation in typical applications, making it the method of choice for implementing basic symbol tables in many situations.
+
+#### Hash functions
+
+The hash function transforms keys into array indices.
+
+If we have an array that can hold M key-value pairs, then we need a hash function that can transform any given key into an index into that array: an integer in the range [0, M – 1]. We seek a hash function that both is easy to compute and uniformly distributes the keys: for each key, every integer between 0 and M – 1 should be equally likely (independently for every key).
+
+The hash function depends on the key type.  Strictly speaking, *we need a different hash function for each key type that we use*.
+
+##### Typical example
+
+U.S. social security number
+
+##### Positive integers
+
+The most commonly used method for hashing integers is called *modular hashing*: we choose the array size M to be prime and, for any positive integer key k, compute the remainder when dividing k by M.
+
+##### Floating-point numbers
+
+If the keys are real numbers between 0 and 1, we might just multiply by M and round off to the nearest integer to get an index between 0 and M – 1.
+
+##### Strings
+
+ Modular hashing works for long keys such as strings, too: we simply treat them as huge integers.
+
+##### Compound keys
+
+For example, suppose that search keys are of type Date, which has three integer ﬁelds: day (two-digit day), month (twodigit month), and year (four-digit year).We compute the number  
+`int hash = (((day * R + month) % M ) * R + year) % M;`  
+which, if the value of R is sufﬁciently small that no overﬂow occurs, is an integer between 0 and M – 1, as desired.
+
+##### Java conventions
+
+`hashCode()` returns a 32-bit integer.
+
+##### Converting a `hashCode()` to an array index
+
+Since our goal is an array index, not a 32-bit integer, we combine hashCode() with modular hashing in our implementations to produce integers between 0 and M – 1, as follows:  
+`private int has(Key x)`  
+`{ return (x.hashCode() & 0x7fffffff) % M; }`  
+This code masks off the sign bit (to turn the 32-bit number into a 31-bit nonnegative integer) and then computes the remainder when dividing by M, as in modular hashing.
+
+##### User-defined `hashCode()`
+
+###### Implementing hashCode() in a user-defined type
+
+```java
+public class  Transaction
+{
+    ...
+    private final String who;
+    private final Date when;
+    private final double amount;
+    public int hashCode()
+    {
+        int hash = 17;
+        hash = 31 * hash + who.hashCode();
+        hash = 31 * hash + when.hashCode();
+        hash = 31 * hash + ((Double) amount).hashCode();
+        return hash;
+    }
+    ...
+}
+```
+
+##### Software caching
+
+If computing the hash code is expensive, it may be worthwhile to cache the hash for each key.
+That is, we maintain an instance variable hash in the key type that contains the value of hashCode() for each key object (see Exercise 3.4.25).
+
+**In summary, we have three primary requirements** in implementing a good hash function for a given data type:
+ - It should be consistent—equal keys must produce the same hash value
+ - It should be efﬁcient to compute
+ - It should uniformly distribute the keys.
+
+Still, you should be vigilant whenever using hashing in situations where good performance is critical, because a bad hash function is a classic example of a performance bug: everything will work properly, but much more slowly than expected.
+
+> **Assumption J** (uniform hashing assumption).  
+> The hash functions that we use uniformly and independently distribute keys among the integer values between 0 and M – 1.
+>
+> **Discussion:**  
+> With all of the arbitrary choices that we have made, we certainly do not have hash functions that uniformly and independently distribute keys in this strict mathematical sense. Indeed, the idea of implementing consistent functions that are guaranteed to uniformly and independently distribute keys leads to deep theoretical studies that tell us that computing such a function easily is likely to be a very elusive goal. In practice, as with random numbers generated by Math.random(), most programmers are content to have hash functions that cannot easily be distinguished from random ones. Few programmers check for independence, however, and this property is rarely satisﬁed.
+
+#### Hashing with separate chaining
