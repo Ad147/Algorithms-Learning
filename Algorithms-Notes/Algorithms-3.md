@@ -1301,3 +1301,253 @@ A. Nice try. Unfortunately, Math.abs() returns a negative result for the largest
 
 Q.  Is hashing faster than searching in red-black BSTs?  
 A. It depends on the type of the key, which determines the cost of computing hashCode() versus the cost of compareTo(). For typical key types and for Java default implementations, these costs are similar, so hashing will be signiﬁcantly faster, since it uses only a constant number of operations. But it is important to remember that this question is moot if you need ordered operations, which are not efﬁciently supported in hash tables. See Section 3.5 for further discussion.
+
+### 3.5 Applications
+
+#### Which symbol-table implementation should I use?
+
+###### Asymptotic cost summary for symbol-table implementations
+
+| algorithm                           | worst-case cost | (after N inserts) | average-case cost | (after N random inserts) | key interface       | memory                 |
+| ----------------------------------- | --------------- | ----------------- | ----------------- | ------------------------ | ------------------- | ---------------------- |
+| (data structure)                    | search          | insert            | serch hit         | insert                   |                     | (bytes)                |
+| sequential search (unordered list)  | N               | N                 | N/2               | N                        | equals()            | 48 N                   |
+| binary search (ordered array)       | lg N            | N                 | lg N              | N/2                      | compareTo()         | 16 N                   |
+| binary tree search (BST)            | N               | N                 | 1.39 lg N         | 1.39 lg N                | compareTo()         | 64 N                   |
+| 2-3 tree search (red-black BST)     | 2 lg N          | 2 lg N            | 1.00 lg N         | 1.00 lg N                | compareTo()         | 64 N                   |
+| separate chaining† (array of lists) | < lg N          | < lg N            | N / (2M)          | N / M                    | equals() hashCode() | 48 N + 64 M            |
+| linear probing† (parallel arrays)   | c lg N          | c lg N            | < 1.50            | < 2.50                   | equals() hashCode() | between 32 N and 128 N |
+
+`† with uniform and independent hash function`
+
+The advantages of hashing over BST implementations are that the code is simpler and search times are optimal (constant), if the keys are of a standard type or are sufﬁciently simple that we can be conﬁdent of developing an efﬁcient hash function for them that (approximately) satisﬁes the uniform hashing assumption.
+
+The advantages of BSTs over hashing are that they are based on a simpler abstract interface (no hash function need be designed); red-black BSTs can provide guaranteed worst-case performance; and they support a wider range of operations (such as rank, select, sort, and range search).
+
+As a rule of thumb, most programmers will use hashing except when one or more of these factors is important, when red-black BSTs are called for.
+
+##### Primitive types
+
+##### Duplicate keys.
+
+##### Java libraries
+
+Java’s  java.util.TreeMap and  java.util.HashMap libraries are symbol-table implementations based on red-black BSTs and hashing with separate chaining respectively.
+
+##### Set APIs
+
+###### API for a basic set data type
+
+| `public class SET<Key>`     |                                  |
+| --------------------------- | -------------------------------- |
+| `SET()`                     | create an empty set              |
+| `void add(Key key)`         | add key into the set             |
+| `void delete(Key key)`      | remove key from the set          |
+| `boolean contains(Key key)` | is key in the set?               |
+| `boolean isEmpty()`         | is the set empty?                |
+| `int size()`                | number of keys in the set        |
+| `String toString()`         | string representation of the set |
+
+##### Dedup
+
+###### Dedup filter
+
+```java
+public class DeDup
+{
+    public static void main(String[] args)
+    {
+        HashSET<String> set;
+        set = new HashSET<String>();
+        while (!StdIn.isEmpty())
+        {
+            String key = StdIn.readString();
+            if (!set.contains(key))
+            {
+                set.add(key);
+                StdOut.println(key);
+            }
+        }
+    }
+}
+```
+
+##### Whitelist and blacklist
+
+###### Whitelist filter
+
+```java
+public class WhiteFilter
+{
+    public static void main(String[] args)
+    {
+        HashSET<String> set;
+        set = new HashSET<String>();
+        In in = new In(args[0]);
+        while (!In.isEmpty())
+            set.add(in.readString());
+        while (!StdIn.isEmpty())
+        {
+            String word = StdIn.readString();
+            if (set.contains(word))
+                StdOut.println(word);
+        }
+    }
+}
+```
+
+#### Dictionary clients
+
+As a speciﬁc example, we consider a symbol-table client that you can use to look up information that is kept in a table on a ﬁle or a web page using the  comma-separatedvalue (.csv) ﬁle format.
+
+###### Dictionary lookup
+
+```java
+public class LookupCSV
+{
+    public static void main(String[] args)
+    {
+        In in = new In(args[0]);
+        int keyField = Integer.parseInt(args[1]);
+        int valField = Integer.parseInt(args[2]);
+        ST<String, String> st = new ST<String, String>();
+        while (in.hasNextLine())
+        {
+            String line = in.readLine();
+            String[] tokens = line.split(",");
+            String key = tokens[keyField];
+            String val = tokens[valField];
+            st.put(key, val);
+        }
+        while (!StdIn.isEmpty())
+        {
+            String query = StdIn.readString();
+            if (st.contains(query))
+                StdOut.println(st.get(query));
+        }
+    }
+}
+```
+
+#### Indexing clients
+
+We use the term index to describe symbol tables that associate multiple values with each key.
+
+##### Inverted index
+
+The term inverted index is normally applied to a situation where values are used to locate keys.
+
+###### Index (and inverted index) lookup
+
+```java
+public class LookupIndex
+{
+    public static void main(String[] args)
+    {
+        In in = new In(args[0]); // index database
+        String sp = args[1];     // separator
+
+        ST<String, Queue<String>> st = new ST<String, Queue<String>>();
+        ST<String, Queue<String>> ts = new ST<String, Queue<String>>();
+        while (in.hasNextLine())
+        {
+            String[] a = in.readLine().split(sp);
+            String key = a[0];
+            for (int i = 1; i < a.length; i++)
+            {
+                String val = a[i];
+                if (!st.contains(key)) st.put(key, new Queue<String>());
+                if (!ts.contains(val)) ts.put(val, new Queue<String>());
+                st.get(key).enqueue(val);
+                ts.get(val).enqueue(key);
+            }
+        }
+        while (!StdIn.isEmpty())
+        {
+            String query = StdIn.readLine();
+            if (st.contains(query))
+                for (String s : st.get(query))
+                    StdOut.println(" " + s);
+            if (ts.contains(query))
+                for (String s : ts.get(query))
+                    StdOut.println(" " + s);
+        }
+    }
+}
+```
+
+This data-driven symbol-table client reads key-value pairs from a ﬁle, then prints the values corresponding to the keys found on standard input. Keys are strings; values are lists of strings. The separating delimiter is taken as a commandline argument.
+
+###### File indexing
+
+```java
+import java.io.File;
+
+public class FileIndex
+{
+    public static void main(String[] args)
+    {
+        ST<String, SET<File>> st = new ST<String, SET<File>>();
+        for (String filename : args)
+        {
+            File file = new File(filename);
+            In in = new In(file);
+            while (!in.isEmpty)
+            {
+                String word = in.readString();
+                if (!st.contains(word)) st.put(word, new SET<File>());
+                SET<File> set = st.get(word);
+                set.add(file);
+            }
+        }
+        while (!StdIn.isEmpty())
+        {
+            String query = StdIn.readString();
+            if (st.conatins(query))
+                for (File.file : st.get(query))
+                    StdOut.println(" " + file.getName());
+        }
+    }
+}
+```
+
+This symbol-table client indexes a set of ﬁles. We search for each word in each ﬁle in a symbol table, maintaining a SET of ﬁle names that contain the word. Names for In can also refer to web pages, so this code can also be used to build an inverted index of web pages.
+
+#### Sparse vectors
+
+The basic calculation that we consider is matrix-vector multiplication, requiring time proportional to N 2, for the N multiplications to compute each of the N entries in the result vector, which also matches the space proportional to N 2 that is required to store the matrix.
+
+Fortunately, it is also often the case that the matrix is sparse: a huge number of its entries are 0.
+
+we can represent the matrix as an array of sparse vectors, using a SparseVector implementation like the HashST client on the facing page. Instead of using the code a[i][j] to refer to the element in row i and column j, we use a[i].put(j, val) to set a value in the matrix and a[i].get(j) to retrieve a value.
+
+###### Sparse vector with dot product
+
+```java
+public class SpaseVector
+{
+    private HashST<Integer, Double> st;
+    public SparseVector()
+    { st = new HashST<Integer, Double>(); }
+    public int size()
+    { return st.size(); }
+    public double get(int i)
+    {
+        if (!st.contains(i)) return 0.0;
+        else return st.get(i);
+    }
+    public double dot(double[] that)
+    {
+        double sum = 0.0;
+        for (int i : st.keys())
+            sum += that[i] * this.get(i);
+        return sum;
+    }
+}
+```
+
+This symbol-table client is a bare-bones sparse vector implementation that illustrates an efﬁcient dot product for sparse vectors. We multiply each entry by its counterpart in the other operand and add the result to a running sum. The number of multiplications required is equal to the number of nonzero entries in the sparse vector.
+
+--------------------------------------------------------------------------------
+
+EOF
