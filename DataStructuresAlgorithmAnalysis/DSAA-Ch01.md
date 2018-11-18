@@ -20,15 +20,15 @@ Chapter 1 Programming: A General Overview
 
 #### 1.2.1 Exponents
 
-X^A * X^B == X^(A+B)
+$X^A \times X^B = X^{A+B}$
 
-X^A / X^B == X^(A-B)
+$X^A \div X^B = X^{A-B}$
 
-(X^A)^B == X^(A*B)
+$(X^A)^B = X^{AB}$
 
-X^N + X^N == 2 \* X^N != X^(2\*N)
+$X^N + X^N = 2X^N != X^{2N}$
 
-2^N + 2^N == 2^(N+1)
+$2^N + 2^N = 2^{N+1}$
 
 #### 1.2.2 Logarithms
 
