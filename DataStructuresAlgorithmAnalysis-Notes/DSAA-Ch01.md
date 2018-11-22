@@ -37,15 +37,15 @@ Chapter 1 Programming: A General Overview
 
 #### 1.2.1 Exponents
 
-$$ X^A \times X^B = X^{A+B} $$
+$$ X^A * X^B = X^{A+B} $$
 
-$$ X^A \div X^B = X^{A-B} $$
+$$ X^A / X^B = X^{A-B} $$
 
-$$(X^A)^B = X^{AB}$$
+$$ (X^A)^B = X^{AB} $$
 
-$$X^N + X^N = 2X^N != X^{2N}$$
+$$ X^N + X^N = 2X^N != X^{2N} $$
 
-$$2^N + 2^N = 2^{N+1}$$
+$$ 2^N + 2^N = 2^{N+1} $$
 
 #### 1.2.2 Logarithms
 
@@ -53,50 +53,51 @@ In computer science, all logarithms are to the base 2 unless specified otherwise
 
 ###### Definition 1.1
 
-$X^A = B$ if and only if logX(B) == A
+$X^A = B$ if and only if $log_X(B) = A$
 
 ###### Theorem 1.1
 
-logA(B) == logC(B) / logC(A) ; A,B,C > 0, A != 1
+$$ log_A(B) = log_C(B) / logC(A); A,B,C > 0, A != 1 $$
 
 ###### Theorem 1.2
 
-log(AB) == logA + logB ; A,B > 0
+$$ log(AB) = logA + logB; A,B > 0 $$
 
 #### 1.2.3 Series
 
 ##### Geometric series formulas:
 
-$N$
+$$ \sum_{i=0}^N 2^i = 2^{N+1} - 1 $$
 
-$N$
+$$ \sum_{i=0}^N A^i = \frac {A^{N+1} - 1} {A - 1} $$
 
 In the latter formula, if 0 < A < 1, then
 
-$N$
+$$ \sum_{i=0}^N A^i <= 1 / (1 -A) $$
+
 
 as N tends to `inf`, the sum approaches $1/(1-A)$.
 
 ##### Arithmetic series:
 
-$N$
+$$ \sum_{i=1}^N i = N(N + 1) / 2 ≈ N^2 / 2 $$
 
 The next two formulas pop up now and then but are fairly uncommon:
 
-$N$
+$$ \sum_{i=1}^N i^2 = N(N + 1)(2N + 1) / 6 ≈ N^3 / 3 $$
 
-$N$
+$$ \sum_{i=1}^N i^k ≈ N^{k+1} / |k + 1|; k != -1 $$
 
-The numbers ***$HN$*** are known as the harmonic numbers, and the sum is known as a harmonicsum.  
+The numbers $H_N$ are known as the harmonic numbers, and the sum is known as a harmonicsum.  
 The error in the following approximation tends to γ≈0.57721566, which is known as **Euler’s constant**.
 
-$H$
+$$ H_N = \sum_{i=1}^N 1/i ≈ log_e(N) $$
 
 These two formulas are just general algebraic manipulations:
 
-$N$
+$$ \sum_{i=1}^N f(N) = N f(N) $$
 
-$N$
+$$ \sum_{i=n0}^N f(i) = \sum_{i=1}^N f(i) - \sum_{i=1}^{n0-1} f(i) $$
 
 #### 1.2.4 Modular Arithmetic
 
@@ -118,7 +119,7 @@ In that case, there are three important theorems:
 
 ###### Theorem 1.3
 
-If N >= 1, then $N$
+If N >= 1, then $\sum_{i=1}^N i^2 = N(N + 1)(2N + 1) / 6$
 
 ##### Proof by Counterexample
 
@@ -133,7 +134,7 @@ A function that is defined in terms of itself is called **recursive**.
 Not all mathematically recursive functions are efficiently (or correctly) implemented by C++’s simulation of recursion.  
 The idea is that the recursive function f ought to be expressible in only a few lines, just like a non recursivefunction.
 
-$$f(x)$$
+$f(x) = 2f(x - 1) + x^2$
 
 ```cpp
 int f(int x)
