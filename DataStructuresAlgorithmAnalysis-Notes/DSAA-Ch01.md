@@ -22,21 +22,10 @@ Chapter 1 Programming: A General Overview
 - [1.2 Mathematics Review](#12-mathematics-review)
     - [1.2.1 Exponents](#121-exponents)
     - [1.2.2 Logarithms](#122-logarithms)
-            - [Definition 1.1](#definition-11)
-            - [Theorem 1.1](#theorem-11)
-            - [Theorem 1.2](#theorem-12)
     - [1.2.3 Series](#123-series)
-        - [Geometric series formulas:](#geometric-series-formulas)
-        - [Arithmetic series:](#arithmetic-series)
     - [1.2.4 Modular Arithmetic](#124-modular-arithmetic)
     - [1.2.5 The *P* Word](#125-the-p-word)
-        - [Proof by Induction](#proof-by-induction)
-            - [Theorem 1.3](#theorem-13)
-        - [Proof by Counterexample](#proof-by-counterexample)
-        - [Proof by Contradiction](#proof-by-contradiction)
 - [1.3 A Brief Introduction to Recursion](#13-a-brief-introduction-to-recursion)
-        - [Printing Out Numbers](#printing-out-numbers)
-        - [Recursion and Induction](#recursion-and-induction)
 
 --------------------------------------------------------------------------------
 
