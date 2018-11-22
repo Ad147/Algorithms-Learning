@@ -9,10 +9,36 @@ Init: 18Nov16
 Chapter 1 Programming: A General Overview
 --------------------------------------------------------------------------------
 
- - See that how a program performs for reasonably large input is just as important as itsperformance on moderate amounts of input
- - Summarize the basic mathematical background needed for the rest of the book
- - Briefly review **recursion**
- - Summarize some important features of C++that are used throughout the text
+- See that how a program performs for reasonably large input is just as important as itsperformance on moderate amounts of input
+- Summarize the basic mathematical background needed for the rest of the book
+- Briefly review **recursion**
+- Summarize some important features of C++that are used throughout the text
+
+--------------------------------------------------------------------------------
+
+###### Table of Contents
+
+- [1.1 What's This Book About?](#11-whats-this-book-about)
+- [1.2 Mathematics Review](#12-mathematics-review)
+    - [1.2.1 Exponents](#121-exponents)
+    - [1.2.2 Logarithms](#122-logarithms)
+            - [Definition 1.1](#definition-11)
+            - [Theorem 1.1](#theorem-11)
+            - [Theorem 1.2](#theorem-12)
+    - [1.2.3 Series](#123-series)
+        - [Geometric series formulas:](#geometric-series-formulas)
+        - [Arithmetic series:](#arithmetic-series)
+    - [1.2.4 Modular Arithmetic](#124-modular-arithmetic)
+    - [1.2.5 The *P* Word](#125-the-p-word)
+        - [Proof by Induction](#proof-by-induction)
+            - [Theorem 1.3](#theorem-13)
+        - [Proof by Counterexample](#proof-by-counterexample)
+        - [Proof by Contradiction](#proof-by-contradiction)
+- [1.3 A Brief Introduction to Recursion](#13-a-brief-introduction-to-recursion)
+        - [Printing Out Numbers](#printing-out-numbers)
+        - [Recursion and Induction](#recursion-and-induction)
+
+--------------------------------------------------------------------------------
 
 ### 1.1 What's This Book About?
 
@@ -22,9 +48,9 @@ Chapter 1 Programming: A General Overview
 
 #### 1.2.1 Exponents
 
-$$X^A \times X^B = X^{A+B}$$
+$$ X^A \times X^B = X^{A+B} $$
 
-$$X^A \div X^B = X^{A-B}$$
+$$ X^A \div X^B = X^{A-B} $$
 
 $$(X^A)^B = X^{AB}$$
 
