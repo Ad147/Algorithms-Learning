@@ -4,6 +4,7 @@ Notes of Data Structures and Algorithm Analysis in C++
 ================================================================================
 
 Ad  
+<ar><r></r></ar>  
 Init: 18Nov16
 
 Chapter 1 Programming: A General Overview
@@ -31,6 +32,12 @@ Chapter 1 Programming: A General Overview
     - [1.4.2 Extra Constructor Syntax and Accessors](#142-extra-constructor-syntax-and-accessors)
     - [1.4.3 Separation of Interface and Implementation](#143-separation-of-interface-and-implementation)
     - [1.4.4 `vector` and `string`](#144-vector-and-string)
+- [1.5 C++ Details](#15-c-details)
+    - [1.5.1 Pointers](#151-pointers)
+    - [1.5.2 Lvalues, Rvalues, and References](#152-lvalues-rvalues-and-references)
+    - [1.5.3 Parameter Passing](#153-parameter-passing)
+    - [1.5.4 Return Passing](#154-return-passing)
+    - [1.5.5 `std::swap` and `std::move`](#155-stdswap-and-stdmove)
 
 --------------------------------------------------------------------------------
 
@@ -314,4 +321,135 @@ for( auto x : squares )
 
 --------------------------------------------------------------------------------
 
-// ### 1.5 C++ Details
+### 1.5 C++ Details
+
+#### 1.5.1 Pointers
+
+##### Declaration
+
+The use of uninitialized pointers typically crashes programs, because they result in access of memory locations that do not exist.  
+In general,it is a good idea to provide an initial value, either by  
+`IntCell *m = new IntCell{0};`  
+or by initializing m to the `nullptr` pointer.
+
+##### Dynamic Object Creation
+
+Several ways to create an object using its zero-parameter constructor:
+
+```cpp
+m = new IntCell( );    // OK
+m = new IntCell{ };    // C++11
+m = new IntCell;       // Preferred in this text
+```
+
+##### Garbage Collection and `delete`
+
+When an object that is allocated by `new` is no longer referenced, the `delete` operation must be applied to the object (through a pointer).  
+Otherwise, the memory that it consumes is lost (until the program terminates).  
+This is known as a **memory leak**. 
+
+##### Assignment and Comparison of Pointers
+
+Assignment and comparison of pointer variables in C++is based on the value of the pointer,meaning the memory address that it stores.
+
+##### Accessing Members of an Object through a Pointer (`->`)
+
+##### Address-of Operator (`&`)
+
+#### 1.5.2 Lvalues, Rvalues, and References
+
+An **lvalue** is an expression that identifies a non-temporary object.  
+An **rvalue** is anexpression that identifies a temporary object or is a value (such as a literal constant) notassociated with any object.
+
+As a general rule, ifyou have a name for a variable, it is an lvalue, regardless of whether it is modifiable.
+
+`const int x = 2;`  
+`intz=x+y;`  
+`string str = "foo";`
+
+For the above declarations 2,"foo", x+y, are all rvalues:
+- 2 and "foo" are rvalues because they are literals.
+- Intuitively, x+y is an rvalue because its value is temporary; it is certainly not x or y, but it is stored somewhere prior to being assigned to z.
+
+An *rvalue reference* has the same characteristics as an lvalue reference except that, unlike an lvaluereference, an rvalue reference can also reference an rvalue (i.e., a temporary).
+
+##### lvalue references use #1: aliasing complicated names
+
+The simplest use, which we will see in Chapter 5, is to use a local reference variable solelyfor the purpose of renaming an object that is known by a complicated expression.
+
+##### lvalue references use #2: range `for` loops
+
+##### lvalue references use #3: avoiding a copy
+
+`auto` will deduce const-ness.
+
+1. Reference  variables  are  often  used  to  avoid  copying  objects  across  function-call boundaries (either in the function call or the function return).
+2. Syntax  is  needed  in  function  declarations  and  returns  to  enable  the  passing  andreturning using references instead of copies.
+
+#### 1.5.3 Parameter Passing
+
+1. **call-by-value**: for small objects and not altered by function
+2. **call-by-constant-reference** (`const** &`): for large objects to avoid copying and not altered
+3. **call-by-(lvalue-)reference** (`&`): altered by function
+4. **call-by-rvalue-reference** (`&&`): for move assignments
+
+#### 1.5.4 Return Passing
+
+normally return-by-value.
+
+uses return-by-constant-referenceto avoid copy.  
+However, the caller must also use a constant reference to access the return value, otherwise, there will still be a copy.
+
+In C++11, objects can define move semantics that can be employed when return-by-value is seen;  
+in effect, the result vector will be moved to sums, and the vector implementation is optimized to allow this to be done with little more than a pointer change.
+
+In addition to the return-by-value and return-by-constant-reference idioms, functionscan use return-by-reference.  
+This idiom is used in a few places to allow the caller of afunction to have modifiable access to the internal data representation of a class.  
+Return-by-reference in this context is discussed in Section 1.7.2 when we implement a simple matrixclass.
+
+#### 1.5.5 `std::swap` and `std::move`
+
+When swapping, if the right-hand side of the assignment operator (or constructor) is an rvalue, then if the object supports moving, we can automatically avoid copies.
+
+Note that the name is misleading;  
+`std::move` doesn’t move anything;  
+rather, it makesa value subject to be moved.
+
+###### Swapping by three copies
+
+```cpp
+void swap(double &x, double &y)
+{
+  double tmp = x;
+  x = y;
+  y = tmp;
+}
+
+void swap(vector<string> &x, vector<string> &y)
+{
+  vector<string> tmp = x;
+  x = y;
+  y = tmp;
+}
+```
+
+###### Swapping by three moves; first with a type cast, second using `std::move`
+
+```cpp
+void swap(vector<string> &x, vector<string> &y)
+{
+  vector<string> tmp = static_cast<vector<string> &&>(x);
+  x = static_cast<vector<string> &&>(y);
+  y = static_cast<vector<string> &&>(tmp);
+}
+
+void swap(vector<string> &x, vector<string> &y)
+{
+  vector<string> tmp = std::move(x);
+  x = std::move(y);
+  y = std::move(tmp);
+}
+```
+
+// #### 1.5.6 The Big-Five: Destructor, Copy Constructor, Move Constructor, Copy Assignment `operator=`, Move Assignment `operator=`
+
