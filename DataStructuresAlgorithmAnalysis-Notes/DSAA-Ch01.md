@@ -42,6 +42,7 @@ In this chapter, we discuss the aims and goals of this text and briefly review p
     - [1.5.3 Parameter Passing](#153-parameter-passing)
     - [1.5.4 Return Passing](#154-return-passing)
     - [1.5.5 `std::swap` and `std::move`](#155-stdswap-and-stdmove)
+    - [1.5.6 The Big-Five: Destructor, Copy Constructor, Move Constructor, Copy Assignment `operator=`, Move Assignment `operator=`](#156-the-big-five-destructor-copy-constructor-move-constructor-copy-assignment-operator-move-assignment-operator)
 
 --------------------------------------------------------------------------------
 
@@ -343,7 +344,12 @@ As long as you keep these rules in mind, recursiveprogramming should be straight
 
 #### 1.4.1 Basic `class` Syntax
 
-members, member functions (methods), constructors.
+members:
+
+- data
+- member functions (methods)
+
+Typically, data members are declared `private`, thus restricting access to internal details of the class, while methods intended for general use are made `public`. This is known as **information hiding**.
 
 
 #### 1.4.2 Extra Constructor Syntax and Accessors
@@ -351,15 +357,19 @@ members, member functions (methods), constructors.
 
 ###### `IntCell` class with revisions
 
-```cpp
+```cs
 // A class for simulating an integer memory cell.
 class IntCell
 {
   public:
-    explicit IntCell(int initialValue = 0)
+    explicit IntCell(int initialValue = 0)  // Notice explicit
         : storedValue{initialValue} {}
-    int read() const { return storedValue; }
-    void write(int x) { storedValue = x; }
+    
+    int read() const                        // Notice const
+        { return storedValue; }
+    
+    void write(int x)
+        { storedValue = x; }
 
   private:
     int storedValue;
@@ -373,37 +383,49 @@ class IntCell
 ##### Initialization List
 
 In some cases using initialization list is required:
+
 - if a data member is `const` (meaning that it is not changeable after the object has been constructed), then the data member’s value can only be initialized in the initialization  list.
 - if a datamember is itself a class type that does not have a zero-parameter constructor, then it must be initialized in the initialization list.
 
-Initialize with the syntax:  
+Initialize with the syntax:
+
 `:storedValue{initialValue} {}`  
-instead of the traditional:  
+
+instead of the traditional:
+
 `:storedValue(initialValue) {}`  
-The use of braces instead of parentheses is new in C++11 and is part of a larger effortto provide a uniform syntax for initialization everywhere.  
+
+The use of braces instead of parentheses is new in C++11 and is part of a larger effort to provide a uniform syntax for initialization everywhere.  
 Generally speaking, anywhere you can initialize, you can do so by enclosing initializations in braces.  
-(though there is one important *exception*, in Section 1.4.4, relating to vectors)
+(though there is one important exception, in Section 1.4.4, relating to vectors).
 
 
 ##### `explicit` Constructor
 
-**You should make all one-parameter constructors `explicit` to avoid behind-the-scenes type conversions.**  Otherwise, there are somewhat lenient rules that will allow type conversions without explicit casting operations.  
+**You should make all one-parameter constructors `explicit` to avoid behind-the-scenes type conversions.**  
+Otherwise, there are somewhat lenient rules that will allow type conversions without explicit casting operations.  
 Usually, this is unwanted behavior that destroys strong typing and can lead to hard-to-find bugs.  
 
-As an example, consider the following:  
+As an example, consider the following:
+
 `IntCell obj;     // obj is an IntCell`  
-`obj = 37;        // Should not compile: type mismatch`  
+`obj = 37;        // Should not compile: type mismatch`
+
 The code fragment above constructs anIntCellobjectobjand then performs an assign-ment statement.  
 But the assignment statement should not work, because the right-handside of the assignment operator is not another IntCell.  
 obj’s write method should have been used instead.  
 
 However, C++ has lenient rules.  
-Normally, a one-parameter constructor defines an *implicit type conversion*, in which a temporary object is created that makes an assignment (or parameter to a function) compatible.  
-In this case, the compiler wouldattempt to convert  
-`obj = 37;        // Should not compile: type mismatch`  
-into  
+Normally, a one-parameter constructor defines an **implicit type conversion**, in which a temporary object is created that makes an assignment (or parameter to a function) compatible.  
+In this case, the compiler wouldattempt to convert
+
+`obj = 37;        // Should not compile: type mismatch`
+
+into
+
 `IntCell temporary = 37;`  
-`obj = temporary;`  
+`obj = temporary;`
+
 Notice that the construction of the temporary can be performed by using the one-parameter constructor.  
 The use of explicit means that a one-parameter constructor cannot be used to generate an implicit temporary.  
 Thus, since IntCell’s constructor is declared explicit, the compiler will correctly complain that there is a type mismatch.
@@ -411,18 +433,27 @@ Thus, since IntCell’s constructor is declared explicit, the compiler will corr
 
 ##### Constant Member Function
 
-A member function that examines but does not change the state of its object is an *accessor*.  
-A member function that changes the state is *amutator* (because it mutates the state of theobject). 
+A member function that examines but does not change the state of its object is an **accessor**.  
+A member function that changes the state is a **mutator** (because it mutates the state of theobject). 
+
+In C++, we can mark each member function as being an accessor or a mutator.  
+Doing so is an important part of the design process and should not be viewed as simply a comment.  
+Indeed, there are important semantic consequences.  
+For instance, mutators cannot be applied to constant objects.
 
 To make a member function an accessor, we must add the keyword `const` after the closing parenthesis that ends the parameter type list.
 
 
 #### 1.4.3 Separation of Interface and Implementation
 
+In C++ it is more common to separate the class interface from its implementation.  
+- The interface lists theclass and its members (data and functions).  
+- The implementation provides implementationsof the functions.
+
 
 ###### `IntCell` class interface in *fileIntCell.h*
 
-```cpp
+```cs
 #ifndef IntCell_H
 #define IntCell_H
 
@@ -442,57 +473,104 @@ class IntCell
 ```
 
 
-###### `IntCell` class implementation in *fileIntCell.cpp*
+###### `IntCell` class implementation in file *IntCell.cpp*
 
-```cpp
+```cs
 
 #include "IntCell.h"
 
 // Construct the IntCell with initialValue
-IntCell::IntCell(int initialValue) : storedValue{initialValue} {}
+IntCell::IntCell(int initialValue) : storedValue{initialValue}
+{
+}
 
 // Return the stored value.
-int IntCell::read() const { return storedValue; }
+int IntCell::read() const
+{
+    return storedValue;
+}
 
 // Store x.
-void IntCell::write(int x) { storedValue = x; }
+void IntCell::write(int x)
+{
+    storedValue = x;
+}
+```
+
+
+###### Program that uses `IntCell` in file *TestIntCell.cpp*
+
+```cs
+#include <iostream>
+#include "IntCell.h"
+using namespace std;
+
+int main( )
+{
+    IntCell m;
+    
+    m.write(5);
+    cout << "Cell contents: " << m.read( ) << endl;
+    
+    return 0;
+}
 ```
 
 
 ##### Preprocessor Commands
 
+Occasionally, a complicated project will have files including other files, and there is the danger that an interface might be read twice in the course of compiling a file.  
+This can be illegal.  
+To guard against this, each header fileuses the preprocessor to define a symbol when the class interface is read.
+
 
 ##### Scope Resolution Operator: `::`
+
+In the implementation file, which typically ends in `.cpp`, `.cc`, or `.C`, each member function must identify the class that it is part of.  
+Otherwise, it would be assumed that the functionis in global scope (and **zillions** of errors would result).  
+The syntax is `ClassName::member`.The `::` is called the **scope resolution operator**.
 
 
 ##### Signatures Must Match Exactly
 
+The signature of an implemented member function must match exactly the signature listed in the class interface.
+
 
 ##### Objects Are Declared Like Primitive Types
 
-```cpp
-IntCell obj1;     // Zero parameter constructor, same as before
-IntCell obj2{12}; // One parameter constructor, same as before
-IntCell obj4{};   // Zero parameter constructor
+In C++11, we can write:
+
+```cs
+IntCell obj1;       // Zero parameter constructor, same as classic
+IntCell obj2 {12};  // One parameter constructor, same as classic
+IntCell obj4 {};    // Zero parameter constructor
 ```
 
 
 #### 1.4.4 `vector` and `string`
 
-Initialize a vector with `=` and initialization list:  
-`vector<int> daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };`
+The problem with the built-in C++ array is that it does not behave like a first-class object.  
+For instance, built-in arrays cannotbe copied with =, a built-in array does not remember how many items it can store, and its indexing operator does not check that the index is valid.  
+The built-in string is simply anarray of characters, and thus has the liabilities of arrays plus a few more.  
+For instance, == does not correctly compare two built-in strings.
 
-A vector of size 1 with a single element 12 in position 0:  
-`vector<int> daysInMonth { 12 };`
+Initialize a vector in C++11:
 
-A vector of size 12:  
-`vector<int> daysInMonth( 12 );`
+`vector<int> daysInMonth {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};`
+
+A vector of size 1 with a single element 12 in position 0:
+
+`vector<int> daysInMonth {12};`
+
+A vector of size 12:
+
+`vector<int> daysInMonth(12); // Must use () to call constructor that takes size`
 
 Using a **range `for`** to access every element sequentially in a collection
 
-```cpp
+```cs
 int sum = 0;
-for( auto x : squares )
+for(auto x : squares)
     sum += x;
 ```
 
@@ -508,12 +586,37 @@ for( auto x : squares )
 
 #### 1.5.1 Pointers
 
+A **pointer variableis** a variable that stores the address where another object resides.
+
+To illustrate the operations that apply to pointers, we rewrite Figure 1.9 (TestIntCell.cpp) to dynamically allocate theIntCell.  
+It must be emphasized that for a simple IntCell class, there is no good reason to write the C++ code this way.  
+We do it only to illustrate dynamic memory allocation  in  a  simple  context.  
+Later in the text, we will see more complicated classes, where this technique is useful and necessary.  
+
+###### Figure 1.11 Program that uses pointers to IntCell (there is no compelling reason to do this)
+
+```cs
+int main()
+{
+    IntCell *m;
+
+    m = new IntCell{0};
+    m->write(5);
+    cout << "Cell contents: " << m->read() << endl;
+
+    delete m;
+    return 0;
+}
+```
+
 
 ##### Declaration
 
 The use of uninitialized pointers typically crashes programs, because they result in access of memory locations that do not exist.  
-In general,it is a good idea to provide an initial value, either by  
-`IntCell *m = new IntCell{0};`  
+In general,it is a good idea to provide an initial value, either by
+
+`IntCell *m = new IntCell{0};`
+
 or by initializing m to the `nullptr` pointer.
 
 
@@ -534,10 +637,16 @@ When an object that is allocated by `new` is no longer referenced, the `delete` 
 Otherwise, the memory that it consumes is lost (until the program terminates).  
 This is known as a **memory leak**. 
 
+Memory leaks are, unfortunately, common occurrences in many C++ programs.  
+Fortunately, many sources of memory leaks can be automatically removed with care.  
+One important rule is to not use `new` when an **automatic variable** can be used instead.  
+In the original program, theIntCellis not allocated bynewbut instead is allocated as a local variable.  
+In that case, the memory for the IntCell is automatically reclaimed when the functionin which it is declared returns.
+
 
 ##### Assignment and Comparison of Pointers
 
-Assignment and comparison of pointer variables in C++is based on the value of the pointer,meaning the memory address that it stores.
+Assignment and comparison of pointer variables in C++ is based on the value of the pointer, meaning the memory address that it stores.
 
 
 ##### Accessing Members of an Object through a Pointer (`->`)
@@ -561,7 +670,11 @@ For the above declarations 2,"foo", x+y, are all rvalues:
 - 2 and "foo" are rvalues because they are literals.
 - Intuitively, x+y is an rvalue because its value is temporary; it is certainly not x or y, but it is stored somewhere prior to being assigned to z.
 
-An *rvalue reference* has the same characteristics as an lvalue reference except that, unlike an lvaluereference, an rvalue reference can also reference an rvalue (i.e., a temporary).
+In C++11, an **lvalue reference** is declared by placing an `&` after some type.  
+An lvalue reference then becomes a synonym (i.e., another name) for the object it references.
+
+In C++11, An **rvalue reference** is declared by placing an `&&` after some type.  
+An rvalue reference has the same characteristics as an lvalue reference except that, unlike an lvaluereference, an rvalue reference can also reference an rvalue (i.e., a temporary).
 
 
 ##### lvalue references use #1: aliasing complicated names
@@ -571,10 +684,16 @@ The simplest use, which we will see in Chapter 5, is to use a local reference va
 
 ##### lvalue references use #2: range `for` loops
 
+```cs
+for (auto &x : arr)
+    ++x;
+```
+
 
 ##### lvalue references use #3: avoiding a copy
 
-`auto` will deduce const-ness.
+In many instances, we only need the value and will not make any changes to a large object, here we can declare a reference.  
+`auto` will deduce constness.
 
 1. Reference  variables  are  often  used  to  avoid  copying  objects  across  function-call boundaries (either in the function call or the function return).
 2. Syntax  is  needed  in  function  declarations  and  returns  to  enable  the  passing  andreturning using references instead of copies.
@@ -582,25 +701,65 @@ The simplest use, which we will see in Chapter 5, is to use a local reference va
 
 #### 1.5.3 Parameter Passing
 
+4 ways to pass parameters in C++11:
+
 1. **call-by-value**: for small objects and not altered by function
-2. **call-by-constant-reference** (`const** &`): for large objects to avoid copying and not altered
+2. **call-by-constant-reference** (`const &`): for large objects to avoid copying and not altered
 3. **call-by-(lvalue-)reference** (`&`): altered by function
 4. **call-by-rvalue-reference** (`&&`): for move assignments
+
+call-by-rvalue-reference:  
+The central concept is that since an rvalue stores a temporary that isabout to be destroyed, an expression such as x=rval (where rval is an rvalue) can be implemented by a move instead of a copy;  
+often moving an object’s state is much easierthan copying it, as it may involve just a simple pointer change.
+
+This gives a primary use caseof overloading a function based on whether a parameter is an lvalue or rvalue, such as:
+
+`string randomItem(const vector<string> &arr);      // returns random item in lvalue arr`  
+`string randomItem(vector<string> &&arr);           // returns random item in rvalue arr`
+
+`vector<string> v{"hello", "world"};`  
+`cout << randomItem(v) << endl;                     // invokes lvalue method`  
+`cout << randomItem({"hello", "world"}) << endl;    // invokes rvalue method`
+
+It is easy to test that with both functions written, the second overload is called on rvalues, while the first overload is called on lvalues, as shown above.  
+The most common use of this idiom is in defining the behavior of `=` and in writing constructors, and this discussion isdeferred until Section 1.5.6.
 
 
 #### 1.5.4 Return Passing
 
-normally return-by-value.
+The most straightforward: **return-by-value**.
 
-uses return-by-constant-referenceto avoid copy.  
+Use **return-by-constant-reference** to avoid copy.  
 However, the caller must also use a constant reference to access the return value, otherwise, there will still be a copy.
 
-In C++11, objects can define move semantics that can be employed when return-by-value is seen;  
-in effect, the result vector will be moved to sums, and the vector implementation is optimized to allow this to be done with little more than a pointer change.
+Historically, C++ programmers have gone to great extent to rewrite their code in an unnatural way, using techniques involving pointers or additional parameters that decrease readability and maintainability, eventually leading to programming errors.
 
-In addition to the return-by-value and return-by-constant-reference idioms, functionscan use return-by-reference.  
-This idiom is used in a few places to allow the caller of afunction to have modifiable access to the internal data representation of a class.  
-Return-by-reference in this context is discussed in Section 1.7.2 when we implement a simple matrixclass.
+In C++11, objects can define move semantics that can be employed when return-by-value is seen;  
+in effect, the result vector will be moved to sums, and the vector implementation is optimized to allow this to be done with *little more than a pointer change*.
+
+
+###### Figure 1.13 Returning of a stack-allocated rvalue in C++11
+
+```cs
+vector<int> partialSum(const vector<int> &arr)
+{
+    vector<int> result(arr.size( ));
+    
+    result[0] = arr[0];
+    for(int i = 1; i < arr.size(); ++i)
+        result[i] = result[i-1] + arr[i];
+    
+    return result;
+}
+
+vector<int> vec;
+...
+vector<int> sums = partialSum(vec); // Copy in old C++; move in C++11
+```
+
+In addition to the return-by-value and return-by-constant-reference idioms, functions can use return-by-reference.  
+This idiom is used in a few places to allow the caller of a function to have modifiable access to the internal data representation of a class.  
+Return-by-reference in this context is discussed in Section 1.7.2 when we implement a simple matrix class.
 
 
 #### 1.5.5 `std::swap` and `std::move`
@@ -649,5 +808,6 @@ void swap(vector<string> &x, vector<string> &y)
 }
 ```
 
-// #### 1.5.6 The Big-Five: Destructor, Copy Constructor, Move Constructor, Copy Assignment `operator=`, Move Assignment `operator=`
+
+#### 1.5.6 The Big-Five: Destructor, Copy Constructor, Move Constructor, Copy Assignment `operator=`, Move Assignment `operator=`
 
