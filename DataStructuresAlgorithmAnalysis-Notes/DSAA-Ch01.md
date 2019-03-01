@@ -43,6 +43,8 @@ In this chapter, we discuss the aims and goals of this text and briefly review p
     - [1.5.4 Return Passing](#154-return-passing)
     - [1.5.5 `std::swap` and `std::move`](#155-stdswap-and-stdmove)
     - [1.5.6 The Big-Five: Destructor, Copy Constructor, Move Constructor, Copy Assignment `operator=`, Move Assignment `operator=`](#156-the-big-five-destructor-copy-constructor-move-constructor-copy-assignment-operator-move-assignment-operator)
+    - [1.5.7 C-style Arrays and Strings](#157-c-style-arrays-and-strings)
+  - [1.6 Templates](#16-templates)
 
 --------------------------------------------------------------------------------
 
@@ -811,3 +813,298 @@ void swap(vector<string> &x, vector<string> &y)
 
 #### 1.5.6 The Big-Five: Destructor, Copy Constructor, Move Constructor, Copy Assignment `operator=`, Move Assignment `operator=`
 
+In C++11, classes come with five special functions that are already written for you.
+
+- destructor
+- copy constructor
+- move constructor
+- copy assignment operator
+- move assignment operator
+
+Collectively these are the **big-five**. In many cases, you can accept the default behavior provided by the compiler for the big-five.  
+Sometimes you cannot.
+
+
+##### Destructor
+
+The destructor is called whenever an object goes out of scope or is subjected to a `delete`.  
+Typically, the only responsibility of the destructor is to free up any resources that were acquired during the use of the object.
+
+
+##### Copy Constructor and Move Constructor
+
+There are two special constructors that are required to construct a new object, initializedto the same state as another object of the same type.  
+These are the copy constructor if the existing object is an lvalue, and the move constructor if the existing object is an rvalue (i.e., a temporary that is about to be destroyed anyway).  
+For any object, such as anIntCellobject, a copy constructor or move constructor is called in the following instances:
+
+- a declaration with initialization, such as
+
+  `IntCell B = C;   // Copy construct if C is lvalue; Move construct if C is rvalue`  
+  `IntCell B{C}; // Copy construct if C is lvalue; Move construct if C is rvalue`
+
+  but not
+
+  `B = C;           // Assignment operator, discussed later`
+
+- an object passed using call-by-value (instead of by & or const &), which, as mentioned earlier, should rarely be done anyway.
+- an object returned by value (instead of by&orconst &). Again, a copy constructor isinvoked if the object being returned is an lvalue, and a move constructor is invoked ifthe object being returned is an rvalue.
+
+
+##### Copy Assignment and Move Assignment (`operator=`)
+
+The assignment operator is called when `=` is applied to two objects that have both beenpreviously constructed.  
+`lhs=rhs` is intended to copy the state ofrhsintolhs.Ifrhsis anlvalue, this is done by using the copy assignment operator;  
+if rhs is an rvalue (i.e., a tem-porary that is about to be destroyed anyway), this is done by using the move assignment operator.  
+By default, the copy assignment operator is implemented by applying the copyassignment operator to each data member in turn.
+
+
+##### Defaults
+
+If a class consists of data members that are exclusively primitive types and  objects for which the defaults make sense, the class defaults will usually make sense.  
+Thus a class whose data members are `int`, `double`, `vector<int>`, `string`, and even `vector<string>` can accept the defaults.
+
+The main problem occurs in a class that contains a data member that is a pointer.  
+We will describe the problem and solutions in detail in Chapter 3;  
+for now, we can sketchthe problem.
+
+Suppose the class contains a single data member that is a pointer.  
+This pointer points at a dynamically allocated object.  
+The default destructor does nothing to data members that are pointers (for good reason—recall that we must delete ourselves).  
+Furthermore, the copy constructor and copy assignment operator both copy the value of the pointer rather than the objects being pointed at.  
+Thus, we will have two class instances that contain pointers that point to the  same object.  
+This is a so-called **shallow copy**.  
+Typically, we would expect a **deep copy**, in which a clone of the entire object is made.  
+Thus,as a result, when a class contains pointers as data members, and deep semantics are important, we typically must implement the destructor, copy assignment, and copy constructors ourselves.  
+Doing so removes the move defaults, so we also must implement move assign-ment and the move constructor.
+
+As a general rule, either you
+
+- accept the default for all five operations
+
+or you should
+
+- declare all five, and explicitly
+    -  define
+    -  default (use the keyword `default`)
+    -  disallow each (use the keyword `delete`)
+
+Generally we will define all five.
+
+ForIntCell, the signatures of these operations are
+
+```cs
+~IntCell();                             // Destructor
+IntCell(const IntCell &rhs);            // Copy constructor
+IntCell(IntCell &&rhs);                 // Move constructor
+IntCell &operator=(const IntCell &rhs); // Copy assignment
+IntCell &operator=(IntCell &&rhs);      // Move assignment
+```
+
+The return type of `operator=` is a reference to the invoking object, so as to allow chained assignments `a=b=c`.  
+Though it would seem that the return type should be a const reference, so as to disallow nonsense such as `(a=b)=c`, that expression is in fact allowed in C++ even for integer types.  
+Hence, the reference return type (rather than the const reference returntype) is customarily used but is not strictly required by the language specification.
+
+If you write any of the big-five, it would be good practice to explicitly consider all the others, as the defaults may be invalid or inappropriate.  
+In a simple example in which debugging code is placed in the destructor, no default move operations will be generated.  
+And although unspecified copy operations are generated, that guarantee is deprecated and might not be in a future version of the language.  
+Thus, it is best to explicitly list the copy-and-move operations again:
+
+```cs
+~IntCell() { cout << "Invoking destructor" << endl; }   // Destructor
+IntCell(const IntCell &rhs) = default;                  // Copy constructor
+IntCell(IntCell &&rhs) = default;                       // Move constructor
+IntCell &operator=(const IntCell &rhs) = default;       // Copy assignment
+IntCell &operator=(IntCell &&rhs) = default;            // Move assignment
+```
+
+Alternatively, we could disallow all copying and moving of `IntCell`s
+
+```cs
+IntCell(const IntCell &rhs) = delete;               // No Copy constructor
+IntCell(IntCell &&rhs) = delete;                    // No Move constructor
+IntCell &operator=(const IntCell &rhs) = delete;    // No Copy assignment
+IntCell &operator=(IntCell &&rhs) = delete;         // No Move assignment
+```
+
+If the defaults make sense in the routines we write, we will always accept them.  
+However, if the defaults do not make sense, we will need to implement the destructor, copy-and-move constructors, and copy-and-move assignment operators.  
+When the default does not work, the copy assignment operator can generally be implemented by creating a copy using the copy constructor and then swapping it with the existing object.  
+The move assignment operator can generally be implemented by swapping member by member.
+
+
+##### When the Default Do Not Work
+
+The most common situation in which the defaults do not work occurs when a data member is a pointer type and the pointer is allocated by some object member function (suchas the constructor).  
+As an example, suppose we implement the IntCellby dynamically allocating an int, as shown in Figure 1.16.  
+For simplicity, we do not separate the interfaceand implementation.
+
+
+###### Figure 1.16 Data members is a pointer; defaults are no good
+
+```cs
+class IntCell
+{
+  public:
+    explicit IntCell(int initialValue = 0)
+    { storedValue = new int{initialValue}; }
+
+    int read() const
+    { return *storedValue; }
+    void write(int x)
+    { *storedValue = x; }
+
+  private:
+    int *storedValue;
+};
+```
+
+There are now numerous problems that are exposed in Figure 1.17.
+
+First, the output is three 4s, even though logically only `a` should be 4.  
+The problem is that the default copy assignment operator and copy constructor copy the pointer `storedValue`.  
+Thus `a.storedValue`, `b.storedValue`, and `c.storedValue` all point at the same int value.  
+These copies are shallow;  
+the pointers rather than the pointees are copied.
+
+A second, less obvious problem is a memory leak.  
+The int initially allocated by a’s constructor remains allocated and needs to be reclaimed.  
+The int allocated by c’s constructor is no longer referenced by any pointer variable.  
+It also needs to be reclaimed, but we no longer have a pointer to it.
+
+
+###### Figure 1.17 Simple function that exposes problems in Figure 1.16
+
+```cs
+int f()
+{
+    IntCell a{2};
+    IntCell b = a;
+    IntCell c;
+
+    c = b;
+    a.write(4);
+    cout << a.read() << endl << b.read() << endl << c.read() << endl;
+
+    return 0;
+}
+```
+
+To fix these problems, we implement the big-five.  
+The result (again without separation of interface and implementation) is shown in Figure 1.18.  
+As we can see, once the destructor is implemented, shallow copying would lead to a programming error: Two IntCell objects would have storedValue pointing at the sameint object.  
+Once the first IntCell object’s destructor was invoked to reclaim the object that its storedValue pointer was viewing, the second IntCell object would have a stale storedValue pointer.  
+This is why C++11 has deprecated the prior behavior that allowed default copy operations even if a destructor was written.
+
+
+###### Figure 1.18 Data member is a pointer; big-five is written
+
+```cs
+class IntCell
+{
+  public:
+    explicit IntCell(int initialValue = 0)
+    { storedValue = new int{initialValue}; }
+    
+    ~IntCell()                                              // Destructor
+    { delete storedValue; }
+    
+    IntCell(const IntCell &rhs)                             // Copy constructor
+    { storedValue = new int{*rhs.storedValue}; }
+    
+    IntCell(IntCell &&rhs) : storedValue{rhs.storedValue}   // Move constructor
+    { rhs.storedValue = nullptr; }
+    
+    IntCell &operator=(const IntCell &rhs)                  // Copy assignment
+    {
+        if (this != &rhs)
+            *storedValue = *rhs.storedValue;
+        return *this;
+    }
+    
+    IntCell &operator=(IntCell &&rhs)                       // Move assignment
+    {
+        std::swap(storedValue, rhs.storedValue);
+        return *this;
+    }
+    
+    int read( ) const
+    { return *storedValue; }
+    void write( int x )
+    { *storedValue = x; }
+    
+  private:
+    int *storedValue;
+};
+```
+
+The copy assignment operator at lines 16–21 uses a standard idiom of checking for aliasing at line 18 (i.e., a self-assignment, in which the client is making a call `obj=obj`) and then copying each data field in turn as needed.  
+On completion, it returns a referenceto itself using *this.  
+InC++11, copy assignment is often written using a **copy-and-swap** idiom, leading to an alternate implementation:
+
+```cs
+IntCell &operator=(const IntCell &rhs)  // Copy assignment
+{
+    IntCell copy = rhs;
+    std::swap(*this, copy);
+    return *this;
+}
+```
+
+Line 18 places a copy of `rhs` into copy using the copy constructor.  
+Then this copyis swapped into `*this`, placing the old contents into copy.  
+On return, a destructor is invoked for copy, cleaning up the old memory.
+
+For IntCell this is a bit inefficient, but for other types, especially those with many complex interacting data members, it can be a reasonably good default.  
+Notice that if swap were implemented using the basic copy algorithm in Figure 1.14, the copy-and-swap idiom would not work, because there would be mutual nonterminating recursion.  
+In C++11 we have a basic expectation that swapping is implemented either with three moves or by swapping member by member.
+
+The move constructor at lines 13 and 14 moves the data representation from rhs into *this; then it sets rhs’ primitive data (including pointers) to a valid but easily destroyed state.  
+Note that if there is non-primitive data, then that data must be moved in the initialization list.  
+For example, if there were also `vector<string> items`, then the constructor would be:
+
+```cs
+IntCell(IntCell &&rhs) : storedValue{rhs.storedValue},  // Move constructor
+                         items{std::move(rhs.items)}
+{ rhs.storedValue = nullptr; }
+```
+
+Finally, the move assignment operator at lines 23–27 is implemented as a member-by-member swap.  
+Note that sometimes it is implemented as a single swap of objects in the same manner as the copy assignment operator, but that only works if swap itself is implemented as a member-by-member swap.  
+If swap is implemented as three moves, then we would have mutual nonterminating recursion.
+
+
+#### 1.5.7 C-style Arrays and Strings
+
+The C++ language provides a built-in C-style array type.  
+To declare an array, `arr1` , of 10 integers, one writes:
+
+`int arr1[10];`
+
+`arr1` is actually a pointer to memory that is large enough to store 10 ints, rather than a first-class array type.  
+
+If the size is unknown, we must explicitly declare a pointer and allocate memory via `new[]`.  
+For instance,
+
+`int *arr2 = new int[n];`
+
+Now arr2 behaves like arr1, except that it is not a constant pointer.  
+Thus, it can be made to point at a larger block of memory.  
+However, because memory has been dynamically allocated, at some point it must be freed with `delete[]`:
+
+`delete [ ] arr2;`
+
+Otherwise, a memory leak will result, and the leak could be significant if the array is large.
+
+Built-in C-style strings are implemented as an array of characters.  
+To avoid having to pass the length of the string, the special null-terminator `’\0’` is used as a character thatsignals the logical end of the string.  
+Strings are copied by `strcpy`, compared with `strcmp`, and their length can be determined by `strlen`.  
+Individual characters can be accessed by the array indexing operator.
+
+These strings have all the problems associated with arrays, including difficult memory management, compounded by the fact that when strings arecopied, it is assumed that the target array is large enough to hold the result.  
+When it is not, difficult debugging ensues, often because room has not been left for the null terminator.
+
+It is almost always better to use the `vector` and `string` class, but you may be forced to use the C-style when interacting with library routines that are designed to work with both C and C++.  
+It also is occasionally necessary (but this is rare) to use the C-style in a section ofcode that must be optimized for speed.
+
+
+### 1.6 Templates
