@@ -45,6 +45,11 @@ In this chapter, we discuss the aims and goals of this text and briefly review p
     - [1.5.6 The Big-Five: Destructor, Copy Constructor, Move Constructor, Copy Assignment `operator=`, Move Assignment `operator=`](#156-the-big-five-destructor-copy-constructor-move-constructor-copy-assignment-operator-move-assignment-operator)
     - [1.5.7 C-style Arrays and Strings](#157-c-style-arrays-and-strings)
   - [1.6 Templates](#16-templates)
+    - [1.6.1 Function Templates](#161-function-templates)
+    - [1.6.2 Class Templates](#162-class-templates)
+    - [1.6.3 Object, Comparable, and an Example](#163-object-comparable-and-an-example)
+    - [1.6.4 Function Object](#164-function-object)
+    - [1.6.5 Separate Compilation of Class Templates](#165-separate-compilation-of-class-templates)
 
 --------------------------------------------------------------------------------
 
@@ -1108,3 +1113,176 @@ It also is occasionally necessary (but this is rare) to use the C-style in a sec
 
 
 ### 1.6 Templates
+
+
+#### 1.6.1 Function Templates
+
+A **function template** is not an actual function, but instead is a pattern for what could become a function.
+
+
+###### Figure 1.19 `findMax` function template
+
+```cs
+// Return the maximum item in array a.
+// Assumes a.size() > 0.
+// Comparable objects must provide operator< and operator=
+template<typename Comparable>
+const Comparable &findMax(const vector<Comparable> &a)
+{
+    int mainIndex = 0;
+
+    for (int i = 1; i < a.size(); ++i)
+        if (a[maxIndex] < a[i])
+            maxIndex = i;
+    
+    return a[maxIndex];
+}
+```
+
+It should be noted that an expansion for each new type generates additional code;  
+this is known as **code bloat** when it occurs in large projects.  
+
+It is customary to include, prior to any template, comments that explain what assumptions are made about the template argument(s).  
+This includes assumptions about what kinds ofconstructors are required.
+
+Note that if there is a nontemplate and atemplate and both match, then the nontemplate gets priority.  
+Also note that if there are twoequally close approximate matches, then the code is illegal and the compiler will declarean ambiguity.
+
+
+#### 1.6.2 Class Templates
+
+If we implement class templates as a single unit, then there is very little syntax baggage.  
+Many class templates are, in fact, implemented this way because, currently, separate com-pilation of templates does not work well on many platforms.  
+Therefore, in many cases, theentire class, with its implementation, must be placed in a `.h` file.  
+Popular implementationsof the STL follow this strategy.
+
+An alternative, discussed in Appendix A, is to separate the interface and implementa-tion of the class templates.  
+This adds extra syntax and baggage and historically has beendifficult for compilers to handle cleanly.  
+To avoid the extra syntax throughout this text, weprovide, when necessary, in the online code, class templates with no separation of interfaceand implementation.  
+In the figures, the interface is shown as if separate compilation wasused, but the member function implementations are shown as if separate compilation wasavoided.  
+This allows us to avoid focusing on syntax.
+
+
+#### 1.6.3 Object, Comparable, and an Example
+
+In this text, we repeatedly use `Object` and `Comparable` as generic types.  
+`Object` is assumed to have a zero-parameter constructor, an `operator=`, and a copy constructor.  
+`Comparable`, as suggested in the `findMax` example, has additional functionality in the form of `operator<` that can be used to provide a total order.
+
+
+#### 1.6.4 Function Object
+
+In Section 1.6.1, we showed how function templates can be used to find  the maximum item in an array.
+
+However, the template has an important limitation: It works only for objects that have an `operator<` function defined, and it uses that `operator<` as the basis for all com-parison decisions.  
+In many situations, this approach is not feasible.
+
+The solution, in these cases, is to rewrite findMaxto accept as parameters an array of objects and a comparison function that explains how to decide which of two objects is the larger and which is the smaller.  
+In effect, the array objects no longer know how tocompare themselves;  
+instead, this information is completely decoupled from the objects inthe array.
+
+An ingenious way to pass functions as parameters is to notice that an object contains both data and member functions, so we can define a class with no data and one member function, and pass an instance of the class.  
+In effect, a function is being passed by placing it inside an object.  
+This object is commonly known as a **function object**.
+
+Figure 1.24 shows the simplest implementation of the function object idea.  
+findMax takes a second parameter, which is a generic type.  
+In order for the findMax template to expand without error, the generic type must have a member function named `isLessThan`, which takes two parameters of the first generic type (Object) and returns a bool.  
+Otherwise, an error will be generated at line 9 when the template expansion  is attempted by the compiler.
+
+
+###### Figure 1.24 Simplest idea of using a function object as a second parameter to `findMax`; output is ZEBRA
+
+```cs
+// Generic findMax, with a function object, Version #1.
+// Precondition: a.size( ) > 0.
+template <typename Object, typename Comparator>
+const Object &findMax(const vector<Object> &arr, Comparator cmp)
+{
+    int maxIndex = 0;
+    
+    for(int i = 1; i < arr.size(); ++i)
+        if(cmp.isLessThan(arr[maxIndex], arr[i]))
+            maxIndex = i;
+    
+    return arr[maxIndex];
+}
+
+class CaseInsensitiveCompare
+{
+  public:
+    bool isLessThan(const string &lhs, const string &rhs) const
+    { return strcasecmp(lhs.c_str(), rhs.c_str()) < 0; }
+};
+
+int main()
+{
+    vector<string> arr = {"ZEBRA", "alligator", "crocodile"};
+    cout << findMax(arr, CaseInsensitiveCompare{}) << endl;
+    
+    return 0;
+}
+```
+
+C++ function objects are implemented using this basic idea, but with some fancy syntax.  
+1. First, instead of using a function with a name, we use operator overloading.  
+   Instead of the function being isLessThan, it is operator().  
+2. Second, when invoking `operator()`, `cmp.operator()(x,y)` can be shortened to `cmp(x,y)`(in other words, it looks like a function call, and consequently `operator()` is known as the function call operator).  
+   As a result, the name of the parameter can be changed to the more meaningful `isLessThan`, and the call is `isLessThan(x,y)`.  
+3. Third, we can provide a version offindMaxthat works without a func-tion object.  
+   The implementation uses the Standard Library function object templateless(defined in header filefunctional) to generate a function object that imposes the normaldefault ordering.
+
+Figure 1.25 shows the implementation using the more typical, somewhat cryptic, C++ idioms.
+
+
+###### Figure 1.25 Using a function object C++ style, with a second version offindMax; output is ZEBRA, then crocodile
+
+```cs
+// Generic findMax, with a function object, C++ style.
+// Precondition: a.size( ) > 0.
+template <typename Object, typename Comparator>
+const Object &findMax(const vector<Object> &arr, Comparator isLessThan)
+{
+    int maxIndex = 0;
+    
+    for (int i = 1; i < arr.size(); ++i)
+        if (isLessThan(arr[maxIndex], arr[i]))
+            maxIndex = i;
+    
+    return arr[maxIndex];
+}
+
+// Generic findMax, using default ordering.
+#include <functional>
+
+template <typename Object>
+const Object &findMax(const vector<Object> &arr)
+{
+    return findMax(arr, less<Object>{});
+}
+
+class CaseInsensitiveCompare
+{
+  public:
+    bool operator()(const string &lhs, const string &rhs) const
+    { return strcasecmp(lhs.c_str(), rhs.c_str()) < 0; }
+};
+
+int main()
+{
+    vector<string> arr = {"ZEBRA", "alligator", "crocodile"};
+    
+    cout << findMax(arr, CaseInsensitiveCompare{}) << endl;
+    cout << findMax(arr) << endl;
+    
+    return 0;
+}
+```
+
+
+#### 1.6.5 Separate Compilation of Class Templates
+
+Like regular classes, class templates can be implemented either entirely in their declarations, or we can separate the interface from the implementation.  
+However, compiler support for separate compilation of templates historically has been weak and platform-specific.  
+Thus, in many cases, the entire class template with its implementation is placed ina single header file.  
+Popular implementations of the Standard Library follow this strategyto implement class templates.
