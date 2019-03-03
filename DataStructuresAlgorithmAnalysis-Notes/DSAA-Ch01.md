@@ -50,6 +50,11 @@ In this chapter, we discuss the aims and goals of this text and briefly review p
     - [1.6.3 Object, Comparable, and an Example](#163-object-comparable-and-an-example)
     - [1.6.4 Function Object](#164-function-object)
     - [1.6.5 Separate Compilation of Class Templates](#165-separate-compilation-of-class-templates)
+  - [1.7 Using Matrices](#17-using-matrices)
+    - [1.7.1 The Data Members, Constructor, and Basic Accessors](#171-the-data-members-constructor-and-basic-accessors)
+    - [1.7.2 `operator[]`](#172-operator)
+    - [1.7.3 Big-Five](#173-big-five)
+  - [Summary](#summary)
 
 --------------------------------------------------------------------------------
 
@@ -1111,6 +1116,8 @@ When it is not, difficult debugging ensues, often because room has not been left
 It is almost always better to use the `vector` and `string` class, but you may be forced to use the C-style when interacting with library routines that are designed to work with both C and C++.  
 It also is occasionally necessary (but this is rare) to use the C-style in a section ofcode that must be optimized for speed.
 
+--------------------------------------------------------------------------------
+
 
 ### 1.6 Templates
 
@@ -1286,3 +1293,109 @@ Like regular classes, class templates can be implemented either entirely in thei
 However, compiler support for separate compilation of templates historically has been weak and platform-specific.  
 Thus, in many cases, the entire class template with its implementation is placed ina single header file.  
 Popular implementations of the Standard Library follow this strategyto implement class templates.
+
+--------------------------------------------------------------------------------
+
+
+### 1.7 Using Matrices
+
+The C++ library does not provide a matrix class.  
+However, a reasonable matrix class can quickly be written.  
+The basic idea is to use a vector of vectors.  
+Doing this requires additional knowledge of operator overloading.  
+For the matrix, we define `operator[]`,  namely, the array-indexing operator.  
+The matrix class is given in Figure 1.26.
+
+
+###### Figure 1.26 A complete `matrix` class
+
+```cs
+#ifndef MATRIX_H
+#define MATRIX_H
+
+#include <vector>
+using namespace std;
+
+template <typename Object>
+class matrix
+{
+  public:
+    matrix(int rows, int cols) : array(rows)
+    {
+        for (auto &thisRow : array)
+            thisRow.resize(cols);
+    }
+    
+    matrix(vector<vector<Object>> v) : array{v} {}
+    matrix(vector<vector<Object>> &&v) : array{std::move(v)} {}
+    
+    const vector<Object> &operator[](int row) const
+    { return array[row]; }
+    vector<Object> &operator[](int row)
+    { return array[row]; }
+    
+    int numrows() const
+    { return array.size( ); }
+    int numcols( ) const
+    { return numrows() ? array[0].size() : 0; }
+        
+  private:
+    vector<vector<Object>> array;
+};
+
+#endif // MATRIX_H
+```
+
+
+#### 1.7.1 The Data Members, Constructor, and Basic Accessors
+
+
+#### 1.7.2 `operator[]`
+
+The idea of `operator[]` is that if we have a matrix m, then m[i] should return a vector corresponding to row i of matrix m.  
+If this is done, then m[i][j] will give the entry in position j for vector m[i], using the normal vector indexing operator.  
+Thus, the matrix operator[] returns a vector<Object> rather than an Object.
+
+Should operator[] return-by-reference or return-by-constant-reference?  
+Consider the following method (ignore the possibility of aliasing or incompatible sizes, neither of which affects the algorithm):
+
+```cs
+void copy(const matrix<int> &from, matrix<int> &to)
+{
+    for(int i = 0; i < to.numrows(); ++i)
+        to[i] = from[i];
+}
+```
+
+In the copy function, we attempt to copy each row in matrix `from` into the corresponding row in matrix `to`.  
+Clearly, if `operator[]` returns a constant reference, then `to[i]` cannot appear on the left side of the assignment statement.  
+Thus, it appears that `operator[]` should return a reference.  
+However, if we did that, then an expression such as `from[i] = to[i]` would compile, since `from[i]` would not be a constant vector, even though `from` was a constant matrix.  
+That cannot be allowed in a good design.
+
+So what we really need is for `operator[]` to return a constant reference for `from`, but a plain reference for `to`.  
+In other words, we need two versions of `operator[]`, which differonly in their return types.  
+That is not allowed.  
+However, there is a loophole:  
+Since member function constness (i.e., whether a function is an accessor or a mutator) is part of the signature, we can have the accessor version of `operator[]` return a constant reference, and have the mutator version return the simple reference.  
+Then, all is well.  
+This is shown inFigure 1.26.
+
+
+#### 1.7.3 Big-Five
+
+These are all taken care of automatically, because thevectorhas taken care of it. Therefore, this is all the code needed for a fully functioning matrix class.
+
+--------------------------------------------------------------------------------
+
+
+### Summary
+
+This chapter sets the stage for the rest of the book.  
+The time taken by an algorithm con-fronted with large amounts of input will be an important criterion for deciding if it is agood algorithm.  
+(Of course, correctness is most important.)  
+We will begin to address theseissues in the next chapter and will use the mathematics discussed here to establish a formalmodel.
+
+--------------------------------------------------------------------------------
+
+EOF
