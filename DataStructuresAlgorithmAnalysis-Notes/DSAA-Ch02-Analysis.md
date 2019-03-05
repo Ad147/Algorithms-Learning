@@ -28,6 +28,8 @@ In this chapter, we shall discuss...
 - [Chapter 2 Algorithm Analysis](#chapter-2-algorithm-analysis)
   - [2.1 Mathematical Background](#21-mathematical-background)
   - [2.2 Model](#22-model)
+  - [2.3 What to Analyze](#23-what-to-analyze)
+  - [2.4 Running-Time Calculations](#24-running-time-calculations)
 
 --------------------------------------------------------------------------------
 
@@ -84,11 +86,11 @@ When we say thatT(N)=O(f(N)), we are guaranteeing that the functionT(N) grows at
 thus f(N) is an **upper bound** on T(N).  
 Since this implies thatf(N)=Ω(T(N)), we say thatT(N)is a **lower bound** on f(N).
 
-As an example,N^3grows faster thanN^2, so we can say thatN^2=O(N^3)orN^3=(N^2).  
-f(N)=N^2 and g(N)=2N^2grow at the same rate, so bothf(N)=O(g(N)) andf(N)=(g(N)) are true.  
+As an example, $N^3$ grows faster thanN^2, so we can say that $N^2=O(N^3)$ or N^3=(N^2).  
+$f(N)=N^2$ and g(N)=2N^2grow at the same rate, so both $f(N)=O(g(N))$ andf(N)=(g(N)) are true.  
 When two functions grow at the same rate, then the decision ofwhether or not to signify this with Θ() can depend on the particular context.  
-Intuitively,ifg(N)=2N^2,theng(N)=O(N4),g(N)=O(N^3), andg(N)=O(N^2) are all technically correct, but the last option is the best answer.  
-Writingg(N)=(N^2) says not only thatg(N)=O(N^2) but also that the result is as good (tight) as possible.
+Intuitively,if $g(N)=2N^2$, then $g(N)=O(N4)$, $g(N)=O(N^3)$, and $g(N)=O(N^2)$ are all technically correct, but the last option is the best answer.  
+Writingg(N)=(N^2) says not only that $g(N)=O(N^2)$ but also that the result is as good (tight) as possible.
 
 Here are the important things to know:
 
@@ -168,5 +170,96 @@ For a simple sorting algorithm, such as the suggested bubble sort, when theamoun
 This is because those algorithms are not linear.  
 Instead, as we will see when wediscuss sorting, trivial sorting algorithms areO(N^2), or quadratic.
 
+--------------------------------------------------------------------------------
+
 
 ### 2.2 Model
+
+In order to analyze algorithms in a formal framework, we need a model of computation.  
+Our model is basically a normal computer in which instructions are executed sequentially.  
+Our model has the standard repertoire of simple instructions, such as addition, multiplica-tion, comparison, and assignment, but, unlike the case with real computers, it takes exactlyone time unit to do anything (simple).  
+To be reasonable, we will assume that, like a moderncomputer, our model has fixed-size (say, 32-bit) integers and no fancy operations, such asmatrix inversion or sorting, which clearly cannot be done in one time unit.  
+We also assumeinfinite memory.
+
+This model clearly has some weaknesses. Obviously, in real life, not all operations takeexactly the same time. In particular, in our model, one disk reads counts the same as anaddition, even though the addition is typically several orders of magnitude faster. Also, byassuming infinite memory, we ignore the fact that the cost of a memory access can increasewhen slower memory is used due to larger memory requirements.
+
+--------------------------------------------------------------------------------
+
+
+### 2.3 What to Analyze
+
+The most important resource to analyze is generally the running time.  
+Several factors affect the running time of a program.  
+Some, such as the compiler and computer used, are obviously beyond the scope of any theoretical model, so, although they are important, we cannot deal with them here.  
+The other main factors are the algorithm used and the input to the algorithm.
+
+Typically, the size of the input is the main consideration.  
+We define two functions, $T_{avg}(N)$ and $T_{worst}(N)$, as the average and worst-case running time, respectively, used by an algorithm on input of size N. Clearly, $T_{avg}(N) < T_{worst}(N)$.  
+If there is more than one input, these functions may have more than one argument.
+
+Occasionally, the best-case performance of an algorithm is analyzed.  
+However, this isoften of little interest, because it does not represent typical behavior.  
+Average-case perfor-mance often reflects typical behavior, while worst-case performance represents a guaranteefor performance on any possible input.
+
+Notice also that, although in this chapter we ana-lyze C++code, these bounds are really bounds for the algorithms rather than programs.  
+Programs are an implementation of the algorithm in a particular programming language,and almost always the details of the programming language do not affect a Big-Oh answer.  
+If a program is running much more slowly than the algorithm analysis suggests, there maybe an implementation inefficiency.  
+This can occur in C++when arrays are inadvertentlycopied in their entirety, instead of passed with references. 
+
+Generally, the quantity required is the worst-case time, unless otherwise specified.  
+Onereason for this is that it provides a bound for all input, including particularly bad input,which an average-case analysis does not provide.  
+The other reason is that average-casebounds  are  usually  much  more  difficult  to  compute.  
+In  some  instances,  the  definitionof “average” can affect the result.  
+(For instance, what is average input for the followingproblem?)
+
+As an example, in the next section, we shall consider the following problem:
+
+
+> ##### Maximum Subsequence Sum Problem
+>
+> Given (possibly negative) integers $A_1, A_2, ..., A_N$, find the maximum value of $\sum_{k=i}^j A_k$.  
+> (For convenience, the maximum subsequence sum is 0 if all the integers are negative.)
+
+This  problem  is  interesting  mainly  because  there  are  so  many  algorithms  to  solveit, and the performance of these algorithms varies drastically.  
+We will discuss four algo-rithms to solve this problem.  
+The running time on some computers (the exact computer isunimportant) for these algorithms is given in Figure 2.2.
+
+
+###### Figure 2.2 Running  times  of  several  algorithms  for  maximum  subsequence  sum  (in seconds)
+
+| Input Size  | Algorithm Time | <<<      | <<<      | <<<      |
+| ----------- | -------------- | -------- | -------- | -------- |
+| ^^^         | 1              | 2        | 3        | 4        |
+| ^^^         | O(N^3)         | O(N^2)   | O(NlogN) | O(N)     |
+| N=100       | 0.000159       | 0.000006 | 0.000005 | 0.000002 |
+| N=1,000     | 0.095857       | 0.000371 | 0.000060 | 0.000022 |
+| N=10,000    | 86.67          | 0.033322 | 0.000619 | 0.000222 |
+| N=100,000   | NA             | 3.33     | 0.006700 | 0.002205 |
+| N=1,000,000 | NA             | NA       | 0.074870 | 0.022711 |
+
+There are several important things worth noting in this table. For a small amount ofinput, the algorithms all run in the blink of an eye.  
+So if only a small amount of input is expected, it might be silly to expend a great deal of effort to design a clever algorithm.  
+Onthe other hand, there is a large market these days for rewriting programs that were writtenfive years ago based on a no-longer-valid assumption of small input size.  
+These programsare now too slow because they used poor algorithms.  
+For large amounts of input, algorithm4 is clearly the best choice (although algorithm 3 is still usable).
+
+Second, the times given do not include the time required to read the input.  
+For algo-rithm 4, the time merely to read the input from a disk is likely to be an order of magnitudelarger than the time required to solve the problem.  
+This is typical of many efficient algo-rithms.  
+Reading the data is generally the bottleneck;  
+once the data are read, the problemcan  be  solved  quickly.  
+For  inefficient  algorithms  this  is  not  true,  and  significant  com-puter resources must be used.  
+Thus, it is important that, whenever possible, algorithmsbe efficient enough not to be the bottleneck of a problem.
+
+Notice that for algorithm 4, which is linear, as the problem size increases by a factorof 10, so does the running time.  
+Algorithm 2, which is quadratic, does not display thisbehavior;  
+a tenfold increase in input size yields roughly a hundredfold (102) increase inrunning time.  
+And algorithm 1, which is cubic, yields a thousandfold (103) increase inrunning time.  
+We would expect algorithm 1 to take nearly 9,000 seconds (or two and ahalf hours) to complete forN=100,000.  
+Similarly, we would expect algorithm 2 to takeroughly 333 seconds to complete forN=1,000,000.  
+However, it is possible that algorithm2 could take somewhat longer to complete due to the fact thatN=1,000,000 could alsoyield slower memory accesses thanN=100,000 on modern computers, depending onthe size of the memory cache.
+
+--------------------------------------------------------------------------------
+
+
+### 2.4 Running-Time Calculations
