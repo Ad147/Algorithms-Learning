@@ -203,7 +203,7 @@ A proof by induction has two standard parts:
 
 This proves the theorem (as long as k is finite).
 
-As an example, we prove that the Fibonacci numbers,F0=1,F1=1,F2=2,F3=3,F4=5,...,Fi = Fi−1 + Fi−2, satisfy Fi < (5/3)^i, for i ≥ 1.  
+As an example, we prove that the Fibonacci numbers, $F_0=1, F_1=1, F_2=2, F_3=3, F_4=5, ..., F_i = F_{i−1} + F_{i−2}$, satisfy $F_i < (5/3)^i$, for $i≥1$.  
 (Some definitions have F0 = 0,which shifts the series.)  
 To do this, we first verify that the theorem is true for the trivial cases.  
 It is easy to verify that F1=1<5/3 and F2=2<25/9;  
@@ -343,7 +343,7 @@ It is crucial to keep in mind the four basic rules of recursion:
 1. *Base cases*. You must always have some base cases, which can be solved without recursion.
 2. *Making progress*. For the cases that are to be solved recursively, the recursive call must always be to a case that makes progress toward a base case.
 3. *Design rule*. Assume that all the recursive calls work.
-4. *Compound interest rule*. Never duplicate work by solving the same instance of a problemin separate recursive calls.
+4. *Compound interest rule*. Never duplicate work by solving the same instance of a problem in separate recursive calls.
 
 The fourth rule, which will be justified (along with its nickname) in later sections, is thereason that it is generally a bad idea to use recursion to evaluate simple mathematical func-tions, such as the Fibonacci numbers.  
 As long as you keep these rules in mind, recursiveprogramming should be straightforward.
