@@ -30,6 +30,11 @@ In this chapter, we shall discuss...
   - [2.2 Model](#22-model)
   - [2.3 What to Analyze](#23-what-to-analyze)
   - [2.4 Running-Time Calculations](#24-running-time-calculations)
+    - [2.4.1 A Simple Example](#241-a-simple-example)
+    - [2.4.2 General Rules](#242-general-rules)
+    - [2.4.3 Solutions for the Maximum Subsequence Sum Problem](#243-solutions-for-the-maximum-subsequence-sum-problem)
+    - [2.4.4 Logarithms in the Running Time](#244-logarithms-in-the-running-time)
+
 
 --------------------------------------------------------------------------------
 
@@ -170,6 +175,7 @@ For a simple sorting algorithm, such as the suggested bubble sort, when theamoun
 This is because those algorithms are not linear.  
 Instead, as we will see when wediscuss sorting, trivial sorting algorithms areO(N^2), or quadratic.
 
+
 --------------------------------------------------------------------------------
 
 
@@ -182,6 +188,7 @@ To be reasonable, we will assume that, like a moderncomputer, our model has fixe
 We also assumeinfinite memory.
 
 This model clearly has some weaknesses. Obviously, in real life, not all operations takeexactly the same time. In particular, in our model, one disk reads counts the same as anaddition, even though the addition is typically several orders of magnitude faster. Also, byassuming infinite memory, we ignore the fact that the cost of a memory access can increasewhen slower memory is used due to larger memory requirements.
+
 
 --------------------------------------------------------------------------------
 
@@ -259,7 +266,446 @@ We would expect algorithm 1 to take nearly 9,000 seconds (or two and ahalf hours
 Similarly, we would expect algorithm 2 to takeroughly 333 seconds to complete forN=1,000,000.  
 However, it is possible that algorithm2 could take somewhat longer to complete due to the fact thatN=1,000,000 could alsoyield slower memory accesses thanN=100,000 on modern computers, depending onthe size of the memory cache.
 
+
 --------------------------------------------------------------------------------
 
 
 ### 2.4 Running-Time Calculations
+
+If two programs are expected to take similar times, probably the bestway to decide which is faster is to code them both and run them!
+
+To simplify the analysis, we will adopt the convention that there are no particular units of time.  
+Thus, we throw away leading constants.  
+We will also throw away low-order terms, so what we are essentially doing is computing a Big-Oh running time.  
+Since Big-Oh is an upper bound, we must be careful never to underestimate the running timeof the program.  
+In effect, the answer provided is a guarantee that the program will ter-minate within a certain time period.  
+The program may stop earlier than this, but neverlater.
+
+
+#### 2.4.1 A Simple Example
+
+Here is a simple program fragment to calculate $\sum_{i=1}^N i^3$:
+
+```cs
+int sum(int n)
+{
+    int partialSum;
+    
+    partialSum = 0;                 // Line 1
+    for(int i = 1; i <= n; ++i)     // Line 2
+        partialSum += i * i * i;    // Line 3
+    
+    return partialSum;              // Line 4
+}
+```
+
+The analysis of this fragment is simple.  
+The declarations count for no time.  
+Lines 1 and 4 count for one unit each.  
+Line 3 counts for four units per time executed (two multiplica-tions, one addition, and one assignment) and is executed N times, for a total of 4N units.  
+Line 2 has the hidden costs of initializing i, testing i≤N, and incrementing i.  
+The total cost of all these is 1 to initialize, N+1 for all the tests, and N for all the increments, whichis 2N+2.  
+We ignore the costs of calling the function and returning, for a total of 6N+4.  
+Thus, we say that this function is O(N).
+
+If we had to perform all this work every time we needed to analyze a program, the task would quickly become infeasible.  
+Fortunately, since we are giving the answer in termsof Big-Oh, there are lots of shortcuts that can be taken without affecting the final answer.  
+For instance, line 3 is obviously an O(1) statement (per execution), so it is silly to count precisely whether it is two, three, or four units;  
+it does not matter.  
+Line 1 is obviouslyin significant compared with the for loop, so it is silly to waste time here.  
+This leads to several general rules.
+
+
+#### 2.4.2 General Rules
+
+
+###### Rule 1 - FOR loops
+
+The running time of a for loop is at most the running time of the statements inside the for loop (including tests) times the number of iterations.
+
+
+###### Rule 2 - Nested loops
+
+Analyze these inside out.  
+The total running time of a statement inside a group of nested loops is the running time of the statement multiplied by the product of the sizes of all the loops.
+
+As an example, the following program fragment is $O(N^2)$:
+
+```cs
+for (i = 0; i < n; ++i)
+    for (j = 0; j < n; ++j)
+        ++k;
+```
+
+
+###### Rule 3 - Consecutive Statements
+
+These just add (which means that the maximum is the one that counts;  
+see rule 1 on page 52).
+
+As an example, the following program fragment, which has $O(N)$ work followed by $O(N^2)$ work, is also $O(N^2)$:
+
+```cs
+for (i = 0; i < n; ++i)
+    a[i]=0;
+for (i = 0; i < n; ++i)
+    for (j = 0; j < n; ++j)
+        a[i] += a[j] + i + j;
+```
+
+
+###### Rule 4 - If/Else
+
+For the fragment
+
+```cs
+if (condition)
+    S1
+else
+    S2
+```
+
+the running time of an if/else statement is never more than the running time of the test plus the larger of the running times of S1 and S2.
+
+Clearly, this can be an overestimate in some cases, but it is never an underestimate.
+
+Other rules are obvious, but a basic strategy of analyzing from the inside (or deepest part) out works.  
+If there are function calls, these must be analyzed first.  
+If there are recursive functions, there are several options.  
+If the recursion is really just a thinly veiled for loop, the analysis is usually trivial.  
+For instance, the following function is really just a simple loop and is $O(N)$:
+
+```cs
+long factorial(int n)
+{
+    if (n <= 1)
+        return 1;
+    else
+        return n * factorial(n - 1);
+}
+```
+
+This example is really a poor use of recursion.  
+**When recursion is properly used, it is difficult to convert the recursion into a simple loop structure.**  
+In this case, the analysis will involve a recurrence relation that needs to be solved.  
+To see what might happen, consider the following program, which turns out to be a terrible use of recursion:
+
+```cs
+long fib(int n)
+{
+    if (n <= 1)                         // Line 1
+        return 1;                       // Line 2
+    else
+        return fib(n - 1) + fib(n - 2); // Line 3
+}
+```
+
+At first glance, this seems like a very clever use of recursion.  
+However, if the program is coded up and run for values of N around 40, it becomes apparent that this program is terribly inefficient.
+
+The analysis is fairly simple.  
+Let T(N) be the running time for the function call `fib(n)`.  
+If N=0 or N=1, then the running time is some constant value, which is the time to do the test at line 1 and return.  
+We can say that $T(0)=T(1)=1$ because constants do not matter.  
+The running time for other values of N is then measured relative to the running time of the base case.  
+For N>2, the time to execute the function is the constant work at line 1 plus the work at line 3.  
+Line 3 consists of an addition and two function calls.  
+Since the function calls are not simple operations, they must be analyzed by themselves.  
+The first function call is fib(n-1) and hence, by the definition of T, requires T(N−1) units of time.  
+A similar argument shows that the second function call requires T(N−2) units of time.  
+The total time required is then $T(N−1)+T(N−2)+2$, where the 2 accounts for the work at line 1 plus the addition at line 3.  
+Thus, for N≥2, we have the following formula for the running time of fib(n):
+
+$$ T(N) = T(N−1) + T(N−2) + 2 $$
+
+Since `fib(n) = fib(n-1) + fib(n-2)`, it is easy to show by induction that T(N)≥fib(n).  
+In Section 1.2.5, we showed that $fib(N)<(5/3)^N$.  
+A similar calculation shows that (for N>4) $fib(N)≥(3/2)^N$, and so the running time of this program grows *exponentially*.  
+This is about as bad as possible.  
+By keeping a simple array and using a for loop, the running time can be reduced substantially.
+
+This program is slow because there is a huge amount of redundant work being performed, violating the fourth major rule of recursion (the compound interest rule), which was presented in Section 1.3.  
+Notice that the first call on line 3, fib(n-1), actually computes fib(n-2) at some point.  
+This information is thrown away and recomputed by thesecond call on line 3.  
+The amount of information thrown away compounds recursively and results in the huge running time.  
+This is perhaps the finest example of the maxim “Don’t compute anything more than once” and should not scare you away from using recursion.  
+Throughout this book, we shall see outstanding uses of recursion.
+
+
+#### 2.4.3 Solutions for the Maximum Subsequence Sum Problem
+
+We will now present four algorithms to solve the maximum subsequence sum  problem posed earlier.
+
+The first algorithm, which merely exhaustively tries all possibilities, is depicted in Figure 2.5.  
+The indices in the for loop reflect the fact that in C++, arrays begin at 0 instead of 1.  
+Also, the algorithm does not compute the actual subsequences;  
+additional code is required to do this.
+
+
+###### Figure 2.5 Algorithm 1
+
+```cs
+/*01*/  /**
+/*02*/   * Cubic maximum contiguous subsequence sum algorithm.
+/*03*/   */
+/*04*/  int maxSubSum1( const vector<int> & a )
+/*05*/  {
+/*06*/      int maxSum = 0;
+/*07*/  
+/*08*/      for( int i = 0; i < a.size( ); ++i )
+/*09*/          for( int j = i; j < a.size( ); ++j )
+/*10*/          {
+/*11*/              int thisSum = 0;
+/*12*/  
+/*13*/              for( int k = i; k <= j; ++k )
+/*14*/                  thisSum += a[ k ];
+/*15*/  
+/*16*/              if( thisSum > maxSum )
+/*17*/                  maxSum = thisSum;
+/*18*/          }
+/*19*/  
+/*20*/      return maxSum;
+/*21*/  }
+```
+
+Convince yourself that this algorithm works (this should not take much convincing).  
+The running time is $O(N^3)$ and is entirely due to lines 13 and 14, which consist of an O(1) statement buried inside three nested for loops.  
+The loop at line 8 is of size N.
+
+The second loop has size N−i, which could be small but could also be of size N.  
+We must assume the worst, with the knowledge that this could make the final bound a bit high.  
+The third loop has size j−i+1, which again we must assume is of size N.  
+The total is $O(1·N·N·N)=O(N^3)$.  
+Line 6 takes only O(1) total, and lines 16 and 17 take only O(N^2) total, since they are easy expressions inside only two loops.
+
+It turns out that a more precise analysis, taking into account the actual size of theseloops, shows that the answer is $Θ(N^3)$ and that our estimate above was a factor of 6 too high (which is all right, because constants do not matter).  
+This is generally true in thesekinds of problems.  
+The precise analysis is obtained from the sum $\sum_{i=0}^{N-1} \sum_{j=i}^{N-1} \sum_{k=i}^j 1$, which tells how many times line 14 is executed.  
+The sum can be evaluated inside out,using formulas from Section 1.2.3.  
+In particular, we will use the formulas for the sum ofthe firstNintegers and firstNsquares.  
+First we have
+
+$$ \sum_{k=i}^j 1 = j−i+1 $$
+
+Next we evaluate
+
+$$ \sum^{N−1}_{j=i} (j−i+1) = \frac{(N−i+1)(N−i)}{2} $$
+
+This sum is computed by observing that it is just the sum of the first N−i integers.  
+Tocomplete the calculation, we evaluate
+
+$$ \sum^{N−1}_{i=0} \frac{(N−i+1)(N−i)}{2} = \sum^N_{i=1} \frac{(N−i+1)(N−i+2)}{2} $$
+$$ = 1/2 \sum^N_{i=1} i^2 − (N+3/2) \sum^N_{i=1} i + 1/2(N^2+3N+2) \sum^N_{i=1} 1 $$
+$$ = 1/2 \frac{N(N+1)(2N+1)}{6} − (N+3/2) \frac{N(N+1)}{2} + \frac{N^2+3N+2}{2} N $$
+$$ = \frac{N^3+3N^2+2N}{6} $$
+
+We can avoid the cubic running time by removing a for loop.  
+This is not always possible, but in this case there are an awful lot of unnecessary computations present in thealgorithm.  
+The inefficiency that the improved algorithm corrects can be seen by noticing that $\sum^j_{k=i} A_k = A_j + \sum^{j−1}_{k=i} A_k$, so the computation at lines 13 and 14 in algorithm 1 is unduly expensive.  
+Figure 2.6 shows an improved algorithm.  
+Algorithm 2 is clearly $O(N^2)$;  
+the analysis is even simpler than before.
+
+
+###### Figure 2.6 Algorithm 2
+
+```cs
+/*01*/  /**
+/*02*/   * Quadratic maximum contiguous subsequence sum algorithm.
+/*03*/   */
+/*04*/  int maxSubSum2( const vector<int> & a )
+/*05*/  {
+/*06*/      int maxSum = 0;
+/*07*/  
+/*08*/      for( int i = 0; i < a.size( ); ++i )
+/*09*/      {
+/*10*/          int thisSum = 0;
+/*11*/          for( int j = i; j < a.size( ); ++j )
+/*12*/          {
+/*13*/              thisSum += a[ j ];
+/*14*/  
+/*15*/              if( thisSum > maxSum )
+/*16*/              maxSum = thisSum;
+/*17*/          }
+/*18*/      }
+/*19*/  
+/*20*/      return maxSum;
+/*21*/  }
+```
+
+There is a recursive and relatively complicated $O(NlogN)$ solution to this problem, which we now describe.  
+If there didn’t happen to be an O(N) (linear) solution, this wouldbe  an  excellent  example  of  the  power  of  recursion.  
+The  algorithm  uses  a  “divide-and-conquer” strategy.  
+The idea is to split the problem into two roughly equal subproblems, which are then solved recursively.  
+This is the “divide” part.  
+The “conquer” stage consistsof patching together the two solutions of the subproblems, and possibly doing a smallamount of additional work, to arrive at a solution for the whole problem.
+
+In our case, the maximum subsequence sum can be in one of three places.  
+Either itoccurs entirely in the left half of the input, or entirely in the right half, or it crosses themiddle and is in both halves.  
+The first two cases can be solved recursively.  
+The last casecan be obtained by finding the largest sum in the first half that includes the last elementin the first half, and the largest sum in the second half that includes the first element inthe second half.  
+These two sums can then be added together.  
+As an example, consider thefollowing input:
+
+```
+First Half | Second Half
+------------------------
+ 4 −3 5 −2 | −1 2 6 −2
+```
+
+The maximum subsequence sum for the first half is 6 (elementsA1throughA3)andforthe second half is 8 (elementsA6throughA7).
+
+The maximum sum in the first half that includes the last element in the first half is 4(elementsA1throughA4), and the maximum sum in the second half that includes the firstelement in the second half is 7 (elementsA5throughA7).  
+Thus, the maximum sum thatspans both halves and goes through the middle is 4+7=11 (elementsA1throughA7).
+
+We see, then, that among the three ways to form a large maximum subsequence, forour example, the best way is to include elements from both halves.  
+Thus, the answer is 11.  
+Figure 2.7 shows an implementation of this strategy.
+
+
+###### Figure 2.7 Algorithm 3
+
+```cs
+/*01*/  /**
+/*02*/   * Recursive maximum contiguous subsequence sum algorithm.
+/*03*/   * Finds maximum sum in subarray spanning a[left..right].
+/*04*/   * Does not attempt to maintain actual best sequence.
+/*05*/   */
+/*06*/  int maxSumRec( const vector<int> & a, int left, int right )
+/*07*/  {
+/*08*/      if( left == right )  // Base case
+/*09*/          if( a[ left]>0)
+/*10*/              return a[ left ];
+/*11*/          else
+/*12*/              return 0;
+/*13*/  
+/*14*/  int center = ( left + right ) / 2;
+/*15*/  int maxLeftSum  = maxSumRec( a, left, center );
+/*16*/  int maxRightSum = maxSumRec( a, center + 1, right );
+/*17*/  
+/*18*/  int maxLeftBorderSum = 0, leftBorderSum = 0;
+/*19*/  for( int i = center; i >= left; --i )
+/*20*/  {
+/*21*/      leftBorderSum += a[ i ];
+/*22*/      if( leftBorderSum > maxLeftBorderSum )
+/*23*/          maxLeftBorderSum = leftBorderSum;
+/*24*/  }
+/*25*/  
+/*26*/  int maxRightBorderSum = 0, rightBorderSum = 0;
+/*27*/  for( int j = center + 1; j <= right; ++j )
+/*28*/  {
+/*29*/      rightBorderSum += a[ j ];
+/*30*/      if( rightBorderSum > maxRightBorderSum )
+/*31*/          maxRightBorderSum = rightBorderSum;
+/*32*/  }
+/*33*/  
+/*34*/  return max3( maxLeftSum, maxRightSum,
+/*35*/              maxLeftBorderSum + maxRightBorderSum );
+/*36*/  }
+/*37*/  
+/*38*/  /**
+/*39*/   * Driver for divide-and-conquer maximum contiguous
+/*40*/   * subsequence sum algorithm.
+/*41*/   */
+/*42*/  int maxSubSum3( const vector<int> & a )
+/*43*/  {
+/*44*/      return maxSumRec( a, 0, a.size( ) - 1 );
+/*45*/  }
+```
+
+The code for algorithm 3 deserves some comment.  
+The general form of the call for therecursive function is to pass the input array along with the left and right borders, whichdelimits the portion of the array that is operated upon.  
+A one-line driver program sets thisup by passing the borders 0 andN−1 along with the array.
+
+Lines 8 to 12 handle the base case.  
+Ifleft == right, there is one element, and it isthe maximum subsequence if the element is nonnegative.  
+The caseleft > rightis notpossible unlessNis negative (although minor perturbations in the code could mess thisup).  
+Lines 15 and 16 perform the two recursive calls.  
+We can see that the recursive callsare always on a smaller problem than the original, although minor perturbations in thecode could destroy this property.  
+Lines 18 to 24 and 26 to 32 calculate the two maxi-mum sums that touch the center divider.  
+The sum of these two values is the maximumsum that spans both halves.  
+The routinemax3(not shown) returns the largest of the threepossibilities.
+
+Algorithm 3 clearly requires more effort to code than either of the two previous algo-rithms.  
+However, shorter code does not always mean better code.  
+As we have seen in theearlier table showing the running times of the algorithms, this algorithm is considerablyfaster than the other two for all but the smallest of input sizes.
+
+The running time is analyzed in much the same way as for the program that computesthe Fibonacci numbers.  
+LetT(N) be the time it takes to solve a maximum subsequencesum problem of sizeN.IfN=1, then the program takes some constant amount of timeto execute lines 8 to 12, which we shall call one unit. Thus,T(1)=1.  
+Otherwise, the program must perform two recursive calls, the twoforloops between lines 19 and 32, andsome small amount of bookkeeping, such as lines 14 and 34.  
+The twoforloops combineto touch every element in the subarray, and there is constant work inside the loops, so thetime expended in lines 19 to 32 isO(N).  
+The code in lines 8 to 14, 18, 26, and 34 is alla constant amount of work and can thus be ignored compared withO(N).  
+The remainderof the work is performed in lines 15 and 16.  
+These lines solve two subsequence problemsof sizeN/2 (assumingNis even).  
+Thus, these lines takeT(N/2) units of time each, for atotal of 2T(N/2).  
+The total time for the algorithm then is 2T(N/2)+O(N).  
+This gives the equations
+
+$$ T(1) = 1 $$
+$$ T(N) = 2T(N/2)+O(N) $$
+
+To simplify the calculations, we can replace theO(N) term in the equation above withN;sinceT(N) will be expressed in Big-Oh notation anyway, this will not affect the answer.  
+In  Chapter  7,  we  shall  see  how  to  solve  this  equation  rigorously.  
+For  now,  ifT(N)=2T(N/2)+N,andT(1)=1, thenT(2)=4=2∗2,T(4)=12=4∗3,T(8)=32=8∗4,andT(16)=80=16∗5.  
+The pattern that is evident, and can be derived, is that if $N=2^k$, then $T(N)=N∗(k+1)=NlogN+N=O(NlogN)$.
+
+This analysis assumesNis even, since otherwiseN/2 is not defined.  
+By the recursivenature of the analysis, it is really valid only whenNis a power of 2, since otherwise weeventually get a subproblem that is not an even size, and the equation is invalid.  
+WhenNis not a power of 2, a somewhat more complicated analysis is required, but the Big-Ohresult remains unchanged.
+
+In future chapters, we will see several clever applications of recursion.  
+Here, we presenta fourth algorithm to find the maximum subsequence sum.  
+This algorithm is simpler toimplement than the recursive algorithm and also is more efficient.  
+It is shown in Figure 2.8.
+
+
+###### Figure 2.8 Algorithm 4
+
+```cs
+/*01*/  /**
+/*02*/   * Linear-time maximum contiguous subsequence sum algorithm.
+/*03*/   */
+/*04*/  int maxSubSum4( const vector<int> & a )
+/*05*/  {
+/*06*/      int maxSum = 0, thisSum = 0;
+/*07*/  
+/*08*/      for( int j = 0; j < a.size( ); ++j )
+/*09*/      {
+/*10*/          thisSum += a[ j ];
+/*11*/  
+/*12*/          if( thisSum > maxSum )
+/*13*/              maxSum = thisSum;
+/*14*/          else if( thisSum < 0 )
+/*15*/              thisSum = 0;
+/*16*/      }
+/*17*/  
+/*18*/      return maxSum;
+/*19*/  }
+```
+
+It should be clear why the time bound is correct, but it takes a little thought to see whythe algorithm actually works.  
+To sketch the logic, note that like algorithms 1 and 2, j is representing the end of the current sequence, whileiis representing the start of the currentsequence.  
+It happens that the use ofican be optimized out of the program if we do notneed to know where the actual best subsequence is, but in designing the algorithm, let’spretend thatiis needed and that we are trying to improve algorithm 2.  
+One observationis that ifa[i]is negative, then it cannot possibly be the start of the optimal subsequence,since any subsequence that begins by includinga[i]would be improved by beginningwitha[i+1].  
+Similarly, any negative subsequence cannot possibly be a prefix of the optimalsubsequence (same logic).  
+If, in the inner loop, we detect that the subsequence froma[i]toa[j]is negative, then we can advancei.  
+The crucial observation is that not only can weadvanceitoi+1, but we can also actually advance it all the way toj+1.  
+To see this, letpbeany index betweeni+1andj.  
+Any subsequence that starts at indexpis not larger than thecorresponding subsequence that starts at indexiand includes the subsequence froma[i]toa[p-1], since the latter subsequence is not negative (jis the first index that causes thesubsequence starting at indexito become negative).  
+Thus, advancingitoj+1is risk free;we cannot miss an optimal solution.
+
+This  algorithm  is  typical  of  many  clever  algorithms:  
+The  running  time  is  obvious,but the correctness is not.  
+For these algorithms, formal correctness proofs (more formal than the sketch above) are almost always required;  
+even then, many people still are notconvinced.  
+Also, many of these algorithms require trickier programming, leading to longerdevelopment.  
+But when these algorithms work, they run quickly, and we can test muchof the code logic by comparing it with an inefficient (but easily implemented) brute-forcealgorithm using small input sizes.
+
+An extra advantage of this algorithm is that it makes only one pass through the data,and oncea[i]is read and processed, it does not need to be remembered.  
+Thus, if thearray is on a disk or is being transmitted over the Internet, it can be read sequentially, andthere is no need to store any part of it in main memory.  
+Furthermore, at any point in time,the algorithm can correctly give an answer to the subsequence problem for the data it hasalready read (the other algorithms do not share this property).  
+Algorithms that can do thisare called **online algorithms**.  
+An online algorithm that requires only constant space andruns in linear time is just about as good as possible.
+
+
+#### 2.4.4 Logarithms in the Running Time
