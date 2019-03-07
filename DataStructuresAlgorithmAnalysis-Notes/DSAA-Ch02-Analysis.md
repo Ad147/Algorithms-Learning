@@ -34,6 +34,7 @@ In this chapter, we shall discuss...
     - [2.4.2 General Rules](#242-general-rules)
     - [2.4.3 Solutions for the Maximum Subsequence Sum Problem](#243-solutions-for-the-maximum-subsequence-sum-problem)
     - [2.4.4 Logarithms in the Running Time](#244-logarithms-in-the-running-time)
+  - [Summary](#summary)
 
 
 --------------------------------------------------------------------------------
@@ -709,3 +710,229 @@ An online algorithm that requires only constant space andruns in linear time is 
 
 
 #### 2.4.4 Logarithms in the Running Time
+
+The most confusing aspect of analyzing algorithms probably centers around the logarithm.  
+We have already seen that some divide-and-conquer algorithms will run in O(NlogN)time.  
+Besides divide-and-conquer algorithms, the most frequent appearance of logarithms centers around the following general rule:  
+*An algorithm is O(logN) if it takes constant(O(1))time to cut the problem size by a fraction (which is usually 1/2)*.  
+On the other hand, if constanttime is required to merely reduce the problem by a constant amount (such as to make theproblem smaller by 1), then the algorithm is O(N).
+
+It should be obvious that only special kinds of problems can be O(logN).  
+For instance,if the input is a list of N numbers, an algorithm must take Ω(N) merely to read the input in.  
+Thus, when we talk about O(logN) algorithms for these kinds of problems, we usually presume that the input is preread.  
+We provide three examples of logarithmic behavior.
+
+
+##### Binary Search
+
+> ##### Binary Search
+> Given an integer X and integers A0, A1, ..., AN−1, which are presorted and already in memory, find i such that Ai=X, or return i=−1 if X is not in the input.
+
+The obvious solution consists of scanning through the list from left to right and runsin linear time.  
+However, this algorithm does not take advantage of the fact that the list issorted and is thus not likely to be best.  
+A better strategy is to check if X is the middle element.  
+If so, the answer is at hand.  
+If X is smaller than the middle element, we can apply the same strategy to the sorted subarray to the left of the middle element;  
+likewise, if X is larger than the middle element, we look to the right half.  
+(There is also the case of when tostop.)  
+Figure 2.9 shows the code for binary search (the answer is mid).  
+
+
+###### Figure 2.9 Binary search
+
+```cs
+/*01*/  /**
+/*02*/   * Performs the standard binary search using two comparisons per level.
+/*03*/   * Returns index where item is found or -1 if not found.
+/*04*/   */
+/*05*/  template <typename Comparable>
+/*06*/  int binarySearch( const vector<Comparable> & a, const Comparable & x )
+/*07*/  {
+/*08*/      int low = 0, high = a.size( ) - 1;
+/*09*/  
+/*10*/      while( low <= high )
+/*11*/      {
+/*12*/          int mid = ( low + high ) / 2;
+/*13*/  
+/*14*/          if(a[mid]<x)
+/*15*/              low = mid + 1;
+/*16*/          else if( a[ mid]>x)
+/*17*/              high = mid - 1;
+/*18*/          else
+/*19*/              return mid;   // Found
+/*20*/      }
+/*21*/      return NOT_FOUND;     // NOT_FOUND is defined as -1
+/*22*/  }
+```
+
+Clearly,  all  the  work  done  inside  the  loop  takes O(1)  per  iteration,  so  the  analysisrequires determining the number of times around the loop.  
+The loop starts with `high-low`=N−1 and finishes with `high - low`≥−1.  
+Every time through the loop, the value `high - low` must  be  at  least  halved  from  its  previous  value;  
+thus,  the  number  of  times around the loop is at most ceil(log(N−1))+2.  
+(As an example, ifhigh - low=128, thenthe maximum values ofhigh - lowafter each iteration are 64, 32, 16, 8, 4, 2, 1, 0,−1.)  
+Thus, the running time isO(logN).  
+Equivalently, we could write a recursive formula forthe running time, but this kind of brute-force approach is usually unnecessary when youunderstand what is really going on and why.
+
+Binary search can be viewed as our first data-structure implementation.  
+It supports the `contains` operation in O(logN) time, but all other operations (in particular,insert) requireO(N) time.  
+In applications where the data are static (i.e., insertions and deletionsare not allowed), this could be very useful.  
+The input would then need to be sorted once,but afterward accesses would be fast.  
+An example is a program that needs to maintaininformation about the periodic table of elements (which arises in chemistry and physics).  
+This table is relatively stable, as new elements are added infrequently.  
+The element names could be kept sorted.  
+Since there are only about 118 elements, at most eight accesses wouldbe required to find an element.  
+Performing a sequential search would require many moreaccesses.
+
+
+##### Euclid’s Algorithm
+
+A second example is Euclid’s algorithm for computing the greatest common divisor.  
+Thegreatest common divisor (gcd) of two integers is the largest integer that divides both.  
+Thus, gcd(50, 15)=5.  
+The algorithm in Figure 2.10 computes gcd(M,N), assumingM≥N.  
+(If N>M, the first iteration of the loop swaps them.)
+
+The algorithm works by continually computing remainders until 0 is reached.  
+The lastnonzero remainder is the answer.  
+Thus, if M=1,989 and N=1,590, then the sequenceof remainders is 399, 393, 6, 3, 0.  
+Therefore,gcd(1989, 1590)=3.  
+As the example shows,this is a fast algorithm.
+
+
+###### Figure 2.10Euclid’s algorithm
+
+```cs
+/*01*/  long long gcd( long long m, long long n )
+/*02*/  {
+/*03*/      while( n != 0 )
+/*04*/      {
+/*05*/          long long rem=m%n;
+/*06*/          m=n;
+/*07*/          n = rem;
+/*08*/      }
+/*09*/      return m;
+/*10*/  }
+```
+
+As before, estimating the entire running time of the algorithm depends on determin-ing how long the sequence of remainders is.  
+Although logN seems like a good answer, itis not at all obvious that the value of the remainder has to decrease by a constant factor, since we see that the remainder went from 399 to only 393 in the example.  
+Indeed, the remainder does not decrease by a constant factor in one iteration.  
+However, we can prove that after two iterations, the remainder is at most half of its original value.  
+This would show that the number of iterations is at most 2 logN=O(logN) and establish the run-ning time.  
+This proof is easy, so we include it here.  
+It follows directly from the following theorem.
+
+
+###### Theorem 2.1
+
+If $M>N$, then $M mod N<M/2$.
+
+
+###### Proof
+
+There are two cases.  
+- If $N≤M/2$, then since the remainder is smaller than N, the theorem is true for this case.  
+- The other case is N>M/2.  
+  But then N goes into M once with a remainder $M−N<M/2$, proving the theorem.
+
+One might wonder if this is the best bound possible, since 2 logN is about 20 for ourexample, and only seven operations were performed.  
+It turns out that the constant can beimproved slightly, to roughly $1.44logN$, in the worst case (which is achievable if M and N are consecutive Fibonacci numbers).  
+The average-case performance of Euclid’s algorithmrequires pages and pages of highly sophisticated mathematical analysis, and it turns outthat the average number of iterations is about $(12 ln2 lnN)/π^2+1.47$.
+
+
+##### Exponentiation
+
+Our last example in this section deals with raising an integer to a power (which is also aninteger).  
+Numbers that result from exponentiation are generally quite large, so an analysisworks only if we can assume that we have a machine that can store such large integers(or a compiler that can simulate this).  
+We will count the number of multiplications as themeasurement of running time.
+
+The obvious algorithm to compute $X^N$ uses N−1 multiplications.  
+A recursive algorithmcan do better.  
+N≤1 is the base case of the recursion.  
+Otherwise,
+- if N is even, we have $X^N=X^{N/2}·X^{N/2}$,
+- and if N is odd, $X^N=X^{(N−1)/2}·X^{(N−1)/2}·X$.
+
+For instance, to compute $X^{62}$, the algorithm does the following calculations, which involve only nine multiplications:
+
+$$ X^3=(X^2)X, X^7=(X^3)^2X, X^{15}=(X^7)^2X, X^{31}=(X^{15})^2X, X^{62}=(X^{31})^2 $$
+
+The number of multiplications required is clearly at most 2 logN, because at most twomultiplications (ifNis odd) are required to halve the problem.  
+Again, a recurrence formulacan be written and solved.  
+Simple intuition obviates the need for a brute-force approach.
+
+Figure 2.11 implements this idea.  
+
+
+###### Figure 2.11 Efficient exponentiation
+
+```cs
+long long pow(long long x, int n)
+{
+    if (n == 0)
+        return 1;
+    if (n == 1)                         // line 5
+        return x;                       // line 6
+    if (isEven(n))
+        return pow(x * x, n / 2);
+    else
+        return pow(x * x, n / 2) * x;   // line 10
+}
+```
+
+It is sometimes interesting to see how much thecode can be tweaked without affecting correctness.  
+In Figure 2.11, lines 5 to 6 are actuallyunnecessary,  because  ifNis  1,  then  line  10  does  the  right  thing.  Line  10  can  also  be rewritten as
+
+`/*10*/ return pow(x, n-1) * x;`
+
+without  affecting  the  correctness  of  the  program.  
+Indeed,  the  program  will  still  run  inO(logN), because the sequence of multiplications is the same as before.  
+However, all of thefollowing alternatives for line 8 are bad, even though they look correct:
+
+```cs
+/*8a*/  return pow(pow(x, 2), n / 2);
+/*8b*/  return pow(pow(x, n / 2), 2);
+/*8c*/  return pow(x, n/2) * pow(x, n/2);
+```
+
+Both lines 8a and 8b are incorrect because whenNis 2, one of the recursive calls topowhas 2 as the second argument.  
+Thus no progress is made, and an infinite loop results (inan eventual crash).
+
+Using line 8c affects the efficiency, because there are now two recursive calls of sizeN/2instead of only one.  
+An analysis will show that the running time is no longer $O(logN)$ (exercise).  
+
+
+##### 2.4.5 Limitations of Worst-Case Analysis
+
+Sometimes the analysis is shown empirically to be an overestimate.  
+If this is the case, theneither the analysis needs to be tightened (usually by a clever observation), or it may bethat theaveragerunning time is significantly less than the worst-case running time andno improvement in the bound is possible.  
+For many complicated algorithms the worst-case bound is achievable by some bad input but is usually an overestimate in practice.  
+Unfortunately, for most of these problems, an average-case analysis is extremely complex(in many cases still unsolved), and a worst-case bound, even though overly pessimistic, isthe best analytical result known.
+
+
+--------------------------------------------------------------------------------
+
+
+### Summary
+
+This chapter gives some hints on how to analyze the complexity of programs.  
+Unfortu-nately, it is not a complete guide.  
+Simple programs usually have simple analyses, but thisis not always the case.  
+As an example, later in the text we shall see a sorting algorithm(Shellsort, Chapter 7) and an algorithm for maintaining disjoint sets (Chapter 8), each of
+Exercises71which requires about 20 lines of code.  
+The analysis of Shellsort is still not complete, and thedisjoint set algorithm has an analysis that until recently was extremely difficult and requirepages and pages of intricate calculations.  
+Most of the analyses that we will encounter herewill be simple and involve counting through loops.
+
+An  interesting  kind  of  analysis,  which  we  have  not  touched  upon,  is  lower-boundanalysis.  
+We will see an example of this in Chapter 7, where it is proved that any algorithmthat sorts by using only comparisons requires (NlogN) comparisons in the worst case.  
+Lower-bound proofs are generally the most difficult, because they apply not to an algorithmbut to a class of algorithms that solve a problem.
+
+We  close  by  mentioning  that  some  of  the  algorithms  described  here  have  real-lifeapplication.  
+Thegcdalgorithm and the exponentiation algorithm are both used in cryptog-raphy.  
+Specifically, a 600-digit number is raised to a large power (usually another 600-digitnumber), with only the low 600 or so digits retained after each multiplication.  
+Since thecalculations require dealing with 600-digit numbers, efficiency is obviously important.  
+Thestraightforward algorithm for exponentiation would require about 10600multiplications,whereas the algorithm presented requires only about 4,000 in the worst case.
+
+--------------------------------------------------------------------------------
+
+EOF
