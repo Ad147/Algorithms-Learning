@@ -38,6 +38,7 @@ In this chapter, we provide code that implements a significant subset of two lib
     - [3.3.2 Example: Using `erase` on a List](#332-example-using-erase-on-a-list)
     - [3.3.3 `const_iterator`s](#333-constiterators)
   - [3.4 Implementation of `vector`](#34-implementation-of-vector)
+  - [3.5 Implementation of `List`](#35-implementation-of-list)
 
 
 --------------------------------------------------------------------------------
@@ -410,3 +411,202 @@ The code in Figure 3.6 makes use ofautoto declare the iterator (as in Fig. 3.5) 
 
 
 ### 3.4 Implementation of `vector`
+
+The `vector` will be a first-class type, meaning that unlike the primitive array in C++, the `vector` can be copied, and the memory it uses can be automatically reclaimed (via its destructor).  
+InSection 1.5.7, we described some important features of C++primitive arrays:
+
+- The array is simply a pointer variable to a block of memory; the actual array size mustbe maintained separately by the programmer.
+- The block of memory can be allocated vianew[]but then must be freed viadelete[].
+- The block of memory cannot be resized (but a new, presumably larger block can beobtained and initialized with the old block, and then the old block can be freed).
+
+To avoid ambiguities with the library class, we will name our class template `Vector`.  
+Before examining the `Vector` code, we outline the main details:
+
+1. The `Vector` will maintain the primitive array (via a pointer variable to the block ofallocated memory), the array capacity, and the current number of items stored in theVector.
+2. The `Vector` will implement the Big-Five to provide deep-copy semantics for the copy constructor and `operator=`, and will provide a destructor to reclaim the primitive array.  
+   It will also implement C++11 move semantics.
+3. The `Vector` will provide are size routine that will change (generally to a larger number)the  size  of  theVectorand  areserveroutine  that  will  change  (generally  to  a  largernumber) the capacity of theVector.  
+   The capacity is changed by obtaining a new blockof  memory  for  the  primitive  array,  copying  the  old  block  into  the  new  block,  andreclaiming the old block.
+4. The `Vector` will   provide   an   implementation   ofoperator[](as   mentioned   inSection 1.7.2,operator[]is typically implemented with both an accessor and mutatorversion).
+5. TheVectorwill provide basic routines, such assize,empty,clear(which are typicallyone-liners),back,pop_back,andpush_back.  
+   Thepush_backroutine will callreserveif thesize and capacity are same.
+6. TheVectorwill provide support for the nested typesiteratorandconst_iterator,and associated begin and end methods.
+
+Figure 3.7 and Figure 3.8 show the `Vector` class.  
+Like its STL counterpart, there islimited error checking.  
+Later we will briefly discuss how error checking can be provided.
+
+
+```cs
+/*01*/  #include <algorithm>
+/*02*/  
+/*03*/  template <typename Object>
+/*04*/  class Vector
+/*05*/  {
+/*06*/    public:
+/*07*/      explicit Vector(int initSize = 0) : theSize{initSize},
+/*08*/                                          theCapacity{initSize + SPARE_CAPACITY}
+/*09*/      { objects = new Object[theCapacity]; }
+/*10*/  
+/*11*/      Vector(const Vector &rhs) : theSize{rhs.theSize},
+/*12*/                                  theCapacity{rhs.theCapacity}, objects{nullptr}
+/*13*/      {
+/*14*/          objects = new Object[theCapacity];
+/*15*/          for (int i = 0; i < theSize; ++i)
+/*16*/              objects[i] = rhs.objects[i];
+/*17*/      }
+/*18*/  
+/*19*/      Vector &operator=(const Vector &rhs)
+/*20*/      {
+/*21*/          Vector tmp = rhs;
+/*22*/          std::swap(tmp, *this);
+/*23*/          return *this
+/*24*/      }
+/*25*/  
+/*26*/      ~Vector()
+/*27*/      { delete[] objects; }
+/*28*/  
+/*29*/      Vector(Vector &&rhs) : theSize{rhs.theSize},
+/*30*/                             theCapacity{rhs.theCapacity}, objects{rhs.objects}
+/*31*/      {
+/*32*/          rhs.objects = nullptr;
+/*33*/          rhs.theSize = 0;
+/*34*/          rhs.theCapacity = 0;
+/*35*/      }
+/*36*/  
+/*37*/      Vector &operator=(Vector &&rhs)
+/*38*/      {
+/*39*/          std::swap(rhs, objects);
+/*40*/          std::swap(rhs.theSize, theSize);
+/*41*/          std::swap(rhs.theCapacity, theCapacity);
+/*42*/          
+/*43*/          return *this;
+/*44*/      }
+/*45*/  
+/*46*/      void resize(int newSize)
+/*47*/      {
+/*48*/          if (newSize > theCapacity)
+/*49*/              reserve(newSize * 2);
+/*50*/          theSize = newSize;
+/*51*/      }
+/*52*/  
+/*53*/      void reserve(int newCapacity)
+/*54*/      {
+/*55*/          if (newCapacity < theSize)
+/*56*/              return;
+/*57*/  
+/*58*/          Object *tmp = new Object[newCapacity];
+/*59*/          for (int i = 0; i < theSize; ++i)
+/*60*/              tmp[i] = std::move(objects[i]);
+/*61*/  
+/*62*/          theCapacity = newCapacity;
+/*63*/          std::swap(objects, tmp);
+/*64*/          delete[] tmp;
+/*65*/      }
+/*66*/  
+/*67*/      Object &operator[](int idx)
+/*68*/      { return objects[idx]; }
+/*69*/      const Object &operator[](int idx) const
+/*70*/      { return objects[idx]; }
+/*71*/  
+/*72*/      bool empty() const
+/*73*/      { return theSize == 0; }
+/*74*/      int size() const
+/*75*/      { return theSize; }
+/*76*/      int capacity() const
+/*77*/      { return theCapacity; }
+/*78*/  
+/*79*/      void push_back(const Object &x)
+/*80*/      {
+/*81*/          if (theSize == theCapacity)
+/*82*/              reserve(2 * theCapacity + 1);
+/*83*/          objects[theSize++] = x;
+/*84*/      }
+/*85*/  
+/*86*/      void push_back(Object &&x)
+/*87*/      {
+/*88*/          if (theSize == theCapacity)
+/*89*/              reserve(2 * theCapacity + 1);
+/*90*/          objects[theSize++] = std::move(x);
+/*91*/      }
+/*92*/  
+/*93*/      void pop_back()
+/*94*/      {
+/*95*/          --theSize;
+/*96*/      }
+/*97*/  
+/*98*/      const Object &back() const
+/*99*/      {
+/*100*/         return objects[theSize - 1];
+/*101*/     }
+/*102*/ 
+/*103*/     typedef Object *iterator;
+/*104*/     typedef const Object *const_iterator;
+/*105*/ 
+/*106*/     iterator begin()
+/*107*/     { return &objects[0]; }
+/*108*/     const_iterator begin() const
+/*109*/     { return &objects[0]; }
+/*110*/     iterator end()
+/*111*/     { return &object[theSize]; }
+/*112*/     const_iterator end() const
+/*113*/     { return &object[theSize]; }
+/*114*/ 
+/*115*/     static const int SPARE_CAPACITY = 16;
+/*116*/ 
+/*117*/   private:
+/*118*/     int theSize;
+/*119*/     int theCapacity;
+/*120*/     Object *objects;
+/*121*/ };
+```
+
+As shown on lines 118 to 120, the `Vector` stores the size, capacity, and primitive arrayas its data members.  
+The constructor at lines 7 to 9 allows the user to specify an initialsize, which defaults to zero.  
+It then initializes the data members, with the capacity slightlylarger than the size, so a few `push_back`s can be performed without changing the capacity.
+
+The copy constructor, shown at lines 11 to 17, makes a newVectorand can then beused by a casual implementation of `operator=` that uses the standard idiom of swappingin a copy.  
+This idiom works only if swapping is done by moving, which itself requiresthe implementation of the move constructor and move `operator=` shown at lines 29 to 44.  
+Again, these use very standard idioms.  
+Implementation of the copy assignment `operator=` using a copy constructor and swap, while simple, is certainly not the most efficient method,especially in the case where bothVectors have the same size.  
+In that special case, whichcan be tested for, it can be more efficient to simply copy each element one by one using Object’s `operator=`.
+
+The `resize` routine  is  shown  at  lines  46  to  51.  
+The  code  simply  sets  the `theSize` data member, after possibly expanding the capacity.  
+Expanding capacity is very expensive.  
+So if the capacity is expanded, it is made twice as large as the size to avoid havingto change the capacity again unless the size increases dramatically (the+1is used in casethe size is 0).  
+Expanding capacity is done by the reserve routine, shown at lines 53 to 65.  
+It consists of allocation of a new array at line 58, moving the old contents at lines59  and  60,  and  the  reclaiming  of  the  old  array  at  line  64.  
+As  shown  at  lines  55  and 56, the `reserve` routine can also be used to shrink the underlying array, but only if the specified  new  capacity  is  at  least  as  large  as  the  size.  
+If  it  isn’t,  the `reserve` request  is ignored.
+
+The two versions of `operator[]` are trivial (and in fact very similar to the implementations of `operator[]` in thematrixclass in Section 1.7.2) and are shown in lines 67 to 70.Error checking is easily added by making sure that `index` is in the range 0 to `size()-1`, inclusive, and throwing an exception if it is not.
+
+A host of short routines, namely,empty,size,capacity,push_back,pop_back,andback,are implemented in lines 72 to 101.  
+At lines 83 and 90, we see the use of the postfix `++` operator, which usestheSizeto index the array and then increasestheSize.  
+We saw the same idiom when discussing iterators: `*itr++` usesitrto decide which item to view andthen  advances `itr`.  
+The  positioning  of  the `++ `matters:  
+In  the  prefix++operator, `*++itr` advances `itr` and  then  uses  the  new `itr` to  decide  which  item  to  view,  and  likewise, `objects[++theSize]` would increment theSize and use the new value to index the array(which  is  not  what  we  would  want).  
+pop_backandbackcould  both  benefit  from  errorchecks in which an exception is thrown if the size is 0.
+
+Finally, at lines 103 to 113 we see the declaration of the `iterator` and `const_iterator` nested types and the two `begin` and two `end` methods.  
+This code makes use of the fact that in C++, a pointer variable has all the same operators that we expect for aniterator.  
+Pointer variables can be copied and compared;  
+the `*` operator yields the object being pointed at,and, most peculiarly, when++is applied to a pointer variable, the pointer variable thenpoints at the object that would be stored next sequentially:  
+If the pointer is pointing insidean array, incrementing the pointer positions it at the next array element.  
+These semanticsfor pointers date back to the early 70s with the C programming language, upon which C++is based.  
+The STL iterator mechanism was designed in part to mimic pointer operations.
+
+Consequently, at lines 103 and 104, we seetypedefstatements that state the `iterator` and `const_iterator` are simply other names for a pointer variable, and `begin` and `end` need to simply return the memory addresses representing the first array position and the first invalid array position, respectively.
+
+The  correspondence  between  iterators  and  pointers  for  thevectortype  means  thatusing avectorinstead of the C++array is likely to carry little overhead.  
+The disadvantageis  that,  as  written,  the  code  has  no  error  checks.  
+If  the  iteratoritrgoes  crashing  pastthe end marker, neither `++itr` nor `*itr` will necessarily signal an error.  
+To fix this problemwould require that theiteratorandconst_iteratorbe actual nested class types rather thansimply pointer variables.  
+Using nested class types is much more common and is what wewill see in the `List` class in Section 3.5.
+
+
+--------------------------------------------------------------------------------
+
+
+### 3.5 Implementation of `List`
