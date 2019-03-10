@@ -39,6 +39,7 @@ In this chapter, we provide code that implements a significant subset of two lib
     - [3.3.3 `const_iterator`s](#333-constiterators)
   - [3.4 Implementation of `vector`](#34-implementation-of-vector)
   - [3.5 Implementation of `List`](#35-implementation-of-list)
+  - [3.6 The Stack ADT](#36-the-stack-adt)
 
 
 --------------------------------------------------------------------------------
@@ -339,9 +340,9 @@ void print( const list<int> & lst, ostream & out = cout )
 If this code were legal, then the const-ness of thelistwould be completely meaningless,because it would be so easily bypassed.  
 The code is not legal and will not compile.  
 The solution provided by the STL is that every collection contains not only an `iterator` nested type but also a `const_iterator` nested type.  
-The main difference between an iterator and aconst_iterator is that `operator*` for `const_iterator` returns a constant reference, and thus `*itr` for a const_iterator cannot appear on the left-hand side of an assignment statement.
+The main difference between an iterator and a `const_iterator`  is that `operator*` for `const_iterator` returns a constant reference, and thus `*itr` for a  `const_iterator`  cannot appear on the left-hand side of an assignment statement.
 
-Further,  the  compiler  will  force  you  to  use  a const_iterator to  traverse  a  constant collection.  
+Further,  the  compiler  will  force  you  to  use  a  `const_iterator`  to  traverse  a  constant collection.  
 It does so by providing two versions of begin and two versions of end, as follows:
 
 - `iterator begin( )`
@@ -353,11 +354,11 @@ The two versions ofbegincan be in the same class only because the const-ness of 
 We saw this trick in Section 1.7.2 and we will see it again in Section 3.4, both in the context of overloading `operator[]`.
 
 If begin is invoked on a nonconstant container, the “mutator” version that returns an iterator is invoked.  
-However, if begin is invoked on a constant container, what is returned is a const_iterator, and the return value may not be assigned to an iterator.  
+However, if begin is invoked on a constant container, what is returned is a  `const_iterator` , and the return value may not be assigned to an iterator.  
 If you try to do so, a compiler error is generated.  
-Once itr is a const_iterator, `*itr=0` is easily detectedas being illegal.
+Once itr is a  `const_iterator` , `*itr=0` is easily detectedas being illegal.
 
-If you use `auto` to declare your iterators, the compiler will deduce for you whether an iterator or const_iterator is substituted;  
+If you use `auto` to declare your iterators, the compiler will deduce for you whether an iterator or  `const_iterator`  is substituted;  
 to a large extent, this relieves the programmer  from  having  to  keep  track  of  the  correct  iterator  type  and  is  precisely  one  of  theintended uses ofauto.  
 Additionally, library classes such asvectorandlistthat provide iter-ators as described above are compatible with the range-basedforloop, as are user-definedclasses.
 
@@ -430,7 +431,7 @@ Before examining the `Vector` code, we outline the main details:
 4. The `Vector` will   provide   an   implementation   ofoperator[](as   mentioned   inSection 1.7.2,operator[]is typically implemented with both an accessor and mutatorversion).
 5. TheVectorwill provide basic routines, such assize,empty,clear(which are typicallyone-liners),back,pop_back,andpush_back.  
    Thepush_backroutine will callreserveif thesize and capacity are same.
-6. TheVectorwill provide support for the nested typesiteratorandconst_iterator,and associated begin and end methods.
+6. TheVectorwill provide support for the nested typesiteratorand `const_iterator` ,and associated begin and end methods.
 
 Figure 3.7 and Figure 3.8 show the `Vector` class.  
 Like its STL counterpart, there islimited error checking.  
@@ -602,7 +603,7 @@ Consequently, at lines 103 and 104, we seetypedefstatements that state the `iter
 The  correspondence  between  iterators  and  pointers  for  thevectortype  means  thatusing avectorinstead of the C++array is likely to carry little overhead.  
 The disadvantageis  that,  as  written,  the  code  has  no  error  checks.  
 If  the  iteratoritrgoes  crashing  pastthe end marker, neither `++itr` nor `*itr` will necessarily signal an error.  
-To fix this problemwould require that theiteratorandconst_iteratorbe actual nested class types rather thansimply pointer variables.  
+To fix this problemwould require that theiteratorand `const_iterator` be actual nested class types rather thansimply pointer variables.  
 Using nested class types is much more common and is what wewill see in the `List` class in Section 3.5.
 
 
@@ -610,3 +611,544 @@ Using nested class types is much more common and is what wewill see in the `List
 
 
 ### 3.5 Implementation of `List`
+
+As in thecase of the `vector` class, our list class will be named `List` to avoid ambiguities with thelibrary class.
+
+Recall that the `List` class will be implemented as a doubly linked list and that we willneed to maintain pointers to both ends of the list.  
+Doing so allows us to maintain constanttime cost per operation, so long as the operation occurs at a known position.  
+The knownposition can be at either end or at a position specified by an iterator.
+
+In considering the design, we will need to provide four classes:
+
+1. The `List` class itself, which contains links to both ends, the size of the list, and a hostof methods.
+2. The `Node` class, which is likely to be a private nested class.  
+   A node contains the dataand pointers to the previous and next nodes, along with appropriate constructors.
+3. The `const_iterator` class,  which  abstracts  the  notion  of  a  position,  and  is  a  pub-lic nested class.  
+   The `const_iterator` stores a pointer to “current” node, and provides implementation of the basic iterator operations, all in the form of overloaded operatorssuch as=,==,!=,and++.
+4. The `iterator` class, which abstracts the notion of a position, and is a public nested class.  
+   The iterator has the same functionality as `const_iterator` , except that `operator*` returns  a  reference  to  the  item  being  viewed,  rather  than  a  constant  reference  tothe item.  
+   An important technical issue is that aniteratorcan be used in any rou-tine that requires a `const_iterator` , but not vice versa.  
+   In other words, iterator IS-A  `const_iterator` .
+
+Because the iterator classes store a pointer to the “current node,” and the end markeris a valid position, it makes sense to create an extra node at the end of the list to representthe endmarker.  
+Further, we can create an extra node at the front of the list, logically repre-senting the beginning marker.  
+These extra nodes are sometimes known as **sentinel nodes**;  
+specifically, the node at the front is sometimes known as a **header node**, and the node at the end is sometimes known as a **tail node**.
+
+The advantage of using these extra nodes is that they greatly simplify the coding by removing a host of special cases.  
+For instance, if we do not use a header node, then remov-ing the first node becomes a special case, because we must reset the list’s link to the firstnode during the remove and because the remove algorithm in general needs to access thenode prior to the node being removed (and without a header node, the first node does nothave a node prior to it).
+
+Figure  3.11  and  Figure  3.12  show  the  outline  and  partial  implementation  of  the `List` class.
+
+
+###### Figure 3.11  `List` class (Part 1 of 2) && Figure 3.12 `List` class (Part 2 of 2)
+
+```cs
+/*01*/  template <typename Object>
+/*02*/  class List
+/*03*/  {
+/*04*/    private:
+/*05*/      struct Node
+/*06*/      { /* See Figure 3.13 */ };
+/*07*/  
+/*08*/    public:
+/*09*/      class const_iterator
+/*10*/      { /* See Figure 3.14 */ };
+/*11*/  
+/*12*/      class iterator : public const_iterator
+/*13*/      { /* See Figure 3.15 */ };
+/*14*/  
+/*15*/    public:
+/*16*/      List()
+/*17*/      { /* See Figure 3.16 */ }
+/*18*/      List(const List &rhs)
+/*19*/      { /* See Figure 3.16 */ }
+/*20*/      ~List()
+/*21*/      { /* See Figure 3.16 */ }
+/*22*/      List &operator=(const List &rhs)
+/*23*/      { /* See Figure 3.16 */ }
+/*24*/      List(List &&rhs)
+/*25*/      { /* See Figure 3.16 */ }
+/*26*/      List &operator=(List &&rhs)
+/*27*/      { /* See Figure 3.16 */ }
+/*28*/  
+/*29*/      iterator begin()
+/*30*/      { return {head->next}; }
+/*31*/      const_iterator begin() const
+/*32*/      { return {head->next}; }
+/*33*/      iterator end()
+/*34*/      { return {tail}; }
+/*35*/      const_iterator end() const
+/*36*/      { return {tail}; }
+/*37*/  
+/*38*/      int size() const
+/*39*/      { return theSize; }
+/*40*/      bool empty() const
+/*41*/      { return size() == 0; }
+/*42*/  
+/*43*/      void clear()
+/*44*/      {
+/*45*/          while (!empty())
+/*46*/              pop_front();
+/*47*/      }
+/*48*/      Object &front()
+/*49*/      { return *begin(); }
+/*50*/      const Object &front() const
+/*51*/      { return *begin(); }
+/*52*/      Object &back()
+/*53*/      { return *--end(); }
+/*54*/      const Object &back() const
+/*55*/      { return *--end(); }
+/*56*/      void push_front(const Object &x)
+/*57*/      { insert(begin(), x); }
+/*58*/      void push_front(Object &&x)
+/*59*/      { insert(begin(), std::move(x)); }
+/*60*/      void push_back(const Object &x)
+/*61*/      { insert(end(), x); }
+/*62*/      void push_back(Object &&x)
+/*63*/      { insert(end(), std::move(x)); }
+/*64*/      void pop_front()
+/*65*/      { erase(begin()); }
+/*66*/      void pop_back()
+/*67*/      { erase(--end()); }
+/*68*/  
+/*69*/      iterator insert(iterator itr, const Object &x)
+/*70*/      { /* See Figure 3.18 */ }
+/*71*/      iterator insert(iterator itr, Object &&x)
+/*72*/      { /* See Figure 3.18 */ }
+/*73*/  
+/*74*/      iterator erase(iterator itr)
+/*75*/      { /* See Figure 3.20 */ }
+/*76*/      iterator erase(iterator from, iterator to)
+/*77*/      { /* See Figure 3.20 */ }
+/*78*/  
+/*79*/    private:
+/*80*/      int theSize;
+/*81*/      Node *head;
+/*82*/      Node *tail;
+/*83*/  
+/*84*/      void init()
+/*85*/      { /* See Figure 3.16 */ }
+/*86*/  };
+```
+
+We can see at line 5 the beginning of the declaration of the private nested `Node` class.  
+Rather than using the `class` keyword, we use `struct`.  
+In C++, thestructis a relic from theC programming language.  
+A struct in C++is essentially a class in which the members default to public.  
+Clearly thestruct keyword is not needed, but you will often see it and it is commonly used by programmersto signify a type that contains mostly data that are accessed directly, rather than throughmethods.  
+In our case, making the members public in the `Node` class will not be a problem,since the `Node` class is itself private and inaccessible outside of the `List` class.
+
+At line 9 we see the beginning of the declaration of the public nested `const_iterator` class, and at line 12 we see the beginning of the declaration of the public nested `iterator`class.  
+The unusual syntax is **inheritance**, which is a powerful construct not otherwise usedin the book.  
+The inheritance syntax states that `iterator`has exactly the same functionalityas `const_iterator` , with possibly some additions, and that `iterator`is type-compatible with `const_iterator` and can be used wherever `const_iterator` is needed.
+
+Lines 80 to 82 contain the data members for `List` , namely, the pointers to the headerand tail nodes.  
+We also keep track of the size in a data member so that thesizemethodcan be implemented in constant time.
+
+The rest of the `List` class consists of the constructor, the Big-Five, and a host of methods.  
+Many of the methods are one-liners.  
+begin and end return appropriate iterators;  
+thecall at line 30 is typical of the implementation, in which we return a constructed `iterator`(thus the `iterator`and `const_iterator` classes each have a constructor that takes a pointerto a `Node` as its parameter).
+
+The `clear` method  at  lines  43  to  47  works  by  repeatedly  removing  items  until  the `List` is empty.  
+Using this strategy allowsclearto avoid getting its hands dirty reclaimingnodes because the node reclamation is now funneled topop_front.  
+The methods at lines48 to 67 all work by cleverly obtaining and using an appropriate iterator.  
+Recall that theinsertmethod inserts prior to a position, sopush_backinserts prior to the endmarker, asrequired.  
+In `pop_back`, note that `erase(-end())` creates a temporary iterator correspondingto the endmarker, retreats the temporary iterator, and uses that iterator toerase.  
+Similarbehavior occurs in `back`.  
+Note also that in the case of the `pop_front` and `pop_back` operations, we again avoid dealing with node reclamation.
+
+Figure 3.13 shows the `Node` class, consisting of the stored item, pointers to the previous and next `Node` , and a constructor.  
+All the data members are public.
+
+
+###### Figure 3.13 Nested `Node` class for `ist` class
+
+```cs
+/*01*/  struct Node
+/*02*/  {
+/*03*/      Object data;
+/*04*/      Node *prev;
+/*05*/      Node *next;
+/*06*/  
+/*07*/      Node(const Object &d = Object{}, Node *p = nullptr,
+/*08*/                                       Node *n = nullptr)
+/*09*/          : data{d}, prev{p}, next{n} { }
+/*10*/  
+/*11*/      Node(Object &&d, Node *p = nullptr, Node *n = nullptr)
+/*12*/          : data{std::move(d)}, prev{p}, next{n} { }
+/*13*/  };
+```
+
+Figure 3.14 shows the  `const_iterator`  class, and Figure 3.15 shows the iterator class.  
+As we mentioned earlier, the syntax at line 39 in Figure 3.15 indicates an advanced feature known as *inheritance* and means that `iterator` IS-A `const_iterator`.  
+In the most general scenario, there is significant syntactical baggage (often resulting in the keyword `virtual` appearing in the code).
+
+However, in our case, we can avoid much of the syntactical baggage because we arenot adding new data, nor are we intending to change the behavior of an existing method.  
+We are, however, adding some new methods in theiteratorclass (with very similar signa-tures to the existing methods in theconst_iteratorclass).  
+As a result, we can avoid using virtual.  
+Even so, there are quite a few syntax tricks inconst_iterator.
+
+
+###### Figure 3.14 Nested `const_iterator` class for `List` class
+
+```cs
+/*01*/  class const_iterator
+/*02*/  {
+/*03*/    public:
+/*04*/      const_iterator( ) : current{ nullptr }
+/*05*/      {}
+/*06*/  
+/*07*/      const Object & operator* ( ) const
+/*08*/      { return retrieve( ); }
+/*09*/  
+/*10*/      const_iterator & operator++ ( )
+/*11*/      {
+/*12*/          current = current->next;
+/*13*/          return *this;
+/*14*/      }
+/*15*/  
+/*16*/      const_iterator operator++ ( int )
+/*17*/      {
+/*18*/          const_iterator old = *this;
+/*19*/          ++( *this );
+/*20*/          return old;
+/*21*/      }
+/*22*/  
+/*23*/      bool operator== ( const const_iterator & rhs ) const
+/*24*/      { return current == rhs.current; }
+/*25*/      bool operator!= ( const const_iterator & rhs ) const
+/*26*/      { return !( *this == rhs ); }
+/*27*/  
+/*28*/    protected:
+/*29*/      Node *current;
+/*30*/  
+/*31*/      Object & retrieve( ) const
+/*32*/      { return current->data; }
+/*33*/  
+/*34*/      const_iterator( Node *p ) : current{ p }
+/*35*/      {}
+/*36*/  
+/*37*/      friend class List<Object>;
+/*38*/  };
+```
+
+
+###### Figure 3.15 Nested `iterator` class for `List` class
+
+```cs
+/*39*/  class iterator : public const_iterator
+/*40*/  {
+/*41*/    public:
+/*42*/      iterator( )
+/*43*/      {}
+/*44*/  
+/*45*/      Object & operator* ( )
+/*46*/      { return const_iterator::retrieve( ); }
+/*47*/      const Object & operator* ( ) const
+/*48*/      { return const_iterator::operator*( ); }
+/*49*/  
+/*50*/      iterator & operator++ ( )
+/*51*/      {
+/*52*/          this->current = this->current->next;
+/*53*/          return *this;
+/*54*/      }
+/*55*/  
+/*56*/      iterator operator++ ( int )
+/*57*/      {
+/*58*/          iterator old = *this;
+/*59*/          ++( *this );
+/*60*/          return old;
+/*61*/      }
+/*62*/  
+/*63*/    protected:
+/*64*/      iterator( Node *p ) : const_iterator{ p }
+/*65*/      {}
+/*66*/  
+/*67*/      friend class List<Object>;
+/*68*/  };
+```
+
+At lines 28 and 29, const_iterator stores as its single data member a pointer to the“current” node.  
+Normally, this would be `private`, but if it were private, then iterator would not have access to it.  
+Marking members of const_iterator as `protected` allows the classes that inherit from const_iterator to have access to these members, but does not allow other classes to have access.
+
+At lines 34 and 35 we see the constructor for const_iterator that was used in the List class implementation of begin and end.  
+We don’t want all classes to see this constructor (iterators are not supposed to be visibly constructed from pointer variables), so it can’t be public, but we also want the iterator class to be able to see it, so logically this constructor is made protected.  
+However, this doesn’t give List access to the constructor.  
+The solutionis the **friend declaration**  at line 37, which grants the List class access to const_iterator’s  nonpublic members.
+
+The  public  methods  inconst_iteratorall  use  operator  overloading.  
+`operator==`, `operator!=`, and `operator*` are straightforward.  
+At lines 10 to 21 we see the implementation of `operator++`.  
+Recall that the prefix and postfix versions ofoperator++are completely different in semantics (and precedence), so we need to write separate routines for each form.  
+They have the same name, so they must have different signatures to be distinguished.  
+C++requires that we give them different signatures by specifying an empty parameter list forthe prefix form and a single (anonymous)intparameter for the postfix form.  
+Then `++itr` calls the zero-parameteroperator++;  
+and `itr++` calls the one-parameteroperator++.  
+The int parameter is never used;  
+it is present only to give a different signature.  
+The implementation suggests that, in many cases where there is a choice between using the prefix or postfix `operator++`, the prefix form will be faster than the postfix form.
+
+In  theiteratorclass, the  protected constructor  at  line  64  uses  an  initialization listto  initialize  the  inherited  current  node.  
+We  do  not  have  to  reimplementoperator== andoperator!=because  those  are  inherited  unchanged.  
+We  do  provide  a  new  pair  ofoperator++implementations  (because  of  the  changed  return  type)  that  hide  the  origi-nals in theconst_iterator, and we provide an accessor/mutator pair foroperator*.  
+Theaccessoroperator*, shown at lines 47 and 48, simply uses the same implementation as inconst_iterator.  
+The accessor is explicitly implemented initeratorbecause otherwise theoriginal implementation is hidden by the newly added mutator version.
+
+Figure 3.16 shows the constructor and Big-Five.  
+Because the zero-parameter constructor and copy constructor must both allocate the header and tail nodes, we provide a private `init` routine.  
+init creates an empty List.  
+The destructor reclaims the header and tail nodes;  
+all the other nodes are reclaimed when the destructor invokes clear.  
+Similarly, the copy constructor is implemented by invoking public methods rather than attempting low-level pointer manipulations.
+
+
+###### Figure 3.16 Constructor, Big-Five, and private `init` routine for `List` class
+
+```cs
+/*01*/  List( )
+/*02*/  { init( ); }
+/*03*/  
+/*04*/  ~List( )
+/*05*/  {
+/*06*/      clear( );
+/*07*/      delete head;
+/*08*/      delete tail;
+/*09*/  }
+/*10*/  
+/*11*/  List( const List & rhs )
+/*12*/  {
+/*13*/      init( );
+/*14*/      for( auto&x : rhs)
+/*15*/          push_back( x );
+/*16*/  }
+/*17*/  
+/*18*/  List & operator= ( const List & rhs )
+/*19*/  {
+/*20*/      List copy = rhs;
+/*21*/      std::swap( *this, copy );
+/*22*/      return *this;
+/*23*/  }
+/*24*/  
+/*25*/  
+/*26*/  List( List && rhs )
+/*27*/      : theSize{ rhs.theSize }, head{ rhs.head }, tail{ rhs.tail }
+/*28*/  {
+/*29*/      rhs.theSize = 0;
+/*30*/      rhs.head = nullptr;
+/*31*/      rhs.tail = nullptr;
+/*32*/  }
+/*33*/  
+/*34*/  List & operator= ( List && rhs )
+/*35*/  {
+/*36*/      std::swap( theSize, rhs.theSize );
+/*37*/      std::swap( head, rhs.head );
+/*38*/      std::swap( tail, rhs.tail );
+/*39*/  
+/*40*/      return *this;
+/*41*/  }
+/*42*/  
+/*43*/  void init( )
+/*44*/  {
+/*45*/      theSize = 0;
+/*46*/      head = new Node;
+/*47*/      tail = new Node;
+/*48*/      head->next = tail;
+/*49*/      tail->prev = head;
+/*50*/  }
+```
+
+Figure  3.17  illustrates  how  a  new  node  containing x is  spliced  in  between  a  node pointed  at  by p and p.prev.
+
+
+###### Figure 3.17 Insertion in a doubly linked list by getting a new node and then changingpointers in the order indicated
+
+```
+   +------+---+                              +------+---+
+-->|      | --|\                           ->|      | --|-->
+   |      +---+ \                         /  |      +---+
+   |   prev   |  \                       /   |          |
+   |---+      |   \                    2/    |---+      |
+<--|-- |      |<-  \3                  /    /|-- |      |<--
+   +---+------+  \  \                 /    / +---+------+
+                  \  \  +------+---+ /    /         ^
+                  1\  ->|      | --|/    /          |
+                    \   |      +---+    /4          |
+                     \  |    x     |   /            p
+                      \ |---+      |  /
+                       \|-- |      |<-
+                        +---+------+
+```
+
+The  assignment  to  the  node  pointers  can  be  described  as follows:
+
+```cs
+Node *newNode = new Node{x, p->prev, p};    // Step 1 and 2
+p->prev->next = newNode;                    // Step 3
+p->prev = newNode;                          // Step 4
+```
+
+Steps 3 and 4 can be combined, yielding only two lines:
+
+```cs
+Node *newNode = new Node{x, p->prev, p};    // Steps 1 and 2
+p->prev = p->prev->next = newNode;          // Steps 3 and 4
+```
+
+But then these two lines can also be combined, yielding:
+
+```cs
+p->prev = p->prev->next = new Node{x, p->prev, p};
+```
+
+This makes the `insert` routine in Figure 3.18 short.
+
+
+###### Figure 3.18 `insert` routine for `List` class
+
+```cs
+/*01*/  // Insert x before itr.
+/*02*/  iterator insert( iterator itr, const Object & x )
+/*03*/  {
+/*04*/      Node *p = itr.current;
+/*05*/      theSize++;
+/*06*/      return { p->prev = p->prev->next = new Node{ x, p->prev, p } };
+/*07*/  }
+/*08*/  
+/*09*/  // Insert x before itr.
+/*10*/  iterator insert( iterator itr, Object && x )
+/*11*/  {
+/*12*/      Node *p = itr.current;
+/*13*/      theSize++;
+/*14*/      return { p->prev = p->prev->next
+/*15*/                       = new Node{ std::move( x ), p->prev, p } };
+/*16*/  }
+```
+
+Figure 3.19 shows the logic of removing a node.  
+If p points to the node being removed, only two pointers change before the node can be reclaimed:
+
+```cs
+p->prev->next = p->next;
+p->next->prev = p->prev;
+delete p;
+```
+
+Figure 3.20 shows a pair of `erase` routines.  
+The first version of erase contains the three lines of code shown above and the code to return an iterator representing the item after the erased element.  
+Likeinsert, erasemust updatetheSize.  
+The second version oferasesimply uses aniteratorto call the first version oferase.  
+Note that we cannot simply useitr++in theforloop at line 16 and ignore the return value oferaseat line 17.  
+The valueofitris stale immediately after the call toerase,which is why erase returns an iterator.
+
+
+###### Figure 3.19 Removing node specified by p from a doubly linked list
+
+```
+                  -----------------
+                 /                 \ 
+    +------+---+/    +------+---+   ->+------+---+
+    |      | --|--x->|      | --|---->|      |   |
+    |      +---+     |      +---+     |      +---+
+... |          |     |          |     |          | ...
+    |---+      |     |---+      |     |---+      |
+    |   |      |<----|-- |      |<-x--|-- |      |
+    +---+------+<-   +---+------+    /+---+------+
+                  \        ^        /
+                   --------|--------
+                           |
+                           p
+```
+
+
+###### Figure 3.20 `erase` routines for `List` class
+
+```cs
+/*01*/  // Erase item at itr.
+/*02*/  iterator erase( iterator itr )
+/*03*/  {
+/*04*/      Node *p = itr.current;
+/*05*/      iterator retVal{ p->next };
+/*06*/      p->prev->next = p->next;
+/*07*/      p->next->prev = p->prev;
+/*08*/      delete p;
+/*09*/      theSize--;
+/*10*/  
+/*11*/      return retVal;
+/*12*/  }
+/*13*/  
+/*14*/  iterator erase( iterator from, iterator to )
+/*15*/  {
+/*16*/      for( iterator itr = from; itr != to; )
+/*17*/          itr = erase( itr );
+/*18*/  
+/*19*/      return to;
+/*20*/  }
+```
+
+In examining the code, we can see a host of errors that can occur and for which no checks are provided.  
+For instance, iterators passed to erase and insert can be uninitializedor for the wrong list!  
+Iterators can have `++` or `*` applied to them when they are already atthe endmarker or are uninitialized.
+
+An  uninitialized  iterator  will  have current pointing  at nullptr,  so  that  condition  is easily tested.  
+The endmarker’s nextpointer points at nullptr, so testing for++or*on anendmarker condition is also easy.  
+However, in order to determine if an iterator passed to erase or insert is an iterator for the correct list, the iterator must store an additional data member representing a pointer to theListfrom which it was constructed.
+
+We will sketch the basic idea and leave the details as an exercise.  
+In theconst_iteratorclass, we add a pointer to theListand modify the protected constructor to take theListasa parameter.  
+We can also add methods that throw an exception if certain assertions aren’tmet.  
+The revised protected section looks something like the code in Figure 3.21.
+
+
+###### Figure 3.21 Revised protected section of `const_iterator` that  incorporates ability toperform additional error checks
+
+```cs
+/*01*/    protected:
+/*02*/      const List<Object> *theList;
+/*03*/      Node *current;
+/*04*/  
+/*05*/      const_iterator( const List<Object> & lst, Node*p)
+/*06*/          : theList{ &lst }, current{ p }
+/*07*/      {
+/*08*/      }
+/*09*/  
+/*10*/      void assertIsValid( ) const
+/*11*/      {
+/*12*/          if( theList == nullptr || current == nullptr || current == theList->head )
+/*13*/              throw IteratorOutOfBoundsException{ };
+/*14*/  }
+```
+
+Then all calls to iterator and const_iterator constructors that formerly took one parameter nowtake two, as in the begin method forList:
+
+```cs
+const_iterator begin( ) const
+{
+    const_iterator itr{ *this, head };
+    return ++itr;
+}
+```
+
+Then insert can be revised to look something like the code in Figure 3.22. We leavethe details of these modifications as an exercise.
+
+
+###### Figure 3.22 `List` `insert` with additional error checks
+
+```cs
+/*01*/  // Insert x before itr.
+/*02*/  iterator insert( iterator itr, const Object & x )
+/*03*/  {
+/*04*/      itr.assertIsValid( );
+/*05*/      if( itr.theList != this )
+/*06*/          throw IteratorMismatchException{ };
+/*07*/  
+/*08*/      Node *p = itr.current;
+/*09*/      theSize++;
+/*10*/      return { *this, p->prev = p->prev->next = new Node{ x, p->prev, p } };
+/*11*/  }
+```
+
+
+### 3.6 The Stack ADT
