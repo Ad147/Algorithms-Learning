@@ -40,6 +40,9 @@ In this chapter, we provide code that implements a significant subset of two lib
   - [3.4 Implementation of `vector`](#34-implementation-of-vector)
   - [3.5 Implementation of `List`](#35-implementation-of-list)
   - [3.6 The Stack ADT](#36-the-stack-adt)
+    - [3.6.1 Stack Model](#361-stack-model)
+    - [3.6.2 Implementation of Stacks](#362-implementation-of-stacks)
+    - [3.6.3 Applications](#363-applications)
 
 
 --------------------------------------------------------------------------------
@@ -1151,4 +1154,117 @@ Then insert can be revised to look something like the code in Figure 3.22. We le
 ```
 
 
+--------------------------------------------------------------------------------
+
+
 ### 3.6 The Stack ADT
+
+A **stack** is a list with the restriction that insertions and deletions can be performed in only one position, namely, the end of the list, called the **top**.
+
+
+#### 3.6.1 Stack Model
+
+The fundamental operations on a stack are `push`, which is equivalent to an insert, and `pop`, which deletes the most recently inserted element.  
+The most recently inserted element canbe examined prior to performing apopby use of the `top` routine.  
+A `pop` or `top` on an empty stack is generally considered an error in the stack ADT.  
+On the other hand, running out of space when performing a `push` is an implementation limit but not an ADT error.
+
+
+#### 3.6.2 Implementation of Stacks
+
+Since a stack is a list, any list implementation will do.  
+Clearly `list` and `vector` support stackoperations;  
+99% of the time they are the most reasonable choice.  
+Occasionally it can befaster to design a special-purpose implementation.  
+Because stack operations are constant-time operations, this is unlikely to yield any discernable improvement except under veryunique circumstances.
+
+For these special times, we will give two popular stack implementations.
+
+- One uses a linked structure,
+- and the other uses an array,
+
+and both simplify the logic in `vector` and `list`, so we do not provide code.
+
+
+##### Linked List Implementation of Stacks
+
+The first implementation of a stack uses a singly linked list.  
+We perform a `push` by inserting at the front of the list.  
+We perform apopby deleting the element at the front of the list.  
+A `top` operation merely examines the element at the front of the list, returning its value.  
+Sometimes the pop and top operations are combined into one.
+
+
+##### Array Implementation of Stacks
+
+An alternative implementation avoids links and is probably the more popular solution.  
+It uses the `back`, `push_back`, and `pop_back` implementation from vector, so the implementationis trivial.  
+Associated with each stack is `theArray` and `topOfStack`, which is −1 for an empty stack (this is how an empty stack is initialized).  
+To push some element `x` onto the stack, we increment topOfStack and then set `theArray[topOfStack]=x`.  
+To pop, we set the returnvalue to `theArray[topOfStack]` and then decrement topOfStack.
+
+Notice that these operations are performed in not only constant time but very fast con-stant time.  
+On some machines, pushes and pops (of integers) can be written in one machine instruction, operating on a register with auto-increment and auto-decrement addressing.  
+The  fact  that  most  modern  machines  have  stack  operations  as  part  of  the  instructionset enforces the idea that the stack is probably the most fundamental data structure incomputer science, after the array.
+
+
+#### 3.6.3 Applications
+
+It should come as no surprise that if we restrict the operations allowed on a list, those oper-ations can be performed very quickly.  
+The big surprise, however, is that the small numberof operations left are so powerful and important.
+
+We give three of the many applicationsof stacks.  
+The third application gives a deep insight into how programs are organized.
+
+
+##### Balancing Symbols
+
+Compilers check your programs for syntax errors, but frequently a lack of one symbol(such as a missing brace or comment starter) can cause the compiler to spill out a hundredlines of diagnostics without identifying the real error.
+
+A useful tool in this situation is a program that checks whether everything is balanced.  
+Thus, every right brace, bracket, and parenthesis must correspond to its left counterpart.  
+The sequence `[()]` is legal, but `[(])` is wrong.  
+
+The simple algorithm uses a stack and is as follows:
+
+> Make an empty stack.  
+> Read characters until end of file.
+> 
+> - If the character is an opening symbol, push it onto the stack.
+> - If it is a closing symbol and the stack is empty, report an error.
+> - Otherwise, pop the stack.
+>   - If the symbol popped is not the corresponding opening symbol, then report an error.
+> 
+> At end of file, if the stack is not empty, report anerror.
+
+It is clearly linearand actually makes only one pass through the input.  
+It is thus online and quite fast.  
+Extra work can be done to attempt to decide what to do when an error is reported—such asidentifying the likely cause.
+
+
+##### Postfix Expressions
+
+Calculate
+
+$$ 4.99∗1.06+5.99+6.99∗1.06= $$
+
+A typical evaluation sequence for this example might be to multiply 4.99 and 1.06, saving this answer as A1.  
+We then add 5.99 and A1, saving the result in A1.  
+We multiply 6.99 and 1.06, saving the answer in A2, and finish by adding A1 and A2, leaving the final answer in A1.  
+We can write this sequence of operations as follows:
+
+$$ 4.99 1.06∗5.99+6.99 1.06∗+ $$
+
+This notation is known as **postfix**, or **reverse Polish notation**, and is evaluated exactly aswe have described above.  
+The easiest way to do this is to use a stack.  
+When a number is seen, it is pushed onto the stack;  
+when an operator is seen, the operator is applied to the two numbers (symbols) that are popped from the stack, and the result is pushed onto the stack.  
+
+The time to evaluate a postfix expression isO(N), because processing each element inthe input consists of stack operations and therefore takes constant time.  
+The algorithm todo so is very simple.  
+Notice that when an expression is given in postfix notation, there isno need to know any precedence rules;  
+this is an obvious advantage.
+
+
+##### Infix to Postfix Conversion
+
