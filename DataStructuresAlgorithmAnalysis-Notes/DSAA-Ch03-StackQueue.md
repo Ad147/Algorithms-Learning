@@ -43,6 +43,7 @@ In this chapter, we provide code that implements a significant subset of two lib
     - [3.6.1 Stack Model](#361-stack-model)
     - [3.6.2 Implementation of Stacks](#362-implementation-of-stacks)
     - [3.6.3 Applications](#363-applications)
+  - [3.7 The Queue ADT](#37-the-queue-adt)
 
 
 --------------------------------------------------------------------------------
@@ -1268,3 +1269,195 @@ this is an obvious advantage.
 
 ##### Infix to Postfix Conversion
 
+Not only can a stack be used to evaluate a postfix expression, but we can also use a stack to convert an expression in standard form (otherwise known as **infix**) into postfix.  
+We will concentrate on a small version of the general problem by allowing only the operators `+`, `*`, `(`, `)`, and insisting on the usual precedence rules.  
+We will further assume that the expressionis legal.  
+Suppose we want to convert the infix expression
+
+$$ a+b*c+(d*e+f)*g $$
+
+into postfix.  
+A correct answer is $abc*+de*f+g*+$.
+
+When  an  operand  is  read,  it  is  immediately  placed  onto  the  output.  
+Operators  are not immediately output, but to place on to the stack.  
+We will also stack left parentheses when they are encountered.  
+
+If we see a right parenthesis, then we pop the stack, writing symbols until we encounter a (corresponding) left parenthesis, which is popped but not output.
+
+If we see any other symbol (`+`, `*`, `(`), then we pop entries from the stack until we find an entry of lower priority.  
+One exception is that we never remove a `(` from the stack except when processing a `)`.  
+For the purposes of this operation, `+` has lowest priority and `(` highest. 
+When the popping is done, we push the operator onto the stack.
+
+Finally, if we read the end of input, we pop the stack until it is empty, writing symbolsonto the output.
+
+The idea of this algorithm is that when an operator is seen, it is placed on the stack.  
+The stack represents pending operators.  
+However, some of the operators on the stack thathave high precedence are now known to be completed and should be popped, as they willno longer be pending.  
+Thus prior to placing the operator on the stack, operators that are on the stack, and which are to be completed prior to the current operator, are popped.  
+This is illustrated in the following table:
+
+| Expression | Stack When Third      | Action                             |
+| ---------- | --------------------- | ---------------------------------- |
+|            | Operator Is Processed |
+| a*b-c+d    | -                     | - is completed; + is pushed        |
+| a/b+c*d    | +                     | Nothing is completed; * is pushed  |
+| a-b*c/d    | - *                   | * is completed; / is pushed        |
+| a-b*c+d    | - *                   | * and - are completed; + is pushed |
+
+Parentheses  simply  add  an  additional  complication.  
+We  can  view  a  left  parenthesis  asa  high-precedence  operator  when  it  is  an  input  symbol  (so  that  pending  operatorsremain  pending)  and  a  low-precedence  operator  when  it  is  on  the  stack  (so  that  it  isnot  accidentally  removed  by  an  operator).  
+Right  parentheses  are  treated  as  the  specialcase.
+
+To see how this algorithm performs, we will convert the long infix expression above into its postfix form.
+
+First, the symbol a is read, so it is passed through to the output.  
+Then + is read and pushed onto the stack. Nextbis read and passed through to the output.  
+The state of affairs at this juncture is as follows:
+
+`Stack: | + | Output: a b`
+
+Next, a * is read.  
+The top entry on the operator stack has lower precedence than *, so nothing is output and * is put on the stack.  
+Next,c is read and output.  
+Thus far, we have
+
+`Stack: | + | * | Output: a b c`
+
+The next symbol is a +.  
+Checking the stack, we find that we will pop a * and place it onthe output;  
+pop the other +, which is not of lower but equal priority, on the stack;  
+and then push the +.
+
+`Stack: | + | Output: a b c * +`
+
+The next symbol read is a (. Being of highest precedence, this is placed on the stack.  
+Then d is read and output.
+
+`Stack: | + | ( | Output: a b c * + d`
+
+We continue by reading a *. Since open parentheses do not get removed except when a closed parenthesis is being processed, there is no output.  
+Next, e is read and output.
+
+`Stack: | + | ( | * | Output: a b c * + d e`
+
+The next symbol read is a +.  
+We pop and output * and then push +.  
+Then we read and output f.
+
+`Stack: | + | ( | + | Output: a b c * + d e * f`
+
+Now we read a ), so the stack is emptied back to the (.  
+We output a +.
+
+`Stack: | + | Output: a b c * + d e * f +`
+
+We read a * next;  
+it is pushed onto the stack.  
+Then g is read and output.
+
+`Stack: | + | * | Output: a b c * + d e * f + g`
+
+The input is now empty, so we pop and output symbols from the stack until it is empty.
+
+`Stack: | Output: a b c * + d e * f + g * +`
+
+As before, this conversion requires only O(N) time and works in one pass throughthe input.  
+We can add subtraction and division to this repertoire by assigning subtractionand addition equal priority and multiplication and division equal priority.  
+A subtle pointis that the expression $a-b-c$ will be converted to `ab-c-` and not `abc--`.  
+Ouralgorithm does the right thing, because these operators associate from left to right.  
+This is not necessarily the case in general, since exponentiation associates right to left: $2^{2^3}=2^8=256$, not $4^3=64$.
+
+
+##### Function Calls
+
+The algorithm to check balanced symbols suggests a way to implement function calls incompiled procedural and object-oriented languages.  
+The problem here is that when a callis made to a new function, all the variables local to the calling routine need to be savedby the system, since otherwise the new function will overwrite the memory used by thecalling routine’s variables.  
+Furthermore, the current location in the routine must be saved so that the new function knows where to go after it is done.  
+The variables have generallybeen assigned by the compiler to machine registers, and there are certain to be conflicts(usually all functions get some variables assigned to register #1), especially if recursion isinvolved.  
+The reason that this problem is similar to balancing symbols is that a function calland function return are essentially the same as an open parenthesis and closed parenthesis,so the same ideas should work.
+
+When there is a function call, all the important information that needs to be saved, suchas register values (corresponding to variable names) and the return address (which can beobtained from the program counter, which is typically in a register), is saved “on a pieceof paper” in an abstract way and put at the top of a pile.  
+Then the control is transferredto the new function, which is free to replace the registers with its values.  
+If it makes otherfunction calls, it follows the same procedure.  
+When the function wants to return, it looksat the “paper” at the top of the pile and restores all the registers.  
+It then makes the returnjump.
+
+Clearly, all of this work can be done using a stack, and that is exactly what happens invirtually every programming language that implements recursion.  
+The information savedis called either an **activation record** or **stack frame**.  
+Typically, a slight adjustment is made:  
+The current environment is represented at the top of the stack.  
+Thus, a return gives theprevious environment (without copying).  
+The stack in a real computer frequently growsfrom the high end of your memory partition downward, and on many systems there is nochecking for overflow.  
+There is always the possibility that you will run out of stack spaceby having too many simultaneously active functions.  
+Needless to say, running out of stackspace is always a fatal error.
+
+In languages and systems that do not check for stack overflow, programs crash with-out  an  explicit  explanation.  
+In  normal  events,  you  should  not  run  out  of  stack  space;  
+doing so is usually an indication of runaway recursion (forgetting a base case).  
+On theother hand, some perfectly legal and seemingly innocuous programs can cause you to runout of stack space.  
+The routine in Figure 3.25, which prints out a container, is perfectlylegal and actually correct.  
+It properly handles the base case of an empty container, andthe recursion is fine.  
+This program can beprovencorrect.  
+Unfortunately, if the container contains 200,000 elements to print, there will be a stack of 200,000 activation recordsrepresenting the nested calls of line 11.  
+Activation records are typically large because ofall the information they contain, so this program is likely to run out of stack space.  
+(If200,000 elements are not enough to make the program crash, replace the number with alarger one.)
+
+
+###### Figure 3.25 A bad use of recursion: printing a container
+
+```cs
+/**
+ * Print container from start up to but not including end.
+ */
+template <typename Iterator>
+void print( Iterator start, Iterator end, ostream & out = cout )
+{
+    if( start == end )
+        return;
+
+    out << *start++ << endl;   // Print and advance start
+    print( start, end, out );   // Line 11
+}
+```
+
+
+###### Figure 3.26 Printing a container without recursion; a compiler might do this (you shouldnot)
+
+```cs
+/**
+ * Print container from start up to but not including end.
+ */
+template <typename Iterator>
+void print( Iterator start, Iterator end, ostream & out = cout )
+{
+    while( true )
+    {
+        if( start == end )
+            return;
+        
+        out << *start++ << endl;   // Print and advance start
+    }
+}
+```
+
+This  program  is  an  example  of  an  extremely  bad  use  of  recursion  known  as **tail recursion**.  
+Tail recursion refers to a recursive call at the last line.  
+Tail recursion can bemechanically eliminated by enclosing the body in awhileloop and replacing the recursivecall with one assignment per function argument.  
+This simulates the recursive call becausenothing needs to be saved;  
+after the recursive call finishes, there is really no need to knowthe saved values.  
+Because of this, we can just go to the top of the function with the val-ues that would have been used in a recursive call.  
+The function in Figure 3.26 shows themechanically improved version generated by this algorithm.  
+Removal of tail recursion is sosimple that some compilers do it automatically.  
+Even so, it is best not to find out that yoursdoes not.
+
+Recursion can always be completely removed (compilers do so in converting to assem-bly language), but doing so can be quite tedious.  
+The general strategy requires using astack and is worthwhile only if you can manage to put the bare minimum on the stack.  
+Wewill not dwell on this further, except to point out that although nonrecursive programs arecertainly generally faster than equivalent recursive programs, the speed advantage rarelyjustifies the lack of clarity that results from removing the recursion.
+
+
+--------------------------------------------------------------------------------
+
+
+### 3.7 The Queue ADT
