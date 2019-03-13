@@ -44,6 +44,10 @@ In this chapter, we provide code that implements a significant subset of two lib
     - [3.6.2 Implementation of Stacks](#362-implementation-of-stacks)
     - [3.6.3 Applications](#363-applications)
   - [3.7 The Queue ADT](#37-the-queue-adt)
+    - [3.7.1 Queue Model](#371-queue-model)
+    - [3.7.2 Array Implementation of Queues](#372-array-implementation-of-queues)
+    - [3.7.3 Applications of Queues](#373-applications-of-queues)
+  - [Summary](#summary)
 
 
 --------------------------------------------------------------------------------
@@ -1480,3 +1484,118 @@ Wewill not dwell on this further, except to point out that although nonrecursive
 
 
 ### 3.7 The Queue ADT
+
+Like stacks, **queues** are lists.  
+With a queue, however, insertion is done at one end whereas deletion is performed at the other end.
+
+
+#### 3.7.1 Queue Model
+
+The basic operations on a queue are
+
+- `enqueue`, which inserts an element at the end of the list (called the rear),
+- and `dequeue`, which deletes (and returns) the element at the start of the list (known as the front).
+
+
+#### 3.7.2 Array Implementation of Queues
+
+As with stacks, any list implementation is legal for queues.  
+Like stacks, both the linked listand array implementations give fast O(1) running times for every operation.
+
+For each queue data structure, we keep an array, `theArray`, and the positions `front` and `back`, which represent the ends of the queue.  
+We also keep track of the number of elements that are actually in the queue, `currentSize`.  
+The following table shows a queue in someintermediate state.
+
+|     |     | front |     |     | back |     |     |
+| --- | --- | ----- | --- | --- | ---- | --- | --- |
+|     |     | 5     | 2   | 7   | 1    |     |     |
+
+To `enqueue` an element x, we increment `currentSize` and `back`, then set `theArray[back] = x`.  
+To `dequeue` an element, we set the return value to `theArray[front]`, decrement `currentSize`, and then increment `front`.  
+Other strategies arepossible (this is discussed later).  
+We will comment on checking for errors presently.
+
+There is one potential problem with this implementation.  
+After 10 enqueues, the queue appears to be full, since back is now at the last array index, and the next enqueue would be in a nonexistent position.  
+However, there might only be a few elements in the queue, because several elements may have already been dequeued.  
+Queues, like stacks, frequently stay small even in the presence of a lot of operations.
+
+The  simple  solution  is  that  whenever front or back gets  to  the  end  of  the  array,  itis wrapped around to the beginning.  
+The following tables show the queue during some operations.  
+This is known as a **circular array** implementation.
+
+The extra code required to implement the wraparound is minimal (although it probablydoubles the running time).  
+If incrementing either back or front causes it to go past the array, the value is reset to the first position in the array.
+
+Some programmers use different ways of representing the front and back of a queue.  
+For instance, some do not use an entry to keep track of the size, because they rely onthe  base  case  that  when  the  queue  is  empty, `back=front-1`.  
+The  size  is  computed implicitly by comparing back and front.  
+This is a very tricky way to go, because there are some special cases, so be very careful if you need to modify code written this way.  
+If the currentSize is not maintained as an explicit data member, then the queue is full when there are `theArray.capacity()-1` elements, since only `theArray.capacity()` different sizes can be differentiated and one of these is 0.  
+Pick any style you like and make sure that all your routines are consistent.  
+Since there are a few options for implementation, itis probably worth a comment or two in the code if you don’t use the currentSize data member.
+
+In applications where you are sure that the number ofenqueues is not larger than thecapacity of the queue, the wraparound is not necessary.  
+As with stacks, dequeues are rarely performed unless the calling routines are certain that the queue is not empty.  
+Thus errorchecks are frequently skipped for this operation, except in critical code.  
+This is generally not justifiable, because the time savings that you are likely to achieve are minimal.
+
+
+#### 3.7.3 Applications of Queues
+
+There are many algorithms that use queues to give efficient running times.  
+Several of these are found in graph theory, and we will discuss them in Chapter 9.  
+For now, we will givesome simple examples of queue usage.
+
+When  jobs  are  submitted  to  a  printer,  they  are  arranged  in  order  of  arrival.  
+Thus,essentially, jobs sent to a printer are placed on a queue.
+
+Virtually every real-life line is (supposed to be) a queue.  
+For instance, lines at ticket counters are queues, because service is first-come first-served.
+
+Another  example  concerns  computer  networks.  
+There  are  many  network  setups  ofpersonal computers in which the disk is attached to one machine, known as thefile server.  
+Users on other machines are given access to files on a first-come first-served basis, so thedata structure is a queue.
+
+Further examples include the following:
+
+- Calls to large companies are generally placed on a queue when all operators are busy.
+- In large universities, where resources are limited, students must sign a waiting list ifall computers are occupied.  
+  The student who has been at a computer the longest isforced off first, and the student who has been waiting the longest is the next user to be allowed on.
+
+A  whole  branch  of  mathematics  known  as **queuing theory** deals  with  computing,probabilistically, how long users expect to wait on a line, how long the line gets, and othersuch questions.  
+The answer depends on how frequently users arrive to the line and howlong it takes to process a user once the user is served.  
+Both of these parameters are given asprobability distribution functions.  
+In simple cases, an answer can be computed analytically.  
+An example of an easy case would be a phone line with one operator.  
+If the operator is busy,callers are placed on a waiting line (up to some maximum limit).  
+This problem is importantfor businesses, because studies have shown that people are quick to hang up the phone.
+
+If there arekoperators, then this problem is much more difficult to solve.  
+Problemsthat  are  difficult  to  solve  analytically are  often  solved  by  a  simulation.  
+In  our  case,  wewould need to use a queue to perform the simulation.  
+Ifkis large, we also need other datastructures to do this efficiently.  
+We shall see how to do this simulation in Chapter 6.  
+Wecould then run the simulation for several values ofkand choose the minimumkthat givesa reasonable waiting time.
+
+
+--------------------------------------------------------------------------------
+
+
+### Summary
+
+This chapter describes the concept of ADTs and illustrates the concept with three of themost common abstract data types.  
+The primary objective is to separate the implementationof the ADTs from their function.  
+The program must know what the operations do, but it isactually better off not knowing how it is done.
+
+Lists, stacks, and queues are perhaps the three fundamental data structures in all ofcomputer science, and their use is documented through a host of examples.  
+In particular,we saw how stacks are used to keep track of function calls and how recursion is actuallyimplemented.  
+This is important to understand, not just because it makes procedural lan-guages possible, but because knowing how recursion is implemented removes a good dealof the mystery that surrounds its use.  
+Although recursion is very powerful, it is not anentirely free operation;  
+misuse and abuse of recursion can result in programs crashing.
+
+
+--------------------------------------------------------------------------------
+
+
+EOF
