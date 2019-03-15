@@ -36,6 +36,9 @@ In this chapter:
     - [4.1.1 Implementation of Trees](#411-implementation-of-trees)
     - [4.1.2 Tree Traversals with an Application](#412-tree-traversals-with-an-application)
   - [4.2 Binary Trees](#42-binary-trees)
+    - [4.2.1 Implementation](#421-implementation)
+    - [4.2.2 An Example: Expression Trees](#422-an-example-expression-trees)
+  - [4.3 The Search Tree ADT - Binary Search Trees](#43-the-search-tree-adt---binary-search-trees)
 
 
 --------------------------------------------------------------------------------
@@ -158,4 +161,68 @@ Otherwise, the number of blocks used by the directory is added to the number of 
 
 
 ### 4.2 Binary Trees
+
+A binary tree is a tree in which no node can have more than two children.
+
+A property of a binary tree is that the depth of an average binary tree is smaller than N.  
+An analysis shows that the average depth is O(√N), and that for a *binary search tree*, the average depth is O(logN).  
+The worst case can be N-1.
+
+
+#### 4.2.1 Implementation
+
+As a binary tree node has at most two children, we can keep direct links to them:
+
+```cs
+struct BinaryNode
+{
+    Object element;     // The data in the node
+    BinaryNode *left;   // Left child
+    BinaryNode *right;  // Right child
+}
+```
+
+We could draw the binary trees using the rectangular boxes that are customary fro linked lists, but trees are generally drawn as circles connected by lines, because they are actually *graphs*.  
+Every binary tree with N nodes would require N+1 nullptr links.
+
+Binary trees have many important uses not associated with searching.  
+One of the principal uses of binary trees is in the area of compliler design, which we will now explore.
+
+
+#### 4.2.2 An Example: Expression Trees
+
+An **expression tree** presents an expression.  
+The leaves of an expression tree are **operands**, and other nodes contain **operators**.  
+This particular tree happens to be binary, because all the operators are binary.  
+It is also possible for a node to have only one child, like **unary minus** operator.
+
+We can evaluate an expression tree T, by applying the operator at the root to the values obtained by recursively evaluating the left and right subtrees.
+
+We can produce an (overly parenthesized) infix expression by recusively producing a parenthesized left expression, then printing out the operator at the root, and finally recursively producing a parenthesized right expression.  
+This general strategy (left, node, right) is an **inorder traversal**.
+
+An alternate traversal strategy is to recursively print out the left subtree, the right subtree, and then the operator.  
+The output is a postfix expression.  
+This traversal strategy is generally known as a *postorder* traversal.
+
+A third traversal strategy is to print out the operator frist and then recursively print out the left and right subtree.  
+The resulting expression is the less useful prefix notation, and the traversal strategy is a *preorder* traversal.
+
+
+##### Constructing an Expression Tree
+
+We now give an algorithm to convert a postfix into an expression tree.  
+The method strongly resembles the postfix eveluation algorithm of Section 3.6.3.
+
+We read our expression one symbol at a time.
+
+- If the symbol is an operand, we create a one-node tree and push a pointer to it onto a stack.
+- If the symbol is an operator, we pop (pointers) to two trees T1 and T2 from the stack (T1 is popped first) and form a new tree whose root is the operator and whose left and right children point to T2 and T1, respectively.  
+  A pointer to the new tree is then pushed onto the stack.
+
+
+--------------------------------------------------------------------------------
+
+
+### 4.3 The Search Tree ADT - Binary Search Trees
 
