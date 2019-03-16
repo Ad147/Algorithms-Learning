@@ -39,6 +39,7 @@ In this chapter:
     - [4.2.1 Implementation](#421-implementation)
     - [4.2.2 An Example: Expression Trees](#422-an-example-expression-trees)
   - [4.3 The Search Tree ADT - Binary Search Trees](#43-the-search-tree-adt---binary-search-trees)
+    - [4.3.1 `contains`](#431-contains)
 
 
 --------------------------------------------------------------------------------
@@ -225,4 +226,113 @@ We read our expression one symbol at a time.
 
 
 ### 4.3 The Search Tree ADT - Binary Search Trees
+
+An important application of binary trees is in searching.
+
+Assuming that all the items are distinct, and duplicates will bu dealt later.
+
+For every node X in a BST, the values of all the items in its left subtree are smaller than the item in X, and the values of all the items in its right subtree are larger than the item in X.  
+Notice that this implies that all the elements in the tree can be ordered in some consistent manner.
+
+
+##### Operations That are Usually Performed on BST
+
+Because of the recursive definition of trees, it is common to write these routines recursively.  
+Because the average depth of a BST turns out to be O(logN), we generally do not need to woory about running out of stack space.
+
+Figure 4.16 show the interface.  
+There are serveral things worth noticing.  
+Searching is based on the `<` operator that must be defined for the particular `Comparable` type.  
+Specifically, item x matches y if both `x<y` and `y<x` are false.  
+THis allows `Comparable` to be a complex type (such as the social security number data member or salary).
+
+
+###### Figure 4.16 Binary search tree class skeleton
+
+```cs
+template <typename Comparable>
+class BinarySearchTree
+{
+  public:
+    BinarySearchTree();
+    BinarySearchTree(const BinarySearchTree &rhs);
+    BinarySearchTree(BinarySearchTree &&rhs);
+    ~BinarySearchTree();
+
+    const Comparable &findMin() const;
+    const Comparable &findMax() const;
+    bool contains(const Comparable &x) const;
+    bool isEmpty() const;
+    void printTree(ostream *out = cout) const;
+
+    void makeEmpty();
+    void insert(const Comparable &x);
+    void insert(Comparable &&x);
+    void remove(const Comparable &x);
+
+    BinarySearchTree &operator=(const BinarySearchTree &rhs);
+    BinarySearchTree &operator=(BinarySearchTree &&rhs);
+
+  private:
+    struct BinaryNode
+    {
+        Comparable element;
+        BinaryNode *left;
+        BinaryNode *right;
+
+        BinaryNode(const Comparable &theElement, BinaryNode *lt, BinaryNode *rt)
+            : element{theElement}, left{lt}, right{rt} { }
+        
+        BinaryNode(Comparable &&theElement, BinaryNode *lt, BinaryNode *rt)
+            : element{theElement}, left{lt}, right{rt} { }
+    }
+
+    BinaryNode *root;
+
+    void insert(const Comparable &x, BinaryNode *&t);
+    void insert(Comparable &&x, BinaryNode *&t);
+    void remove(const Comparable &x, BinaryNode *&t);
+    BinaryNode *findMin(BinaryNode *t) const;
+    BinaryNode *findMax(BinaryNode *t) const;
+    bool contains(const Comparable &x, BinaryNode *t) const;
+    void makeEmpty(BinaryNode *&t);
+    void printTree(BinaryTreeNode *t, ostream &out) const;
+    BinaryNode *clone(BinaryNode *t) const;
+}
+```
+
+The data member is a pointer to the root node;  
+this pointer is nullptr for empty trees.  
+The public member functions use the general technique of calling private recursive functions.  
+An example of how this is done for contains, insert and remove is shown in Figure 4.17.
+
+
+###### Figure 4.17 Illustration of public member functions calling private recursive member function
+
+```cs
+// Returns true if x is found in the tree.
+bool contains(const Comparable &x) const
+{
+    return constains(x, root);
+}
+
+// Insert x into the tree; duplicates are ignored.
+void insert(const Comparable &x)
+{
+    insert(x, root);
+}
+
+// Remove x from the tree. Nothing is done if x is not found.
+void remove(const Comparable &x)
+{
+    remove(x, root);
+}
+```
+
+Serveral of the private member functions use the technique of passing a pointer variable using call-by-reference.  
+This allows the public member functions to pass a pointer to the root to the private recursive member functions.  
+The recursive functions can then change the value of the root so that the root points to another node.
+
+
+#### 4.3.1 `contains`
 
