@@ -40,6 +40,12 @@ In this chapter:
     - [4.2.2 An Example: Expression Trees](#422-an-example-expression-trees)
   - [4.3 The Search Tree ADT - Binary Search Trees](#43-the-search-tree-adt---binary-search-trees)
     - [4.3.1 `contains`](#431-contains)
+    - [4.3.2 `findMin` and `findMax`](#432-findmin-and-findmax)
+    - [4.3.3 `insert`](#433-insert)
+    - [4.3.4 `remove`](#434-remove)
+    - [4.3.5 Destructor and Copy Constructor](#435-destructor-and-copy-constructor)
+    - [4.3.6 Average-Case Analysis](#436-average-case-analysis)
+  - [4.4 AVL Trees](#44-avl-trees)
 
 
 --------------------------------------------------------------------------------
@@ -335,4 +341,314 @@ The recursive functions can then change the value of the root so that the root p
 
 
 #### 4.3.1 `contains`
+
+This operation requires returning `true` if there is a node in tree T that has item X, of `false` is there is no such node.  
+
+- If T is empty, return false.
+- Otherwise, if the item stored at T is X, return true.
+- Otherwise, make a recursive call on a subtree of T, either left or right, depending on the relationship of X to the item stored in T.
+
+
+###### Figure 4.18 `contains` operation for binary search trees
+
+```cs
+// Internal method to test if an item is in a subtree.
+// x is item to search for.
+// t is the node that roots the subtree.
+bool contains(const Comparable &x, BinaryNode *t) const
+{
+    if (t == nullptr)
+        return false;
+    else if (x < t->element)
+        return constains(x, t->left);
+    else if (t->element < x)
+        return contains(x, t->right);
+    else
+        return true; // Match
+}
+```
+
+Notice the order of the tests.  
+It is crucial that the empth test be performed first, since otherwise, a run time error attempting to access a data member through a nullptr would be generated.  
+The remaining tests are arranged with the **least likely case last**.  
+Also note that both recusive calls are tail recursions and can be easily removed with a while loop.  
+The use of tail recursion is justifiable here because **the simplicity of algorithm expression** compensates for the decrease in speed, and the amount of stack space used is expected to be only O(logN).
+
+Figure 4.19 shows the trivial changes required to use a function object rather than requiring that the items be Comparable.
+
+
+###### Figure 4.19 Illustrates use of a function object to implement binary search tree
+
+```cs
+template <typename Object, typename Comparator=less<Object>>
+class BinarySearchTree
+{
+  public:
+
+    // Same methods, with Object replacing Comparable
+
+  private:
+    BinaryNode *root;
+    Comparator isLessThan;
+
+    // Same methods, with Object replacing Comparable
+
+    // Internal method to test if an item is in a subtree.
+    // x is item to search for.
+    // t is the node that roots the subtree.
+    bool contains(const Object &x, BinaryNode *t) const
+    {
+        if (t == nullptr)
+            return false;
+        else if (isLessThan(x, t->element))
+            return contains(x, t->left);
+        else if (isLessThan(t->element, x))
+            return contains(x, t->right);
+        else
+            return true; // Match
+    }
+};
+```
+
+
+#### 4.3.2 `findMin` and `findMax`
+
+These private routines return a pointer to the node containing the smallest and largest elements in the tree, respectively.  
+To perform a findMin, start at the root and go left as long as there is a left child.  
+The stopping point is the smallest element.
+
+Many programmers do not bother using recursion.  
+We will code the routines both ways by doing findMin recursively and findMax nonrecursively.
+
+
+###### Figure 4.20 Recusive implementation of findMin for binary search trees
+
+```cs
+// Internal method to find the smallest item in a subtree t.
+// Return node containing the smallest item.
+BinaryNode *findMin(BinaryNode *t) const
+{
+    if (t == nullptr)
+        return nullptr;
+    if (t->left == nullptr)
+        return t;
+    return findMin(t->left);
+}
+```
+
+
+###### Figure 4.21 Nonrecursive implementation of findMax for binary search trees
+
+```cs
+// Interal method to find the largest item in a subtree t.
+// Return node containing the largest item.
+BinaryNode *findMax(Binary *t) const
+{
+    if (t != nullptr)
+        while (t->right != nullptr)
+            t = t->right;
+    return t;
+}
+```
+
+Notice how we carefully handle the degenerate case of an empty tree.  
+Although this is always important to do, it is especially crucial in recursive programs.  
+Also notice thst it is safe to change t in finMax, since we are only working with a copy of a pointer.  
+Always be extremly careful, however, bacause a statement such as t->right = t->right->right will make changes.
+
+
+#### 4.3.3 `insert`
+
+To insert X into T, proceed down the tree as you would with a contains.
+
+- If X is found, do nothing.
+- Otherwise, insert X at the last spot on the path traversed.
+
+Duplicates can be handled by keeping an extra field in the node record indicating the frequency of occurence.  
+This adds some extra space to the entire tree but is better thatn putting duplicates in the tree (which tends to make the tree very deep).  
+Of course, this strategy does not work if the key that guides the < operator is only part of a larger structure.  
+If that is the case, then we can keep all of the structures that have the same key in an auxiliary data structure, such as a list of another search tree.
+
+
+###### Figure 4.23  Insertion into a binary search tree
+
+```cs
+// Internal method to insert into a subtree.
+// x is the item to insert.
+// t is the node that roots the subtree.
+// Set the new root of the subtree.
+void insert(const Comparable &x, BinaryNode *&t)
+{
+    if (t == nullprt)
+        t = new BinaryNode{x, nullptr, nullptr};
+    else if (x < t->element)
+        insert(x, t->left);     // Line 12
+    else if (t->element, x)
+        insert(x, t->right);    // Line 14
+    else
+        ; // Duplicate; do nothing
+}
+
+// There is a move version of insert.
+```
+
+Line 12 and 14 recursively insert and attach x into the appropriate subtree.  
+Notice that in the recursive routine, the only time that t changes is when a new leaf is created.  
+When this happens, it means that the recursive routine has been called from some other node p, which is to be the leaf's parent.  
+The call will be `insert(x, p->left)` or `insert(x, p->right)`.  
+Either way, t is now a reference to either p->left or p->right, meaning that p->left or p->right will be changed to point at the new node.  
+All in all, a slick maneuver.
+
+
+#### 4.3.4 `remove`
+
+As is common with many data structures, the hardest operation is deletion.  
+Once we have found the node to be deleted:
+
+- If the node is a leaf, it can be deleted immediately.
+- If the node has one child, the node can be deleted after its parent  adjusts a link to bypass the node.
+- Has two children: general strategy is to replace the data of this node with the smallest data of the right subtree and recursively delete that node.
+
+The code in Figure 4.26 performs deletion.  
+It is inefficient because it makes two passes down the tree to find and delete the smallest node in the right subtree.  
+It is easy  to remove this inefficieny by writing a special `removeMin` method, and we have left it in only for simplicity.
+
+
+###### Figure 4.26 Deletion routine for binary search trees
+
+```cs
+// Interal method to remove from a subtree.
+// x is the item to remove.
+// t is the node that roots the subtree.
+// Set the new root of the subtree.
+void remove(const Comparable &x, BinaryNode *&t)
+{
+    if (t == nullptr)
+        return; // Item not found; do nothing
+    if (x < t->element)
+        remove(x, t->left);
+    else if (t->element < x)
+        remove(x, t->right);
+    else if (t->left != nullptr && t->right != nullptr) // Two children
+    {
+        t->element = findMin(t->right)->element;
+        remove(t->element, t->right);
+    }
+    else
+    {
+        BinaryNode *oldNode = t;
+        t = (t->left != nullptr) ? t->left : t->right;
+        delete oldNode;
+    }
+}
+```
+
+If the number of deletions is expected to be small, then a popular strategy to use is **lazy deletion**:  
+When an element is to be deleted, it is left in the tree and merely *marked* as being deleted.  
+This is especially popular if duplicate items are present, because then the data member that keeps count of the frequency of appearance can be decremented.  
+If the number of real nodes in the tree is the same as the number of “deleted” nodes, then the depth of the tree is only expected to go up by a small constant (why?), so there is a very small time penalty associated with lazy deletion.  
+Also, if a deleted item is reinserted, the overhead of allocating a new cell is avoided.
+
+
+#### 4.3.5 Destructor and Copy Constructor
+
+As usual, the destructor calls `makeEmpty`.  
+Notice that at the end, t, and thus root, is changed to point at nullptr.
+
+
+###### Figure 4.27 Destructor and recusive makeEmpty member function
+
+```cs
+// Destrucotr for the tree
+~BinarySearchTree()
+{
+    makeEmpty();
+}
+
+// Internal method to make subtree empty.
+void makeEmpty(BinaryNode *&t)
+{
+    if (t != nullptr)
+    {
+        makeEmpty(t->left);
+        makeEmpty(t->right);
+        delete t;
+    }
+    t = nullptr;
+}
+```
+
+The copy constructor, first initializing root to nullptr and then making a copy of rhs.  
+We use a very slick recursive function named clone to do all the dirty work.
+
+
+###### Figure 4.28 Copy constructor and recusive clone member function
+
+```cs
+// Copy constructor
+BinarySearchTree(const BinarySearchTree &rhs) : root{nullptr}
+{
+    root = clone(rhs.root);
+}
+
+// Internal method to clone subtrees.
+BinaryNode *clone(BinaryNode *t) const
+{
+    if (t === nullptr)
+        return nullptr;
+    else
+        return new BinaryNode{t->element, clone(t->left), clone(t->right)};
+}
+```
+
+
+#### 4.3.6 Average-Case Analysis
+
+Indeed, the running time of all of the operations (except makeEmpty and copying)is O(d), where d is the depth of the node containing the accessed item.
+
+We prove that the average depth over all nodes is O(logN) on the assumption that all insertion sequences are equally likely.
+
+The sum of the depth of all nodes in a tree is known as the **internal path length**.
+
+
+##### Calculation of average internal path length
+
+Let D(N) be the internal path length for some tree T of N nodes.  
+D(1) = 0.  
+An N-node tree consists of an i-node left subtree and an (N-i-1)-node right subtree, plus a root at depth zero for 0 <= i < N.  
+D(i) is the interal path length of the left subtree with respect to its root.  
+We get the recurrence
+
+$$ D(N) = D(i) + D(n-i-1) + N - 1 $$
+
+If all subtree sizes are equally likely, which is true for binary search trees (since the subtree size depends only on the relative rank oof the first element inserted into the tree), but not binary trees, then the average value of both D(i) and D(N-i-1) is $(1/N)\sum^{N-1}_{j=0} D(j)$.  
+This yields
+
+$$ D(N) = \frac2 N \sum^{N-1}_{j=0} D(j) + N - 1 $$
+
+This recurrence will be encountered and solved in Chapter 7, obtaining an average value of D(N) = O(NlogN).  
+Thus expected depth of any node is O(logN).
+
+It is not entirely true that the average running time of all the operations discussed in the previous section if O(logN).  
+That is because of deletions, the deletion algorithm favors making the left subtree deeper than the right.  
+The exact effect of this strategy is still unknown, but it seems only to be a theoretical novelty.  
+It has shown that if we alternate insertions and deletions Θ(N^2) times, then the tree will have an expected depth of Θ(√N).
+
+One solution is to insist on an extra structual condition called *balance*:  
+No node is allowed to get too deep.
+
+There are quite a few general algorithms to implement balanced trees.  
+Most are quite a bit more complicated than a standard binary search tree, and all take longer on average for updates.  
+However, providing protection against the embarrasingly simple cases.
+
+A second method is to forgo the balance condition and allow the tree to be arbitrarily deep, but after every operation, a resturcturing rule is applied that tend to make future operations efficient.  
+These types of data structures are generally classifiedf as **self-adjusting**.  
+In the case, we can no longer guarantee an O(logN) bound on any single operation but can show that any sequence of M operations takes total time O(MlogN) in the worst case.  
+The data structure is known as a splay tree; its analysis is fairly intricate and is discussed in Chapter 11.
+
+
+--------------------------------------------------------------------------------
+
+
+### 4.4 AVL Trees
 
