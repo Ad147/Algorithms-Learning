@@ -652,3 +652,19 @@ The data structure is known as a splay tree; its analysis is fairly intricate an
 
 ### 4.4 AVL Trees
 
+An **AVL (Adelson-Velskii and Landis) tree** is identical to a binary search tree, except that for every node in the tree, the height of the left and right subtrees can differ by at most 1.  
+(The height of an empty tree is defined to be -1.)
+
+It can be shown that the height of an AVL tree is at most roughly $1.44log(N+2)-1.328$, but in practice it is only slightly more than logN.
+
+Thus, all the operations can be performed in O(logN) time, except possibly insertion and deletion.  
+When we do an insertion, we need to update all the balancing information for the nodes on the path back to the root, but the reason that insertion is potentially difficult is that inserting a node could violate the AVL tree property.  
+Then the property has to be restored before the insertion step is considered over.  
+It turns out that this can always be done with **rotation**.
+
+After an insertion, only nodes that are on the path from the insertion point to the root might have their balance altered.  
+As we follow the path up to the root and update the balancing information, we may find a node whose new balance violates the AVL condition.  
+We will show how to rebalance the tree at the first (i.e. deepest) such node.  
+This rebalancing guarantees that the entire tree satisfies the AVL property.
+
+Let us call...
