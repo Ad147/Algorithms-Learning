@@ -46,6 +46,9 @@ In this chapter:
     - [4.3.5 Destructor and Copy Constructor](#435-destructor-and-copy-constructor)
     - [4.3.6 Average-Case Analysis](#436-average-case-analysis)
   - [4.4 AVL Trees](#44-avl-trees)
+    - [4.4.1 Single Rotation](#441-single-rotation)
+    - [4.4.2 Double Rotaion](#442-double-rotaion)
+  - [4.5 Splay Trees](#45-splay-trees)
 
 
 --------------------------------------------------------------------------------
@@ -667,4 +670,219 @@ As we follow the path up to the root and update the balancing information, we ma
 We will show how to rebalance the tree at the first (i.e. deepest) such node.  
 This rebalancing guarantees that the entire tree satisfies the AVL property.
 
-Let us call...
+Assuming α is to be rebalanced.  
+There are 4 cases:
+
+1. An insertion into `α->left->left`
+2. An insertion into `α->left->right`
+3. An insertion into `α->right->left`
+4. An insertion into `α->right->right`
+
+Cases 1 and 4, 2 and 3 are mirror image symmetries with respect to α.  
+
+- Consequently, as a matter of theory, there are two basic cases.  
+- From a programming perspective, there are still four cases.
+
+The first case, in which the insertion occurs on the "outside" (i.e., left-left or right-right), is fixed by a **single rotation** of the tree.  
+The seconde case, in which the insertion occurs on the "inside" (i.e., left-right or right-left) is handled by the slightly more complex **double rotation**.
+
+
+#### 4.4.1 Single Rotation
+
+```
+    k2             k1
+   /  \           /  \
+  k1       -->   X   k2
+ /  \               /  \
+X    
+```
+
+Node k2 violates the AVL balance property because its left subtree is two level deeper than its right subtree.  
+The situation depicted is the **only** possible case 1 scenario that allows k2 to satisfy the AVL property before an insertion but violate it afterwards.
+
+To ideally rebalance the tree, we would like to move X up a level and Z (`k2->right`) down a level.  
+The result is that k1 will be the new root.  
+Subtree Y (`k1->right`) which holds items that are between k1 and k2 in the original tree, can be placed as k2's left child in the new tree.
+
+This work requires only a few pointer changes.  
+k2 and k1 not only satisfy the AVL requirements, but they also have subtrees that are exactly the same height.  
+Furthermore, the new height of the entire subtree is *exactly the same* as the height of the original subtree prior to the insertion that caused X to grow.  
+Thus *no further rotations are needed*.
+
+
+#### 4.4.2 Double Rotaion
+
+
+###### Left-right double rotation to fix case 2
+
+```
+    k3               k2
+   /  \             /  \
+  k1       -->    k1    k3
+ /  \            /  \  /  \
+    k2
+   /  \
+```
+
+To rebalace in this situation, we cannot leave k3 as the root, and a rotation between k3 and k1 do not work, so the only alternative is to place k2 as the new root.  
+This force k1 to be k2's left child and k3 to be its right child, and it also completely determines the resulting location of the four subtrees (`k1->left`, `k2->left`, `k2->right`, `k3->right`).  
+The resulting tree restores the height to what it was befor the insertion, thus guaranteeing that all rebalancing and height updating is complete.
+
+The programming details are fairly straightforward except that there are several cases.  
+To insert a new node with item X into an AVL tree T, we recursively insert X into the appropriate subtree of T (call this $T_{LR}$).  
+If the height of TLR does not change, then we are done.  
+Otherwise, if a height imbalance appears in T, we do the appropriate single or double rotation depending on X and the items in T and TLR, update the heights (making the connection from the rest of the tree above), and we are done.
+
+Since one ratation always suffices, a carefully coded nonrecursive version generally turn out to be faster, but on modern compilers the difference is not as significant as in the past.  
+However, nonrecursive versions are quite difficult to code correctly, whereas a casual recursive implementation is easily readable.
+
+###### Figure 4.40 Node declaration for AVL trees
+
+```cs
+struct AvlNode
+{
+    Comparable element;
+    AvlNode *left;
+    AvlNode *right;
+    int height;
+
+    AvlNode(const Comparable &ele, AvlNode *lt, AvlNode *rt, int h = 0)
+        : element{ele}, left{lt}, right{rt}, height{h} {}
+    
+    AvlNode(Comparable &&ele, AvlNode *lt, AvlNode *rt, int h = 0)
+        : element{std::move(ele)}, left{lt}, right{rt}, height{h} {}
+};
+```
+
+
+###### Figure 4.41 Function to compute height of an AVL node
+
+```cs
+// Return the height of node t or -1 if nullptr.
+int height(AvlNode *t) const
+{
+    return t ? t->height : -1;
+}
+```
+
+
+###### Figure 4.42 Insertion into an AVL tree
+
+```cs
+// Internal method to insert into a subtree.
+// x is the item to insert.
+// t is the node that roots the subtree.
+// Set the new root of the subtree.
+void insert(const Comparable &x, AvlNode *&t)
+{
+    if (!t)
+        t = new AvlNode{x, nullptr, nullptr};
+    else if (x < t->element)
+        insert(x, t->left);
+    else if (t->element < x)
+        insert(x, t->right);
+    
+    balance(t);
+}
+
+static const int ALLOWED_IMBALANCE = 1;
+
+// Assume t is balanced or within one of being balanced
+void balance(AvlNode *&t)
+{
+    if (!t)
+        return;
+    
+    if (height(t->left) - height(t->right) > ALLOWED_IMBALANCE)
+        if (height(t->left->left) >= height(t->left->right))
+            rotateWithLeftChild(t);
+        else
+            doubleWithLeftChild(t);
+    else if (height(t->right) - height(t->left) > ALLOWED_IMBALANCE)
+        if (height(t->right->right) >= height(t->right->left))
+            rotateWithRightChild(t);
+        else
+            doubleWithRightChild(t);
+    
+
+    t->height = max(height(t->left), height(t->right) + 1;
+}
+```
+
+
+###### Figure 4.44 Routine to perform single rotation
+
+```cs
+// Rotate binary tree node with left child.
+// For AVL trees, this is a single rotation for case 1.
+// Update heights, then set new root.
+void rotateWithLeftChild(AvlNode *&k2)
+{
+    AvlNode *k1 = k2->left;
+    k2->left = k1->right;
+    k1->right = k2;
+    k2->height = max(height(k2->left), height(k2->right)) + 1;
+    k1->height = max(height(k1->left), k2->height) + 1;
+    k2 = k1;
+}
+```
+
+
+###### Figure 4.46 Routine to perform double rotation
+
+```cs
+// Double rotate binary tree node: first left child
+// with its right child; then node k3 with new left chlid.
+// For AVL trees, this is a double rotation for case 2.
+// Update heights, then set new root.
+void doubleWithLeftChild(AvlNode *&k3)
+{
+    rotateWithRightChild(k3->left);
+    rotateWithLeftChild(k3);
+}
+```
+
+A deletion could cause one side of the tree to become two levels shallower than the other side.  
+The case-by-case analysis is similar to insertion, but not exactly the same.  
+For instance, case 1 that reflect a deletion from tree Z (k2->right) (rather than an insertion into X), must be augmented with the possibility that tree Y could be as deep as tree X.  
+Even so, it is easy to see that the rotation rebalances this case and the symmetric case 4.  
+Thus the code in Figure 4.42 lines 28 and 34 uses >= instead of > specifically to ensure that single rotations are done in these cases rather than double rotations.
+
+
+###### Figure 4.47 Deletion in an AVL tree
+
+```cs
+// Internal method to remove from a subtree.
+// x is the item to remove.
+// t is the node that roots the subtree.
+// Set the new root of the subtree.
+void remove(const Comparable &x, AvlNode *&t)
+{
+    if (!t)
+        return;
+    
+    if (x < t->element)
+        remove(x, t->left);
+    else if (t->element < x)
+        remove(x, t->right);
+    else if (t->left && t->right)
+    {
+        t->element = findMin(t->right)->element;
+        remove(t->element, t->right);
+    }
+    else
+    {
+        AvlNode *old = t;
+        t = t->left ? t->left : t->right;
+        delete old;
+    }
+    
+    balance(t);
+}
+```
+
+
+--------------------------------------------------------------------------------
+
+
+### 4.5 Splay Trees
