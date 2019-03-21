@@ -49,6 +49,9 @@ In this chapter:
     - [4.4.1 Single Rotation](#441-single-rotation)
     - [4.4.2 Double Rotaion](#442-double-rotaion)
   - [4.5 Splay Trees](#45-splay-trees)
+    - [4.5.1 A Simple Idea (That Does Not Work)](#451-a-simple-idea-that-does-not-work)
+    - [4.5.2 Splaying](#452-splaying)
+  - [4.6 Tree Traversal (Revisited)](#46-tree-traversal-revisited)
 
 
 --------------------------------------------------------------------------------
@@ -886,3 +889,96 @@ void remove(const Comparable &x, AvlNode *&t)
 
 
 ### 4.5 Splay Trees
+
+**Splay tree** guarantees that any M consecutive tree operations starting from an empty tree takes at most $O(MlogN)$ time.  
+Although this guarantee does not preclude the possibility that any *single* operatio might take Θ(N) time, and thus the bound is not as strong as an O(logN) worst-case bound per operation, the net effect is the same:  
+There are not bad input sequences.
+
+Generally, when a sequence of M operations has total worst-case running time of $O(Mf(N))$, then the **amortized** running time is $O(f(N))$.  
+Thus, a splay tree has an O(logN) amortized cost per operation.  
+Over a long sequence of operations, some may take more, some less.
+
+Splay trees are based on the fact that the O(N) worst-case time per operation for binary search trees is not bad, as long as it occurs relatively infrequently.  
+Any one access, even if it takes Θ(N), is still likely to be extremely fast.  
+The problem with binary search trees is that it is possible, and not uncommon, for a whole sequence of bad access to take palce.  
+The cumulative running time then becomes noticeable.  
+A search tree data structure with O(N) worst-case time, but a *guarantee* of at most O(MlogN) for any M consecutive operations, is certainly satisfactory, because there are no bad sequences.
+
+If any particular operation is allowed to have an O(N) worst-case time bound, and we still want an O(logN) amortized time bound, then it is clear that whenever a node is accessed, it must be moved.  
+Otherwise, once we find a deep node, we could keep performing accesses on it.  
+If the node does not change location, and each access costs Θ(N), then a sequence of M accesses will cost Θ(M·N).
+
+The basic idea of the splay trees is that after a node is accessed, it is pushed to the root by a series of AVL tree rotations.  
+Notice that if a node is deep, there are many nodes on the path that are also relatively deep, and by restructing we can make future accesses cheaper on all these nodes.  
+Thus, if the node is unduly deep, then we want this restructuring to have the side effect of balancing the tree (to some extent).  
+Besides giving a good time bound in theory, this method is likely to have practical utility, because in many applications, when a node is accessed, it is likely to be accessed again in the near future.  
+Studies have shown that this happens much more often then one would expect.  
+Splay trees also do not require the maintenance of height or balance information, thus saving space and simplifying the code to some extent (especially when carefully implementations are written).
+
+
+#### 4.5.1 A Simple Idea (That Does Not Work)
+
+One way is to perform single rotations, bottom up.  
+This means that we rotate evrery node on the access path with its parent.
+
+These rotations push k1 (the accessed node) to the root, so that future accessses on k1 are easy (for a while).  
+Unfortunately, it has pushed another node (k3) almost as deep as k1 used to be.  
+An access on that node will then push another node deep, and so on.  
+It is possible that there is a sequence of M operations requiring $Ω(M·N)$ time, so this idea is not quite good enough.
+
+
+#### 4.5.2 Splaying
+
+The splaying strategy is similar to the rotation idea above, except that we are a little more selective about how rotations are performed.  
+We will still rotate bottom up along the access path.  
+Let X be a (non-root) node on the access path at which we are rotating.
+
+- If the parent of X is the root, we merely rotate X and the root.
+- Otherwise, X has both a parent (P) and a grandparent (G), and there are 2 cases, plus symmetries, to consider.
+    1. The **zig-zag** case: X is a right child and P is a left child (or vice versa).  
+       Then perform a double rotation.
+    2. The **zig-zig** case: X and P are both left children (or both right).
+       Then transform the tree on the left of Figure 4.49 to the tree on the right.
+
+
+###### Figure 4.48 Zig-zag
+
+```
+    G               X
+   / \            /   \
+  P   D          P     G
+ / \      -->   / \   / \
+A   X          A   B C   D
+   / \
+  B   C
+```
+
+
+###### Figure 4.49 Zig-zig
+
+```
+      G             X
+     / \           / \
+    P   D         A   P
+   / \      -->      / \
+  X   C             B   G
+ / \                   / \
+A   B                 C   D
+```
+
+Splaying not only moves the accessed node to the root but also has the effect of roughly *halving* the depth of most nodes on the access path (some shallow nodes are pushed down at most two levels).
+
+We can perform deletion by accessing the node to be deleted.  
+This puts the node at the root.  
+If it is deleted, we get two subtrees TL and TR.  
+If we find the largest element in TL (which is easy), then this element is rotated to the root of TL, and TL will now have a root with not right child.  
+We can finish the deletion by making TR the right child.
+
+The ananlysis of splay trees is difficult, because it must take into account the everchanging structure of the tree.  
+On the other hand, splay trees are much simpler to program than most balanced trees, since there are fewer cases to consider and no balance information to maintain.
+
+
+--------------------------------------------------------------------------------
+
+
+### 4.6 Tree Traversal (Revisited)
