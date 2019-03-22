@@ -52,6 +52,7 @@ In this chapter:
     - [4.5.1 A Simple Idea (That Does Not Work)](#451-a-simple-idea-that-does-not-work)
     - [4.5.2 Splaying](#452-splaying)
   - [4.6 Tree Traversal (Revisited)](#46-tree-traversal-revisited)
+  - [4.7 B-Trees](#47-b-trees)
 
 
 --------------------------------------------------------------------------------
@@ -982,3 +983,66 @@ On the other hand, splay trees are much simpler to program than most balanced tr
 
 
 ### 4.6 Tree Traversal (Revisited)
+
+It is simple to list all the items in sorted order.  
+**inorder traversal**
+
+
+###### Figure 4.60 Routine to print a binary search tree in order
+
+```cs
+// Print the tree contents in sorted order.
+void printTree(ostream &out = cout) const
+{
+    if (isEmpty())
+        out << "Empty tree" << endl;
+    else
+        printTree(root, out);
+}
+
+// Internal method to print a subtree rooted at t in sorted order.
+void printTree(BinaryNode *t, ostream &out) const
+{
+    if (t != nullptr)
+    {
+        printTree(t->left, out);
+        out << t->element << endl;
+        printTree(t->right, out);
+    }
+}
+```
+
+The total running time is O(N), because there is contatn work being performed at every node in the tree.
+
+When we need to compute the height of a node, we need **postorder traversal**.
+
+
+###### Figure 4.61 Routine to compute the height of a tree using a postorder traversal
+
+```cs
+// Internal method to compute the height of a subtree rooted at t.
+int height(BinaryNode *t)
+{
+    if (t == nullptr)
+        return -1;
+    else
+        return 1 + max(height(t->left), height(t->right));
+}
+```
+
+**Preorder traversal** is used, for example, to label each node with its depth.
+
+These routines pass only the pointer to the node that roots the subtree, and do not declare or pass any extra variables.  
+The more compact the code, the less likely that a silly bug will turn up.
+
+A fourth, less often used, traversal (which we have not seen yet) is **level-order traversal**.  
+In a level-order traversal, all nodes at depth d are processed before any node at depth d+1.  
+Level-order traversal differs from the other traversals in that it is not done recursively;  
+a queue is used, instead of the implied stack of recursion.
+
+
+--------------------------------------------------------------------------------
+
+
+### 4.7 B-Trees
+
