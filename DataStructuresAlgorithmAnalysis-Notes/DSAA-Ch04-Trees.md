@@ -53,6 +53,8 @@ In this chapter:
     - [4.5.2 Splaying](#452-splaying)
   - [4.6 Tree Traversal (Revisited)](#46-tree-traversal-revisited)
   - [4.7 B-Trees](#47-b-trees)
+  - [4.8 Sets and Maps in the Standard Library](#48-sets-and-maps-in-the-standard-library)
+    - [4.8.1 Sets](#481-sets)
 
 
 --------------------------------------------------------------------------------
@@ -1045,4 +1047,87 @@ a queue is used, instead of the implied stack of recursion.
 
 
 ### 4.7 B-Trees
+
+So far, it is assumed that the entire data is stored in the main memory.  
+Suppose there is more data than the memory can store, then must have data structure reside on disk.  
+And the rules of the game change, because the Big-Oh model is no longer meaningful.
+
+The problem is the a Big-Oh analysis assumes that all operations are equal.  
+However, it is 9-11 ms for a disk IO while the processor deal billions instructions.  
+SoiIt is the number of disk access that will dominate the running time.
+
+We want to reduce the disk accesses to a very small constant, such as 3 or 4.  
+A BST will not work.  
+If we have more branching, we have less height.
+
+An **M-ary search tree** allows M-way braching.  
+A complete binary tree has height that is roughly $log_2 N$,  
+a complete M-ary tree has height that is roughly $log_M N$.
+
+We can create an M-ary tree in much the same way as a binary search tree.  
+In a BST, we need one key to decide which of two branches to take.  
+In an M-ary search tree, we need M-1 keys to decide.  
+To make this scheme efficient in the worst case, we need to ensure that the M-ary search tree is balanced in some way.  
+Otherwise, like a BST, it could degenerate into a linked list.  
+Actually, we want an even more restrictive balancing condition.  
+That is, we do not want an M-ary search tree to degenerate to even a binary search tree, because then we could be stuck with logN accesses.
+
+One way to implement is to use a **B-tree*.  
+The basic B-tree (popularly known as a B+ tree) is described here.  
+In principle, a B-tree guarantees only a few disk accesses.
+
+A B-tree of order M is an M-ary tree with the following properties:  
+Rule 3 and 5 must be relaxed for the first L insertions.
+
+1. The data item are stored at leaves.
+2. The nonleaf nodes store up to M-1 keys to guide the searching; key i represents the smallest key in subtree i+1.
+3. The root is either a leaf or has between two and M children.
+4. All nonleaf nodes (except the root) have between ceil(M/2) and M children.
+5. All leaves are at the same depth and have between ceil(L/2) and L data items, for some L (the determine of L is described shortly).
+
+In the example, L and M are the same but this is not neccessary.
+
+Each node represents a disk block, so we chooseMandLon the basis of the size of theitems that are being stored.  
+As an example, suppose one block holds 8,192 bytes.  
+In ourFlorida example, each key uses 32 bytes.  
+In a B-tree of orderM, we would haveM−1 keys,for a total of 32M−32 bytes, plusMbranches.  
+Since each branch is essentially a numberof another disk block, we can assume that a branch is 4 bytes.  
+Thus the branches use 4Mbytes.  
+The total memory requirement for a nonleaf node is thus 36M−32.  
+The largest valueofMfor which this is no more than 8,192 is 228.  
+Thus we would chooseM=228.  
+Sinceeach data record is 256 bytes, we would be able to fit 32 records in a block.  
+Thus we wouldchooseL=32.  
+We are guaranteed that each leaf has between 16 and 32 data records andthat each internal node (except the root) branches in at least 114 ways.  
+Since there are10,000,000 records, there are, at most, 625,000 leaves.  
+Consequently, in the worst case,leaves would be on level 4.  
+In more concrete terms, the worst-case number of accesses isgiven by approximately logM/2N, give or take 1.  
+(For example, the root and the next levelcould be cached in main memory, so that over the long run, disk accesses would be neededonly for level 3 and deeper.)
+
+If the leaf is full, split the leaf;  
+if the parent is full, split the parent (update keys);  
+if the root is full, split the root and create a new root, and the B-tree gains height.
+
+There are other ways to handle the overflowing of children.  
+One is to put a child up for adoption should a neighbor have a room.
+
+When deleting, if the number of items is below the minimum, we can rectify this situaiton by adopting a neighboring item, if the nieghbor is not itself at its minimum.  
+If it is, then we can combine with the neighbor to form a full leaf.  
+After this, the parent has lost a child.  
+If this causes the parent to fall below its minimum, then it follows the same strategy.  
+The process could percolate all the way up to the root.  
+The root cannot have just one child.  
+If it is, we remove the root and make its child the new root.  
+And this is the only way for a B-tree to lose height.
+
+
+--------------------------------------------------------------------------------
+
+
+### 4.8 Sets and Maps in the Standard Library
+
+The STL provides two additional containers, `set` and `map`, that guarantee logarithmic cost for basic operations such as insertion, deletion, and searching.
+
+
+#### 4.8.1 Sets
 
