@@ -55,6 +55,7 @@ In this chapter:
   - [4.7 B-Trees](#47-b-trees)
   - [4.8 Sets and Maps in the Standard Library](#48-sets-and-maps-in-the-standard-library)
     - [4.8.1 Sets](#481-sets)
+    - [4.8.2 Maps](#482-maps)
 
 
 --------------------------------------------------------------------------------
@@ -1131,3 +1132,89 @@ The STL provides two additional containers, `set` and `map`, that guarantee loga
 
 #### 4.8.1 Sets
 
+The `set` is an ordered container that does not allow duplicates.
+
+The unique operations required by the `set` are the abilities to insert, remove, and perform a basic search (efficiently).
+
+As a `set` does not allow duplicates, `insert` could fail.  
+As a result, we want the return type to be able to indicate this with a Boolean variable.  
+But `insert` also returns an iterator that represents where x is when insert returns.  
+This iterator represents either the newly inserted item or the existing item that caused the insert to fail, and it is useful, because knowing the position of the item can make removing it more efficient by avoiding the search and getting directly to the node containing the item.
+
+`insert` uses `pair` as its return type:
+
+```cs
+pair<iterator, bool> insert(const Object &x);
+pair<iterator, bool> insert(iterator hint, const Object &x);
+```
+
+The two-parameter `insert` allows the sepcification of a hint, which represents the position where x should go.  
+If the hint is accurate, the insertion is fast, often O(1).  
+If not, the insertion is done using the normal insertion algorithm and performs comparably with the one-parameter insert.  
+For instance, the following code might be faster using the two-parameter insert than the one-parameter insert:
+
+```cs
+set<int> s;
+for (int i = 0; i < 1000000; ++i)
+    s.insert(s.end(), i);
+```
+
+There are several versions of `erase`:
+
+```cs
+int erase(const Object &x);
+iterator erase(iterator itr);
+iterator erase(iterator start, iterator end);
+```
+
+- The first one-parameter erase removes x (if found) and returns the number of items actually removed, which is obviously 0 or 1.
+- The seconde one-parameter erase behaves the same as in vector/list.  
+  It removes the object at the iterator, returns an iterator representing the element that followed itr immediately prior to the call to erase, and invalidates itr, which becomes stale.
+- The two-parameter erase behaves the same as in a vector/list, removing all between start and end.
+
+For searching, rather than a contains routine, the set provides a `find`:
+
+```cs
+iterator find(const Object &x) const;
+```
+
+
+#### 4.8.2 Maps
+
+A `map` is used to store a collection of ordered entries that consists of keys and their values.
+
+For an iterator `itr`, `*itr` is of type `pair<KeyType, ValueType>`.  
+For insert, one must provide a pair.  
+`find` requires a key but returns itr to a pair.  
+Using only these operations is often not worthwhile because the syntactic baggage can be expensive.
+
+Fortunately, the `map` has an important extra operation that yields simple syntax:
+
+```cs
+ValueType &operator[](const KeyType &key);
+```
+
+The semantics of `operator[]`:
+
+- If key is present, return a reference to the value.
+- If key is not present, it is inserted with a default value into the map and then a reference to the inserted value is returned.
+
+The code snippet in Figure 4.68 illustrates two techniques to access items in a map:
+
+
+###### Figure 4.68 Accessing values in a map
+
+```cs
+map<string, double> salaries;
+
+salaries["Pat"] = 75000.00;
+cout << salaries["Pat"] << endl;
+cout << salaries["Jan"] << endl;
+
+map<string, double>::const_iterator itr;
+itr = salaries.find("Chris");
+if (itr == salaries.end())
+    cout << "Not an employee of this company!" << endl;
+else
+    cout << itr->second << endl;
+```
