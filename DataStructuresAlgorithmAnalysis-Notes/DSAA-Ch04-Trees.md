@@ -56,6 +56,9 @@ In this chapter:
   - [4.8 Sets and Maps in the Standard Library](#48-sets-and-maps-in-the-standard-library)
     - [4.8.1 Sets](#481-sets)
     - [4.8.2 Maps](#482-maps)
+    - [4.8.3 Implementation of `set` and `map`](#483-implementation-of-set-and-map)
+    - [4.8.4 An Example That Uses Several Maps](#484-an-example-that-uses-several-maps)
+  - [Summary](#summary)
 
 
 --------------------------------------------------------------------------------
@@ -1218,3 +1221,263 @@ if (itr == salaries.end())
 else
     cout << itr->second << endl;
 ```
+
+
+#### 4.8.3 Implementation of `set` and `map`
+
+Top-down red-black trees are used to implement `set` and `map`.
+
+It is hard for iterators to efficiently advance to next node, some solutions are:
+
+1. When the itr is constructed, have each iterator store as its data an array contatining the `set` items. This does not work.
+2. Have the itr maintain a stack storing nodes on the path to the current node.  
+   This makes the itr somewhat large and makes the itr code clymsy.
+3. Have each node in the search tree store its parent in addition to the children. The itr is not as large, but there is now extra memory required in each node, and the code to iterate is still clumsy.
+4. Have each node maintain extra links: one to the next smaller, and on to the next larger node.  
+   This takes space, but the iteration is very simple to do, and it is easy to maintain these links.
+5. Maintain the extra links only for nodes that have `nullptr` left or right links by using extra Boolean variables to allow the routines to tell if a left link is being used as a standard binary search tree left link or a link to the next smaller node, and similarly for the right link.  
+   This idea is called a **threaded tree** and is used in many of the STL implementations.
+
+
+#### 4.8.4 An Example That Uses Several Maps
+
+Write a program to find all words that can be changed into at least 15 other words by a single one-character substitution (wind->wine->wing->wins->...).  
+Assuming we have a dictionary consisting of 89,000 words of varing length.
+
+The most straightforward strategy is to use a `map` in which the keys are words and the values are vectors contatining the words that can be changed from the key with a one-character substitution.
+
+
+###### Figure 4.69 Given a map containing words as keys and a vector of words that differ in only one character as values, output wrods that have `minWords` or more words obtainable by a one-character substitution
+
+```cs
+void printHighChangeables(const map<string, vector<string>> &adjacentWords, int minWords=15)
+{
+    for (auto &entry : adjacentWords)
+    {
+        const vector<string> &words = entry.second;
+
+        if (words.size() >= minWords)
+        {
+            cout << entry.first << "(" << words.size() << "):";
+            for (auto &str : words)
+                cout << " " << str;
+            cout << endl;
+        }
+    }
+}
+```
+
+The routine in Figure 4.70 is a straightforward function to test if two words are identical except for a one-character substitution.
+
+
+###### Figure 4.70 Routine to check if two words differ in only one character
+
+```cs
+// Return true if word1 and word2 are the same length
+// and differ in only one character.
+bool oneCharOff(const string &word1, const string &word2)
+{
+    if (word1.size() != word2.size())
+        return false;
+    
+    int diffs = 0;
+
+    for (int i = 0; i < word1.size(); ++i)
+        if (word1[i] != word2[i])
+            if (++diffs > 1)
+                return false;
+    
+    return diffs == 1;
+}
+```
+
+A simplest algorithm for the map construction, which is a brute-force test of all paires of words is shown in Figure 4.71.
+
+
+###### Figure 4.71 Function to compute a map contatining words as keys and a vector of words that differ in only on character as values. This version runs in 1.5 minutes on an 89,000-word dictionary.
+
+```cs
+// Computes a map in which the keys are words and values are vectors of words
+// that differ in only one character from the corresponding key.
+// Uses a quadratic algorithm.
+map<string, vector<string>> computeAdjacentWords(const vector<string> &words)
+{
+    map<string, vector<string>> adjWords;
+
+    for (int i = 0; i < words.size(); ++i)
+        for (int j = i + 1; j < words.size(); ++j)
+            if (oneCharOff(words[i], words[j]))
+            {
+                adjWords[words[i]].push_back(words[j]);
+                adjWords[words[j]].push_back(words[i]);
+            }
+    
+    return adjWords;
+}
+```
+
+The problem with this algorithm is that it is slow and takes 97 seconds.  
+An obvious improvement is to avoid comparing words of different lengths.  
+We can do this by grouping words by their length, and then running the previous algorithm on each of the separate groups.
+
+To do this, we can use a second map!  
+Here the key is the word length, and the value is a collection of all the words of that length.
+
+
+###### Figure 4.72 Function to compute a map containing words as keys and a vector of words that differ in only one characters as values. It splits words into groups by word length. This version runs in 18 seconds on an 89,000-word dictionary.
+
+```cs
+// Computes a map in which the keys are words and values are vectors of words
+// that differ in only one character from the corresponding key.
+// Uses a quadratic algorithm, but speeds things up a little by
+// maintaining an additional map that groups words by their length.
+map<string, vector<string>> computeAdjacentWords(const vector<string> &words)
+{
+    map<string, vector<string>> adjWords;
+    map<int, vector<string>> wordsByLength;
+
+    // Group the words by their length
+    for (auto &thisWord : words)
+        wordsByLength[thisWord.size()].push_back(thisWord);
+
+    // Work on each group separately
+    for (auto &entry : wordsByLength)
+    {
+        const vector<string> &groupsWords = entry.second;
+
+        for (int i = 0; i < groupsWords.size(); ++i)
+            for (int j = i + 1; j < groupsWords.size(); ++j)
+                if (oneCharOff(groupsWords[i], groupsWords[j]))
+                {
+                    adjWords[groupsWords[i]].push_back(groupsWords[j]);
+                    adjWords[groupsWords[j]].push_back(groupsWords[i]);
+                }
+    }
+
+    return adjWords;
+}
+```
+
+Our third algorithm is more complex and uses additional maps!  
+To see how the algorithm works, for instance, for each word of length 4, remove the first character, leaving a three-character word representative.  
+Form a map in which the key is the representative, and the value is a vector of all words that have that representative.  
+Then preceed to the second character of the four-letter word group, with a new map, and then the third...
+
+The general outline is
+
+```
+for each group g, containing words of length len
+    for each position p (ranging from 0 to len-1)
+    {
+        Make an empty map<string, vector<string>> repsToWords
+        for each word w
+        {
+            Obtain w's representative by removing position p
+            Update repsToWord
+        }
+        Use cliques in repsToWords to update adjWords map
+    }
+```
+
+Figure 4.73 contains an implementation of this algorithm.  
+It is interesting to note that although the use of the additional maps makes the algorithm faster, and the syntax is relatively clean, the code makes no use of the fact that the keys of the map are maintain in sorted order.
+
+
+###### Figure 4.73 Function to compute a map containing words as keys and a vector of words that differ in only one character as values. This version runs in 2 seconds on an 89,000-word dictionary.
+
+```cs
+// Computes a map in which the keys are words and values are vectors of words
+// that differ in only one character from the corresponding key.
+// Uses an efficient algorithm that is O(NlogN) with a map
+map<string, vector<string>> computeAdjacentWords(const vector<string> &words)
+{
+    map<string, vector<string>> adjWords;
+    map<int, vector<string>> wordsByLength;
+
+    // Group the word by their length
+    for (auto &str : words)
+        wordsByLength[str.length()].push_back(str);
+    
+    // Work on each group separately
+    for (auto &entry : wordsByLength)
+    {
+        const vector<string> &groupsWords = entry.second;
+        int groupNum = entry.first;
+
+        // Work on each position in each group
+        for (int i = 0; i < groupNum; ++i)
+        {
+            // Remove one character in specified position, computing representative.
+            // Words with same representatives are adjacent; so populate a map...
+            map<string, vector<string>> repToWord;
+
+            for (auto &str : groupsWords)
+            {
+                string rep = str;
+                rep.erase(i, 1);
+                repToWord[rep].push_back(str);
+            }
+
+            // and then look for map values with more than one string
+            for (auto &entry : repToWord)
+            {
+                const vector<string> &clique = entry.second;
+                if (clique.size() >= 2)
+                    for (int p = 0; p < clique.size(); ++p)
+                        for (int q = p + 1; q < clique.size(); ++q)
+                        {
+                            adjWords[clique[p]].push_back(clique[q]);
+                            adjWords[clique[q]].push_back(clique[p]);
+                        }
+            }
+        }
+    }
+    return adjWords;
+}
+```
+
+As such, it is possible that a data structure that support the map operations but does not guarantee sorted order can perform better, since it is being asked to do less.  
+An unordered map reduces the running time of the implementation from 2 to 1.5 sec.
+
+
+--------------------------------------------------------------------------------
+
+
+### Summary
+
+We have seen uses of trees in operating systems, compiler design, and searching.  
+Expression trees are a small example of a more general structure known as a **parse tree**, which is a central data structure in compiler design.  
+Parse trees are not binary, but arerelatively simple extensions of expression trees (although the algorithms to build them arenot quite so simple).
+
+Search trees are of great importance in algorithm design.  
+They support almost all theuseful operations, and the logarithmic average cost is very small.  
+Nonrecursive implemen-tations of search trees are somewhat faster, but the recursive versions are sleeker, moreelegant, and easier to understand and debug.  
+The problem with search trees is that theirperformance depends heavily on the input being random.  
+If this is not the case, the run-ning time increases significantly, to the point where search trees become expensive linkedlists.
+
+We saw several ways to deal with this problem.  
+AVL trees work by insisting that allnodes’ left and right subtrees differ in heights by at most one.  
+This ensures that the treecannot get too deep.  
+The operations that do not change the tree, as insertion does, can all use the standard binary search tree code.  
+Operations that change the tree must restore the tree.  
+This can be somewhat complicated, especially in the case of deletion.  
+We showed how to restore the tree after insertions in O(logN) time.
+
+We also examined the splay tree.  
+Nodes in splay trees can get arbitrarily deep, but afterevery access the tree is adjusted in a somewhat mysterious manner.  
+The net effect is that any sequence of M operations takes O(MlogN) time, which is the same as a balanced tree would take.
+
+B-trees are balancedM-way (as opposed to 2-way or binary) trees, which are wellsuited for disks;  
+a special case is the 2–3 tree (M=3), which is another way to implement balanced search trees.
+
+In practice, the running time of all the balanced-tree schemes, while slightly fasterfor searching, is worse (by a constant factor) for insertions and deletions than the simple binary search tree, but this is generally acceptable in view of the protection being givenagainst easily obtained worst-case input.  
+Chapter 12 discusses some additional search tree data structures and provides detailed implementations.
+
+A final note: By inserting elements into a search tree and then performing an inordertraversal, we obtain the elements in sorted order. This gives an O(NlogN) algorithm to sort, which is a worst-case bound if any sophisticated search tree is used.  
+We shall see better ways in Chapter 7, but none that have a lower time bound.
+
+
+--------------------------------------------------------------------------------
+
+
+EOF
