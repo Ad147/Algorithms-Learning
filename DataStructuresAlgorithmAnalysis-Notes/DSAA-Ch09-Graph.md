@@ -28,6 +28,7 @@ In this chapter, we will...
   - [9.1 Definitions](#91-definitions)
     - [9.1.1 Representation of Graphs](#911-representation-of-graphs)
   - [9.2 Topological Sort](#92-topological-sort)
+  - [9.3 Shortest-Path Algorithms](#93-shortest-path-algorithms)
 
 
 --------------------------------------------------------------------------------
@@ -86,4 +87,86 @@ Because it is important to be able to quickly obtain the list of adjacent vertic
 
 
 ### 9.2 Topological Sort
+
+A **topological sort** is an ordering of vertices ina directed acyclic graph, such that if there is a path from vi to vj, then vj appears after vi in the ordering.  
+The ordering is not neccessarily unique.
+
+A simple algorithm to find a topological ordering is first to find any vertex with 0 indegree (**indegree** of v is the number of edges (u, v)).  
+Then print this vertex and remove it, along with its edges, from the graph.  
+Then we apply this same strategy to the rest of the graph.
+
+
+###### Figure 9.5 Simple topological sort pseudocode
+
+```cs
+void Graph::topsort()
+{
+    for (int counter = 0; counter < NUM_VERTICES; counter++)
+    {
+        Vertex v = findNewVertexOfIndegreeZero();
+        if (v == NOT_A_VERTEX)
+            throw CycleFoundException{};
+        v.topNum = counter;
+        for each Vertex w adjacent to v
+            w.indegree--;
+    }
+}
+```
+
+The function `findNewVertexOfIndegreeZero` scans the array of vertices and find a vertex of indegree 0.  
+Each call to it takes O(|V|) time.  
+Since there are |V| such calls, the running time of the algorithm is O(|V|^2).
+
+If the graph is saparse, only a few vertices are updated during each iteration.  
+we can keep all the (unassigned) vertices of indegree 0 in a *box*.  
+The `findNewVertexOfIndegreeZero` returns (and removes) any vertext in the box.  
+When we decrement the indegrees of the adjacent vertices, we check each vertex and place it in the box if its indegree is 0.
+
+
+###### Figure 9.7 Pseudocode to perform topological sort
+
+```cs
+void Graph::toposort()
+{
+    Queue<Vertex> q;
+    int counter = 0;
+
+    q.makeEmpty();
+    for each Vertex v
+        if (v.indegree == 0)
+            q.enqueue(v);
+
+    while (!q.isEmty())
+    {
+        Vertex v = q.dequeue();
+        v.topNum = ++counter; // Assign next number
+
+        for each Vertex w adjacent to v
+            if (--w.indegree == 0)
+                q.enqueue(w);
+    }
+
+    if (counter != NUM_VERTICES)
+        throw CycleFoundException{};
+}
+```
+
+The time to perform this algorithm is $O(|E|+|V|)$ if adjacency lists are used.  
+Computing the indegrees can be done with the following code;  
+the cost of this computaion is $O(|E|+|V|)$, even though there are nested loops.
+
+```c
+for each Vertex v
+    v.indegree = 0;
+
+for each Vertex v
+    for each Vertex w adjacent to v
+        w.indegree++;
+```
+
+
+--------------------------------------------------------------------------------
+
+
+### 9.3 Shortest-Path Algorithms
 
