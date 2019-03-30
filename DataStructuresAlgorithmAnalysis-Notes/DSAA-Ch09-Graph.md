@@ -29,6 +29,8 @@ In this chapter, we will...
     - [9.1.1 Representation of Graphs](#911-representation-of-graphs)
   - [9.2 Topological Sort](#92-topological-sort)
   - [9.3 Shortest-Path Algorithms](#93-shortest-path-algorithms)
+    - [9.3.1 Unweighted Shortest Paths](#931-unweighted-shortest-paths)
+    - [9.3.2 Dijkstra's Algorithm](#932-dijkstras-algorithm)
 
 
 --------------------------------------------------------------------------------
@@ -169,4 +171,165 @@ for each Vertex v
 
 
 ### 9.3 Shortest-Path Algorithms
+
+For the problems in this section, the input is a weighted graph:  
+Associated with each edge $(v_i, v_j)$ is a cost $c_{i,j}$ to traverse the edge.  
+The cost of a path v1 v2 ... vN is $\sum^{N-1}_{i=1} c_{i, i+1}$.  
+This is referred to as the **weighted path length**.  
+The **unweighted path length** is merely the number of edges on the path N-1.
+
+
+> ##### Single-Source Shortest-Path Problem
+>
+> Given as input a weighted graph, G=(V, E), and a distinguished vertex, s, find the shortest weighted path from s to every other vertex in G.
+
+If a graph has negative cost edge, there may be a loop to cause the path cost be less and less, the loop is known as a **negative-cost cycle**;  
+when one is present in the graph, the shortest paths are not defined.  
+Negative-cost edges are not necessarily bad, as the cycles are, but their presence seems to make the problem harder.  
+For convenience, in the absence of a negative-cost cycle, the shortest path from s to s is zero.
+
+The following sections are algorithms to solve 4 versions of the problem:
+
+1. Unweighted shortest-path problem, solve it in $O(|E|+|V|)$.
+2. Weighted shortest-path problem assuming no negative edeges, in $O(|E| log|V|)$.
+3. Weighted problem with negative edges, in $O(|E|·|V|)$.
+4. Weighted problem for the special case of acyclic graphs in linear time.
+
+
+#### 9.3.1 Unweighted Shortest Paths
+
+Unweighted can be considered as a special case of weighted problem in which all the edges are weight 1.
+
+For now, suppose we are interested only in the length of the shortest paths, not in the actual paths themselves.  
+Keeping track of the actual paths will turn out to be a matter of simple bookkeeping.
+
+We can find the vertices adjacent to s, which have a distance 1 from s.  
+Then the vertices adjacent to the last found vertices, which have distance 2 from s.  
+...
+
+This strategy is **breadth-first search**.  
+It operates by processing vertices in layer:  
+Ther vertices closest to the start are evaluated first, and the most distant vertices are evaluated last.  
+This is much the same as a level-order traversal for trees.
+
+Figure 9.15 shows the initial configuration of the table that our algorithm will use to keep track of its process.  
+v3 is the start vertex.
+
+
+###### Figure 9.15 Initial configuration of table used in unweighted shortest-path computation
+
+| v   | known | dv  | pv  |
+| --- | ----- | --- | --- |
+| v1  | F     | ∞   | 0   |
+| v2  | F     | ∞   | 0   |
+| v3  | F     | 0   | 0   |
+| v4  | F     | ∞   | 0   |
+| v5  | F     | ∞   | 0   |
+| v6  | F     | ∞   | 0   |
+| v7  | F     | ∞   | 0   |
+| v8  | F     | ∞   | 0   |
+
+For each vertex, we will keep track of three pieces of information:
+
+1. Its distance from s to in the entry dv.
+2. Bookkeeping variable in the entry pv which allow us to print the actual paths.
+3. The entry known is set to true after a vertex is processed.  
+   Initially all are not known, including the start vertex.  
+   When a vertex is marked known, we have a guarantee that no cheaper path will ever be found, and so processing for that vertex is essentially complete.
+
+The algorithm in Figure 9.16 mimics the diagrams by declaring as known the vertices at distance d=0, then d=1, then d=2, and so on, and setting all the adjacent vertices w that still have dw=∞ to a distance dw=d+1.
+
+
+###### Figure 9.16 Pseudocode for unweighted shortest-path algorithm
+
+```cs
+void Graph::unweighted(Vertex s)
+{
+    for each Vertex v
+    {
+        v.dist = INFINITY;
+        v.known = false;
+    }
+
+    s.dist = 0;
+
+    for (int currDist = 0; currDist < NUM_VERTICES; currDist++)
+        for each Vertex v
+            if (!v.known && v.dist == currDist)
+            {
+                v.known = true;
+                for each Vertex w adjacent to v
+                    if (w.dist == INFINITY)
+                    {
+                        w.dist = currDist + 1;
+                        w.path = v;
+                    }
+            }
+}
+```
+
+By tracking back through the pv variable, the actual path can be printed.
+
+The running time of the algorithm is $O(|V|^2)$, because of the doubly nested for loops.  
+An obvious inefficiency is that the outside loop continues until NUM_VERTICE-1, even if all the vertices become known.  
+Although an extra test could be made to avoid this, it does not affect the worst-case running time, as the input is a linked list.
+
+We can remove the inefficiency in much the same way as was done for topological sort.  
+At any point in time, there are only two types of unknown vertices that have dv != ∞.  
+Some have dv=currDist, and the rest have dv=currDist+1.  
+Because of this extra structure, it is very wasteful to search through the entire table to find a proper vertex.
+
+A very simple way is to keep two boxes.  
+
+- Box #1 has unknown vertices with dw=currDist.
+- Box #2 has unknown vertices with dw=currDist+1.
+
+We first find vertices in box #1.  
+After updating w (inside the innermost `if`), we can add w to box #2.  
+After the outermost for loop terminates, box #1 is empty, and box #2 can be transeferred to box #1 for the next pass of the for loop.
+
+We can refine this idea even further by using just one queue.  
+At the start of the pass, the queue contains only vertices of distance currDist.  
+Then we add adjacent vertices of distance currDist+1.  
+After the last vertex at distance currDist dequeues and is processed, the queue only contains vertices of distance currDist+1.  
+We merely need to begin the process by placing the start node on the queue by itself.
+
+The refined algorithm is shown in Figure 9.18.  
+It is possible that the queue might empty prematurely, if some vertices are unreachable from the start node.  
+In this case, a distance of INFINITY will be reported for these nodes, which is perfectly reasonable.  
+Finally, the known data member can be discarded.
+
+Using the same analysis as was performed for topological sort, the running time is $O(|E|+|V|)$, as long as adjaceny lists are used.
+
+
+###### Figure 9.18 Pseudocode for unweighted shortest-path algorithm
+
+```cs
+void Graph::unweighted(Vertex s)
+{
+    Queue<Vertex> q;
+
+    for each Vertex v
+        v.dist = INFINITY;
+
+    s.dist = 0;
+    q.enqueue(s);
+
+    while (!q.isEmpth())
+    {
+        Vertex v = q.dequeue();
+
+        for each Vertex w adjacent to v
+            if (w.dist == INFINITY)
+            {
+                w.dist = v.dist + 1;
+                w.path = v;
+                q.euqueue(w);
+            }
+    }
+}
+```
+
+
+#### 9.3.2 Dijkstra's Algorithm
 
