@@ -31,6 +31,7 @@ In this chapter, we will...
   - [9.3 Shortest-Path Algorithms](#93-shortest-path-algorithms)
     - [9.3.1 Unweighted Shortest Paths](#931-unweighted-shortest-paths)
     - [9.3.2 Dijkstra's Algorithm](#932-dijkstras-algorithm)
+    - [9.3.3 Graphs with Negative Edge Costs](#933-graphs-with-negative-edge-costs)
 
 
 --------------------------------------------------------------------------------
@@ -332,4 +333,144 @@ void Graph::unweighted(Vertex s)
 
 
 #### 9.3.2 Dijkstra's Algorithm
+
+When it comes to weighted graph, the ideas from the unweighted case can still be used.
+
+We keep all the same information as before:
+
+- Each vertex is marked as either known or unknown.  
+- A tentative distance dv is kept for each vertex.  
+  This distance turns out to be the shortest path length from s to v using only known vertices as intermediates.  
+- We record pv, which is the last vertex to cause a change to dv.
+
+The general method to solve the single-source shortest-path problem is nkonw as **Dijkstra's algorithm**.  
+This 30-yr-old solution is a prime example of a **greed algorithm**.  
+Greedy algorithms generally solve a problem in stages by doing what appears to be the best thing at each stage.  
+Example: making change in U.S. currency.  
+The main problem with greedy algorithms is that they do not always work (not the optimal solution).  
+
+Dijkstra's algorithm proceeds in stages, just like the unweighted shortest-path algorithm.  
+At each stage, select a vertex which has the smallest dv among all the unknown vertices and declares that the shortest path from s to v is known.  
+The remainder of a stage consists of updating the values of dw.
+
+We set $d_w=d_v+c_{v,w}$ if the new value for dw would be an improvement.  
+Put simple, the algorithm decides whether or not it is a good idea to use v on the path to w.  
+The original cost, dw, is the cost without using v;  
+the new cost is the cheapest path using v (and only known vertices).
+
+
+###### Figure 9.29 Vertex class for Dijkstra's algorithm (pseudocode)
+
+```cs
+// PSEUDOCODE sketch of the Vertex structure.
+// In real C++, path would be of type Vertex *,
+// and many of the code fragments that we describe
+// require either a dereferencing * or use the
+// -> operator instead of the . operator.
+// Needless to say, this obscures the basic algorithmic ideas.
+struct Vertex
+{
+    List adj;       // Adjacency list
+    bool known;
+    DistType dist;  // DistType is probably int
+    Vertex path;    // Probably Vertex *, as mentioned above
+    // Other data and member functions as needed
+}
+```
+
+The path can be printed out using the recursive routine in Figure 9.30.
+
+
+###### Figure 9.30
+
+```cs
+// Print shortest path to v after dijkstra has run.
+// Assume that the path exists.
+void Graph::printPath(Vertex v)
+{
+    if (v.path != NOT_A_VERTEX)
+    {
+        printPath(v.path);
+        cout << "to ";
+    }
+    cout << v;
+}
+```
+
+
+###### Figure 9.31
+
+```cs
+void Graph::dijkstra(Vertex s)
+{
+    for each Vertex v
+    {
+        v.dist = INFINITY;
+        v.known = false;
+    }
+
+    s.dist = 0;
+
+    while (there is an unknown distance vertex)
+    {
+        Vertex v = smallest unknown distance vertex;
+
+        v.known = true;
+
+        for each Vertex w adjacent to v
+            if (!w.known)
+            {
+                DistType cvw = cost of edge from v to w;
+
+                if (v.dist + cvw < w.dist)
+                {
+                    // Update w
+                    decrease(w.dist to v.dist + cvw);
+                    w.path = v;
+                }
+            }
+    }
+}
+```
+
+A proof by contradiction will show that this algorithm always works as long as no edge has a negative cost.  
+If any edge has negative cost, the algorithm could produce the wrong answer.
+
+The running time depends on how the vertices are manipulated.  
+If we use the obvious algorithm of sequentially scanning the vertices to find the minimum dv, each phase will take O(|V|) time to find the minimum, and thus O(|V|^2) will be spent finding the minimum over the course of the algorithm.  
+The time for updating dw is constant per update, and there is at most one update per edge for a total of O(|E|).  
+Thus, the total running time is $O(|E|+|V|^2) = O(|V|^2)$.  
+If the graph is dense, with $|E|=Θ(|V|^2)$, this algorithm is not only simple but also essentially optimal, since it runs in time linear in the number of edges.
+
+If the graph is sparse, with $|E| = Θ(|V|)$, this algorithm is too slow.  
+In this case, the distance would need to be kept in a priority queue.  
+There are actually two ways to do this.
+
+Selection of the vertex v is a `deleteMin` operation.  
+The update of w's distance can be implement two ways.
+
+1. Treat the update as a `decreaseKey` operation.  
+   The time to find the minimum is then O(log|V|), as is the time to perform updates, which amount to `decreaseKey` operations.  
+   This gives a running time of $O(|E|log|V| + |V|log|V|) = O(|E|log|V|)$, an improment over the previous bound for sparse graphs.  
+   Since priority queue donot efficiently support the `find` operation, the location in the priority queue of each value of di will need to be maintained and updated whenever di changes in the priority queue.  
+   If the priority queue is implemented by a binary heap, this will be messy.  
+   If a pairing heap (Chapter 12) is used, the code is not too bad.
+2. Insert w and the new value dw into the priority queue every time w's distance changes.  
+   Thus, there may be more than one representation for each vertex.  
+   When the `deleteMin` removes the smallest vertext from the queue, it must check if the vertext is known or not.  
+   If it is, ignore it and another `deleteMin` performed.  
+   Although this method is superior from a software point of view (???), and is certainly much easier to code, the size of the priority queue could get to be as large as |E|.  
+   This does not affect the asymptotic time bounds, sing |E|<=|V|^2 implies that log|E|<=2log|V|.  
+   Thus we still get an O(|E|log|V|) algorithm (???).  
+   However, the space requirement does increase, and this could be important in some applications.  
+   Morevoer, because this method requires |E| `deleteMin` instead of only |V|, it is likely to be slower in practice.
+
+Notice that for the typical problems, such as computer main and mass transit commutes, the graphs are typically very sparse because most vertices have only a couple of edges, so it is important in many applications to use a priority queue to solve this problem.
+
+If the Fibonacci heap (chapter 11) is used, the running time is O(|E|+|V|log|V|).  
+Fibonacci heaps have a good theoritical bounds but a fair amount of overhead, so it is not clear whether using Fibonacci heaps is actually better in practice than Dijkstra's algorithm with binary heaps.  
+To date, there are no meaningful average-case results for this algorithm.
+
+
+#### 9.3.3 Graphs with Negative Edge Costs
 
