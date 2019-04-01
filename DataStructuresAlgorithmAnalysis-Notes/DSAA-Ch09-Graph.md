@@ -32,6 +32,8 @@ In this chapter, we will...
     - [9.3.1 Unweighted Shortest Paths](#931-unweighted-shortest-paths)
     - [9.3.2 Dijkstra's Algorithm](#932-dijkstras-algorithm)
     - [9.3.3 Graphs with Negative Edge Costs](#933-graphs-with-negative-edge-costs)
+    - [9.3.4 Acyclic Graphs](#934-acyclic-graphs)
+    - [9.3.5 All-Pairs Shortest Path](#935-all-pairs-shortest-path)
 
 
 --------------------------------------------------------------------------------
@@ -381,7 +383,7 @@ struct Vertex
 The path can be printed out using the recursive routine in Figure 9.30.
 
 
-###### Figure 9.30
+###### Figure 9.30 Routine to print the actual shortest path
 
 ```cs
 // Print shortest path to v after dijkstra has run.
@@ -398,7 +400,7 @@ void Graph::printPath(Vertex v)
 ```
 
 
-###### Figure 9.31
+###### Figure 9.31 Pseudocode for Dijkstra's algorithm
 
 ```cs
 void Graph::dijkstra(Vertex s)
@@ -473,4 +475,103 @@ To date, there are no meaningful average-case results for this algorithm.
 
 
 #### 9.3.3 Graphs with Negative Edge Costs
+
+If the graph has negative edge costs, then Dijkstra's algorithm does not work.  
+The problem is that once a vertex, u, is declared known, it is possible that from some other unkown vertex, v, there is a path back to u that is very negative.  
+In such a case, taking a path from s to v back to u is better than going from s to u without using v.
+
+A combination of the weighted and unweighted algorithms will solve the problem, but at the cost of a drastic increase in running time.  
+We forget about the concept of known vertices, since our algorithm need to be able to change its mind.  
+We begin by placing s on a queue.  
+Then, at each stage, we dequeue a vertex v.  
+We find all vertices w adjacent to v such that $d_w > d_v + c_{v,w}$.  
+We update dw and pw, and place w on a queue if it is not already there.  
+A bit can be set for each vertex to indicate presence in the queue.  
+We repeat the process until the queue is empty.
+
+
+###### Figure 9.32 Pseudocode for weighted shortest-path algorithm with negative edge costs
+
+```cs
+void Graph::weightedNegative(Vertex s)
+{
+    Queue<Vertex> q;
+
+    for each Vertex v
+        v.dist = INFINITY;
+    
+    s.dist = 0;
+    q.enqueue(s);
+
+    while (!q.isEmpty())
+    {
+        Vertex v = q.dequeue();
+
+        for each Vertex w adjacent to v
+            if (v.dist + cvw < w.dist)
+            {
+                // Update w
+                w.dist = v.dist + cvw;
+                w.path = v;
+                if (w is not already in q)
+                    q.enqueue(w);
+            }
+    }
+}
+```
+
+Although the algorithm works if there are no negative-cost cycles, it is no longer true that the code in the inner loop is executed once per edge.  
+Each vertex can dequeue at most |V| times, so the running time is $O(|E|·|V|)$ if adjacency lists are used.
+
+
+#### 9.3.4 Acyclic Graphs
+
+If the graph is known to be acyclic, we can improve Dijkstra's algorithm by changing the order in which vertices are declared known, otherwise known as the vertex selection rule.  
+The new rule is to select vertices in topological order.  
+The algorithm can be done in one pass, since the selections and updates can take place as the topological sort is being performed.
+
+The running time is $O(|E|+|V|)$, since the selection takes constant time.
+
+An important use of acyclic graphs is **critical path analysis**.  
+The nodes represent activities and edges represent precedence relationships.  
+The problem can be:  
+What is the earliest completion time for the project?
+
+To perform these calculations, we convert the activity-node graph to an **event-node graph**.  
+Each event corresponds to the completion of an activity and all its dependent activities.  
+Events rachable from a node v in the event-node graph may not commence until after the event v is completed.  
+This graph can be constructed automatically or by hand.  
+Dummy edges and nodes may need to be inserted in the case where an activity depends on several others.
+
+To find the ealiest completion time of the project, we merely need to find the length of the longest path from the first event to the last event.  
+For general graphs, the longest-path problem generally does not make sense, because of the possibility of **positive-cost cycles**.  
+Since the event-node graph is acyclic, we need not worry about cycles.  
+In this case, it is easy to adapt the shortest-path algorithm to compute the earliest completion time for all nodes in the graph.  
+If $EC_i$ is the earliest completion time for node i, then the applicable rules are
+
+$$ EC_1 = 0 $$
+
+$$ EC_w = \underset{(v, w)\in E}{max} (EC_v + c_{v, w}) $$
+
+We can also compute the lastest time, $LC_i$, that each event can finish without affecting the final completion time.  
+The formulas to do this are
+
+$$ LC_n = EC_n $$
+
+$$ LC_v = \underset{(v, w)\in E}{max} (LC_w - c_{v, w}) $$
+
+These values can be computed in linear time by maintaining, for each vertex, a list of all adjacent and preceding vertices.  
+
+The **slack time** for each edge in the event-node graph represents the amount of time that the completion of the corresponding activity can be delayed without delaying the overall completion.  
+It is easy to see that
+
+$$ Slack_{v, w} = LC_w - EC_v - c_{v, w} $$
+
+Some activities have zero slack.  
+These are critical activities, which must finish on schedule.  
+There is at least one path consisting entirely of zero-slack edeges;  
+such a path is a **critical path**.
+
+
+#### 9.3.5 All-Pairs Shortest Path
 
