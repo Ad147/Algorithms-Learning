@@ -34,6 +34,9 @@ In this chapter, we will...
     - [9.3.3 Graphs with Negative Edge Costs](#933-graphs-with-negative-edge-costs)
     - [9.3.4 Acyclic Graphs](#934-acyclic-graphs)
     - [9.3.5 All-Pairs Shortest Path](#935-all-pairs-shortest-path)
+    - [9.3.6 Shortest Path Example](#936-shortest-path-example)
+  - [9.4 Network Flow Problems](#94-network-flow-problems)
+    - [9.4.1 A Simple Maximum-Flow Algorithm](#941-a-simple-maximum-flow-algorithm)
 
 
 --------------------------------------------------------------------------------
@@ -574,4 +577,104 @@ such a path is a **critical path**.
 
 
 #### 9.3.5 All-Pairs Shortest Path
+
+To find the shortest paths between all pairs of vertices in the graph, we can run the single-source algorithm |V| times.
+
+In Chapter 10, there is an $O(|V|^3)$ algorithm to solve the problem for weighted graphs.  
+Although, for dense graphs, this is the same bound as running a simple (nonpriority queue) Dijkstra's algorithm |V| times, the loops are so tight that the specialized all-pairs algorithm is likely to be faster in practice.  
+On sparse graphs, it is faster to run |V| Dijkstra's algorithms coded with priority queue.
+
+
+#### 9.3.6 Shortest Path Example
+
+Here are some C++ routines to compute word ladders.  
+In a word ladder each word is formed by changing one character in the ladder's previous word.
+
+This is an unweighted shortest problem in which each word is a vertex, and two vertices have edges (in both directions)  between them if they can be converted to each other with a one-character substitution.
+
+In Section 4.8, a map in which the keys are words, and the values are vectors containing the words that can result from a one-character transfromation is created.  
+It represents the graph, in adjacency list format.  
+We now need to write one routine to run the single-source unweighted shortest-path algorithm and a second routine to output the sequence of words.
+
+
+###### Figure 9.38 C++ code to find word ladders
+
+```cs
+// Runs the shortest path calculation from the adjacency map, returning a vector
+// that contains the sequence of word changes to get from first to second.
+unordered_map<string, string>
+findChain(const unordered_map<string, vector<string>> &adjacentWords,
+          const string &first, const string &second)
+{
+    unordered_map<string, string> previousWord;
+    queue<string> q;
+
+    q.push(first);
+
+    while(!q.empty())
+    {
+        string current = q.front(); q.pop();
+        auto itr = adjacentWords.find(current);
+
+        const vector<stirng> &adj = itr->second;
+        for (string &str : adj)
+            if (previousWord[str] == "")
+            {
+                previousWord[str] = current;
+                q.push(str);
+            }
+    }
+    previousWord[first] = "";
+
+    return previousWord;
+}
+
+// After the shortest path calculation has run, computes the vector that
+// contains the sequence of words changes to get from first to second.
+vector<string> getChainFromPreviousMap(
+    const unordered_map<string, string> &previous, const string &second)
+{
+    vector<string> result;
+    auto &prev = const_cast<unordered_map<string, string> &>(previous);
+
+    for (string current = second; current != ""; current = prev[current])
+        result.push_back(current);
+    
+    reverse(begin(result), end(result));
+    return result;
+}
+```
+
+The `const_cast` is needed because `operator[]` cannot be applied on an immutable map.
+
+
+--------------------------------------------------------------------------------
+
+
+### 9.4 Network Flow Problems
+
+Suppose a directed graph G=(V, E) with edge capacities c_{v, w} is given.  
+The capacities could represent the amount of water that could flow through a pipe or the amount of traffic that could flow on a street between two intersections.  
+There are 2 vertices:
+
+- `s`: **source**
+- `t`: **sink**
+
+Through any edge, (v, w), at most c_{v, w} units of "flow" may pass.  
+At any vertex, v, that is not s or t, the total flow conming in must equal the total flow going out.  
+The maximum-flow problem is to determine the maximum amount of flow that can pass from s to t.  
+The eventual algorithm will work even if the graph has a cycle.
+
+For the problem, we can cut the graph into two parts:
+
+- One part contains `s` and some other vertices.
+- The other contains `t` and some other.
+
+Since flow must cross through the cut, the total capacity of all edges (u, v) where u is in s's partion and v is in t's partion is a bound on the maximum flow.  
+Any graph has a large number of cuts;  
+the cut with minimum total capacity provides a bound on the maximum flow.  
+And the minimum cut capacity is exactly equal to the maximum flow.
+
+
+#### 9.4.1 A Simple Maximum-Flow Algorithm
 
