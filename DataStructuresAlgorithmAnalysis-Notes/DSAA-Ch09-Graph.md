@@ -37,6 +37,7 @@ In this chapter, we will...
     - [9.3.6 Shortest Path Example](#936-shortest-path-example)
   - [9.4 Network Flow Problems](#94-network-flow-problems)
     - [9.4.1 A Simple Maximum-Flow Algorithm](#941-a-simple-maximum-flow-algorithm)
+  - [9.5 Minimum Spanning Tree](#95-minimum-spanning-tree)
 
 
 --------------------------------------------------------------------------------
@@ -677,4 +678,46 @@ And the minimum cut capacity is exactly equal to the maximum flow.
 
 
 #### 9.4.1 A Simple Maximum-Flow Algorithm
+
+To solve the problem, two extra graphs are used:
+
+- $G_f$: Flow graph, tells the flow that has been attained at any stage in the algorithm.  
+  Initially all edges in G_f have no flow, and when the algorithm terminates, G_f contains a maximum flow.
+- $G_r$: **residual graph**, tells, for each edge, how much more flow can be added.  
+  This can be calculated by subtracting the current flow from the capacity for each edge.
+
+At each stage, we find a path in G_r from s to t.  
+This path is known as an **augmenting path**.  
+The minimum edge on theis path is the amount of flow that can be added to every edges on the path.  
+When there is no path from s to t, it terminats.
+
+There is an example in the book showing the steps to solve the problem.  
+However, the example also shows that a greedy algorithm that does not work for some cases.
+
+In order to make this algorithm work, for every edge (v, w) with flow  f_v,w in the flow graph, we will add an edge i the residual graph (w,v) of capacity f_v,w.  
+In effect, this allows the algorithm to undo its decisions by sending flow back in the opposite direction.
+
+If the edge costs in the graphs are integers, then the algorithmn must terminate;  
+each augmentation adds a unit of flow, so we eventually rech the maximum flow, though there is no guarantee that this will be efficient.  
+In paritcular, if the capacities are all integers and the maximum flow is f, then, since each augmenting path increses the flow value by at least 1, f stages suffice, and the total running time is $O(f·|E|)$, since an augmenting path can be found in O(|E|) time by an unweighted shortest-apath algorithm.  
+The classic example of why this is a bad running time is shown in Figure.
+
+The maximum flow is seen by inspection could continually augment along a path that includs each side.  
+Random augmentations could continually augment along a path that uncluds the edge connected by a and b.  
+If this were to occur repeatedly, 2,000,000 augmentations would be required, when we could get by with only 2.
+
+A simple method to get around this problem is always to choose the augmenting path that allows the largest increase in flow.  
+If $cap_{max}$ is the maximum edge capacity, then one can show that $O(|E|log cap_{max})$ augmentations will suffice to find the maximum flow.  
+In this case, since $O(|E|log|V|)$ time is used for each calculation of an augmenting path, a total bound of $O(|E|^2log|V|log cap_{max})$ is obtained.  
+If the capacites are all small integers, this reduces to $O(|E|^2log|V|)$.
+
+Another way to choose augmenting paths is always to take the path with the least number of edges, with the plausible expactation that by choosing a path in theis manner, it is less likely that a small, flow-restricting edge will turn up on the path.
+
+......
+
+
+--------------------------------------------------------------------------------
+
+
+### 9.5 Minimum Spanning Tree
 
