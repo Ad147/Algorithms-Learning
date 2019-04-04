@@ -38,6 +38,8 @@ In this chapter, we will...
   - [9.4 Network Flow Problems](#94-network-flow-problems)
     - [9.4.1 A Simple Maximum-Flow Algorithm](#941-a-simple-maximum-flow-algorithm)
   - [9.5 Minimum Spanning Tree](#95-minimum-spanning-tree)
+    - [9.5.1 Prim's Algorithm](#951-prims-algorithm)
+    - [9.5.2 Kruskal's Algorithm](#952-kruskals-algorithm)
 
 
 --------------------------------------------------------------------------------
@@ -721,3 +723,94 @@ Another way to choose augmenting paths is always to take the path with the least
 
 ### 9.5 Minimum Spanning Tree
 
+Informally, a **minimum spanning tree** of an undirected graph G is formed from graph edges that connects all the vertices of G at lowest total cost.  
+A minimum spanning tree exists if and only if G is connected.  
+Here assumes the connected.
+
+The number of edges in the MST is |V|-1.  
+The MST is
+
+- a *tree* because it is acyclic.
+- *spanning* because it covers every vertex.
+- *minimum* because of the lowest cost.
+
+The greed works for the minimum spanning problem.  
+The 2 alogrithms represented differ in how a minimum edge is selected.
+
+
+#### 9.5.1 Prim's Algorithm
+
+One way is to grow the tree in successive stages.  
+In each stage, one node is picked as the root, and we add an edges, and thus an associated vertex, to the tree.
+
+At any point in the algorithm, we can see that we have a set of vertices that have already been included in the tree;  
+the rest of the vertieces have not.  
+The algorithm then find, at each stage, a new vertex to add to the tree by choosing the edge (u, v) such that the cost of (u, v) is the smallest among all edges where u is in thetree and v is not.
+
+We can see the Prim's algorithm is essentially identical to Dijkstra's algorithm for shortest paths.  
+As before, for each vertex we keep values dv, pv and known:
+
+- $d_v$: the weight of the shortest edge connecting v to a known vertex.
+- $p_v$: the last vertex to cause a change in d_v.
+- *known*: an indication.
+
+The diffrences are the definition of dv and the update rule:  
+After a vertex, v, is selected, for each unknown w adjacent to v, $d_w = min(d_w, c_{w, v})$.  
+(This means that if the current cost is lower than the previous lowest cost, update it.)
+
+Be aware that Prim's algorithm runs on undirected graphs, so when coding it, remember to put every edge in two adjacency lists.  
+As Dijkstra's algorithm, the running time is $O(|V|^2)$ without heaps, which is optimal for dense graphs, and $O(|E|log|V|)$ using binary heaps, which is good for sparse graphs.
+
+
+#### 9.5.2 Kruskal's Algorithm
+
+A second greedy strategy is to continually select the edges in order of smallest weight and accept an edge if it does not cause a cycle.
+
+Formally, Kruskal's algorithm maintains a forest -- a collection of trees.  
+Initially, there are |V| single-node trees.  
+Adding an edge merges 2 trees into 1.  
+When the algorithm terminates, there is noly one tree, the MST.
+
+For the determination of whether an edge (u, v) should be accepted or rejected, the union/find algorithm from Ch8 is used.  
+Two vertices belong to the same set if and only if they are connected in the current spanning forest.  
+
+- If u and v are in the same set, the edge is rejected;
+- Otherwise, it is accepted.
+
+Building a heap in linear time facilitates the selection of edges.  
+Typically, only a small fraction of the edges need to be tested before termination.
+
+
+###### Figure 9.60 Pseudocode for Kruskal's algorithm
+
+```cs
+vector<Edge> kruskal(vector<Edge> edges, int numVertices)
+{
+    DisjSets ds{numVertices};
+    priority_queue pq{edges};
+    vector<Edge> mst;
+
+    while (mst.size() != numVertices - 1)
+    {
+        Edge e = pq.pop(); // Edge e = (u, v)
+        SetType uset = ds.find(e.getu());
+        SetType vset = ds.find(e.getv());
+
+        if (uset != vset)
+        {
+            // Accept the edge
+            mst.push_back(e);
+            ds.union(uset, vset);
+        }
+    }
+
+    return mst;
+}
+```
+
+The worst-case running time of the algorithm is $O(|E|log|E|)$, which is dominated by the heap operations.  
+Notice that since $|E| = O(|V|^2)$, this running time is actually $O(|E|log|V|)$.  
+In practice, the algorithm is much faster then this time bound would indicate.
+
+
+--------------------------------------------------------------------------------
