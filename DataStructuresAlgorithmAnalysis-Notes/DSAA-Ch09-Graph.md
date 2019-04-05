@@ -40,6 +40,10 @@ In this chapter, we will...
   - [9.5 Minimum Spanning Tree](#95-minimum-spanning-tree)
     - [9.5.1 Prim's Algorithm](#951-prims-algorithm)
     - [9.5.2 Kruskal's Algorithm](#952-kruskals-algorithm)
+  - [9.6 Applications of Depth-First Search](#96-applications-of-depth-first-search)
+    - [9.6.1 Undirected Graphs](#961-undirected-graphs)
+    - [9.6.2 Biconnectivity](#962-biconnectivity)
+    - [9.6.3 Euler Circuits](#963-euler-circuits)
 
 
 --------------------------------------------------------------------------------
@@ -814,3 +818,171 @@ In practice, the algorithm is much faster then this time bound would indicate.
 
 
 --------------------------------------------------------------------------------
+
+
+### 9.6 Applications of Depth-First Search
+
+Depth-first search is a generalization of preorder traversal.  
+If performed on a tree, the running time is $O(|E|)$ since |E|=Θ(|V|).  
+If performed onan arbitrary graph, need to be careful to avoid cycle.  
+Using a mark to mark visited or not.
+
+
+###### Figure 9.61 Template for depth-first search (pseudocode)
+
+```cs
+void Graph::dfs(Vertex v)
+{
+    v.visitied = true;
+    for each Vertex w adjacent to v
+        if (!w.visited)
+            dfs(w);
+}
+```
+
+If the graph is undirected and not connected, or directed and not strongly connected, this strategy might fail to visit some node.  
+We then search for an unmarked node, apply a DFS there, and continue this process until there are no unmarked nodes.  
+Because this strategy guarantees that each edge is encountered only once, the total time to perform the traversal is $O(|E|+|V|)$, as long as adjacency lists are used.
+
+
+#### 9.6.1 Undirected Graphs
+
+An undirected graph is connected if and only if depth-first search starting from any node visits every node.  
+Because this test is so easy to apply, we will assume that the graphs we deal with are connected.  
+If they are not, then we can find all the connected components and apply our algorithm on each of these in turn.
+
+In a DFS, we touched every edge twice, once as (v, w) and again as (w, v), but this is really once per adjacency list entry.
+
+The traversal steps can be graphically illustrate with a **depth-first spanning tree**.
+
+1. The root of the tree is A, the first vertex visited.  
+2. Each edge (v, w) in the graph is present in the tree.  
+    - If, when we process (v, w), we find that w is unmarked, or if, when we prcess (w, v), we find that v is unmarked, we indicate this with a *tree edge*.  
+    - If, when we process (v, w), we find that w is already marked, and when prcessing (w, v), we find that v is already marked, we draw a dashed line, which we will call a **back edge**, to indicate that this "edge" is not really part of the tree.
+
+If the graph is not connected, then processing all nodes and edges requires several calls to dfs, and each generates a tree.  
+This entire collection is a **depth-first spanning forest**.
+
+
+#### 9.6.2 Biconnectivity
+
+A connected undirected graph is **biconnected** if there are no vertices whose removal disconnects the rest of the graph.  
+If a graph is not biconnected, the vertices whose removal would disconnected the graph are known as **articulation points**.
+
+DFS Provides a linear-time algorithm to find all articulation points in a connected graph.  
+
+- First, starting at any vertex, we perform a DFS and number the nodes as they are visited.
+- For each vertex, v, we call this preorder number Num(v).
+- Then, for every vertex, v, in the DFS spanning tree, we compute the lowest-numbered vertex, which we call Low(v), that is reachable from v by taking zero or more tree edges and then possibly one back edge (in that order).
+
+The Low(v) can be efficiently computed by performing a postorder traversal of the DFS spanning tree.  
+By the definition of Low, Low(v) is the minimum of
+
+1. Num(v)
+2. the lowest Num(w) among all back edges (v, w)
+3. the lowest Low(w) among all tree edges (v, w)
+
+The first condition is the option of taking no edges.  
+The second way is to choose no tree edges and a back edge, and the third way is to choose some tree edges and possibly a back edge.  
+This third method is succinctly described with a recursive call.  
+Since we need to evaluate Low for all the children of v before we can evaluate Low(v), this is a postorder traversal.  
+For any edge (v, w), we can tell whether it is a tree edge or a back merely by checking Num(v) and Num(w). Thus, it is easy to compute Low(v):  
+We merely scan down v's adjacency list, apply the proper rule, and keep track of the minimum.  
+Doing all the computation takes $O(|E|+|V|) time.
+
+
+##### Finding the articulation points
+
+The root is an articulation point if and only if it has more than one child, because if it has two children, removing the root disconnects nodes in different subtrees, and if it has only one child, removing the root merely disconnects the root.
+
+Any other vertex v is an articulation point if and only if v has some child w such that Low(w)>=Num(v).  
+Notice that this condition is always satisfied at the root, hence the need for a special test.
+
+
+##### Implementation
+
+Assuming that `Vertex` contains the data members `visited` (initialized to `false`), `num`, `low`, and `parent`.  
+We will also keep a (`Graph`) class variable called `counter`, which is initialized to 1, to assign the preorder traversal numbers, `num`.  
+We also leave out the easily implemented test for the root.
+
+This algorithm can be implemented by performing a preorder traversal to compute Num and then a postorder traversal to compute Low.  
+A third traversal can be used to check which vertices astisfy the articulation point criteria.  
+Performing three traversals, however, would be a waste.  
+The first pass is shown in Figure 9.67.
+
+
+###### Figure 9.67 Routine to assign Num to vertices (pseudocode)
+
+```cs
+// Assign num and compute parents.
+void Graph::assignNum(Vertex v)
+{
+    v.num = counter++;
+    v.visited = true;
+    for each Vertex w adjacent to v
+        if (!w.visited)
+        {
+            w.parent = v;
+            assignNum(w);
+        }
+}
+```
+
+The second and third passes, which are postorder traversals, can be implemented by the code in Figure 9.68.
+
+
+###### Figure 9.68 Pseudocode to compute Low and to test for auticulation points (test for the root is omitted)
+
+```cs
+// Assign low; also check for articulation points.
+void Graph::assignLow(Vertex v)
+{
+    v.low = v.num; // Rule 1
+    for each Vertex w adjacent to v
+    {
+        if (w.num > v.num) // Forward edge
+        {
+            assignLow(w);
+            if (w.low >= v.num)
+                cout << v << " is an articulation point" << enl;
+            v.low = min(v.low, w.low); // Rule 3
+        }
+        else
+        if (v.parent != w) // Back edge
+            v.low = min(v.low, w.num); // Rule 2
+    }
+}
+```
+
+There is no rule that a traversal must be either preorder or postorder.  
+It is possible to do processing both before and after the recursive calls.  
+The procedure in Figure 9.69 combines the two routines `assignNum` and `assignLow` in a straightforward manner to preduce the procedure `findArt`.
+
+
+###### Figure 9.69 Testing for articulation points in one depth-first search (test for the root is omitted) (pseudocode)
+
+```cs
+void Graph::findArt(Vertex v)
+{
+    v.visitied = true;
+    v.low = v.num = counter++; // Rule 1
+    for each Vertex w adjacent to v
+    {
+        if (!w.visitied) // Forward edge
+        {
+            w.parent = v;
+            findArt(w);
+            if (w.low >= v.num)
+                cout << v << " is an articulation point" << endl;
+            v.low = min(v.low, w.low); // Rule 3
+        }
+        else
+        if (v.parent != w) // Back edge
+            v.low = min(v.low, w.num); // Rule 2
+    }
+}
+```
+
+
+#### 9.6.3 Euler Circuits
+
