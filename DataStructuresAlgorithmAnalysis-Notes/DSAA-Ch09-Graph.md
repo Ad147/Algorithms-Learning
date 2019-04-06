@@ -44,6 +44,7 @@ In this chapter, we will...
     - [9.6.1 Undirected Graphs](#961-undirected-graphs)
     - [9.6.2 Biconnectivity](#962-biconnectivity)
     - [9.6.3 Euler Circuits](#963-euler-circuits)
+    - [9.6.4 Directed Graphs](#964-directed-graphs)
 
 
 --------------------------------------------------------------------------------
@@ -985,4 +986,36 @@ void Graph::findArt(Vertex v)
 
 
 #### 9.6.3 Euler Circuits
+
+An **Euler path** (sometimes **Euler tour**) or **Euler circuit problem** is a problem that to find a path/cycle in the graph that visits every edges exactly once.  
+This problem was solved in 1736 by Euler and marked the beginning of graph theory.
+
+The first observation that can be made is that an Euler circuit, which must end on its starting vertex, is possible only if the graph is connected and each vertex has an even degree (number of edges).  
+This necessary condition is also sufficient.  
+Futhermore, a circuit can be found in linear time.  
+else
+
+- If exactly two vertices have odd degree, an Euler tour, which must visit every edge but need not return to its strating vertex, is still possible if starting at one of the odd-degree vertices and finish at the other.  
+- If more than two vertices have odd degree, then an Euler tour is not possible.
+
+The basic algorithm is to perform a depth-first search.  
+The main problem is that we might visit a portion of the graph and return to the strating point prematurely.  
+The easiest way to fix this is to find the first vertex ontheis path that has an untraversed edge and perform another depth-first search.  
+This will give another circuit, which can be spliced into the original.
+
+To make this algorithm efficient, we must use appropriate data structures.  
+Just sketch some of the ideas here.  
+
+- To make the splicing simple, the path should be maintained as a linked list.
+- To avoid repetitious scanning of adjacency lists, we must maintain, for each adjacency list, a pointer to the last edge scanned.
+- When a path is spliced in, the search for a new vertex from which to perform the next depth-first search must begin at the start of the splice point.  
+  This guarantees that the total work performed on the vertex search phase is $O(|E|)$ during the entire life of the algorithm.  
+  With the appropriate data structures, the running time of the algorithm is $O(|E|+|V|)$.
+
+A very similar problem is to find a simple cycle, in an undirected graph, that visits every vertex.  
+This is known as the **Hamiltonian cycle problem**.  
+Although it seems almost identical to the Euler circuit problem, no efficient algorithm for it is known.
+
+
+#### 9.6.4 Directed Graphs
 
