@@ -45,6 +45,7 @@ In this chapter, we will...
     - [9.6.2 Biconnectivity](#962-biconnectivity)
     - [9.6.3 Euler Circuits](#963-euler-circuits)
     - [9.6.4 Directed Graphs](#964-directed-graphs)
+    - [9.6.5 Finding Strong Components](#965-finding-strong-components)
 
 
 --------------------------------------------------------------------------------
@@ -1018,4 +1019,27 @@ Although it seems almost identical to the Euler circuit problem, no efficient al
 
 
 #### 9.6.4 Directed Graphs
+
+Using DFS to traverse the directed graphs.  
+If the graph is not strongly connected, we repeatedly perform DFS starting at some unmarked node, until all vertices have been visited.
+
+The dashed arrows in the DFS forest are edges (v, w) for which w was already marked at the time of consideration.  
+In undirected graphs, these are always back edges, but there are three types of edges that do not lead to new vertices.
+
+1. **back edges**.
+2. **forward edges**, that lead from a tree node to a descendant.
+3. **crss edges**, which connect two tree nodes that are not directly related.
+
+DFS forests are generally drawn with children and new trees added to the forest from left to right.  
+In a DFS of a directed graph drawn in this manner, cross edges always go from right to left.
+
+One use of DFS is to test whether or not a directed graph is acyclic.  
+The rule is that a directed graph is acyclic if and only if it has no back edges.
+
+A topological sort can also be used to determine the acyclicness.  
+Another way to perform topological sorting is to assign the vertices topological numbers N, N-1, ..., 1 by postorder traversal of the DFS spanning forest.  
+As long as the graph is acyclic, this ordering will be consistent.
+
+
+#### 9.6.5 Finding Strong Components
 
