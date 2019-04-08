@@ -46,6 +46,7 @@ In this chapter, we will...
     - [9.6.3 Euler Circuits](#963-euler-circuits)
     - [9.6.4 Directed Graphs](#964-directed-graphs)
     - [9.6.5 Finding Strong Components](#965-finding-strong-components)
+  - [9.7 Introduction to NP-Completeness](#97-introduction-to-np-completeness)
 
 
 --------------------------------------------------------------------------------
@@ -1042,4 +1043,34 @@ As long as the graph is acyclic, this ordering will be consistent.
 
 
 #### 9.6.5 Finding Strong Components
+
+By performing two depth-first searches, we can test whether a directed graph is strongly connected, and if it is not, we can actually produce the subsets of vertices that are strongly connected to themselves.  
+This can also be done in only one depth-first search, but the method used here is much simpler to understand.
+
+First, a DFS is performed on the input graph G.  
+The vertices of G are numbered by a postorder traversal of the DFS spanning forest, and then all edges in G are reversed, forming G_r.
+
+The algorithm is completed by performing a depth-first search on G_r, always starting a new DFS at the highest-numbered vertex.
+
+Then each of the trees in this depth-first spanning forest forms a strongly connected component.
+
+To see why this algorithm works, first note that if two vertices v and w are in the same strongly connected component, then there are paths from v to w and from w to v in the original graph G, and hence also in G_r.  
+Now, if two vertices v and w are not in the same DFS spanning tree of G_r, clearly they cannot be in the same strongly connected component.
+
+To prove that this algorithm works, we must show that if two vertices v and w are in the same depth-first spanning tree of G_r, there must be paths from v to w and from w to v.  
+Equivalently, we can show that if x is the root of the DFS spanning tree of G_r containing v, then there is a path from x to v and from v to x.  
+Applying the same logic to w would then give a path from x to w and from w to x.  
+These paths would imply paths from v to w and w to v (going through x).
+
+Since v is a descendant of x in G_r's DFS spanning tree, there is a path from x to v in G_r and thus a path from v to x in G.  
+Futhermore, since x is the root, x ahs the higher postorder number from the first DFS.  
+Therefore, during the first DFS, all the work processing v was completed before the work at x was completed.  
+Since there is a path from v to x, it follows that v must be a descendant of x in the spanning tree for G --- otherwise v would finish *after* x.  
+This implies a path from x to v in G and completes the proof.
+
+
+--------------------------------------------------------------------------------
+
+
+### 9.7 Introduction to NP-Completeness
 
