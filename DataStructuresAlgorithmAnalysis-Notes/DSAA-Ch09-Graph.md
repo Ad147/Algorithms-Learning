@@ -47,6 +47,7 @@ In this chapter, we will...
     - [9.6.4 Directed Graphs](#964-directed-graphs)
     - [9.6.5 Finding Strong Components](#965-finding-strong-components)
   - [9.7 Introduction to NP-Completeness](#97-introduction-to-np-completeness)
+  - [Summary](#summary)
 
 
 --------------------------------------------------------------------------------
@@ -1074,3 +1075,20 @@ This implies a path from x to v in G and completes the proof.
 
 ### 9.7 Introduction to NP-Completeness
 
+NP stands for **nondeterministic polynomial-time**.
+
+......
+
+
+--------------------------------------------------------------------------------
+
+
+### Summary
+
+Many of the graphs that occur are typically very sparse, so it is important to pay attention to the data structures that are used to implement them.
+
+
+--------------------------------------------------------------------------------
+
+
+EOF
