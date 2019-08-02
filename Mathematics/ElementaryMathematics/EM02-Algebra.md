@@ -264,8 +264,10 @@ then this statement is valid for any natural number n >= n0.
 #### 2.7.1 Theory of Combinations
 
 - **Permutations**: permutations of n elements $P_n = 1 * 2 * ... * n = n!$ (factorial)
-- **Arrangements**: arrangements of n elements taken m at a time $A_n^m = n(n-1)...(n-m+1)$
-- **Combinations**: combination of n elements taken m at a time $C_n^m = \frac{n!}{m! * (n-m)!} = A_n^m / P_m$
+- **Arrangements**: arrangements of n elements taken m at a time  
+  $$ A_n^m = n(n-1)...(n-m+1) = \frac{n!}{(n-m)!} $$
+- **Combinations**: combination of n elements taken m at a time  
+  $$ C_n^m = \frac{A_n^m}{m!} = \frac{n!}{m! * (n-m)!} $$
 - Newton's binomial:  
   $(a + b)^n = a^n + C_n^1 a^{n-1}b + C_n^2 a^{n-2}b^2 + ... + C_n^{n-1} ab^{n-1} + b^n$
 - *Pascal's triangle*
