@@ -1,6 +1,6 @@
 README.md
 
-Learning Notes of *The C Programming Language 2nd Edition*
+Notes & Exercises of The C Programming Language 2nd Edition
 ================================================================================
 
 Ad
@@ -8,7 +8,7 @@ Ad
 Index
 --------------------------------------------------------------------------------
 
- - [Chapter1 A Turoial Introduction](https://github.com/Ad147/CppPrimer-Learning/tree/master/TCPL-Notes/TCPL-Ch1-ATutorialIntroduction.md)
+1. [A Turoial Introduction]()
 
 --------------------------------------------------------------------------------
 
