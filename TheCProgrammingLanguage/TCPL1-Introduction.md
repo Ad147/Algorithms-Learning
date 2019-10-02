@@ -39,81 +39,48 @@ main()                       /* define a function named main that receives no ar
 }
 ```
 
-`main()` function and assembly:
-
-```cs
-main() {}
-```
-
-```asm
-	.file	"hello.c"
-	.text
-	.def	__main;	.scl	2;	.type	32;	.endef
-	.globl	main
-	.def	main;	.scl	2;	.type	32;	.endef
-	.seh_proc	main
-main:
-	pushq	%rbp
-	.seh_pushreg	%rbp
-	movq	%rsp, %rbp
-	.seh_setframe	%rbp, 0
-	subq	$32, %rsp
-	.seh_stackalloc	32
-	.seh_endprologue
-	call	__main
-	nop
-	addq	$32, %rsp
-	popq	%rbp
-	ret
-	.seh_endproc
-	.ident	"GCC: (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 7.3.0"
-```
-
-```asm
-	.file	"hello.c"
-	.text
-	.globl	main
-	.type	main, @function
-main:
-.LFB0:
-	.cfi_startproc
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	nop
-	popq	%rbp
-	.cfi_def_cfa 7, 8
-	ret
-	.cfi_endproc
-.LFE0:
-	.size	main, .-main
-	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609"
-	.section	.note.GNU-stack,"",@progbits
-```
-
 ### 1.2 Variables and Arithmetic Expressions
 
-A program prints Fahrenheit temperatures and their centigrade or Celsius equivalents.
+Fahrenheit <-> centigrade/Celsius temperatures convertor:  
+(C = (5/9)(F - 32))
 
-types:
- - int
- - float
- - char: a single byte
- - short
- - long
- - double
+```cs
+#include <stdio.h>
 
-`printf("%3.0f %6.1f\n", fahr, celsius);`  
- - `%6.1f`: printed at least 6 characters wide (right justified) with 1 digit decimal
+/* print Fahrenheit-Celsius table for fahr = 0, 20, ..., 300 */
+main()
+{
+    float fahr, celsius;    /* Variables usually declared at the beginning of */
+    int lower, upper, step; /* the function before any executable statements. */
 
-other:
- - `%o`: octal
- - `%x`: hexadecimal
- - `%c`: character
- - `%s`: string
- - `%%`: % itself
+    lower = 0;              /* lower limit of temperature table */
+    upper = 300;            /* upper limit */
+    step = 20;              /* step size */
+
+    fahr = lower;
+    while (fahr <= upper)
+    {
+        celsius = (5.0 / 9.0) * (fahr - 32.0);
+        printf("%3.0f %6.1f\n", fahr, celsius); /* %6.1f: >= 6 wide (right justified), 1 after decimal. */
+        fahr = fahr + step;
+    }
+}
+```
+
+Types:
+- int
+- float
+- char: a single byte
+- short
+- long
+- double
+
+`printf` recognizes:
+- `%o`: octal
+- `%x`: hexadecimal
+- `%c`: character
+- `%s`: string
+- `%%`: % itself
 
 ### 1.3  The For Statement
 
@@ -146,7 +113,7 @@ A `#define` line defines asymbolic name or symbolic constant to be a particular 
 
 #### 1.5.4 Word Counting
 
-```c
+```cs
 #include <stdio.h>
 
 #define IN 1  // inside a word
