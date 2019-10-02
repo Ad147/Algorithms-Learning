@@ -1,11 +1,12 @@
-// Exercise1-1.c
-// Ad
-// Run the "hello world" program on your system.
-// Experiment with leaving out parts of the program, to see what error messages you get.
+/*
+** Exercise1.01.c
+** Ad
+** Init: 191002
+*/
 
 #include <stdio.h>
 
-main() // the return type will be defaulted to int
+main()
 {
     printf("Hello World\n");
 }
