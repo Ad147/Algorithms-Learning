@@ -75,7 +75,7 @@ Types:
 - long
 - double
 
-`printf` recognizes:
+`printf` recognizes
 - `%o`: octal
 - `%x`: hexadecimal
 - `%c`: character
@@ -84,14 +84,24 @@ Types:
 
 ### 1.3  The For Statement
 
-The `for` is usually appropriate for loops in which the initialization and increment are single statements and logically related.
+`for` is appropriate when initialization and increment are single statements and logically related.
+
+```cs
+main()
+{
+    int fahr;
+
+    for (fahr = 0; fahr <= 300; fahr = fahr + 20) /* magic numbers is a bad practice */
+        printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+}
+```
 
 ### 1.4 Symbolic Constants
 
-A `#define` line defines asymbolic name or symbolic constant to be a particular string of characters:  
+`#define` defines a *symbolic name* or *symbolic constant* to be a string of characters:  
 `#define name replacement text`
 
-```c
+```cs
 #define LOWER 0
 #define UPPER 300
 #define STEP  20
@@ -104,28 +114,68 @@ A `#define` line defines asymbolic name or symbolic constant to be a particular 
 
 #### 1.5.1 File Copying
 
-`while ((c = getchar()) != EOF)`  
-`putchar();`
+```cs
+#include <stdio.h>
+
+/* copy input to output; 2nd version */
+main()
+{
+    int c; /* EOF cannot be held by char */
+
+    while ((c = getchar()) != EOF)
+        putchar(c);
+}
+```
 
 #### 1.5.2 Character Counting
 
+```cs
+#include <stdio.h>
+
+/* count characters in input; 2nd version */
+main()
+{
+    double nc;
+    
+    for (nc = 0; getchar != EOF; ++nc)
+        ;
+    printf("%.0f\n", nc);
+}
+```
+
 #### 1.5.3 Line Counting
+
+```cs
+#include <stdio.h>
+
+/* count lines in input */
+main()
+{
+    int c, nl;
+
+    nl = 0;
+    while ((c = getchar()) != EOF)
+        if (c == '\n')
+            ++nl;
+    printf("%d\n", nl);
+}
+```
 
 #### 1.5.4 Word Counting
 
 ```cs
 #include <stdio.h>
 
-#define IN 1  // inside a word
-#define OUT 0 // outside a word
+#define IN 1    /* inside a word */
+#define OUT 0   /* outside a word */
 
-// count lines, words, and characters in input
-int main()
+/* count lines, words, and characters in input */
+main()
 {
-    int nl, nw, nc, state;
-    nl = nw = nc = 0;
+    int c, nl, nw, nc, state;
+
     state = OUT;
-    char c;
+    nl = nw = nc = 0;
     while ((c = getchar()) != EOF)
     {
         ++nc;
@@ -139,10 +189,7 @@ int main()
             ++nw;
         }
     }
-
     printf("%d %d %d\n", nl, nw, nc);
-
-    return 0;
 }
 ```
 
