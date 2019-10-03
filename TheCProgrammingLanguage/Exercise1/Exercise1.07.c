@@ -1,15 +1,12 @@
-// Exercise1-7.c
-// Ad
-// Write a program to print the value of EOF.
+/*
+** Exercise1-7.c
+** Ad
+** Init: 191003
+*/
 
 #include <stdio.h>
 
-int main()
+main()
 {
-    printf("%d\n", EOF);
-    printf("%f\n", EOF);
-    printf("%c\n", EOF);
-    printf("%s\n", EOF);
-
-    return 0;
+    printf("%d\n", EOF);    /* EOF == -1 */
 }

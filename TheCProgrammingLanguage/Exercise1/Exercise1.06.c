@@ -1,12 +1,12 @@
-// Exercise1-6.c
-// Ad
-// Verify that the expression getchar() != EOF is 0 or 1.
+/*
+** Exercise1.06.c
+** Ad
+** Init: 191003
+*/
 
 #include <stdio.h>
 
-int main()
+main()
 {
-    printf("%d\n", (getchar() != EOF));
-
-    return 0;
+    printf("%d\n", getchar() != EOF);
 }
