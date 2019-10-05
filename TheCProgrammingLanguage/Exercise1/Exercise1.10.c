@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 
+/* Copy input to output with tab replaced by \t, backspace replaced by \b, and backslash replaced by \\. */
 main()
 {
     int c;

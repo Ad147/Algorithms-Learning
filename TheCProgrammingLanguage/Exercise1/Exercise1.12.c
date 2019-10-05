@@ -9,7 +9,7 @@
 #define IN 1
 #define OUT 0
 
-/* A program that prints its input one word per line. */
+/* Prints input 1 word per line. */
 main()
 {
     int c, state;

@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 
+/* Copy input to output with multiple blanks replaced by single. */
 main()
 {
     int c, pc;

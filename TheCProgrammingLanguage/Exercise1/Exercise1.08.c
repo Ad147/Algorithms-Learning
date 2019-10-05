@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-/* count blanks, tabs, and newlines in input */
+/* Count blanks, tabs, and newlines in input */
 main()
 {
     int c, nb, nt, nl;

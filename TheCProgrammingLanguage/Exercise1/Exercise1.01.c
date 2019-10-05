@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 
+/* Print "Hello World". */
 main()
 {
     printf("Hello World\n");

@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 
+/* Print Fahrenheit-Celsius table for fahr = 300, 280, ..., 0. */
 main()
 {
     int fahr;
