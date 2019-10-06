@@ -21,7 +21,7 @@ Chapter 1: A Tutorial Introduction
   - [1.5.4 Word Counting](#154-word-counting)
 - [1.6 Arrays](#16-arrays)
 - [1.7 Functions](#17-functions)
-- [1.8 Arguments-Call by Value](#18-arguments-call-by-value)
+- [1.8 Arguments - Call by Value](#18-arguments---call-by-value)
 - [1.9 Character Arrays](#19-character-arrays)
 
 --------------------------------------------------------------------------------
@@ -38,6 +38,8 @@ main()                       /* define a function named main that receives no ar
     printf("Hello World\n"); /* main calls library function printf to print this sequence of characters; \n represents the newline character */
 }
 ```
+
+--------------------------------------------------------------------------------
 
 ### 1.2 Variables and Arithmetic Expressions
 
@@ -82,6 +84,8 @@ Types:
 - `%s`: string
 - `%%`: % itself
 
+--------------------------------------------------------------------------------
+
 ### 1.3  The For Statement
 
 `for` is appropriate when initialization and increment are single statements and logically related.
@@ -96,6 +100,8 @@ main()
 }
 ```
 
+--------------------------------------------------------------------------------
+
 ### 1.4 Symbolic Constants
 
 `#define` defines a *symbolic name* or *symbolic constant* to be a string of characters:  
@@ -106,6 +112,8 @@ main()
 #define UPPER 300
 #define STEP  20
 ```
+
+--------------------------------------------------------------------------------
 
 ### 1.5 Character Input and Output
 
@@ -193,6 +201,8 @@ main()
 }
 ```
 
+--------------------------------------------------------------------------------
+
 ### 1.6 Arrays
 
 digit counting with an array to store the numbers of digits
@@ -225,50 +235,110 @@ main()
 }
 ```
 
+--------------------------------------------------------------------------------
+
 ### 1.7 Functions
 
-We will generally use *parameter* for a variable named in the parenthesized list in a function definition, and *argument* for the value used in a call of thefunction.  
-The terms *formal argument* and *actual argument* are sometimes used for the same distinction.
+```cs
+#include <stdio.h>
 
-### 1.8 Arguments-Call by Value
+int power(int m, int n);
 
-To modify a variable inside a function, use a pointer.
+/* test power function */
+main()
+{
+    int i;
+
+    for (i = 0; i < 10; ++i)
+        printf("%d %d %d\n", i, power(2, i), power(-1, i));
+    return 0;
+}
+
+/* power: raise base to n-th power; n >= 0 */
+int power(int base, int n)
+{
+    int i, p;
+
+    p = 1;
+    for (i = 1; i < n; ++i)
+        p = p * base;
+    return p;
+}
+```
+
+- *parameter*(formal argument): a variable named in the parenthesized list in a function definition
+- *argument*(actual argument): the value used in a call of thefunction
+- *function prototype*: declaration before main
+
+--------------------------------------------------------------------------------
+
+### 1.8 Arguments - Call by Value
+
+To modify a variable of calling function in the called function, use a pointer.
 
 Arrays are passed by address.
 
+--------------------------------------------------------------------------------
+
 ### 1.9 Character Arrays
 
-Zero is an acceptable end-of-file return because it is never a validline length.  
-Every text line has at least one character;  
-even a line containingonly a newline has length 1.
+Every text line has at least 1 character: containing only a newline has length 1.
 
-```c
-// getline: read a line into s, return length
+```cs
+#include <stdio.h>
+#define MAXLINE 1000    /* maximum input line size */
+
+int getline(char line[], int maxline);
+void copy(char to[], char from[]);
+
+/* print longest input line */
+main()
+{
+    int len;                /* current line length */
+    int max;                /* maximum length seen so far */
+    char line[MAXLINE];     /* current input line */
+    char longest[MAXLINE]   /* longest line saved here */
+
+    max = 0;
+    while ((len = getline(line, MAXLINE)) > 0)
+        if (len > max)
+        {
+            max = len;
+            copy(longest, line);
+        }
+    if (max > 0)    /* there was a line */
+        printf("%s", longest);
+    return 0;
+}
+
+/* getline: read a line into s, return length */
 int getline(char s[], int lim)
 {
     int c, i;
+
     for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
         s[i] = c;
-
     if (c == '\n')
     {
         s[i] = c;
         ++i;
     }
-    s[i] = '\0'; // '\0' the null character, whose value is zero
-
+    s[i] = '\0';
     return i;
 }
-```
 
-```c
-// copy: copy 'from' into 'to'; assume to is big enough
+/* copy: copy 'from' into 'to'; assume to is big enough */
 void copy(char to[], char from[])
 {
-    int i = 0;
+    int i;
+
+    i = 0;
     while ((to[i] = from[i]) != '\0')
         ++i;
 }
 ```
+
+For a `getline` user, no way to know how long an input line might be, so it checks for verflow;  
+however a `copy` user knows/can find out how big the strings are, so no error checking added.
 
 // ### 1.10 External Variables and Scope
