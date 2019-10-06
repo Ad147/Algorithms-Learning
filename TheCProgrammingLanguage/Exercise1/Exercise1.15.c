@@ -1,34 +1,30 @@
-// Exercise1-15.c
-// Ad
-// Rewrite the temperature conversion program of Section 1.2 to use a function for conversion.
+/*
+** Exercise1-15.c
+** Ad
+** Init: 191006
+*/
 
 #include <stdio.h>
 
-void printTemperature(int lower, int upper, int step);
-float conversion(float fahr);
+#define LOWER 0
+#define UPPER 300
+#define STEP 20
 
-int main()
+float celsius(float fahr);
+
+/* print Fahrenheit-Celsius table */
+main()
 {
-    int lower, upper, step;
-    lower = 0;
-    upper = 300;
-    step = 20;
+    float fahr;
 
-    printTemperature(lower, upper, step);
+    for (fahr = LOWER; fahr <= UPPER; fahr += STEP)
+        printf("%3.0f %6.1f\n", fahr, celsius(fahr));
 
     return 0;
 }
 
-void printTemperature(int lower, int upper, int step)
-{
-    while (lower <= upper)
-    {
-        printf("%3.0f %6.1f\n", lower, conversion(lower));
-        lower += step;
-    }
-}
-
-float conversion(float fahr)
+/* convert Fahrenheit temperature to Celsius */
+float celsius(float fahr)
 {
     return (5.0 / 9.0) * (fahr - 32.0);
 }
