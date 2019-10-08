@@ -23,6 +23,7 @@ Chapter 1: A Tutorial Introduction
 - [1.7 Functions](#17-functions)
 - [1.8 Arguments - Call by Value](#18-arguments---call-by-value)
 - [1.9 Character Arrays](#19-character-arrays)
+- [1.10 External Variables and Scope](#110-external-variables-and-scope)
 
 --------------------------------------------------------------------------------
 
@@ -286,6 +287,7 @@ Every text line has at least 1 character: containing only a newline has length 1
 
 ```cs
 #include <stdio.h>
+
 #define MAXLINE 1000    /* maximum input line size */
 
 int getline(char line[], int maxline);
@@ -341,4 +343,21 @@ void copy(char to[], char from[])
 For a `getline` user, no way to know how long an input line might be, so it checks for verflow;  
 however a `copy` user knows/can find out how big the strings are, so no error checking added.
 
-// ### 1.10 External Variables and Scope
+### 1.10 External Variables and Scope
+
+An *external variable* must be *defined*, exactly once, outside of any function, to set storage,  
+must also be *declared* in each function that wants to access it, to state the type of the variable.  
+The declaration may an explicit `extern` statement or implicit from context.
+
+- **Definition**: where the variable is created or assigned storage
+- **declaration**: where the nature of the variable is stated but no storage is allocated
+
+Extern declaration omit: if the definition of an external variable occurs in the source file before its use in a particular function.  
+Common practice: place definitions of all external variables at the beginning of the source file, and then omit all extern declarations.
+
+If the program is in several source files, and a variable is defined in file1 and used in file2 and file3, then extern declarations are needed in file2 and file3 to connect the occurrences of the variable.  
+Usual practice: collect extern declarations of variables and functions in a separate file, historically called a header, that is included by #include at the front of each source file.
+
+--------------------------------------------------------------------------------
+
+EOF
