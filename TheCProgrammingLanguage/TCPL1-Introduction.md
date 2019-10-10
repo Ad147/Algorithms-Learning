@@ -343,6 +343,8 @@ void copy(char to[], char from[])
 For a `getline` user, no way to know how long an input line might be, so it checks for verflow;  
 however a `copy` user knows/can find out how big the strings are, so no error checking added.
 
+--------------------------------------------------------------------------------
+
 ### 1.10 External Variables and Scope
 
 An *external variable* must be *defined*, exactly once, outside of any function, to set storage,  
