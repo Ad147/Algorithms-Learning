@@ -18,6 +18,10 @@ Chapter 2: Types, Operators, and Expressions
 - [2.6 Relational and Logical Operators](#26-relational-and-logical-operators)
 - [2.7 Type Conversions](#27-type-conversions)
 - [2.8 Increment and Decrement Operators](#28-increment-and-decrement-operators)
+- [2.9 Bitwise Operators](#29-bitwise-operators)
+- [2.10 Assignment Operators and Expressions](#210-assignment-operators-and-expressions)
+- [2.11 Conditional Expressions `?:`](#211-conditional-expressions)
+- [2.12](#212)
 
 --------------------------------------------------------------------------------
 
@@ -158,3 +162,77 @@ void srand(unsigned int seed)
 
 ### 2.8 Increment and Decrement Operators
 
+```cs
+/* squeeze: delete all c from s */
+void squeeze(char s[], int c)
+{
+    int i, j;
+
+    for (i = j = 0; s[i] != '\0'; i++)
+        if (s[i] != c)
+            s[j++] = s[i];
+    s[j] = '\0';
+}
+```
+
+```cs
+/* strcat: concatenate t to end of s; s must be big enough */
+void strcat(char s[], char t[])
+{
+    int i, j;
+
+    i = j = 0;
+    while (s[i] != '\0')                /* find end of s */
+        i++;
+    while ((s[i++] = t[j++]) != '\0')   /* copy t */
+        ;
+}
+```
+
+--------------------------------------------------------------------------------
+
+### 2.9 Bitwise Operators
+
+- `&`: bitwise AND
+- `|`: bitwise inclusive OR
+- `^`: bitwise exclusive OR
+- `<<`: left shift
+- `>>`: right shift
+- `~`: one's complement (unary)
+
+```cs
+/* getbits: get n bits from position p */
+unsigned getbits(unsigned x, int p, int n)
+{
+    return (x >> (p+1-n)) & ~(~0 << n);
+}
+```
+
+--------------------------------------------------------------------------------
+
+### 2.10 Assignment Operators and Expressions
+
+Assignment operators: `+=`, `-=`, `*=`, `/=`, `%=`, `<<=`, `>>=`, `&=`, `^=`, `|=`
+
+```cs
+/* bitcount: count 1 bits in x */
+int bitcount(unsigned x)
+{
+    int b;
+
+    for (b = 0; x != 0; x >>= 1)
+        if (x & 01)
+            b++;
+    return b;
+}
+```
+
+--------------------------------------------------------------------------------
+
+### 2.11 Conditional Expressions `?:`
+
+`printf("You have %d item%s.\n", n, n==1 ? "" : "s");`
+
+--------------------------------------------------------------------------------
+
+### 2.12
