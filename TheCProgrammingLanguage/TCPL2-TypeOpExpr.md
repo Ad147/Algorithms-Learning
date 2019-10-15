@@ -21,7 +21,7 @@ Chapter 2: Types, Operators, and Expressions
 - [2.9 Bitwise Operators](#29-bitwise-operators)
 - [2.10 Assignment Operators and Expressions](#210-assignment-operators-and-expressions)
 - [2.11 Conditional Expressions `?:`](#211-conditional-expressions)
-- [2.12](#212)
+- [2.12 Precedence and Order of Evaluation](#212-precedence-and-order-of-evaluation)
 
 --------------------------------------------------------------------------------
 
@@ -235,4 +235,33 @@ int bitcount(unsigned x)
 
 --------------------------------------------------------------------------------
 
-### 2.12
+### 2.12 Precedence and Order of Evaluation
+
+C does not specify the order in which the operands of an operator are evaluated,  
+so do not write code that depends on order of evaluation.
+
+###### Table 2-1 Precedence and Associativity of Operators
+
+| Operators                                               | Associativity |
+| ------------------------------------------------------- | ------------- |
+| `()` `[]` `->` `.`                                      | L2R           |
+| `!` `~` `++` `--` `+` `-` `*` `&` `(type)` `sizeof`     | R2L           |
+| `*` `/` `%`                                             | l2R           |
+| `+` `-`                                                 | ~             |
+| `<<` `>>`                                               | ~             |
+| `<` `<=` `>` `>=`                                       | ~             |
+| `==` `!=`                                               | ~             |
+| `&`                                                     | ~             |
+| `^`                                                     | ~             |
+| `|`                                                     | ~             |
+| `&&`                                                    | ~             |
+| `||`                                                    | ~             |
+| `?:`                                                    | R2L           |
+| `=` `+=` `-=` `*=` `/=` `%=` `&=` `^=` `|=` `<<=` `>>=` | R2L           |
+| `,`                                                     | L2R           |
+
+*Unary `+`, `-`, and `*` have higher precedence than the binary forms.*
+
+--------------------------------------------------------------------------------
+
+EOF
