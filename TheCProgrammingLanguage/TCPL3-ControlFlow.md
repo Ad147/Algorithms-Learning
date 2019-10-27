@@ -15,6 +15,9 @@ Chapter 3: Control Flow
 - [3.3 Else-If](#33-else-if)
 - [3.4 Switch](#34-switch)
 - [3.5 Loops - While and For](#35-loops---while-and-for)
+- [3.6 Loops - Do-while](#36-loops---do-while)
+- [3.7 Break and Continue](#37-break-and-continue)
+- [3.8 Goto and Labels](#38-goto-and-labels)
 
 --------------------------------------------------------------------------------
 
@@ -69,4 +72,105 @@ void shellsort(int v[], int n)
 
     for (gap = n/2; gap > 0; gap /= 2)
         for (i = gap; i < n; i++)
+            for (j=i-gap; j>=0 && v[j]>v[j+gap]; j-=gap)
+            {
+                temp = v[j];
+                v[j] = v[j+gap];
+                v[j+gap] = temp;
+            }
 }
+```
+
+```cs
+#include <string.h>
+
+/* reverse: reverse string s in place */
+void reverse(char s[])
+{
+    int c, i, j;
+
+    for (i = 0, j = strlen(s)-1; i < j; i++, j--)
+    {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
+}
+```
+
+The commas that separate function arguments, variables in declarations, etc., are *not* comma operators, and do not guarantee left to right evaluation.
+
+Comma operators should be used sparingly.  
+The most suitable uses are for constructs strongly related to each other, as in the `for` loop in reverse,  
+and in macros where a multistep computation has to be a single expression.  
+A comma experssion might also be appropriate for the exchange of elements in reverse, where the exchange can be thought of as a single operation:  
+
+```cs
+for (i = 0, j = strlen(s)-1; i < j; i++, j--)
+    c = s[i], s[i] = s[j], s[j] = c;
+```
+
+--------------------------------------------------------------------------------
+
+### 3.6 Loops - Do-while
+
+```cs
+/* itoa: convert n to characters in s */
+void itoa(int n, char s[])
+{
+    int i, sign;
+
+    if ((sign = n) < 0)         /* record sign */
+        n = -n;                 /* make n positive */
+    i = 0;
+    do {                        /* generate digits in reverse order */
+        s[i++] = n % 10 + '0';  /* get next digit */
+    } while ((n /= 10) > 0);    /* delete it */
+    if (sign < 0)
+        s[i++] = '-';
+    s[i] = '\0';
+    reverse(s);
+}
+```
+
+--------------------------------------------------------------------------------
+
+### 3.7 Break and Continue
+
+A `break` causes the innermost enclosing loop or switch to be exited.
+
+```cs
+/* trim: remove trailing blanks, tabs, newlines */
+int trim(char s[])
+{
+    int n;
+
+    for (n = strlen(s)-1; n >= 0; n--)
+        if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
+            break;
+    s[n+1] = '\0';
+    return n;
+}
+```
+
+--------------------------------------------------------------------------------
+
+### 3.8 Goto and Labels
+
+```cs
+for (...)
+    for(...)
+    {
+        ...
+        if (disaster)
+            goto error;
+    }
+...
+
+error:
+    clean up the mess
+```
+
+--------------------------------------------------------------------------------
+
+EOF
