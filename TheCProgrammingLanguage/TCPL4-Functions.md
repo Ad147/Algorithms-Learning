@@ -14,6 +14,16 @@ Chapter 4: Functions & Program Structure
 - [4.2 Functions Returning Non-integers](#42-functions-returning-non-integers)
 - [4.3 External Variables](#43-external-variables)
 - [4.4 Scope Rules](#44-scope-rules)
+- [4.5 Header Files](#45-header-files)
+- [4.6 Static Variables](#46-static-variables)
+- [4.7 Register Variables](#47-register-variables)
+- [4.8 Block Structure](#48-block-structure)
+- [4.9 Initialization](#49-initialization)
+- [4.10 Recursion](#410-recursion)
+- [4.11 The C Preprocessor](#411-the-c-preprocessor)
+  - [4.11.1 File Inclusion](#4111-file-inclusion)
+  - [4.11.2 Macro Substitution](#4112-macro-substitution)
+- [4.11.3 Conditional Inclusion](#4113-conditional-inclusion)
 
 --------------------------------------------------------------------------------
 
@@ -293,3 +303,134 @@ void ungetch(int c) /* push character back on input */
 --------------------------------------------------------------------------------
 
 ### 4.4 Scope Rules
+
+### 4.5 Header Files
+
+### 4.6 Static Variables
+
+External `static` limits the scope of an object to the rest of the source file
+
+Internal `static` variables provide private, permanent storage within a single function
+
+--------------------------------------------------------------------------------
+
+### 4.7 Register Variables
+
+### 4.8 Block Structure
+
+### 4.9 Initialization
+
+```cs
+int x = 1;
+int days[] = { 1, 2, 3 };
+char s[] = "Hello";
+```
+
+--------------------------------------------------------------------------------
+
+### 4.10 Recursion
+
+```cs
+#include <stdio.h>
+
+/* printd: print n in decimal */
+void printd(int n)
+{
+    if (n < 0)
+    {
+        putchar('-');
+        n = -n;
+    }
+    if (n / 10)
+        printd(n / 10);
+    putchar(n % 10 + '0');
+}
+```
+
+```cs
+/* qsort: sort v[left]...v[right] into increasing order */
+void qsort(int  v[], int left, int right)
+{
+    int i, last;
+    void swap(int v[], int i, int j);
+
+    if (left >= right)      /* do nothing if array contains */
+        return;             /* fewer than 2 elements */
+    swap(v, left, (left + right)/2)     /* move partition elem to v[0] */
+    last = left;
+    for (i = left+1; i <=right; i++)    /* partition */
+        if (v[i] < v[left])
+            swap(v, ++last, i);
+    swap(v, left, last);    /* restore partition elem */
+    qsort(v, left, last-1);
+    qsort(v, last+1, right);
+}
+```
+
+```cs
+/* swap: interchange v[i] and v[j] */
+void swap(int v[], int i, int j)
+{
+    int temp;
+
+    temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+```
+
+--------------------------------------------------------------------------------
+
+### 4.11 The C Preprocessor
+
+#### 4.11.1 File Inclusion
+
+#### 4.11.2 Macro Substitution
+
+```c
+#define max(A, B)   ((A) > (B) ? (A) : (B))
+```
+
+Names may be undefined with `#undef`, usually to ensure that a routine is really a function, not a macro:
+
+```c
+#undef getchar
+
+int getchar(void) {...}
+```
+
+```cs
+#define dprint(expr)    printf(#expr " = %g\n", expr)
+
+/* then, the expression */
+dprint(x/y);
+/* becomes */
+printf("x/y" " = %g\n", x/y);
+/* and the effect is */
+printf("x/y = %g\n", x/y);
+```
+
+```cs
+#define paste(front, back)  front ## back
+
+/* so */
+paste(name, 1)
+/* creates the token */
+name1
+```
+
+### 4.11.3 Conditional Inclusion
+
+```cs
+#if !defined(HDR)
+/* or */
+#ifndef HDR
+
+#define HDR
+
+/* contents of hdr.h go here */
+
+#endif
+```
+
+`#elif` `#else`
