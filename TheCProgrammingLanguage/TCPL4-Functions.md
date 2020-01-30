@@ -23,13 +23,13 @@ Chapter 4: Functions & Program Structure
 - [4.11 The C Preprocessor](#411-the-c-preprocessor)
   - [4.11.1 File Inclusion](#4111-file-inclusion)
   - [4.11.2 Macro Substitution](#4112-macro-substitution)
-- [4.11.3 Conditional Inclusion](#4113-conditional-inclusion)
+  - [4.11.3 Conditional Inclusion](#4113-conditional-inclusion)
 
 --------------------------------------------------------------------------------
 
 ### 4.1 Basics of Functions
 
-3 pieces r easier to deal w/ than 1 big one.
+3 pieces are easier to deal with than 1 big one.
 
 ```cs
 #include <stdio.h>
@@ -419,7 +419,7 @@ paste(name, 1)
 name1
 ```
 
-### 4.11.3 Conditional Inclusion
+#### 4.11.3 Conditional Inclusion
 
 ```cs
 #if !defined(HDR)
