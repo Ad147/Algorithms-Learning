@@ -10,6 +10,8 @@ AL~0a30
 - [5.1 Pointers & Addresses](#51-pointers--addresses)
 - [5.2 Pointers & Function Arguments](#52-pointers--function-arguments)
 - [5.3 Pointers & Arrays](#53-pointers--arrays)
+- [5.4 Address Arithmatic](#54-address-arithmatic)
+- [5.5 Character Pointers & Functions](#55-character-pointers--functions)
 
 5.1 Pointers & Addresses
 --------------------------------------------------------------------------------
@@ -52,3 +54,28 @@ int getint(int *pn)
 5.3 Pointers & Arrays
 --------------------------------------------------------------------------------
 
+One difference between an array name and a pointer:
+
+- a pointer is a variale ==> pa = a, pa++
+- an array name is not ==> a = pa (x), a++ (x)
+
+5.4 Address Arithmatic
+--------------------------------------------------------------------------------
+
+ Legal:
+
+ 1. ip1 = ip2
+ 2. p +/- i
+ 3. subtracting or comparing 2 ptrs to members of the same array
+ 4. p =/< 0 (NULL)
+
+Illegal:
+
+1. assigning a ptr of one type to a ptr of another type without a cast (except for void*)
+2. p + f
+3. p1 + p2
+
+5.5 Character Pointers & Functions
+--------------------------------------------------------------------------------
+
+p118
