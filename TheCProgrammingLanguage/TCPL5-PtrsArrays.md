@@ -14,6 +14,9 @@ A~0a30
 - [5.5 Character Pointers & Functions](#55-character-pointers--functions)
 - [5.6 Pointer Arrays; Pointers to Pointers](#56-pointer-arrays-pointers-to-pointers)
 - [5.7 Multi-dimensional Arrays](#57-multi-dimensional-arrays)
+- [5.9 Pointers vs. Multi-dimensional Arrays](#59-pointers-vs-multi-dimensional-arrays)
+- [5.10 Command-line Arguments](#510-command-line-arguments)
+- [5.11 Pointers to Functions](#511-pointers-to-functions)
 
 5.1 Pointers & Addresses
 --------------------------------------------------------------------------------
@@ -130,4 +133,138 @@ Example: a program to sort lines of strings using quicksort.
 5.7 Multi-dimensional Arrays
 --------------------------------------------------------------------------------
 
-p125
+- `daytab[i][j]` (v)
+- `daytab[i, j]` (x)
+
+```cpp
+static char daytab[2][13] = {
+    {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+    {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+};
+```
+
+As a function parameter:
+
+```cpp
+func(int daytab[2][13]) { ... }
+func(int daytab[][13]) { ... }
+func(int (*daytab)[13]) { ... }
+```
+
+5.9 Pointers vs. Multi-dimensional Arrays
+--------------------------------------------------------------------------------
+
+`int a[10][20]`: 2 dimensional array with 200 int-sized locations.
+
+`int *b[10]`: 10 pointers, each can point to array of different length.
+
+5.10 Command-line Arguments
+--------------------------------------------------------------------------------
+
+Arguments of `main`:
+
+1. `argc`: argument count
+2. `argv`: argument vector
+
+By convention, argv[0] is the name by which the program was invoked, so argc is at least 1.  
+The standard requires that argv[argc] be a null pointer.
+
+```cpp
+#include <stdio.h>
+
+/* echo command-line arguments */
+main(int argc, char *argv[])
+{
+    while (--argc > 0)
+        printf((argc > 1) ? "%s " : "%s", *++argv);
+    printf("\n");
+    return 0;
+}
+```
+
+###### Enhancement of the pattern-finding program from Section 4.1
+
+```cpp
+#include <stdio.h>
+#include <string.h>
+#define MAXLINE 1000
+
+int getline(char *line, int max);
+
+/* find: print lines that match pattern from 1st arg */
+main(int argc, char *argv[])
+{
+    char line[MAXLINE];
+    int found = 0;
+
+    if (argc != 2)
+        print("Usage: find pattern\n");
+    else
+        while (getline(line, MAXLINE) > 0)
+            if (strstr(line, argv[1]) != NULL)
+            {
+                printf("%s", line);
+                found++;
+            }
+    return found;
+}
+```
+
+A common convention for C program on UNIX systems:  
+`-xxx` for optional flag or parameter:
+
+`find -x -n pattern`  
+`find -nx pattern`
+
+```cpp
+#include <stdio.h>
+#include <string.h>
+#define MAXLINE 1000
+
+ine getline(char *line, int max);
+
+/* find: print lines that match pattern from 1st arg */
+main(int argc, char *argv[])
+{
+    char lien[MAXLINE];
+    long lineno = 0;
+    int c, except = 0, number = 0, found = 0;
+
+    while (--argc > 0 && (*++argv)[0] == '-')
+        while (c = *++argv[0])
+            switch (c)
+            {
+                case 'x':
+                    except = 1;
+                    break;
+                case 'n':
+                    number = 1;
+                    break;
+                default:
+                    print("find: illegal option %c\n", c);
+                    argc = 0;
+                    found = -1;
+                    break;
+            }
+    if (argc != 1)
+        printf("Usage: find -x -n pattern\n");
+    else
+        while (getline(line, MAXLINE) > 0)
+        {
+            lineno++;
+            if ((strstr(line, *argv) != NULL) != except)
+            {
+                if (number)
+                    printf("%ld:", lineno);
+                printf(%s, line);
+                found++;
+            }
+        }
+    return found;
+}
+```
+
+5.11 Pointers to Functions
+--------------------------------------------------------------------------------
+
+p133
