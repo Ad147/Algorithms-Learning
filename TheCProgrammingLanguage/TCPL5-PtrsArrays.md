@@ -17,6 +17,7 @@ A~0a30
 - [5.9 Pointers vs. Multi-dimensional Arrays](#59-pointers-vs-multi-dimensional-arrays)
 - [5.10 Command-line Arguments](#510-command-line-arguments)
 - [5.11 Pointers to Functions](#511-pointers-to-functions)
+- [5.12 Complicated Declarations](#512-complicated-declarations)
 
 5.1 Pointers & Addresses
 --------------------------------------------------------------------------------
@@ -267,4 +268,46 @@ main(int argc, char *argv[])
 5.11 Pointers to Functions
 --------------------------------------------------------------------------------
 
-p133
+- `int (*comp)(void *, void *)`: comp is a pointer to a function that has 2 void* arguments and returns an int.
+- `int *comp(void *, void *)` (x): comp is a function returning a pointer to an int.
+
+function call: `(*comp)(v[i], v[left])`
+
+5.12 Complicated Declarations
+--------------------------------------------------------------------------------
+
+`dcl` converts a C declaration into a word description as:
+
+- `char **argv`: argv: pointer to pointer to char
+- `int (*daytab)[13]`: daytab: pointer to array[13] of int
+- `int *daytab[13]`: daytab: array[13] of pointer to int
+- `void *comp()`: comp: function returning pointer to void
+- `void (*comp)()`: comp: pointer to function returning void
+- `char (*(*x())[])()`: x: function returning pointer to array[] of pointer to function returning char
+- `char (*(*x[3])())[5]`: x: array[3] of pointer to function returning pointer to array[5] of char
+
+`dcl` is based on the grammer that specifies a declarator (spelled out in Appendix A, Section 8.5).  
+A simplified form:
+
+```
+dcl:            optional *'s direct-dcl
+direct-dcl:     name
+                (dcl)
+                direct-dcl()
+                direct-dcl[optional size]
+```
+
+The heart of the `dcl` program is a pair of functions, `dcl` and `dirdcl`.  
+The grammar is recursively defined (a recursive-descent parser),
+
+```c
+/* dcl: parse a declarator */
+/* dirdcl: parse a direct declarator */
+main()  /* convert declaration to words */
+int gettoken(void)  /* return next token */
+/* undcl: convert word description to declaration */
+```
+
+--------------------------------------------------------------------------------
+
+EOF
