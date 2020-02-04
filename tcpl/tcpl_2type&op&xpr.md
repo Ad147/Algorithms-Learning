@@ -1,4 +1,4 @@
-TCPL2-TypeOpExpr.md
+tcpl_2type&op&xpr.md
 
 Notes of The C Programming Language
 ================================================================================
@@ -10,18 +10,19 @@ Init: 191010
 Chapter 2: Types, Operators, and Expressions
 --------------------------------------------------------------------------------
 
-- [2.1 Variable Names](#21-variable-names)
-- [2.2 Data Types and Sizes](#22-data-types-and-sizes)
-- [2.3 Constants](#23-constants)
-- [2.4 Declarations](#24-declarations)
-- [2.5 Arithmetic Operators](#25-arithmetic-operators)
-- [2.6 Relational and Logical Operators](#26-relational-and-logical-operators)
-- [2.7 Type Conversions](#27-type-conversions)
-- [2.8 Increment and Decrement Operators](#28-increment-and-decrement-operators)
-- [2.9 Bitwise Operators](#29-bitwise-operators)
-- [2.10 Assignment Operators and Expressions](#210-assignment-operators-and-expressions)
-- [2.11 Conditional Expressions `?:`](#211-conditional-expressions)
-- [2.12 Precedence and Order of Evaluation](#212-precedence-and-order-of-evaluation)
+- [Chapter 2: Types, Operators, and Expressions](#chapter-2-types-operators-and-expressions)
+  - [2.1 Variable Names](#21-variable-names)
+  - [2.2 Data Types and Sizes](#22-data-types-and-sizes)
+  - [2.3 Constants](#23-constants)
+  - [2.4 Declarations](#24-declarations)
+  - [2.5 Arithmetic Operators](#25-arithmetic-operators)
+  - [2.6 Relational and Logical Operators](#26-relational-and-logical-operators)
+  - [2.7 Type Conversions](#27-type-conversions)
+  - [2.8 Increment and Decrement Operators](#28-increment-and-decrement-operators)
+  - [2.9 Bitwise Operators](#29-bitwise-operators)
+  - [2.10 Assignment Operators and Expressions](#210-assignment-operators-and-expressions)
+  - [2.11 Conditional Expressions `?:`](#211-conditional-expressions-)
+  - [2.12 Precedence and Order of Evaluation](#212-precedence-and-order-of-evaluation)
 
 --------------------------------------------------------------------------------
 

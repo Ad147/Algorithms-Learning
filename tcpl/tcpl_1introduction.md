@@ -1,4 +1,4 @@
-TCPL1-Introduction.md
+tcpl_1introduction.md
 
 Notes of The C Programming Language
 ================================================================================
@@ -10,20 +10,17 @@ Init: 18Nov19
 Chapter 1: A Tutorial Introduction
 --------------------------------------------------------------------------------
 
-- [1.1 Getting Started](#11-getting-started)
-- [1.2 Variables and Arithmetic Expressions](#12-variables-and-arithmetic-expressions)
-- [1.3 The For Statement](#13-the-for-statement)
-- [1.4 Symbolic Constants](#14-symbolic-constants)
-- [1.5 Character Input and Output](#15-character-input-and-output)
-  - [1.5.1 File Copying](#151-file-copying)
-  - [1.5.2 Character Counting](#152-character-counting)
-  - [1.5.3 Line Counting](#153-line-counting)
-  - [1.5.4 Word Counting](#154-word-counting)
-- [1.6 Arrays](#16-arrays)
-- [1.7 Functions](#17-functions)
-- [1.8 Arguments - Call by Value](#18-arguments---call-by-value)
-- [1.9 Character Arrays](#19-character-arrays)
-- [1.10 External Variables and Scope](#110-external-variables-and-scope)
+- [Chapter 1: A Tutorial Introduction](#chapter-1-a-tutorial-introduction)
+  - [1.1 Getting Started](#11-getting-started)
+  - [1.2 Variables and Arithmetic Expressions](#12-variables-and-arithmetic-expressions)
+  - [1.3  The For Statement](#13-the-for-statement)
+  - [1.4 Symbolic Constants](#14-symbolic-constants)
+  - [1.5 Character Input and Output](#15-character-input-and-output)
+  - [1.6 Arrays](#16-arrays)
+  - [1.7 Functions](#17-functions)
+  - [1.8 Arguments - Call by Value](#18-arguments---call-by-value)
+  - [1.9 Character Arrays](#19-character-arrays)
+  - [1.10 External Variables and Scope](#110-external-variables-and-scope)
 
 --------------------------------------------------------------------------------
 

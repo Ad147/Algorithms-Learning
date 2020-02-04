@@ -1,4 +1,4 @@
-TCPL3-ControlFlow.md
+tcpl_3controlflow.md
 
 Notes of The C Programming Language
 ================================================================================
@@ -10,14 +10,15 @@ Init: 191016
 Chapter 3: Control Flow
 --------------------------------------------------------------------------------
 
-- [3.1 Statements and Blocks](#31-statements-and-blocks)
-- [3.2 If-Else](#32-if-else)
-- [3.3 Else-If](#33-else-if)
-- [3.4 Switch](#34-switch)
-- [3.5 Loops - While and For](#35-loops---while-and-for)
-- [3.6 Loops - Do-while](#36-loops---do-while)
-- [3.7 Break and Continue](#37-break-and-continue)
-- [3.8 Goto and Labels](#38-goto-and-labels)
+- [Chapter 3: Control Flow](#chapter-3-control-flow)
+  - [3.1 Statements and Blocks](#31-statements-and-blocks)
+  - [3.2 If-Else](#32-if-else)
+  - [3.3 Else-If](#33-else-if)
+  - [3.4 Switch](#34-switch)
+  - [3.5 Loops - While and For](#35-loops---while-and-for)
+  - [3.6 Loops - Do-while](#36-loops---do-while)
+  - [3.7 Break and Continue](#37-break-and-continue)
+  - [3.8 Goto and Labels](#38-goto-and-labels)
 
 --------------------------------------------------------------------------------
 

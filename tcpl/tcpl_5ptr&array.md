@@ -1,6 +1,6 @@
-TCPL5-PtrsArrays.md
+tcpl_5ptr&array.md
 
-TCPL Notes 5: Pointers & Arrays
+TCPL Notes: 5 Pointers & Arrays
 ================================================================================
 
 A~0a30

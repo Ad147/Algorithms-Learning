@@ -1,4 +1,4 @@
-TCPL4-Functions.md
+tcpl_4functions.md
 
 The C Programming Language
 ================================================================================
@@ -10,20 +10,18 @@ Init: 191030
 Chapter 4: Functions & Program Structure
 --------------------------------------------------------------------------------
 
-- [4.1 Basics of Functions](#41-basics-of-functions)
-- [4.2 Functions Returning Non-integers](#42-functions-returning-non-integers)
-- [4.3 External Variables](#43-external-variables)
-- [4.4 Scope Rules](#44-scope-rules)
-- [4.5 Header Files](#45-header-files)
-- [4.6 Static Variables](#46-static-variables)
-- [4.7 Register Variables](#47-register-variables)
-- [4.8 Block Structure](#48-block-structure)
-- [4.9 Initialization](#49-initialization)
-- [4.10 Recursion](#410-recursion)
-- [4.11 The C Preprocessor](#411-the-c-preprocessor)
-  - [4.11.1 File Inclusion](#4111-file-inclusion)
-  - [4.11.2 Macro Substitution](#4112-macro-substitution)
-  - [4.11.3 Conditional Inclusion](#4113-conditional-inclusion)
+- [Chapter 4: Functions & Program Structure](#chapter-4-functions--program-structure)
+  - [4.1 Basics of Functions](#41-basics-of-functions)
+  - [4.2 Functions Returning Non-integers](#42-functions-returning-non-integers)
+  - [4.3 External Variables](#43-external-variables)
+  - [4.4 Scope Rules](#44-scope-rules)
+  - [4.5 Header Files](#45-header-files)
+  - [4.6 Static Variables](#46-static-variables)
+  - [4.7 Register Variables](#47-register-variables)
+  - [4.8 Block Structure](#48-block-structure)
+  - [4.9 Initialization](#49-initialization)
+  - [4.10 Recursion](#410-recursion)
+  - [4.11 The C Preprocessor](#411-the-c-preprocessor)
 
 --------------------------------------------------------------------------------
 
