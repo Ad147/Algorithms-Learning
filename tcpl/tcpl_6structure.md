@@ -12,6 +12,8 @@ A~0b04
 - [6.3 Arrays of Structures](#63-arrays-of-structures)
 - [6.5 Self-referential Structures](#65-self-referential-structures)
 - [6.6 Table Lookup](#66-table-lookup)
+- [6.7 Typedef](#67-typedef)
+- [6.8 Unions](#68-unions)
 
 6.1 Basics of Structures
 --------------------------------------------------------------------------------
@@ -38,7 +40,7 @@ The `sizeof` operator:
 
 (the object can be a variable, array or structure)
 
-```cpp
+```cxx
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -125,7 +127,7 @@ int getword(char *word, int lim)
 
 BST:
 
-```cpp
+```cxx
 struct tnode {              /* the tree node: */
     char *word;             /* points to the text */
     int count;              /* number of occurrence */
@@ -137,7 +139,7 @@ struct tnode {              /* the tree node: */
 Occasionally, one needs a variation of self-referential structures:  
 2 structures that refer to each other:
 
-```cpp
+```cxx
 struct t {
     ...
     struct s *p;    /* p points to an s */
@@ -148,7 +150,7 @@ struct s {
 }
 ```
 
-```cpp
+```cxx
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -173,7 +175,7 @@ main()
 }
 ```
 
-```cpp
+```cxx
 struct tnode *talloc(void);
 char *strdup(char *);
 
@@ -197,7 +199,7 @@ struct tnode *addtree(struct tnode *p, char *w)
 }
 ```
 
-```cpp
+```cxx
 /* treeprint: in-order print of tree p */
 void treeprint(struct tnode *p)
 {
@@ -209,7 +211,7 @@ void treeprint(struct tnode *p)
 }
 ```
 
-```cpp
+```cxx
 #include <stdlib.h>
 
 /* talloc: make a tnode */
@@ -232,4 +234,100 @@ char *strdup(char *s)   /* make a duplicate of s */
 6.6 Table Lookup
 --------------------------------------------------------------------------------
 
-p157
+A typical symble table management routines of a macro processor or a compiler.
+
+The algorithm is a hash search, the hash value is used to index into an array of pointers,  
+the array element points to a linked list of structures describing names and replacement text of a #define.
+
+```cxx
+struct nlist {              /* table entry: */
+    struct nlist *next;     /* next entry in chain */
+    char *name;             /* defined name */
+    char *defn;             /* replacement text */
+};
+
+#define HASHSIZE 101
+
+static struct nlist *hashtab[HASHSIZE];     /* pointer table */
+
+/* hash: form hash value for string s */
+unsigned hash(char *s)
+{
+    unsigned hashval;
+
+    for (hashval = 0; *s != '\0'; s++)
+        hashval = *s + 31 * hashval;    /* a short and effective hash func */
+    return hashval % HASHSIZE;
+}
+
+/* lookup: look for s in hashtab */
+struct nlist *lookup(char *s)
+{
+    struct nlist *np;
+
+    for (np = hashtab[hash(s)]; np != NULL; np = np->next)
+        if (strcmp(s, np->name) == 0)
+            return np;  /* found */
+    return NULL;        /* not found */
+}
+
+char *strdup(char *);
+
+/* install: put (name, defn) in hashtab */
+struct nlist *install(char *name, char *defn)
+{
+    struct nlist *np;
+    unsigned hashval;
+
+    if ((np = lookup(name)) == NULL) {  /* not found */
+        np = (struct nlist *) malloc(sizeof(*np));
+        if (np == NULL || (np->name = strdup(name)) == NULL)
+            return NULL;
+        hashval = hash(name);
+        np->next = hashtab[hashval];
+        hashtab[hashval] = np;
+    } else      /* already there */
+        free((void *)np->defn);     /* free previous defn */
+    if ((np->defn = strdup(defn)) == NULL)
+        return NULL;
+    return np;
+}
+```
+
+6.7 Typedef
+--------------------------------------------------------------------------------
+
+```cxx
+typedef struct tnode *Treeptr;
+
+typedef struct tnode {  /* the tree node: */
+    char *word;             /* points to the text */
+    int count;              /* number of occurrences */
+    Treeptr left;           /* left child */
+    Treeptr right;          /* right child */
+} Treenode;
+
+Treeptr talloc(void)
+{
+    return (Treeptr) malloc(sizeof(Treenode));
+}
+```
+
+In effect, `typedef` is like `#define`, except that since it is interpreted by compiler, it can cope with textual substitutions that are beyond the capabilities of the preprocessor:
+
+`typedef int (*PFI)(char *, char*);`
+
+creates the PFI (pointer to function (of 2 char * arguments) returning int), which can be used in contexts like `PFI strcmp, numcmp;` in the sort program of ch5.
+
+Three main reasons for using `typedef`:
+
+1. aesthtic issues.
+2. parameterize a program against protability problems  
+   (if `typedef`s are used for machine-dependent data types, only them need change when program is moved)  
+   (like `size_t`, `ptrdiff_t`)
+3. easier to understand when introduced in documentations.
+
+6.8 Unions
+--------------------------------------------------------------------------------
+
+p161
