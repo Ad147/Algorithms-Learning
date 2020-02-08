@@ -13,7 +13,7 @@ A~0b04
 - [6.5 Self-referential Structures](#65-self-referential-structures)
 - [6.6 Table Lookup](#66-table-lookup)
 - [6.7 Typedef](#67-typedef)
-- [6.8 Unions](#68-unions)
+- [6.9 Bit-fields](#69-bit-fields)
 
 6.1 Basics of Structures
 --------------------------------------------------------------------------------
@@ -327,7 +327,66 @@ Three main reasons for using `typedef`:
    (like `size_t`, `ptrdiff_t`)
 3. easier to understand when introduced in documentations.
 
-6.8 Unions
+6.9 Bit-fields
 --------------------------------------------------------------------------------
 
-p161
+The usual way is to define a set of masks:
+
+```cxx
+#define KEYWORD 01
+#define EXTERNAL 02
+#define STATIC 04
+
+/* or */
+
+enum { KEYWORD = 01, EXTERNAL = 02, STATIC = 04 };
+
+/* The numbers must be powers of 2. */
+
+/* turns on the EXTERNAL and STATIC bits in flags: */
+flags |= EXTERNAL | STATIC;
+
+/* turns them off: */
+flags &= ~(EXTERNAL | STATIC);
+
+/* test if both are off: */
+if ((flags & (EXTERNAL | STATIC)) == 0) ...
+```
+
+##### *bit-field* (*field* for short)
+
+C offers defining and accessing fields within a word directly rather than by bitwise logical operators.
+
+For example, the `#define`s above could be replaced by the definition of 3 fields:
+
+```cxx
+struct {
+    unsigned int is_keyword : 1;
+    unsigned int is_extern  : 1;
+    unsigned int is_static  : 1;
+} flags;
+
+/* The number following the colon represents the field width in bits. */
+
+/* turn the bits on: */
+flags.is_extern = flags.is_static = 1;
+/* turn them off: */
+flags.is_extern = flags.is_static = 0;
+/* test them */
+if (flags.is_extern == 0 && flags.is_static == 0)
+```
+
+> Almost everything about fields is implementation-dependent.  
+> Whether a field may overlay a word boundary is implementation-dependent.  
+> Fields need not be names; unnamed fields (a colon and width only) are used for padding.  
+> The special width 0 may be used to force alignment at the next word boundary.
+> 
+> Fields are assigned left to right on some machines and right to left on others.  
+> This means that although fields are useful for maintaining internally-defined data structures, the question of which end comes first has to be carefully considered when picking apart externally-defined data;  
+> programs that depend on such things are not portable.  
+> Fields may be declared only as ints; for portability, specify signed or unsigned explicitly.  
+> They are not arrays, and they do not have addresses, so the & operator cannot be applied to them.
+
+--------------------------------------------------------------------------------
+
+EOF
