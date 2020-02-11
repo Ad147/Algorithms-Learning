@@ -10,6 +10,8 @@ A~0b10
 - [7.1 Standard Input & Output](#71-standard-input--output)
 - [7.2 Formatted Output -- Printf](#72-formatted-output----printf)
 - [7.3 Variable-length Argument Lists](#73-variable-length-argument-lists)
+- [7.4 Formatted Input -- Scanf](#74-formatted-input----scanf)
+- [7.5 File Access](#75-file-access)
 
 7.1 Standard Input & Output
 --------------------------------------------------------------------------------
@@ -57,4 +59,96 @@ For `%-1.2hc`:
 7.3 Variable-length Argument Lists
 --------------------------------------------------------------------------------
 
-p169
+```cxx
+#include <stdarg.h>
+
+/* minprintf: minimal printf with variable argument list */
+void minprintf(char *fmt, ...)
+{
+    va_list ap;     /* points to each unnnamed arg in turn */
+    char *p, *sval;
+    int ival;
+    double dval;
+
+    va_start(ap, fmt);  /* make ap point to 1st unnamed arg */
+    for (p = fmt; *p; p++) {
+        if (*p != '%') {
+            putchar(*p);
+            continue;
+        }
+        switch (*++p) {
+            case 'd':
+                ival = va_arg(ap, int);
+                printf("%d", ival);
+                break;
+            case 'f':
+                dval = va_arg(ap, double);
+                printf("%f", dval);
+                break;
+            case 's':
+                for (sval = va_arg(ap, char *); *sval; sval++)
+                    putchar(*sval);
+                break;
+            default:
+                putchar(*p);
+                break;
+        }
+    }
+    va_end(ap);     /* clean up when done */
+}
+```
+
+7.4 Formatted Input -- Scanf
+--------------------------------------------------------------------------------
+
+`int scanf(char *format, ...)`
+
+`int sscanf(char *string, char *format, ptr1, ptr2, ...)`
+
+###### Table 7.2 Basic Scanf Conversions
+
+| Character | Input Data                                                      | Argument Type                    |
+| --------- | --------------------------------------------------------------- | -------------------------------- |
+| d         | decimal integer                                                 | int *                            |
+| i         | integer (may be octal (0-) or hexadeciaml (ox/X-))              | int *                            |
+| o         | octal int(with/without 0)                                       | int *                            |
+| u         | unsigned decimal                                                | unsigned int *                   |
+| x         | hexadecimal (with/without 0x)                                   | int *                            |
+| c         | characters                                                      | char *                           |
+| s         | character string (not quoted)                                   | char *, to an array large enough |
+| e, f, g   | floating-point number with optional sign/decimal point/exponent | float *                          |
+| %         | literal %                                                       | no assignment is made            |
+
+```cxx
+#include <stdio.h>
+
+main()  /* rudimentary calculator */
+{
+    double sum, v;
+
+    sum = 0;
+    while (scanf("%lf", &v) == 1)
+        printf("\t%.2f\n", sum += v);
+    return 0;
+}
+```
+
+> scanf ignores blanks and tabs in its format string.  
+> Furthermore, it skips over white space (blanks, tabs, newlines, etc.) as it looks for input values.  
+> To read input whose format is not fixed, it is often best to read a line at a time, then pick it apart with sscanf.
+
+```cxx
+while (getline(line, sizeof(line)) > 0) {
+    if (sscanf(line, "%d %s %d", &day, monthname, &year) == 3)
+        printf("valid: %s\n", line);    /* 25 Dec 1988 form */
+    else if (sscanf(line, "%d/%d/%d", &month, &day, &year) == 3)
+        printf("valid: %s\n", line);    /* mm/dd/yy form */
+    else
+        printf("invalid: %s\n", line);  /* invalid form */
+}
+```
+
+7.5 File Access
+--------------------------------------------------------------------------------
+
+p174
