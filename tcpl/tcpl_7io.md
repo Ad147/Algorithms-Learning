@@ -12,6 +12,8 @@ A~0b10
 - [7.3 Variable-length Argument Lists](#73-variable-length-argument-lists)
 - [7.4 Formatted Input -- Scanf](#74-formatted-input----scanf)
 - [7.5 File Access](#75-file-access)
+- [7.6 Error Handling -- Stderr and Exit](#76-error-handling----stderr-and-exit)
+- [7.7 Line Input and Output](#77-line-input-and-output)
 
 7.1 Standard Input & Output
 --------------------------------------------------------------------------------
@@ -151,4 +153,97 @@ while (getline(line, sizeof(line)) > 0) {
 7.5 File Access
 --------------------------------------------------------------------------------
 
-p174
+```cxx
+FILE *fp;
+FILE *fopen(char *name, char *mode);
+/* FILE is a type name defined by typedef, not a structure tag */
+
+fp = fopen(name, mode);
+/* modes: r, w, a (append), and b for binary files */
+
+int getc(FILE *fp);
+int putc(int c, FILE *fp);
+/* getc and putc may be macros instead */
+
+int fscanf(FILE *fp, char *format, ...)
+int fprintf(FILE *fp, char *format, ...)
+```
+
+```cxx
+#include <stdio.h>
+
+/* cat: concatenate files, version 1 */
+main(int argc, char *argv[])
+{
+    FILE *fp;
+    void filecopy(FILE *, FILE *);
+
+    if (argc == 1)  /* no args; copy standard input */
+        filecopy(stdin, stdout);
+    else
+        while (--argc > 0)
+            if ((fp = fopen(*++argv, "r")) == NULL) {
+                printf("cat: cannot open %s\n", *argv);
+                return 1;
+            } else {
+                filecopy(fp, stdout);
+                fcloste(fp);
+            }
+    return 0;
+}
+
+/* filecopy: copy file ifp to file ofp */
+void filecopy(FILE *ifp, FILE *ofp)
+{
+    int c;
+
+    while ((c = getc(ifp)) != EOF)
+        putc(c, ofp);
+}
+```
+
+7.6 Error Handling -- Stderr and Exit
+--------------------------------------------------------------------------------
+
+```cxx
+#include <stdio.h>
+
+/* cat: concatenate files, version 2 */
+main(int argc, char *argv[])
+{
+    FILE *fp;
+    void filecopy(FILE *, FILE *);
+    char *prog = argv[0];   /* program name for errors */
+
+    if (argc == 1)      /* no args; copy std input */
+        filecopy(stdin, stdout);
+    else
+        while (--argc > 0)
+            if ((fp == fopen(*++argv, "r")) == NULL) {
+                fprintf(stderr, "%s: cannot open %s\n", prog, *argv);
+                exit(1);
+            } else {
+                filecopy(fp, stdout);
+                fclose(fp);
+            }
+    if (ferror(stdout)) {
+        fprintf(stderr, "%s: error writing stdout\n", prog);
+        exit(2);
+    }
+    exit(0);
+}
+```
+
+The program uses standard library function exit, which terminates program execution.  
+The argument of exit is available to whatever process called this one.  
+exit calls fclose for each open output file, to flush out any buffered output.
+
+Within main, `return expr` is equivalent to `exit(expr)`.  
+exit can be called from other functions.
+
+`int ferror(FILE *fp)` and `int feof(FILE *fp)` returns non-zero if an error/end of file occurred on the stream fp.
+
+7.7 Line Input and Output
+--------------------------------------------------------------------------------
+
+p178
