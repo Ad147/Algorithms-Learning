@@ -14,6 +14,14 @@ A~0b10
 - [7.5 File Access](#75-file-access)
 - [7.6 Error Handling -- Stderr and Exit](#76-error-handling----stderr-and-exit)
 - [7.7 Line Input and Output](#77-line-input-and-output)
+- [7.8 Miscellaneous Functions](#78-miscellaneous-functions)
+  - [7.8.1 String Operations](#781-string-operations)
+  - [7.8.2 Character Class Testing and Conversion](#782-character-class-testing-and-conversion)
+  - [7.8.3 Ungetc](#783-ungetc)
+  - [7.8.4 Command Execution](#784-command-execution)
+  - [7.8.5 Storage Management](#785-storage-management)
+  - [7.8.6 Mathematical Functions](#786-mathematical-functions)
+  - [7.8.7 Random Number Generation](#787-random-number-generation)
 
 7.1 Standard Input & Output
 --------------------------------------------------------------------------------
@@ -246,4 +254,120 @@ exit can be called from other functions.
 7.7 Line Input and Output
 --------------------------------------------------------------------------------
 
-p178
+```cxx
+/* fgets: get at most n chars from iop */
+char *fgets(char *s, int n, FILE *iop)
+{
+    register int c;
+    register char *cs;
+
+    cs = s;
+    while (--n > 0 && (c = getc(iop)) != EOF)
+        if ((*cs++ = c) == '\n')
+            break;
+    *cs = '\0';
+    return (c == EOF && cs == s) ? NULL : s;
+}
+
+/* fputs: put string s on file iop */
+int fputs(char *s, FILE *iop)
+{
+    int c;
+
+    while (c == *s++)
+        putc(c, iop);
+    return ferror(iop) ? EOF : 0;
+}
+
+/* getline: read a line, return length */
+int getline(char *line, int max)
+{
+    if (fgets(line, max, stdin) == NULL)
+        return 0;
+    else
+        return strlen(line);
+}
+```
+
+7.8 Miscellaneous Functions
+--------------------------------------------------------------------------------
+
+### 7.8.1 String Operations
+
+| `<string.h>`     |                                                    |
+| ---------------- | -------------------------------------------------- |
+| strcat(s, t)     | concatenate t to end of s                          |
+| strncat(s, t, n) | concatenate n characters of t to end of s          |
+| strcmp(s, t)     | return negative, zero, or positive for s </==/> t  |
+| strncmp(s, t, n) | compare first n chars                              |
+| strcpy(s, t)     | copy t to s                                        |
+| strncpy(s, t, n) | copy at most n characters                          |
+| strlen(s)        | return length of s                                 |
+| strchr(s, c)     | return ptr to first c in s, or NULL if not present |
+| strrchr(s, c)    | return ptr to last c in s, or NULL if not present  |
+
+### 7.8.2 Character Class Testing and Conversion
+
+| `<ctype.h>` |                                                     |
+| ----------- | --------------------------------------------------- |
+| isalpha(c)  | non-zero if c is alphabetic, 0 if not               |
+| isupper(c)  | ~                                                   |
+| islower(c)  | ~                                                   |
+| isdigit(c)  | ~                                                   |
+| isalnum(c)  | ~                                                   |
+| isspace(c)  | blank, tab, newline, return, formfeed, vertical tab |
+| toupper(c)  | return c converted to upper case                    |
+| tolower(c)  | return c converted to lower case                    |
+
+### 7.8.3 Ungetc
+
+`int ungetc(int c, FILE *fp)`
+
+### 7.8.4 Command Execution
+
+`system(char *s)`
+
+### 7.8.5 Storage Management
+
+`void *malloc(size_t n)`
+
+returns a ptr to n bytes of uninitialized storage, or NULL.
+
+`void *calloc(size_t n, size_t size)`
+
+returns a ptr to enough space for an array of n objs of the specified size, or NULL.  
+The storage is initialized to zero.
+
+The ptr must be cast into the appropriate type: `int *ip; ip = (int *) calloc(n, sizeof(int));`
+
+`free(p)`
+
+frees the space obtained by a call to malloc or calloc.
+
+### 7.8.6 Mathematical Functions
+
+| `<math.h>`  |                                         |
+| ----------- | --------------------------------------- |
+| sin(x)      | sine of x, x in radians                 |
+| cos(x)      | cosine                                  |
+| atan2(y, x) | arctangent of y/x, in radians           |
+| exp(x)      | exponential function e^x                |
+| log(x)      | natural (base e) logarithm of x (x > 0) |
+| log10(x)    | common (base 10) logarithm of x (x > 0) |
+| pow(x, y)   | x^y                                     |
+| sqrt(x)     | square root of x (x >= 0)               |
+| fabs(x)     | absolute value of x                     |
+
+### 7.8.7 Random Number Generation
+
+`rand()` (stdlib): a sequence of pseudo-random integers in 0 to RAND_MAX.
+
+One way to produce random floating-point numbers (0 <= f <1):
+
+`#define frand() ((double) rand() / (RAND_MAX+1.0))`
+
+`srand(unsigned)` sets to seed for rand.
+
+--------------------------------------------------------------------------------
+
+EOF
