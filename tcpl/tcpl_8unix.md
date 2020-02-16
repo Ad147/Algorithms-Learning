@@ -13,6 +13,7 @@ A~0b14
 - [8.4 Random Access -- Lseek](#84-random-access----lseek)
 - [8.5 Example -- An Implementation of Fopen and Getc](#85-example----an-implementation-of-fopen-and-getc)
 - [8.6 Example -- Listing Directories](#86-example----listing-directories)
+- [8.7 Example -- A Storage Allocator](#87-example----a-storage-allocator)
 
 8.1 File Descriptors
 --------------------------------------------------------------------------------
@@ -315,4 +316,13 @@ FILE _iob [OPEN_MAX] = {        /* stdin, stdout, stderr: */
 8.6 Example -- Listing Directories
 --------------------------------------------------------------------------------
 
-p193
+// TODO (really?)
+
+8.7 Example -- A Storage Allocator
+--------------------------------------------------------------------------------
+
+// TODO (really?)
+
+--------------------------------------------------------------------------------
+
+EOF
