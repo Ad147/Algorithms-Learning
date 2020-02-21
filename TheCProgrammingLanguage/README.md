@@ -1,4 +1,4 @@
-Learning-tcpl
+Learning/TheCProgrammingLanguage
 
 Notes of The C Programming Language
 ================================================================================
