@@ -1,34 +1,33 @@
 tcpl_1introduction.md
 
-Notes of The C Programming Language
+TCPL Notes 1 A Tutorial Introduction
 ================================================================================
 
-Ad
-
-Init: 18Nov19
-
-Chapter 1: A Tutorial Introduction
---------------------------------------------------------------------------------
-
-- [Chapter 1: A Tutorial Introduction](#chapter-1-a-tutorial-introduction)
-  - [1.1 Getting Started](#11-getting-started)
-  - [1.2 Variables and Arithmetic Expressions](#12-variables-and-arithmetic-expressions)
-  - [1.3  The For Statement](#13-the-for-statement)
-  - [1.4 Symbolic Constants](#14-symbolic-constants)
-  - [1.5 Character Input and Output](#15-character-input-and-output)
-  - [1.6 Arrays](#16-arrays)
-  - [1.7 Functions](#17-functions)
-  - [1.8 Arguments - Call by Value](#18-arguments---call-by-value)
-  - [1.9 Character Arrays](#19-character-arrays)
-  - [1.10 External Variables and Scope](#110-external-variables-and-scope)
+A~-2k19
 
 --------------------------------------------------------------------------------
 
-### 1.1 Getting Started
+- [1.1 Getting Started](#11-getting-started)
+- [1.2 Variables and Arithmetic Expressions](#12-variables-and-arithmetic-expressions)
+- [1.3  The For Statement](#13-the-for-statement)
+- [1.4 Symbolic Constants](#14-symbolic-constants)
+- [1.5 Character Input and Output](#15-character-input-and-output)
+  - [1.5.1 File Copying](#151-file-copying)
+  - [1.5.2 Character Counting](#152-character-counting)
+  - [1.5.3 Line Counting](#153-line-counting)
+  - [1.5.4 Word Counting](#154-word-counting)
+- [1.6 Arrays](#16-arrays)
+- [1.7 Functions](#17-functions)
+- [1.8 Arguments - Call by Value](#18-arguments---call-by-value)
+- [1.9 Character Arrays](#19-character-arrays)
+- [1.10 External Variables and Scope](#110-external-variables-and-scope)
+
+1.1 Getting Started
+--------------------------------------------------------------------------------
 
 HelloWorld:
 
-```cs
+```cxx
 #include <stdio.h>           /* include information about standard library */
 
 main()                       /* define a function named main that receives no argument values */
@@ -37,14 +36,12 @@ main()                       /* define a function named main that receives no ar
 }
 ```
 
+1.2 Variables and Arithmetic Expressions
 --------------------------------------------------------------------------------
 
-### 1.2 Variables and Arithmetic Expressions
+Fahrenheit <-> centigrade/Celsius convertor: (C = (5/9)(F - 32))
 
-Fahrenheit <-> centigrade/Celsius temperatures convertor:  
-(C = (5/9)(F - 32))
-
-```cs
+```cxx
 #include <stdio.h>
 
 /* print Fahrenheit-Celsius table for fahr = 0, 20, ..., 300 */
@@ -67,28 +64,12 @@ main()
 }
 ```
 
-Types:
-- int
-- float
-- char: a single byte
-- short
-- long
-- double
-
-`printf` recognizes
-- `%o`: octal
-- `%x`: hexadecimal
-- `%c`: character
-- `%s`: string
-- `%%`: % itself
-
+1.3  The For Statement
 --------------------------------------------------------------------------------
-
-### 1.3  The For Statement
 
 `for` is appropriate when initialization and increment are single statements and logically related.
 
-```cs
+```cxx
 main()
 {
     int fahr;
@@ -98,29 +79,27 @@ main()
 }
 ```
 
+1.4 Symbolic Constants
 --------------------------------------------------------------------------------
-
-### 1.4 Symbolic Constants
 
 `#define` defines a *symbolic name* or *symbolic constant* to be a string of characters:  
 `#define name replacement text`
 
-```cs
+```cxx
 #define LOWER 0
 #define UPPER 300
 #define STEP  20
 ```
 
+1.5 Character Input and Output
 --------------------------------------------------------------------------------
-
-### 1.5 Character Input and Output
 
 `getchar()`  
 `putchar()`
 
-#### 1.5.1 File Copying
+### 1.5.1 File Copying
 
-```cs
+```cxx
 #include <stdio.h>
 
 /* copy input to output; 2nd version */
@@ -133,9 +112,9 @@ main()
 }
 ```
 
-#### 1.5.2 Character Counting
+### 1.5.2 Character Counting
 
-```cs
+```cxx
 #include <stdio.h>
 
 /* count characters in input; 2nd version */
@@ -149,9 +128,9 @@ main()
 }
 ```
 
-#### 1.5.3 Line Counting
+### 1.5.3 Line Counting
 
-```cs
+```cxx
 #include <stdio.h>
 
 /* count lines in input */
@@ -167,9 +146,9 @@ main()
 }
 ```
 
-#### 1.5.4 Word Counting
+### 1.5.4 Word Counting
 
-```cs
+```cxx
 #include <stdio.h>
 
 #define IN 1    /* inside a word */
@@ -199,13 +178,12 @@ main()
 }
 ```
 
+1.6 Arrays
 --------------------------------------------------------------------------------
 
-### 1.6 Arrays
+Digit counting with an array:
 
-digit counting with an array to store the numbers of digits
-
-```cs
+```cxx
 #include <stdio.h>
 
 /* count digits, white space, others */
@@ -233,11 +211,10 @@ main()
 }
 ```
 
+1.7 Functions
 --------------------------------------------------------------------------------
 
-### 1.7 Functions
-
-```cs
+```cxx
 #include <stdio.h>
 
 int power(int m, int n);
@@ -268,21 +245,19 @@ int power(int base, int n)
 - *argument*(actual argument): the value used in a call of thefunction
 - *function prototype*: declaration before main
 
+1.8 Arguments - Call by Value
 --------------------------------------------------------------------------------
 
-### 1.8 Arguments - Call by Value
-
-To modify a variable of calling function in the called function, use a pointer.
+When to use ptr: to modify a variable of calling function in the called function.
 
 Arrays are passed by address.
 
+1.9 Character Arrays
 --------------------------------------------------------------------------------
-
-### 1.9 Character Arrays
 
 Every text line has at least 1 character: containing only a newline has length 1.
 
-```cs
+```cxx
 #include <stdio.h>
 
 #define MAXLINE 1000    /* maximum input line size */
@@ -337,12 +312,11 @@ void copy(char to[], char from[])
 }
 ```
 
-For a `getline` user, no way to know how long an input line might be, so it checks for verflow;  
+For a `getline` user, no way to know how long an input line might be, so it checks for overflow;  
 however a `copy` user knows/can find out how big the strings are, so no error checking added.
 
+1.10 External Variables and Scope
 --------------------------------------------------------------------------------
-
-### 1.10 External Variables and Scope
 
 An *external variable* must be *defined*, exactly once, outside of any function, to set storage,  
 must also be *declared* in each function that wants to access it, to state the type of the variable.  
