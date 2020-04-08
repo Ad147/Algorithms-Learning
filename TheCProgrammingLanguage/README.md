@@ -3,7 +3,7 @@ Learning/TheCProgrammingLanguage
 Notes of The C Programming Language
 ================================================================================
 
-- [Chapater 1. A Turoial Introduction](https://github.com/alaxion/Learning/blob/master/TheCProgrammingLanguage/tcpl_1introduction.md)
+- [Chapater 1. A Turoial Introduction](https://github.com/alaxion/Learning/blob/master/TheCProgrammingLanguage/tcpl_1tutorial.md)
 - [Chapater 2. Types, Operators, and Expressions](https://github.com/alaxion/Learning/blob/master/TheCProgrammingLanguage/tcpl_2type&op&xpr.md)
 - [Chapater 3. Control Flow](https://github.com/alaxion/Learning/blob/master/TheCProgrammingLanguage/tcpl_3controlflow.md)
 - [Chapater 4. Functions and Program Structures](https://github.com/alaxion/Learning/blob/master/TheCProgrammingLanguage/tcpl_4functions.md)
