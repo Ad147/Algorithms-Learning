@@ -17,6 +17,8 @@ A~0d10
   - [B1.7 Error Functions](#b17-error-functions)
 - [B2 Character Class Tests: <ctype.h>](#b2-character-class-tests-ctypeh)
 - [B3 String Functions: <string.h>](#b3-string-functions-stringh)
+- [B4 Mathematical Functions: <math.h>](#b4-mathematical-functions-mathh)
+- [B5 Utility Functions: <stdlib.h>](#b5-utility-functions-stdlibh)
 
 Headers:
 
@@ -33,41 +35,23 @@ B1 Input and Output: <stdio.h>
 
 ```cxx
 FILE *fopen(const char *filename, const char *mode)
-```
 
-```cxx
 FILE *freopen(const char *filename, const char *mode, FILE *stream)
-```
 
-```cxx
 int fflush(FILE *stream)
-```
 
-```cxx
 int fclose(FILE *stream)
-```
 
-```cxx
 int remove(const char *filename)
-```
 
-```cxx
 int rename(const char *oldname, const char *newname)
-```
 
-```cxx
 FILE *tmpfile(void)
-```
 
-```cxx
 char *tmpnam(char s[L_tmpnam])
-```
 
-```cxx
 int setvbuf(FILE *stream, char *buf, int mode, size_t size)
-```
 
-```cxx
 int setbuf(FILE *stream, char *buf)
 ```
 
@@ -213,16 +197,16 @@ B3 String Functions: <string.h>
 
 Comparison functions treat arguments as unsigned char arrays.
 
-In following,  
-`s` and `t` are `char *`;  
-`cs` and `ct` are `const char *`;  
-`n` is `size_t`;  
-`c` is an `int` converted to `char`.
+In following,
+
+- `s` and `t`: `char *`
+- `cs` and `ct`: `const char *`
+- `n`: `size_t`
+- `c`: an `int` converted to `char`.
 
 ```cxx
 char *strcpy(s, ct)         /* copy ct to s, including '\0'; return s. */
-char *strncpy(s, ct, n)     /* copy at most n chars of ct to s; return s. */
-                            /* Pad with '\0's if t has < n */
+char *strncpy(s, ct, n)     /* copy at most n chars of ct to s; return s. Pad with '\0's if t has < n */
 char *strcat(s, ct)         /* concatenate ct to end of s; return s */
 char *strncat(s, ct, n)     /* concatenate at most n of  ct to end of s; return s */
 int strcmp(cs, ct)          /* compare cs to ct; return <0/0/>0 if cs</==/>ct */
@@ -238,3 +222,70 @@ char *strerror(n)           /* return ptr to implementation-defined string corre
 char *strtok(s, ct)         /* strtok searchs s for tokens delimited by chars from ct; see below */
 ```
 
+The mem... functions are meant for manipulating objects as character arrays.
+
+- `s` and `t`: `void *`
+- `cs` and `ct`: `const void *`
+- `n`: `size_t`
+- `c`: an `int` converted to an `unsigned char`
+
+```cxx
+void *memcpy(s, ct, n)      /* copy n chars from ct to s, return s */
+void *memmove(s, ct, n)     /* same as memcpy except that it works even if the obje overlap. */
+int memcmp(cs, ct, n)       /* compare the first n chars of cs with ct; return as with strcmp. */
+void *memchr(cs, c, n)      /* return ptr to first occurrence of char c in cs, or NULL if not present among first n chars. */
+void *memset(s, c, n)       /* place character c into first n chars of s return s. */
+```
+
+B4 Mathematical Functions: <math.h>
+--------------------------------------------------------------------------------
+
+The macros EDOM and ERANGE (found in <errno.h>) are used to signal domain and range errors.  
+Domain error: argument outside the domain over which the function is defined;  
+Range error: result overflows or underflows.
+
+- `x` and `y`: `double`
+- `n`: `int`
+- all functions return `double`
+- angles for trigonometric are expressed in radians
+
+```cxx
+sin(x)
+cos(x)
+tan(x)
+asin(x)
+acos(x)
+atan(x)
+atan2(y, x)     /* tan^-1(y/x) */
+sinh(x)         /* hyperbolic sine of x */
+cosh(x)
+tanh(x)
+exp(x)
+log(x)
+log10(x)
+pow(x, y)
+sqrt(x)
+ceil(x)
+floor(x)
+fabs(x)         /* absolute value |x| */
+ldexp(x, n)     /* x * 2^n */
+frexp(x, int *exp)  /* ... */
+modf(x, double *ip) /* ... */
+fmod(x, y)      /* floating-point remainder of x/y, with the same sign as x. */
+```
+
+B5 Utility Functions: <stdlib.h>
+--------------------------------------------------------------------------------
+
+Functions for number conversion, storage allocation, and similar tasks.
+
+```cxx
+double atof(const char *s)      /* convert s to double; == strtod(s, (char**)NULL) */
+int atoi(const char *s)         /* convert s to int; == strtol(s, (char**)NULL, 10) */
+long atol(const char *s)        /* convert s to long; == strtol(s, (char**)NULL, 10) */
+double strtod(const char *s, char **endp)   /* convert prefix of s to double, ignoring leading space; it stores a ptr to any unconverted suffix in *endp unless NULL */
+long strtol(const char *s, char **endp, int base)   /* convert prefix of s to long, ignoring leading space; it stores a ptr to any unconverted suffix in *endp unless NULL. if base is [2, 36], it assume the input in that base. if base is 0, the base is 8(leading 0), 10, or 16(leading 0x).letters represent digits from 10 to base-1. */
+unsigned long strtoul(const char *s, char **endp, int base)
+int rand(void)      /* return pseudo-random integer in 0~RAND_MAX, which is at least 32767. */
+void srand(unsigned int seed)   /* use seed for a new sequence of pseudo-random numbers, initial seed is 1. */
+void *calloc(size_t nobj, size_t size)  /* return a ptr to space for an array of nobj objects, each of size size, the space initialized to 0 bytes. */
