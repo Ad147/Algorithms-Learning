@@ -19,6 +19,8 @@ A~0d10
 - [B3 String Functions: <string.h>](#b3-string-functions-stringh)
 - [B4 Mathematical Functions: <math.h>](#b4-mathematical-functions-mathh)
 - [B5 Utility Functions: <stdlib.h>](#b5-utility-functions-stdlibh)
+- [B7 Variable Argument Lists: <stdarg.h>](#b7-variable-argument-lists-stdargh)
+- [B8 Non-local Jumps: <setjmp.h>](#b8-non-local-jumps-setjmph)
 
 Headers:
 
@@ -206,19 +208,33 @@ In following,
 
 ```cxx
 char *strcpy(s, ct)         /* copy ct to s, including '\0'; return s. */
+
 char *strncpy(s, ct, n)     /* copy at most n chars of ct to s; return s. Pad with '\0's if t has < n */
+
 char *strcat(s, ct)         /* concatenate ct to end of s; return s */
+
 char *strncat(s, ct, n)     /* concatenate at most n of  ct to end of s; return s */
+
 int strcmp(cs, ct)          /* compare cs to ct; return <0/0/>0 if cs</==/>ct */
+
 int strncmp(cs, ct, n)      /* compare at most n chars */
+
 char *strchr(cs, c)         /* return ptr to 1st occurrence of c in cs or NULL */
+
 char *strrchr(cs, c)        /* return ptr to last occurrence of c in cs or NULL */
+
 size_t strspn(cs, ct)       /* return length of prefix of cs consisting of chars in ct */
+
 size_t strcspn(cs, ct)      /* return length of prefix of cs consisting of chars not in ct */
+
 char *strpbrk(cs, ct)       /* return ptr to 1st occurrence in cs of any char of ct, or NULL */
+
 char *strstr(cs, ct)        /* return ptr to 1st occurrence of ct in cs, or NULL */
+
 size_t strlen(cs)           /* return length of cs */
+
 char *strerror(n)           /* return ptr to implementation-defined string corresponding to error n */
+
 char *strtok(s, ct)         /* strtok searchs s for tokens delimited by chars from ct; see below */
 ```
 
@@ -231,9 +247,13 @@ The mem... functions are meant for manipulating objects as character arrays.
 
 ```cxx
 void *memcpy(s, ct, n)      /* copy n chars from ct to s, return s */
+
 void *memmove(s, ct, n)     /* same as memcpy except that it works even if the obje overlap. */
+
 int memcmp(cs, ct, n)       /* compare the first n chars of cs with ct; return as with strcmp. */
+
 void *memchr(cs, c, n)      /* return ptr to first occurrence of char c in cs, or NULL if not present among first n chars. */
+
 void *memset(s, c, n)       /* place character c into first n chars of s return s. */
 ```
 
@@ -281,11 +301,70 @@ Functions for number conversion, storage allocation, and similar tasks.
 
 ```cxx
 double atof(const char *s)      /* convert s to double; == strtod(s, (char**)NULL) */
+
 int atoi(const char *s)         /* convert s to int; == strtol(s, (char**)NULL, 10) */
+
 long atol(const char *s)        /* convert s to long; == strtol(s, (char**)NULL, 10) */
+
 double strtod(const char *s, char **endp)   /* convert prefix of s to double, ignoring leading space; it stores a ptr to any unconverted suffix in *endp unless NULL */
+
 long strtol(const char *s, char **endp, int base)   /* convert prefix of s to long, ignoring leading space; it stores a ptr to any unconverted suffix in *endp unless NULL. if base is [2, 36], it assume the input in that base. if base is 0, the base is 8(leading 0), 10, or 16(leading 0x).letters represent digits from 10 to base-1. */
+
 unsigned long strtoul(const char *s, char **endp, int base)
-int rand(void)      /* return pseudo-random integer in 0~RAND_MAX, which is at least 32767. */
+
+int rand(void)              /* return pseudo-random integer in 0~RAND_MAX, which is at least 32767. */
+
 void srand(unsigned int seed)   /* use seed for a new sequence of pseudo-random numbers, initial seed is 1. */
+
 void *calloc(size_t nobj, size_t size)  /* return a ptr to space for an array of nobj objects, each of size size, the space initialized to 0 bytes. */
+
+void *malloc(size_t size)   /* return a ptr to space for an object of size size, the space is uninitialized. */
+
+void *realloc(void *p, size_t size)     /* change size of the object pointed by p to size. the content will be unchanged up to the minimum of the old and new sizes. if new is larger, the new space is uninitialized. */
+
+void free(void *p)          /* deallocate the space pointed to by p; p must be previously allocated by calloc, malloc, or realloc. */
+
+void abort(void)            /* cause the program to terminate abnormally, as if by raise(SIGABRT). */
+
+void exit(int status)       /* cause normal termination. atexit functions are called in reverse order of registration, open files are flushed, open streams are closed, and control is returned to the environment. status is implementation-dependent, but 0 is successful termination. */
+
+int atexit(void (*fcn)(void))
+
+int system(const char *s)   /* passes the string s to the environment for execution. */
+
+char *getenv(const char *name)
+
+void *bsearch(const void *key, const void *base, size_t n, size_t size, int (*cmp)(const void *keyval, const void *datum))  /* search base[0]...base[n-1] for *key. items in base must be in ascending order. */
+
+void qsort(void *base, size_t n, size_t size, int (*cmp)(const void *, const void *))   /* sort into ascending order an array base of objects of size size. */
+
+int abs(int n)      /* absolute value */
+long labs(long n)
+
+div_t div(int num, int denom)   /* computes the quotient and remainder of num/denom. results are stored in the int members quot and rem of a structure of type div_t. */
+ldiv_t ldiv(long num, long denom)
+
+B6 Diagnostics: <assert.h>
+--------------------------------------------------------------------------------
+
+The `assert` macro is used to add diagnostics to programs:
+
+```cxx
+void assert(int expression)
+```
+
+if expression is 0 when assert() is executed, the assert macro will print on stderr a message, such as  
+`Assertion failed: expression, file filename, line nnn`
+
+It then calls abort() to terminate execution. The filename and linenumber come from the preprocessor macros `__FILE__` and `__LINE__`.
+
+If `NDEBUG` is defined at the time <assert.h> is included, the assert macro is ignored.
+
+B7 Variable Argument Lists: <stdarg.h>
+--------------------------------------------------------------------------------
+
+Provides facilities for stepping through a list of function arguments of unknown number and type.
+
+B8 Non-local Jumps: <setjmp.h>
+--------------------------------------------------------------------------------
+
