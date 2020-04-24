@@ -19,8 +19,7 @@ A~0d10
 - [B3 String Functions: <string.h>](#b3-string-functions-stringh)
 - [B4 Mathematical Functions: <math.h>](#b4-mathematical-functions-mathh)
 - [B5 Utility Functions: <stdlib.h>](#b5-utility-functions-stdlibh)
-- [B7 Variable Argument Lists: <stdarg.h>](#b7-variable-argument-lists-stdargh)
-- [B8 Non-local Jumps: <setjmp.h>](#b8-non-local-jumps-setjmph)
+- [B11 Implementation-defined Limits: <limits.h> and <float.h>](#b11-implementation-defined-limits-limitsh-and-floath)
 
 Headers:
 
@@ -368,3 +367,85 @@ Provides facilities for stepping through a list of function arguments of unknown
 B8 Non-local Jumps: <setjmp.h>
 --------------------------------------------------------------------------------
 
+Providing a way to avoid the normal function call and return sequence, typically to permit an immediate return from a deeply nested functon call.
+
+B9 Signals: <signal.h>
+--------------------------------------------------------------------------------
+
+Providing facilities for handling exceptional conditions that arise during execution, such as an interrupt from an external source or an error in exection.
+
+B10 Date and Time Functions: <time.h>
+--------------------------------------------------------------------------------
+
+`clock_t` and `time_t` are arithmetic types representing times.
+
+`struct tm` holds the components of a calendar time:
+
+- int tm_sec: (0, 61)
+- int tm_min: (0, 59)
+- int tm_hour: (0, 23)
+- int tm_mday: day of month (1, 31)
+- int tm_mon: (0, 11)
+- int tm_year: since 1900
+- int tm_wday: days since Sunday (0, 6)
+- int tm_yday: days since January 1 (0, 365)
+- int tm_isdst: Daylight Saving Time flag, >0 if in effect; ==0 if not; <0 if the info not available.
+
+```cxx
+clock_t clock(void)
+/* returning the processor time used by the program since beginning of execution, or -1 if unavailable. clock()/CLOCKS_PER_SEC is a time in seconds. */
+
+time_t time(time_t *tp)
+/* returning current calendar time or -1 if not available. return value also assigned to *tp. */
+
+double difftime(time_t time2, time_t time1)
+/* returning time2 - time1 expressed in seconds. */
+
+time_t mktime(struct tm *tp)
+/* converting local time in tp into calendar time in the same representation used by time. */
+```
+
+The next 4 functions return pointers to static objects that may be overwritten by other calls.
+
+```cxx
+char * asctime(const struct tm *tp)
+/* converting time in tp into a string of the form: Sun Jan 3 15:14:13 1988\n\0 */
+
+char *ctime(const time_t *tp)
+/* converting tp to local time; == asctime(localtime(tp)) */
+
+struct tm *gmtime(const time_t *tp)
+/* converting tp into Coordinated Universal Time (UTC). */
+
+struct tm *localtime(const time_t *tp)
+/* converting tp into local time. */
+
+size_t strftime(char *s, size_t smax, const char *fmt, const struct tm *tp)
+/* formating date and time information from *tp into s according to fmt (analogous to printf format):
+- %a abbreviated weekday
+- %A full weekday
+- %b abbreviated month
+- %B full month
+- %c local date and time representation
+- %d day of the month (01-31)
+- %H hour (00-23)
+- %I hour(01-12)
+- %j day of the year (001-366)
+- %m month (01-12)
+- %M minute (00-59)
+- %p local equivalent of AM or PM
+- %S second (00-61)
+- %U week number (Sunday as 1st day of week) (00-53)
+- %w weekday (0-6 since Sunday)
+- %W week number (Monday as 1st day of week) (00-53)
+- %x local date representation
+- %X local time representaion
+- %y year without century (00-99)
+- %Y year with century
+- %Z time zone name, if any
+- %% %
+no more than smax chars are placed into s. return number of chars, or 0 if more than smax were produced. */
+```
+
+B11 Implementation-defined Limits: <limits.h> and <float.h>
+--------------------------------------------------------------------------------
