@@ -3,16 +3,21 @@ em1_arithmetic.md
 Elementary Methematics: 1 Arithmetic
 ================================================================================
 
-A~-01hAug01
+A~-1h01
 
 --------------------------------------------------------------------------------
 
-- [1.1 Numbers](#11-numbers)
+- [1.1 Integers](#11-integers)
 - [1.2 Arithmetical Operations](#12-arithmetical-operations)
 - [1.3 Laws of an Addition and a Multiplication](#13-laws-of-an-addition-and-a-multiplication)
 - [1.4 Divisibility Criteria（整除准则）](#14-divisibility-criteria整除准则)
+- [1.5 Factorization](#15-factorization)
+- [1.6 Vulgar (Simple) Fractions](#16-vulgar-simple-fractions)
+- [1.7 Operations with Vulgar Fractions](#17-operations-with-vulgar-fractions)
+- [1.8 Decimal Fractions (Decimals)](#18-decimal-fractions-decimals)
+- [1.9 Ratio and Proportion, Proportionality](#19-ratio-and-proportion-proportionality)
 
-1.1 Numbers
+1.1 Integers
 --------------------------------------------------------------------------------
 
 - natural numbers: 1,2,3...
@@ -49,37 +54,45 @@ A~-01hAug01
 - divisibility by 3/9: sum of digits is divisible by 3/9
 - divisibility by 11: if and only if `sum of digits on even places` == `sum of digits on odd places`, or differed by a number divisible by 11
 
-#### 1.1.5 Factorization
+1.5 Factorization
+--------------------------------------------------------------------------------
 
-- **Factorization**
-- **Greatest common factor** (GCF)
-- **Least common multiple** (LCM)
+- factorization（因式分解）
+- greatest common factor (GCF)
+- least common multiple (LCM)
 
-#### 1.1.6 Vulgar (Simple) Fractions
+1.6 Vulgar (Simple) Fractions
+--------------------------------------------------------------------------------
 
-- **Vulgar (simple) fraction**: `numerator` / `denominator`
-- **proper fraction**: numerator < denominator, otherwise **improper**
-- **Reciprocal fractions**
+- vulgar (simple) fraction: `numerator` / `denominator`
+- proper fraction: numerator < denominator, otherwise improper fraction
+- reciprocal fractions（倒数）
 
-#### 1.1.7 Operations with Vulgar Fractions
+1.7 Operations with Vulgar Fractions
+--------------------------------------------------------------------------------
 
-- **Extension** & **Cancellation** of a fraction
-- **Reducing of factions to a common denominator**
+- extension of a fraction
+- cancellation of a fraction（约分）
+- reduction of factions to a common denominator（通分）
 
-#### 1.1.8 Decimal Dractions (Decimals)
+1.8 Decimal Fractions (Decimals)
+--------------------------------------------------------------------------------
 
-- **Decimal fraction**: `integer part` (`decimal point`) `decimal places`
-- **Repeating decimal**: 3.141414... = 3.(14)
+- decimal fraction: `integer part` (`decimal point`) `decimal places`
+- repeating decimal: 3.141414... = 3.(14)
 
-#### 1.1.9 Ratio and Proportion, Proportionality
+1.9 Ratio and Proportion, Proportionality
+--------------------------------------------------------------------------------
 
-- **Ratio**
-- **Proportion**: an equality of two ratios
-- **Border terms** & **middle terms** of the proportion
-- **Proportional**,  **factor of a proportionality**
+- ratio: quotient of dividing
+- proportion: an equality of 2 ratios: a:b = c:d
+- border terms of the proportion: a, d
+- middle terms of the proportion: b, c
+- the main property of a proportion: a product of border terms is equal to a product of middle terms
+- proportional（成比例）, factor of a proportionality
 
 --------------------------------------------------------------------------------
 
-Reference: bymath.com
+ref: bymath.com
 
 EOF
