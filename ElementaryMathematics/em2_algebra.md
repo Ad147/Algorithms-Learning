@@ -1,22 +1,30 @@
-EM02-Algebra.md
+em2_algebra.md
 
-Elementary Methematics
+Elementary Methematics: 2 Algebra
 ================================================================================
 
-Ad
+A~-1h01
 
-Init: 19Aug01
-
-2 Algebra
 --------------------------------------------------------------------------------
 
-### 2.1 Algebraic Transformations
+- [2.1 Rational Numbers](#21-rational-numbers)
+  - [2.2 Algebraic Equations](#22-algebraic-equations)
+  - [2.3 Vectors and Complex Numbers](#23-vectors-and-complex-numbers)
+  - [2.4 Inequalities](#24-inequalities)
+  - [2.5 Sequences and Progressions](#25-sequences-and-progressions)
+  - [2.6 Logarithmic and Exponential Equations](#26-logarithmic-and-exponential-equations)
+  - [2.7 Theory of Combinations](#27-theory-of-combinations)
 
-#### 2.1.1 Rational Numbers
+Algebraic Transformations
+================================================================================
 
-- **Positive** & **negative** numbers
-- **Rational numbers**
-- **Absolute value (modulus)**
+2.1 Rational Numbers
+--------------------------------------------------------------------------------
+
+- rational numbers: positive and negative numbers
+
+> A number is called rational, if it may be presented as a vulgar, not a cancelled fraction of the shape: m/n, where m is an integer and n is a natural number.
+- absolute value (modulus)
 
 #### 2.1.2 Monomials and Polynomials
 
