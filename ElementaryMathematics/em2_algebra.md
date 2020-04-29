@@ -8,6 +8,8 @@ A~-1h01
 --------------------------------------------------------------------------------
 
 - [2.1 Rational Numbers](#21-rational-numbers)
+- [2.2 Monomials and Polynomials](#22-monomials-and-polynomials)
+- [2.3 Formulas of Abridged Multiplication](#23-formulas-of-abridged-multiplication)
   - [2.2 Algebraic Equations](#22-algebraic-equations)
   - [2.3 Vectors and Complex Numbers](#23-vectors-and-complex-numbers)
   - [2.4 Inequalities](#24-inequalities)
@@ -24,18 +26,20 @@ Algebraic Transformations
 - rational numbers: positive and negative numbers
 
 > A number is called rational, if it may be presented as a vulgar, not a cancelled fraction of the shape: m/n, where m is an integer and n is a natural number.
-- absolute value (modulus)
 
-#### 2.1.2 Monomials and Polynomials
+- absolute value (modulus（模）)
 
-- **Monomial**
-- **Coefficient** of a monomial
-- **Similar/like monomials**: identical or differed only be coefficients
-- Reducing of like terms
-- **Polynomial**
-- **Degree of polynomial**: the most degree of monomials forming the polynomial
+2.2 Monomials and Polynomials
+--------------------------------------------------------------------------------
 
-#### 2.1.3 Formulas of Abridged Multiplication
+- monomial（单项式）
+- coefficient （系数） of a monomial
+- similar/like monomials: identical or differed only be coefficients
+- polynomial（多项式）
+- degree of polynomial: the most degree of monomials forming the polynomial
+
+2.3 Formulas of Abridged Multiplication
+--------------------------------------------------------------------------------
 
 - $(a \pm b)^2 = a^2 \pm 2ab + b^2$
 - $(a + b)(a - b) = a^2 - b^2$
