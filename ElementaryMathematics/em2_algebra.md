@@ -10,6 +10,7 @@ A~-1h01
 - [2.1 Rational Numbers](#21-rational-numbers)
 - [2.2 Monomials and Polynomials](#22-monomials-and-polynomials)
 - [2.3 Formulas of Abridged Multiplication](#23-formulas-of-abridged-multiplication)
+- [2.4 Division of Polynomials](#24-division-of-polynomials)
   - [2.2 Algebraic Equations](#22-algebraic-equations)
   - [2.3 Vectors and Complex Numbers](#23-vectors-and-complex-numbers)
   - [2.4 Inequalities](#24-inequalities)
@@ -47,12 +48,14 @@ Algebraic Transformations
 - $(a + b)(a^2 - ab + b^2) = a^3 + b^3$
 - $(a - b)(a^2 + ab + b^2) = a^3 - b^3$
 
-#### 2.1.4 Division of Polynomials
+2.4 Division of Polynomials
+--------------------------------------------------------------------------------
 
-- **Division of polynomials**
-- **Long division**
-- **Linear binomial**: a polynomial of the 1st degree: $ax + b$
-- *Bezout's theorem*:  
+- division of polynomials（多项式除法）
+- long division（长除法）
+- linear binomial（线性二项式）: a polynomial of the 1st degree: $ax + b$
+- division of polynomial by linear binomial
+- Bezout's theorem（裴蜀定理）:  
   a polynomial $a_0 x^m + a_1 x^{m-1} + ... + a_m$ is divided by $x – b$ with a remainder $N = a_0 b^m + a_1 b^{m-1} + ... + a_m$
 
 #### 2.1.7 Divisibility of Binomials
