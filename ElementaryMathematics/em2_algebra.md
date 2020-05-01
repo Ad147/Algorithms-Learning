@@ -11,7 +11,10 @@ A~-1h01
 - [2.2 Monomials and Polynomials](#22-monomials-and-polynomials)
 - [2.3 Formulas of Abridged Multiplication](#23-formulas-of-abridged-multiplication)
 - [2.4 Division of Polynomials](#24-division-of-polynomials)
-  - [2.2 Algebraic Equations](#22-algebraic-equations)
+- [2.5 Divisibility of Binomials](#25-divisibility-of-binomials)
+- [2.6 Factoring of Polynomials（因式分解）](#26-factoring-of-polynomials因式分解)
+- [2.7 Proportions](#27-proportions)
+- [2.8 Equations: Common Information](#28-equations-common-information)
   - [2.3 Vectors and Complex Numbers](#23-vectors-and-complex-numbers)
   - [2.4 Inequalities](#24-inequalities)
   - [2.5 Sequences and Progressions](#25-sequences-and-progressions)
@@ -58,37 +61,43 @@ Algebraic Transformations
 - Bezout's theorem（裴蜀定理）:  
   a polynomial $a_0 x^m + a_1 x^{m-1} + ... + a_m$ is divided by $x – b$ with a remainder $N = a_0 b^m + a_1 b^{m-1} + ... + a_m$
 
-#### 2.1.7 Divisibility of Binomials
+2.5 Divisibility of Binomials
+--------------------------------------------------------------------------------
 
-As consequences from *Bezout’s theorem*:
+As consequences from Bezout’s theorem:
 
-1. A difference of identical powers of two numbers is divided without a remainder by a difference of these two numbers, i.e. (x^m – a^m) is divided by (x – a)
-2. A difference of identical even powers of two numbers is divided without a remainder both by a difference and by a sum of these two numbers, i.e. if m is an even number, then the binomial x^m – a^m is divided both (x – a) and by (x + a)  
-   A difference of identical odd powers of two numbers isn’t divided by a sum of these two numbers.
-3. A sum of identical powers of two numbers is never divided by a difference of these two numbers
-4. A sum of identical odd powers of two numbers is divided without a remainder by a sum of these two numbers
-5. A sum of identical even powers of two numbers is never divided both by difference and by a sum of these two numbers
+1. a difference of identical powers of two numbers is divided without a remainder by a difference of these two numbers,  
+   i.e. (x^m – a^m) is divided by (x – a)
+2. a difference of identical even powers of two numbers is divided without a remainder both by a difference and by a sum of these two numbers,  
+   i.e. if m is an even number, then the binomial x^m – a^m is divided both (x – a) and by (x + a)  
+   a difference of identical odd powers of two numbers isn’t divided by a sum of these two numbers.
+3. a sum of identical powers of two numbers is never divided by a difference of these two numbers
+4. a sum of identical odd powers of two numbers is divided without a remainder by a sum of these two numbers
+5. a sum of identical even powers of two numbers is never divided both by difference and by a sum of these two numbers
 
-#### 2.1.8 Factoring of Polynomials
+2.6 Factoring of Polynomials（因式分解）
+--------------------------------------------------------------------------------
 
-#### 2.1.9 Proportions
+2.7 Proportions
+--------------------------------------------------------------------------------
 
-- **Crosswise lied terms** can be changed by places
-- **Derived proportions**:  
+- crosswise lied terms can be changed by places
+- ratios in any proportion can be changed by places
+- derived proportions:  
   $$\frac{a}{b} = \frac{c}{d} \implies \frac{ma + nb}{ka + lb} = \frac{mc + nd}{kc + ld}$$
   where m, n, k, l - any numbers
 
+Algebraic Equations
+================================================================================
+
+2.8 Equations: Common Information
 --------------------------------------------------------------------------------
 
-### 2.2 Algebraic Equations
-
-#### 2.2.1 Equations: Common Information
-
-- **Equality**: 2 expressions (numerical or literal ones) jointed by sign "="
-- **Identity**: a valid equality, valid at *any* numerical values of letters
-- **Equation**: a literal equality valid only at *some* values (**roots of an equation**) of letters (**unknowns**)
-- **Solving**: procedure of finding all roots
-- **Equivalent equations**: have the same roots
+- equality: 2 expressions (numerical or literal ones) jointed by sign "="
+- identity: a valid numerical equality or a literal equality valid at *any* numerical values of letters
+- equation: a literal equality valid only at *some* values (roots of an equation) of letters (unknowns)
+- solving: procedure of finding all roots
+- equivalent equations: have the same roots
 
 #### 2.2.2 Main Ways Used at Solving of Equations
 
