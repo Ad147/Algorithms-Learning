@@ -12,10 +12,16 @@ A~-1h01
 - [2.3 Formulas of Abridged Multiplication](#23-formulas-of-abridged-multiplication)
 - [2.4 Division of Polynomials](#24-division-of-polynomials)
 - [2.5 Divisibility of Binomials](#25-divisibility-of-binomials)
-- [2.6 Factoring of Polynomials（因式分解）](#26-factoring-of-polynomials因式分解)
-- [2.7 Proportions](#27-proportions)
-- [2.8 Equations: Common Information](#28-equations-common-information)
-  - [2.3 Vectors and Complex Numbers](#23-vectors-and-complex-numbers)
+- [2.6 Proportions](#26-proportions)
+- [2.7 Equations: Common Information](#27-equations-common-information)
+- [2.8 Main Ways Used at Solving of Equations](#28-main-ways-used-at-solving-of-equations)
+- [2.9 Systems of 2 Simultaneous Linear Equations in 2 Unknowns](#29-systems-of-2-simultaneous-linear-equations-in-2-unknowns)
+- [2.10 Systems of 3 Simultaneous Linear Equationss in 3 Unknowns](#210-systems-of-3-simultaneous-linear-equationss-in-3-unknowns)
+- [2.11 Irrational Numbers](#211-irrational-numbers)
+- [2.12 Quadratic Equation](#212-quadratic-equation)
+- [2.13 Imaginary and Complex Numbers](#213-imaginary-and-complex-numbers)
+- [2.14 Roots of a Quadratic Equation](#214-roots-of-a-quadratic-equation)
+- [2.15 Equations of Higher Degrees](#215-equations-of-higher-degrees)
   - [2.4 Inequalities](#24-inequalities)
   - [2.5 Sequences and Progressions](#25-sequences-and-progressions)
   - [2.6 Logarithmic and Exponential Equations](#26-logarithmic-and-exponential-equations)
@@ -75,10 +81,9 @@ As consequences from Bezout’s theorem:
 4. a sum of identical odd powers of two numbers is divided without a remainder by a sum of these two numbers
 5. a sum of identical even powers of two numbers is never divided both by difference and by a sum of these two numbers
 
-2.6 Factoring of Polynomials（因式分解）
---------------------------------------------------------------------------------
+- factoring of polynomials（因式分解）
 
-2.7 Proportions
+2.6 Proportions
 --------------------------------------------------------------------------------
 
 - crosswise lied terms can be changed by places
@@ -90,7 +95,7 @@ As consequences from Bezout’s theorem:
 Algebraic Equations
 ================================================================================
 
-2.8 Equations: Common Information
+2.7 Equations: Common Information
 --------------------------------------------------------------------------------
 
 - equality: 2 expressions (numerical or literal ones) jointed by sign "="
@@ -99,95 +104,96 @@ Algebraic Equations
 - solving: procedure of finding all roots
 - equivalent equations: have the same roots
 
-#### 2.2.2 Main Ways Used at Solving of Equations
+2.8 Main Ways Used at Solving of Equations
+--------------------------------------------------------------------------------
 
-- **Identical transformations**: replace equation by equivalent one
-  1. Replacement of identical expression
-  2. Transferring terms of equation from one side to another
-  3. Multiplication/division of both sides by non-zero expression (number)
-  4. Raising/extracting both sides to/of an *odd* power/degree root
+- identical transformations: replace equation by equivalent one:
+  1. replacement of identical expression
+  2. transferring terms of equation from one side to another
+  3. multiplication/division of both sides by non-zero expression (number)
+  4. raising/extracting both sides to/of an *odd* power/degree root:
      1. *even* power result in extraneous roots
      2. a *wrong* extraction of *even* degree root result in loss of roots
 
-#### 2.2.3 Linear Equations in One Unknown
+2.9 Systems of 2 Simultaneous Linear Equations in 2 Unknowns
+--------------------------------------------------------------------------------
 
-#### 2.2.4 Systems of 2 simultaneous linear equations in 2 unknowns
-
-- **Systems of two simultaneous linear equations in two unknowns**
-- 2 basic methods of solution:
-  1. **Substitution**
-  2. Addition or subtraction of equations
-- **The second order determinants**
-- *Cramer's rule*
-- Investigation of solutions:
+- linear equation in one unknown（一元一次方程）
+- systems of two simultaneous linear equations in two unknowns（二元一次方程组）
+- 2 basic solution methods:
+  1. substitution（代入？换元？）
+  2. addition or subtraction of equations
+- the second order determinants（二阶行列式）
+- Cramer's rule: solution using determinants
+- investigation of solutions:
   1. coefficients at unknowns are disproportionate: single solution
   2. all coefficients are proportional: has an *infinite set of solutions*
   3. coefficients at unknowns are proportional, but disproportionate to free terms: no solutions
 
-#### 2.2.5 Systems of 3 simultaneous linear equationss in 3 unknowns
+2.10 Systems of 3 Simultaneous Linear Equationss in 3 Unknowns
+--------------------------------------------------------------------------------
 
-- Systems of three simultaneous linear equations in three unknowns
-- Basic methods of solution:
-  - Substitution
-  - Addition or subtraction of equations
-- **The third order determinants**
-- *Cramer's rule*
+- systems of 3 simultaneous linear equations in 3 unknowns
+- 2 basic solution methods:
+  - substitution
+  - addition or subtraction of equations
+- the third order determinants
+- Cramer's rule for solution
 
-#### 2.2.6 Arithmetical root
+2.11 Irrational Numbers
+--------------------------------------------------------------------------------
 
-- **Arithmetical root**
-- **Algebraic root**
-
-#### 2.2.7 Irrational Numbers
-
-- **Irrational numbers**
-- **Formula of complicated radical**:  
+- arithmetical root
+- algebraic root
+- irrational numbers
+- formula of complicated radical（？）:  
   $$\sqrt{a \pm \sqrt{b}} = \sqrt{\frac{a + \sqrt{a^2 - b}}{2}} \pm \sqrt{\frac{a - \sqrt{a^2 - b}}{2}}$$
 
-#### 2.2.8 Quadratic Equation
+2.12 Quadratic Equation
+--------------------------------------------------------------------------------
 
-- A **quadratic equation** is an algebraic equation of the second degree
-- **Non-reduced** quadratic equation: $ax^2 + bx + c = 0$
-- **Reduced** quadratic equation: $x^2 + px + q = 0$
-- **Pure** quadratic equation: b or c = 0
+- quadratic equation（二次方程）
+- non-reduced quadratic equation: $ax^2 + bx + c = 0$
+- reduced quadratic equation: $x^2 + px + q = 0$
+- pure quadratic equation: b or c = 0
 
-#### 2.2.9 Imaginary and Complex Numbers
+2.13 Imaginary and Complex Numbers
+--------------------------------------------------------------------------------
 
-- **Imaginary Numbers**: 2nd power is negative
-- Imaginary unit: $i = \sqrt{-1}$
-- **Real number**
-- **Complex number**: sum of real and imaginary numbers
+- imaginary numbers（虚数）
+- imaginary unit: $i = \sqrt{-1}$
+- real number（实数）
+- complex number（复数）
 
-#### 2.2.10 Roots of a Quadratic Equation
+2.14 Roots of a Quadratic Equation
+--------------------------------------------------------------------------------
 
 $$ ax^2 + bx + c = 0 \implies x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 $$ x^2 + px + q = 0 \implies x = -p / 2 \pm \sqrt{(p/2)^2 - q} $$
 
-1. $b^2 - 4ac > 0$: 2 roots are different real numbers
-2. $b^2 - 4ac = 0$: 2 roots are equal real numbers
-3. $b^2 - 4ac < 0$: 2 roots are imaginary numbers
-
-- *Viete's Theorem*:  
+- discriminant（判别式）
+  1. $b^2 - 4ac > 0$: 2 roots are different real numbers
+  2. $b^2 - 4ac = 0$: 2 roots are equal real numbers
+  3. $b^2 - 4ac < 0$: 2 roots are imaginary numbers
+- Viete's Theorem（韦达定理）:  
   $x_1 + x_2 = -p$  
   $x_1 * x_2 = q$
+- factoring of a quadratic trinomial:  
+  $$ ax^2 + bx + c = a(x - x_1)(x - x_2) $$
 
-#### 2.2.11 Factoring of a Quadratic Trinomial
-
-$$ ax^2 + bx + c = a(x - x_1)(x - x_2) $$
-
-#### Equations of Higher Degrees
-
-- **Biquadratic equation**: $ax^4 + xb^2 + c = 0$
-  - Solution: $z = x^2$
-- **Cubic equation**: $ax^3 + bx^2 + cx + d = 0$  
-  The known Cardano’s formulas for solution are very difficult and almost aren’t used in practice.  
-  Another way to solve:
-  1. At first we find one root of the equation by selecting, because these equations have always at least one real root, and an integer root of a cubic equation with integer coefficients is one of factors of a free term d. Coefficients of these equations have been selected usually so that the root, which must be found, is among not great integers, such as: 0, ± 1, ± 2, ± 3. Therefore, we’ll find the root among these numbers and check it by substituting into the equation. A probability of successful result is very high. Assume this root is x1. 
-  2. The second stage of solution is dividing of the third degree polynomial ax3 + bx2 + cx + d   by the binomial  ( x – x1 ) . According to Bezout’s theorem this division is possible without a remainder, and we’ll receive as a result the second degree polynomial, which would be annihilated, will give us a quadratic equation, solving which we’ll find (or not !) the rest of the two  roots.
-
+2.15 Equations of Higher Degrees
 --------------------------------------------------------------------------------
 
-### 2.3 Vectors and Complex Numbers
+- biquadratic equation（四次方程？）: $ax^4 + xb^2 + c = 0$  
+  solution: exchange $z = x^2$
+- cubic equation: $ax^3 + bx^2 + cx + d = 0$  
+  the known Cardano’s formulas for solution are very difficult and almost aren’t used in practice  
+  another way to solve:
+  1. find 1 root by selecting (these equations have always at least one real root, and an integer root of a cubic equation with integer coefficients is one of factors of a free term d). Coefficients of these equations have been selected usually so that the root is among not great integers, such as: 0, ±1, ±2, ±3, assume this root is x1. 
+  2. the 2nd stage of solution is dividing of $ax^3 + bx^2 + cx + d$ by $x – x_1$. According to Bezout’s theorem this division is possible without a remainder, and receiving a quadratic equation, solving which we’ll find (or not!) the rest of the two roots.
+
+Vectors and Complex Numbers
+================================================================================
 
 #### 2.3.1 Principles of Vector Calculus
 
