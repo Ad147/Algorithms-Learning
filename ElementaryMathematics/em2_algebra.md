@@ -197,23 +197,21 @@ Vectors and Complex Numbers
 
 #### 2.3.1 Principles of Vector Calculus
 
-- **Vectors**, **opposite vectors**, **zero vector**
-- **Length (modulus) of vector**
-- **Collinear vectors**, **Coplanar  vectors**
-- **Equality  of  vectors**, **Addition  of  vectors**
-- Laws of addition of vectors, Laws of multiplication of vector by a number
-- **Scalar  product  of vectors**: a product of lengths (modules) of these vectors by cosine of angle between them
-- **Angle between non-zero vectors**, **Scalar square**
-- A scalar product of two vectors is:
-  - positive, if an angle between the vectors is *acute*
-  - negative, if an angle between the vectors is *obtuse*
-  - A scalar product of two non-zero vectors is equal to zero, if and only if an angle between the vectors is *right*, i.e. these vectors are perpendicular (orthogonal)
-- Properties of a scalar product
-- **Unit orthogonal vectors**: In any rectangular system of coordinates it is possible to introduce unit two-and-two orthogonal vectors i, j and k, connected with coordinate axes: i for x-axis,  j for y-axis and k for z-axis. Any vector a can be expressed through these vectors by  the only way: a = xi + yj + zk. Another form of  the record is: a = (x, y, z). Here x, y, z – *coordinates of the vector* a in this system of coordinates.
-- **Vector product of vectors**, Properties of a vector product
-- **Necessary and sufficient condition** of collinearity of vectors
+- vectors, opposite vectors, zero vector, length (modulus) of vector, collinear（共线） vectors, coplanar（共面） vectors
+- equality of vectors
+- addition of vectors
+- scalar product（数量积）((a,b)) is a number: a product of lengths (modules) of these vectors by cosine of angle between them
+- a scalar product of two vectors is:
+  - positive, if an angle between the vectors is acute（锐角）
+  - negative, if an angle between the vectors is obtuse（钝角）
+  - A scalar product of two non-zero vectors is equal to zero, if and only if an angle between the vectors is right（直角）, i.e. these vectors are perpendicular（垂直） (orthogonal（正交）)
+- unit orthogonal vectors, coordinates of vector
+- a = (x,y,z), b = (u,v,w) ==> (a,b) = xu + yv + zw
+- vector product of vectors ([a,b]) is a vector:
+  $$ [a,b] = \begin{vmatrix} i & j & k \\ x & y & z \\ u & v & w \end{vmatrix} = i\begin{vmatrix} y & z \\ v & w \end{vmatrix} - j\begin{vmatrix} x & z \\ u & w \end{vmatrix} + k\begin{vmatrix} x & y \\ u & v \end{vmatrix} $$
+- necessary and sufficient condition of collinearity of vectors:
   $$ \begin{vmatrix} x & y \\ u & v \end{vmatrix} = \begin{vmatrix} x & z \\ u & w \end{vmatrix} = \begin{vmatrix} y & z \\ v & w \end{vmatrix} = 0 $$
-- Necessary and sufficient condition of coplanarity of vectors
+- necessary and sufficient condition of coplanarity of vectors
   $$ \begin{vmatrix} x & y & z \\ u & v & w \\ p & q & r \end{vmatrix} = 0 $$
 
 #### 2.3.2 Complex Numbers
