@@ -22,7 +22,10 @@ A~-1h01
 - [2.13 Imaginary and Complex Numbers](#213-imaginary-and-complex-numbers)
 - [2.14 Roots of a Quadratic Equation](#214-roots-of-a-quadratic-equation)
 - [2.15 Equations of Higher Degrees](#215-equations-of-higher-degrees)
-  - [2.4 Inequalities](#24-inequalities)
+- [2.16 Principles of Vector Calculus](#216-principles-of-vector-calculus)
+- [2.17 Complex Numbers](#217-complex-numbers)
+- [2.18 Mathematical Induction（数学归纳法）](#218-mathematical-induction数学归纳法)
+- [2.19 Inequalities: Common Information](#219-inequalities-common-information)
   - [2.5 Sequences and Progressions](#25-sequences-and-progressions)
   - [2.6 Logarithmic and Exponential Equations](#26-logarithmic-and-exponential-equations)
   - [2.7 Theory of Combinations](#27-theory-of-combinations)
@@ -195,7 +198,8 @@ $$ x^2 + px + q = 0 \implies x = -p / 2 \pm \sqrt{(p/2)^2 - q} $$
 Vectors and Complex Numbers
 ================================================================================
 
-#### 2.3.1 Principles of Vector Calculus
+2.16 Principles of Vector Calculus
+--------------------------------------------------------------------------------
 
 - vectors, opposite vectors, zero vector, length (modulus) of vector, collinear（共线） vectors, coplanar（共面） vectors
 - equality of vectors
@@ -214,24 +218,25 @@ Vectors and Complex Numbers
 - necessary and sufficient condition of coplanarity of vectors
   $$ \begin{vmatrix} x & y & z \\ u & v & w \\ p & q & r \end{vmatrix} = 0 $$
 
-#### 2.3.2 Complex Numbers
+2.17 Complex Numbers
+--------------------------------------------------------------------------------
 
-- **Complex numbers**: `abscissa` + `ordinate` i
-- **Conjugate complex numbers**: a + bi & a - bi
-- **Pure imaginary number**
+- complex numbers: `abscissa（横坐标）` + `ordinate（纵坐标）` i
+- conjugate complex numbers（共轭）: a + bi & a - bi
+- pure imaginary number
 - Multiplication of complex numbers:  
   $(a + bi)(c + di) = (ac - bd) + (ad + bc)i$  
   $(a + bi)(a - bi) = a^2 + b^2$
-- Geometric representation of complex numbers, Complex plane, Modulus and argument of a complex number
-- Trigonometric form of a complex number
-- Operations with complex numbers in the trigonometric form
-- Moivre's formula
+- modulus (r) and argument (φ) of a complex number
+- trigonometric form of a complex number: a+bi = r(cosφ + i sinφ)
+- Moivre's formula: $z^n = [r(cosφ + isinφ) = r^n(cosnφ + isinnφ)$
 
+
+Inequalities
+================================================================================
+
+2.18 Mathematical Induction（数学归纳法）
 --------------------------------------------------------------------------------
-
-### 2.4 Inequalities
-
-#### 2.4.1 Mathematical Induction
 
 Assume it's necessary to prove a statement (formula, property etc.), depending on a natural number n. If:
 
@@ -240,12 +245,12 @@ Assume it's necessary to prove a statement (formula, property etc.), depending o
 
 then this statement is valid for any natural number n >= n0.
 
-#### 2.4.2 Inequalities: Common Information
+2.19 Inequalities: Common Information
+--------------------------------------------------------------------------------
 
-- **Inequality**: more, less
-- **Strict inequality**: $\gt, \lt$
-- **Non-strict inequality**: $\geq, \leq$
-- Some important inequalities:
+- strict inequality: $\gt, \lt$
+- non-strict inequality: $\geq, \leq$
+- some important inequalities:
   1. $|a + b| \leq |a| + |b|$ (modulus of sum is not more than sum of the modules)
   2. $a + 1/a \geq 2$, a - positive
   3. $\sqrt{ab} \leq \frac{a + b}{2}$ a, b - positive (geometric average is not more than arithmetic average, also for n numbers)
