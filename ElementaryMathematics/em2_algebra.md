@@ -26,9 +26,10 @@ A~-1h01
 - [2.17 Complex Numbers](#217-complex-numbers)
 - [2.18 Mathematical Induction（数学归纳法）](#218-mathematical-induction数学归纳法)
 - [2.19 Inequalities: Common Information](#219-inequalities-common-information)
-  - [2.5 Sequences and Progressions](#25-sequences-and-progressions)
-  - [2.6 Logarithmic and Exponential Equations](#26-logarithmic-and-exponential-equations)
-  - [2.7 Theory of Combinations](#27-theory-of-combinations)
+- [2.20 Proving and Solving of Inequalities](#220-proving-and-solving-of-inequalities)
+- [2.21 Arithmetic and Geometric Progressions](#221-arithmetic-and-geometric-progressions)
+- [2.22 Logarithms](#222-logarithms)
+- [2.23 Theory of Combinations](#223-theory-of-combinations)
 
 Algebraic Transformations
 ================================================================================
@@ -255,59 +256,62 @@ then this statement is valid for any natural number n >= n0.
   2. $a + 1/a \geq 2$, a - positive
   3. $\sqrt{ab} \leq \frac{a + b}{2}$ a, b - positive (geometric average is not more than arithmetic average, also for n numbers)
 
-#### 2.4.3 Proving and Solving of Inequalities
-
-- Basic methods of proving of inequalities:
-  1. Using of the known or before proved inequality
-  2. Estimating of the sign of difference between sides of inequality
-  3. Reductio ad absurdum proof
-  4. Using of an indefinite inequality
-- Solving of inequalities, Equivalent inequalities, Method of intervals
-- Double inequality: a < x < b
-
+2.20 Proving and Solving of Inequalities
 --------------------------------------------------------------------------------
 
-### 2.5 Sequences and Progressions
+- basic methods of proving of inequalities:
+  1. using of the known or before proved inequality
+  2. estimating of the sign of difference between sides of inequality
+  3. reductio ad absurdum proof(反证法)
+  4. using of an indefinite inequality
+- solving of inequalities, equivalent inequalities
+- double inequality: a < x < b
 
-#### 2.5.1 Arithmetic and Geometric Progressions
+Sequences and Progressions
+================================================================================
 
-- Numerical sequences, General term of numerical sequence
-- **Arithmetic progression**: $a_n = a_1 + (n - 1)d$, $S_n = [2a_1 + (n - 1)d] * n / 2$
-- **Geometric progression**: $b_n = b_1 + q^{n - 1}$, $S_n = \frac{b_1(1 - q^n)}{1 - q}$
-- Infinitely decreasing geometric progression: |q| < 1
-
+2.21 Arithmetic and Geometric Progressions
 --------------------------------------------------------------------------------
 
-### 2.6 Logarithmic and Exponential Equations
+- numerical sequences（数列）, general term（一般项？通项？） of numerical sequence
+- arithmetic progression（等差数列）: $a_n = a_1 + (n - 1)d$, $S_n = [2a_1 + (n - 1)d] * n / 2$
+- geometric progression（等比数列）: $b_n = b_1 + q^{n - 1}$, $S_n = \frac{b_1(1 - q^n)}{1 - q}$
+- infinitely decreasing geometric progression: |q| < 1
 
-#### 2.6.1 Logarithms
 
-- **Logarithm**
-- Properties:
+Logarithmic and Exponential Equations
+================================================================================
+
+2.22 Logarithms
+--------------------------------------------------------------------------------
+
+- main properties of logarithms
   1. $\log{ab} = \log{a} + \log{b}$
-  2. $\log_{b^k}{N^m} = \frac{m}{k} \log_b{N}$
-  3. $\log_b{N} = log_a{N} / \log_a{b}$ (the transition module formula)
-- Common logarithm: $\lg = \log_{10}$
-- Natural logarithm: $\ln = \log_e$
+  2. $\log{b^k} = k\log{b}$
+  3. $\log_{b^k}{N^m} = \frac{m}{k} \log_b{N}$
+  4. $\log_b{N} = log_a{N} / \log_a{b}$ (the transition module formula)
+- common logarithm（常用对数）: $\lg = \log_{10}$
+- natural logarithm（自然对数）: $\ln = \log_e$
 
+Theory of Combinations
+================================================================================
+
+2.23 Theory of Combinations
 --------------------------------------------------------------------------------
 
-### 2.7 Theory of Combinations
-
-#### 2.7.1 Theory of Combinations
-
-- **Permutations**: permutations of n elements $P_n = 1 * 2 * ... * n = n!$ (factorial)
-- **Arrangements**: arrangements of n elements taken m at a time  
+- permutations（全排列）: total quantity of permutations of n elements  
+  $$ P_n = 1 * 2 * ... * n = n! $$
+- factorial（阶乘）
+- arrangements（排列）: total quantity of arrangements of n elements taken m at a time  
   $$ A_n^m = n(n-1)...(n-m+1) = \frac{n!}{(n-m)!} $$
-- **Combinations**: combination of n elements taken m at a time  
+- combinations（组合）: total quantity of combination of n elements taken m at a time  
   $$ C_n^m = \frac{A_n^m}{m!} = \frac{n!}{m! * (n-m)!} $$
 - Newton's binomial:  
-  $(a + b)^n = a^n + C_n^1 a^{n-1}b + C_n^2 a^{n-2}b^2 + ... + C_n^{n-1} ab^{n-1} + b^n$
-- *Pascal's triangle*
-- . Properties of binomial coefficients.
+  $$ (a + b)^n = a^n + C_n^1 a^{n-1}b + C_n^2 a^{n-2}b^2 + ... + C_n^{n-1} ab^{n-1} + b^n $$
+- Pascal's triangle
 
 --------------------------------------------------------------------------------
 
-Reference: bymath.com
+ref: bymath.com
 
 EOF
