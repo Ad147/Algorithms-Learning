@@ -1,34 +1,41 @@
-EM03-Geometry.md
+em3_geometry.md
 
-Elementary Methematics
+Elementary Methematics: 3 Geometry
 ================================================================================
 
-Ad
+A~-1h02
 
-Init: 19Aug02
-
-3 Geometry
 --------------------------------------------------------------------------------
 
-### 3.1 Plane Geometry
+- [3.1 Basic Concepts](#31-basic-concepts)
+- [3.2 Angles](#32-angles)
+  - [3.2 Solid Geometry](#32-solid-geometry)
 
-#### 3.1.1 Concepts
+Plane Geometry
+================================================================================
 
-- **Proof**
-- **Theorem**/lemmas, properties, consequences, rules, criteria, propositions, statements
-- **Axiom**
-- **Straight line**, **ray**, **segment**
+3.1 Basic Concepts
+--------------------------------------------------------------------------------
 
-#### 3.1.2 Angles
+- proof: a reasoning, determing some property
+- theorem (lemma, property, consequence, rule, criteria, proposition, statement): a statement, determing some property and requiring a proof
+- axiom（公理）: a statement, determing some property and adopted without a proof
+- initial notions: impossible to give sensible definition, like point and straight line
+- straight line: infinite
+- ray: limited from one side, infinite from the other side
+- segment: limited from both sides
 
-- **Angle**
-- **Degree** and **radian** measures of an angle
-- **Right**/**direct**, **acute** and **obtuse** angle
-- **Mutually perpendicular** straight lines
-- Signs of angles: positive if a rotation is executed opposite a clockwise
-- Supplementary (adjacent) angles
-- Vertically opposite (vertical) angles
-- Bisector of an angle: any point of an angle bisector is placed by the same distance from the angle sides
+3.2 Angles
+--------------------------------------------------------------------------------
+
+- 1 degree = 60 minutes = 360 seconds
+- radian measure of an angle
+- right/direct angle, acute angle, obtuse angle
+- mutually perpendicular（互相垂直） lines
+- signs of angles: positive if a rotation is executed opposite a clockwise
+- supplementary (adjacent) angles（补角）
+- vertically opposite (vertical) angles（对顶角）
+- bisector（平分线） property: any point of an angle bisector is placed by the same distance from the angle sides
 
 #### 3.1.3 Parallel Straight Lines
 
