@@ -9,6 +9,8 @@ A~-1h02
 
 - [3.1 Basic Concepts](#31-basic-concepts)
 - [3.2 Angles](#32-angles)
+- [3.3 Parallel Straight Lines](#33-parallel-straight-lines)
+- [3.4 Polygon](#34-polygon)
   - [3.2 Solid Geometry](#32-solid-geometry)
 
 Plane Geometry
@@ -37,21 +39,21 @@ Plane Geometry
 - vertically opposite (vertical) angles（对顶角）
 - bisector（平分线） property: any point of an angle bisector is placed by the same distance from the angle sides
 
-#### 3.1.3 Parallel Straight Lines
+3.3 Parallel Straight Lines
+--------------------------------------------------------------------------------
 
-- Parallel straightlines
-- Corresponding angles, Alternate interior and exterior angles, One-sided interior and exterior angles
+- parallel straight lines
+- corresponding angles（同位角）
+- alternate interior angles（内错角）, alternate exterior angles（外错角）
+- one-sided interior angles（同旁内角）one-sided exterior angles（同旁外角）
 - Thales' theorem
 
-#### 3.1.4 Euclidean Geometry Axioms
+3.4 Polygon
+--------------------------------------------------------------------------------
 
-- Axiom of belonging, Axiom of ordering, Axiom of congruence (equality) of segments and angles, Axiom of parallel straight lines, Archimedean axiom of continuity
-
-#### 3.1.5 Polygon
-
-- **Polygon**: triangle, quadrangle, pentagon, hexagon
-- Vertices, angles, diagonals, sides perimeter of a polygon
-- Simple polygons, Convex polygon
+- triangle, quadrangle, pentagon, hexagon
+- vertices, angles, diagonals（对角线）, sides, perimeter（周长，边界）
+- simple polygons (no self-intersections), convex polygon（凸多边形）
 - Sum of interior angles in a convex polygon = 180(n - 2)
 
 #### 3.1.6 Triangle
