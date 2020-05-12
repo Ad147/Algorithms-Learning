@@ -5,12 +5,7 @@ How to Draw: Chapter 01 Drawing Materials and Skills
 
 A~-1j20
 
-1.1 Drawing Materials
---------------------------------------------------------------------------------
-
-...
-
-1.2 The Craft of Drawing
+1.1 The Craft of Drawing
 --------------------------------------------------------------------------------
 
 ### Learn to draw one straight line
@@ -25,39 +20,33 @@ Draw straight line in 1 direction, then rotate paper to change direction.
   2. to counterbalance, draw feels like the opposite arch
   3. practice the feeling of drawing a straight line and the result will match
 
-1.3 Practicing Freehand Straight Lines
+1.2 Practicing Freehand Straight Lines
 --------------------------------------------------------------------------------
 
 - [ ] drawing parallel lines
 - [ ] aiming lines point to point
-- [ ] drawing boxes in perspective
+- [ ] drawing boxes in 1-point perspective
+- [ ] drawing a box in 2-point perspective
+  1. draw horizon line and front corner of a box
+  2. extend x and y axis from the bottom of the vertical, until intersect HL, forming left vanishing point and right VP
+  3. draw lines from top the vertical line, to LVP and RVP; then add 2 verticals at any distance
+  4. close the box by drawing lines from the new verticals to VPs; add hidden vertical in the back
+  5. darken the visible edges
 
-1.4 X-Y-Z Coordinate System
+1.3 Practicing Freehand Smooth Curves
 --------------------------------------------------------------------------------
 
-> p14
+- [ ] drawing curves through multiple points
+  - place points follow intended design
+  - draw in segments
+  - using guide points as waypoints, not end points
+  - use the natrual curves of wrist and fingers
 
-1.5 Practicing Freehand Smooth Curves
+1.4 Practicing Freehand Ellipses
 --------------------------------------------------------------------------------
 
-Drawing curves through multiple points:
-
-- Place points that follow your intended design
-- Rotate paper to use the natural curves of wrist and fingers
-- Draw in segments, not necessary to draw as one continuous line
-- See the points as waypoints not endpoints
-
-### 1.6 Practicing Freehand Ellipses
-
-Move the whole arm.
-
-Place the minor axis, check the 2 halves line up on top of each other.
-
-### 1.7 Drawing an Ellipse on the Minor Axis
-
-Draw minor axis then place ellipse.
-
-Draw minor axis and symmetrical left and right bound, then place ellipse.
+- [ ] drawing an ellipse on the minor axis
+- [ ] drawing ellipses defined by the minor axis and width
 
 --------------------------------------------------------------------------------
 
