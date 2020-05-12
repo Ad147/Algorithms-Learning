@@ -7,16 +7,19 @@ A~-1h02
 
 --------------------------------------------------------------------------------
 
-- [3.1 Basic Concepts](#31-basic-concepts)
+- [3.1 Terminology](#31-terminology)
 - [3.2 Angles](#32-angles)
 - [3.3 Parallel Straight Lines](#33-parallel-straight-lines)
 - [3.4 Polygon](#34-polygon)
+- [3.5 Triangle](#35-triangle)
+- [3.6 Parallelogram and Trapezoid](#36-parallelogram-and-trapezoid)
+- [3.7 Similarity of Plane Figures, Similarity Criteria of Triangles](#37-similarity-of-plane-figures-similarity-criteria-of-triangles)
   - [3.2 Solid Geometry](#32-solid-geometry)
 
 Plane Geometry
 ================================================================================
 
-3.1 Basic Concepts
+3.1 Terminology
 --------------------------------------------------------------------------------
 
 - proof: a reasoning, determing some property
@@ -54,40 +57,44 @@ Plane Geometry
 - triangle, quadrangle, pentagon, hexagon
 - vertices, angles, diagonals（对角线）, sides, perimeter（周长，边界）
 - simple polygons (no self-intersections), convex polygon（凸多边形）
-- Sum of interior angles in a convex polygon = 180(n - 2)
+- sum of interior angles in a convex polygon = 180(n - 2)
 
-#### 3.1.6 Triangle
+3.5 Triangle
+--------------------------------------------------------------------------------
 
-- Triangle:
-  - Acute-angled triangle
-  - Right-angled triangle (legs and hypotenuse)
-  - Obtuse-angled triangle
-  - Isosceles triangle (lateral sides and base)
-  - Equilateral triangle
-  - Scalene triangle
-- Main properties of triangles
-- Theorems about congruence of triangles
-- Remarkable lines and points of a triangle
-  - **Altitude** (height) of a triangle. 3 heights intersect in *orthocenter*
-  - **Medians** intersect in the center of gravity of the triangle
-  - **Bisectors** intersect in the center of an inscribed circle
-  - **Midperpendiculars** intersect in the center of circumscribed circle (circumcircle)
-- Pythagorean theorem
-- Relation of sides' legnth for an arbitrary triangle:  
+- acute-angled triangle
+- right-angled triangle, legs（直角边） and hypotenuse（斜边）
+- obtuse-angled triangle
+- isosceles triangle（等腰三角形）, lateral sides（腰） and base（底边）
+- equilateral triangle（等边三角形）
+- scalene triangle（不等边三角形）
+- theorems about congruence of triangles（三角形全等）: 3 conditions
+- remarkable lines and points of a triangle:
+  - altitudes (heights), intersect in orthocenter（垂心）
+  - medians（中线）, intersect in the center of gravity（重心）
+  - bisectors（角平分线）, intersect in the center of an inscribed circle（内心，内切圆圆心）
+  - midperpendiculars（中垂线，垂直平分线） intersect in the center of circumscribed circle (circumcircle)（外心，外接圆圆心）
+- Pythagorean theorem（勾股定理，毕达哥拉斯定理）
+- relation of sides' legnth for an arbitrary triangle:  
   $c^2 = a^2 + b^2 - 2ab\cos{C}$
 
-#### 3.1.7 Parallelogram and Trapezoid
+3.6 Parallelogram and Trapezoid
+--------------------------------------------------------------------------------
 
-- **Parallelogram**
-- Properties of a parallelogram
-- **Rectangle**, **Rhombus**, **Square**
-- **Trapezoid**
-- Isosceles trapezoid: equal lateral sides
-- Midline of a trapezoid and a triangle
+- parallelogram（平行四边形）
+- rectangle
+- rhombus（菱形）
+- square
+- trapezoid（梯形）
+- isosceles trapezoid
+- midline of a trapezoid and a triangle
 
-#### 3.1.8 Similarity of Plane Figures, Similarity Criteria of Triangles
+3.7 Similarity of Plane Figures, Similarity Criteria of Triangles
+--------------------------------------------------------------------------------
 
-- **Similarity** of plane figures, ratio of similarity
+- similarity of plane figures: any corresponding angles equal
+- ratio of similarity
+- similarity criteria of triangles: 3 conditions
 
 #### 3.1.9 Geometric Locus, Circle and Circumference
 
