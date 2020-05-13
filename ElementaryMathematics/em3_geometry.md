@@ -14,6 +14,8 @@ A~-1h02
 - [3.5 Triangle](#35-triangle)
 - [3.6 Parallelogram and Trapezoid](#36-parallelogram-and-trapezoid)
 - [3.7 Similarity of Plane Figures, Similarity Criteria of Triangles](#37-similarity-of-plane-figures-similarity-criteria-of-triangles)
+- [3.8 Geometric Locus, Circle and Circumference](#38-geometric-locus-circle-and-circumference)
+- [3.9 Inscribed and Circumscribed Polygons, Regular Polygons](#39-inscribed-and-circumscribed-polygons-regular-polygons)
   - [3.2 Solid Geometry](#32-solid-geometry)
 
 Plane Geometry
@@ -96,28 +98,38 @@ Plane Geometry
 - ratio of similarity
 - similarity criteria of triangles: 3 conditions
 
-#### 3.1.9 Geometric Locus, Circle and Circumference
+3.8 Geometric Locus, Circle and Circumference
+--------------------------------------------------------------------------------
 
-- Geometrical locus (or simply locus) is a totality of all points, satisfying the certain given conditions
-- Circumference, radius, Circle (a part of a plane inside of a circumference), Arc, Secant (traversal), Chord, Diameter
-- Tangent line, a point of tangency
-- Segment of a circle, Sector of a circle
-- Angles in a circle:
-  - Central angle
-  - Inscribed angle
-  - Circumscribed angle
-- Radian measure of angles: measure unit: A radian is a central angle, whose arc’s length is equal to its radius
-- Ratio of circumference length and diameter: π
+- geometrical locus (simply locus)（几何轨迹？点集？） is a totality of all points satisfying a certain given conditions
+- circumference（圆周） is a locus, that is a totality of all points, equally removed from its center
+  - radius
+  - circle: a part of a plane inside of a circumference
+  - arc
+  - secant (traversal)（割线？）: a straight line going through two points of a circumference
+  - chord（弦）
+  - diameter
+- tangent line（切线）, a point of tangency（切点）
+- segment of a circle（圆缺？弓形？）, sector of a circle（扇形）
+- angles in a circle:
+  - central angle
+  - inscribed angle
+  - circumscribed angle
+- radian measure of angles: a radian is a central angle, whose arc’s length is equal to its radius
+- ratio of circumference length and diameter: π
 - Huygens' formula：length of an arc $p \approxeq 2l + (2l - L) / 3$
-- Relations between angles of a circle
 
-#### 3.1.11 Inscribed and Circumscribed Polygons, Regular Polygons
+3.9 Inscribed and Circumscribed Polygons, Regular Polygons
+--------------------------------------------------------------------------------
 
-- Inscribed polygon, Circumscribed polygon
-- Circumcircle about a polygon, Incircle into a polygon
-- Radius of an incircle into a triangle, Radius of a circumcircle about a triangle
-- Regular polygon
-- Apothem
+- inscribed polygon (vertices are placed on a circumference), circumcircle around a polygon
+- circumscribed polygon (sides are tangents to circumference), incircle into a polygon
+- radius of an incircle into a triangle:  
+  $$ r = \sqrt{(p-a)(p-b)(p-c) / p}, p = (a+b+c) / 2 $$
+- radius of a circumcircle around a triangle:
+  $$ R = \frac{abc}{4 \sqrt{p (p-a)(p-b)(p-c)}} $$
+- regular polygon (with equal sides and angles): hexagon, octagon...
+- apothem（边心距）
 
 #### 3.1.12 Areas of Plane Figures
 
