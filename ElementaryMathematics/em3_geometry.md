@@ -16,7 +16,20 @@ A~-1h02
 - [3.7 Similarity of Plane Figures, Similarity Criteria of Triangles](#37-similarity-of-plane-figures-similarity-criteria-of-triangles)
 - [3.8 Geometric Locus, Circle and Circumference](#38-geometric-locus-circle-and-circumference)
 - [3.9 Inscribed and Circumscribed Polygons, Regular Polygons](#39-inscribed-and-circumscribed-polygons-regular-polygons)
-  - [3.2 Solid Geometry](#32-solid-geometry)
+- [3.10 Areas of Plane Figures](#310-areas-of-plane-figures)
+- [3.11 Common Notions](#311-common-notions)
+- [3.12 Angles, Projections, Polyhedral Angles](#312-angles-projections-polyhedral-angles)
+- [#### 3.2.3 Parallelism and Perpendicularity of Straight Lines and Planes](#h4-id323-parallelism-and-perpendicularity-of-straight-lines-and-planes-275323-parallelism-and-perpendicularity-of-straight-lines-and-planesh4)
+- [#### 3.2.4 Polyhedrons, Prism, Parallelepiped, Pyramid](#h4-id324-polyhedrons-prism-parallelepiped-pyramid-274324-polyhedrons-prism-parallelepiped-pyramidh4)
+- [#### 3.2.5 Cylinder](#h4-id325-cylinder-273325-cylinderh4)
+- [#### 3.2.6 Cone](#h4-id326-cone-272326-coneh4)
+- [#### 3.2.7 Ball (Sphere)](#h4-id327-ball-sphere-271327-ball-sphereh4)
+- [#### 3.2.8 Tangent Plane of a Ball, a Cylinder and a Cone](#h4-id328-tangent-plane-of-a-ball-a-cylinder-and-a-cone-270328-tangent-plane-of-a-ball-a-cylinder-and-a-coneh4)
+- [#### 3.2.9 Solid Angles](#h4-id329-solid-angles-269329-solid-anglesh4)
+- [#### 3.2.10 Regular Polyhedrons](#h4-id3210-regular-polyhedrons-2683210-regular-polyhedronsh4)
+- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-2673211-symmetry-symmetry-of-plane-figuresh4)
+- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-2663212-similarity-of-bodiesh4)
+- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-2653213-volumes-and-areas-of-bodies-surfacesh4)
 
 Plane Geometry
 ================================================================================
@@ -131,43 +144,71 @@ Plane Geometry
 - regular polygon (with equal sides and angles): hexagon, octagon...
 - apothem（边心距）
 
-#### 3.1.12 Areas of Plane Figures
-
-- Areas of plane figures: square, rectangle, rhombus, parallelogram, trapezoid, quadrangle, right-angled triangle, isosceles triangle, equilateral triangle, arbitrary triangle, polygon, regular hexagon, circle, sector, segment of a circle
-- Heron's formula
-
+3.10 Areas of Plane Figures
 --------------------------------------------------------------------------------
 
-### 3.2 Solid Geometry
+- areas of square, rectangle, rhombus, parallelogram, trapezoid, quadrangle
+- right-angled triangle, isosceles triangle, equilateral triangle, arbitrary triangle
+- regular polygon
+- circle, sector, segment of a circle
 
-#### 3.2.1 Common Notions
+Solid Geometry
+================================================================================
 
-#### 3.2.2 Angles, Projections, Polyhedral Angles
+3.11 Common Notions
+--------------------------------------------------------------------------------
+
+- stereometry（立体几何）
+- main axiom of stereometry: through any 3 points, not placed on the same straight line, it is possible to draw 1 and only 1 plane
+- through  3 points on same line, drawing innumerable set of planes, forming a pencil of planes, the line is axis of pencil
+- crossing straight lines: able to draw a plane through the two lines
+- parallel planes
+- parallel straight line and plane.
+
+3.12 Angles, Projections, Polyhedral Angles
+--------------------------------------------------------------------------------
+
+- angle between two crossing straight lines
+- line perpendicular to a plane
+- projection of a point and a segment to a plane
+- dihedral angle（二面角）, linear angle of a dihedral angle
+- polyhedral angle（多面角）
 
 #### 3.2.3 Parallelism and Perpendicularity of Straight Lines and Planes
+--------------------------------------------------------------------------------
 
 #### 3.2.4 Polyhedrons, Prism, Parallelepiped, Pyramid
+--------------------------------------------------------------------------------
 
 #### 3.2.5 Cylinder
+--------------------------------------------------------------------------------
 
 #### 3.2.6 Cone
+--------------------------------------------------------------------------------
 
 #### 3.2.7 Ball (Sphere)
+--------------------------------------------------------------------------------
 
 #### 3.2.8 Tangent Plane of a Ball, a Cylinder and a Cone
+--------------------------------------------------------------------------------
 
 #### 3.2.9 Solid Angles
+--------------------------------------------------------------------------------
 
 #### 3.2.10 Regular Polyhedrons
+--------------------------------------------------------------------------------
 
 #### 3.2.11 Symmetry, Symmetry of Plane Figures
+--------------------------------------------------------------------------------
 
 #### 3.2.12 Similarity of Bodies
+--------------------------------------------------------------------------------
 
 #### 3.2.13 Volumes and Areas of Bodies' Surfaces
+--------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
-Reference: bymath.com
+ref: bymath.com
 
 EOF
