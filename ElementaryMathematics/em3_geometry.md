@@ -19,17 +19,16 @@ A~-1h02
 - [3.10 Areas of Plane Figures](#310-areas-of-plane-figures)
 - [3.11 Common Notions](#311-common-notions)
 - [3.12 Angles, Projections, Polyhedral Angles](#312-angles-projections-polyhedral-angles)
-- [#### 3.2.3 Parallelism and Perpendicularity of Straight Lines and Planes](#h4-id323-parallelism-and-perpendicularity-of-straight-lines-and-planes-275323-parallelism-and-perpendicularity-of-straight-lines-and-planesh4)
-- [#### 3.2.4 Polyhedrons, Prism, Parallelepiped, Pyramid](#h4-id324-polyhedrons-prism-parallelepiped-pyramid-274324-polyhedrons-prism-parallelepiped-pyramidh4)
-- [#### 3.2.5 Cylinder](#h4-id325-cylinder-273325-cylinderh4)
-- [#### 3.2.6 Cone](#h4-id326-cone-272326-coneh4)
-- [#### 3.2.7 Ball (Sphere)](#h4-id327-ball-sphere-271327-ball-sphereh4)
-- [#### 3.2.8 Tangent Plane of a Ball, a Cylinder and a Cone](#h4-id328-tangent-plane-of-a-ball-a-cylinder-and-a-cone-270328-tangent-plane-of-a-ball-a-cylinder-and-a-coneh4)
-- [#### 3.2.9 Solid Angles](#h4-id329-solid-angles-269329-solid-anglesh4)
-- [#### 3.2.10 Regular Polyhedrons](#h4-id3210-regular-polyhedrons-2683210-regular-polyhedronsh4)
-- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-2673211-symmetry-symmetry-of-plane-figuresh4)
-- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-2663212-similarity-of-bodiesh4)
-- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-2653213-volumes-and-areas-of-bodies-surfacesh4)
+- [3.13 Polyhedrons, Prism, Parallelepiped, Pyramid](#313-polyhedrons-prism-parallelepiped-pyramid)
+- [3.14 Cylinder](#314-cylinder)
+- [#### 3.2.6 Cone](#h4-id326-cone-475326-coneh4)
+- [#### 3.2.7 Ball (Sphere)](#h4-id327-ball-sphere-475327-ball-sphereh4)
+- [#### 3.2.8 Tangent Plane of a Ball, a Cylinder and a Cone](#h4-id328-tangent-plane-of-a-ball-a-cylinder-and-a-cone-475328-tangent-plane-of-a-ball-a-cylinder-and-a-coneh4)
+- [#### 3.2.9 Solid Angles](#h4-id329-solid-angles-475329-solid-anglesh4)
+- [#### 3.2.10 Regular Polyhedrons](#h4-id3210-regular-polyhedrons-4753210-regular-polyhedronsh4)
+- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-4753211-symmetry-symmetry-of-plane-figuresh4)
+- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-4753212-similarity-of-bodiesh4)
+- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-4753213-volumes-and-areas-of-bodies-surfacesh4)
 
 Plane Geometry
 ================================================================================
@@ -173,15 +172,29 @@ Solid Geometry
 - projection of a point and a segment to a plane
 - dihedral angle（二面角）, linear angle of a dihedral angle
 - polyhedral angle（多面角）
+- parallelism and perpendicularity of straight lines and planes
 
-#### 3.2.3 Parallelism and Perpendicularity of Straight Lines and Planes
+3.13 Polyhedrons, Prism, Parallelepiped, Pyramid
 --------------------------------------------------------------------------------
 
-#### 3.2.4 Polyhedrons, Prism, Parallelepiped, Pyramid
+- polyhedron（多面体）
+- prism（棱柱）: depending on a form of polygon in a base, prism can be: triangular, quadrangular, pentagonal, hexagonal...
+- right prism（直棱柱）, oblique prism（斜棱柱）
+- parallelepiped（平行六面体）
+- right parallelepiped: 4 lateral faces are rectangles
+- right-angled parallelepiped: all 6 faces are rectangles
+- cube: all faces are squares
+- pyramid（棱锥）: tetrahedron（四面体）, pentahedron（五面体）...
+- truncated pyramid
+
+3.14 Cylinder
 --------------------------------------------------------------------------------
 
-#### 3.2.5 Cylinder
---------------------------------------------------------------------------------
+- cylindrical surface, directrix（准线） and generatrices（母线） of a cylindrical surface
+- cylinder: a body limited by cylindrical surface (with a closed directrix) and 2 parallel planes
+- right cylinder (generatrices are perpendicular to its base), oblique cylinder
+- circular cylinder (base is circle), round cylinder (both right and circular)
+- prism as a particular case of a cylinder. Cylindrical sections.
 
 #### 3.2.6 Cone
 --------------------------------------------------------------------------------
