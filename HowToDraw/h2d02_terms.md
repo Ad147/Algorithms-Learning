@@ -34,4 +34,15 @@ and this translates into the drawing as a 60deg cone of vision.
 3. 5-point curvilinear persp: open choice
 
 2.2 Finding Vanishing Points on the Picture Plane
-> p22
+--------------------------------------------------------------------------------
+
+1. parallel lines converge to a VP
+2. use top view and move one of the lines parallel to SP, the point parallel line intersects HL is VP
+3. visual ray method for persp drawings: shows a combination of top view and PP; a straight line from SP intersects HL at center VP
+4. to find a new set of 90deg VP, just keep the angle at SP 90deg
+5. use the new set to draw a new box sitting on the same ground; a common error that object like floating is caused by not matching VP to the same COV
+6. to find degree of any VP measures its deviation from the perpendicular line to HL from SP; to achieve 90deg box, the deviation of LVP and RVP will added up to 90deg
+7. the 30deg VP located at edge of 60deg COV, while center of COV is CVP
+
+2.3 Physical Parallel Lines Converge to a Common Vanishing Point
+> p24
