@@ -21,14 +21,14 @@ A~-1h02
 - [3.12 Angles, Projections, Polyhedral Angles](#312-angles-projections-polyhedral-angles)
 - [3.13 Polyhedrons, Prism, Parallelepiped, Pyramid](#313-polyhedrons-prism-parallelepiped-pyramid)
 - [3.14 Cylinder](#314-cylinder)
-- [#### 3.2.6 Cone](#h4-id326-cone-475326-coneh4)
-- [#### 3.2.7 Ball (Sphere)](#h4-id327-ball-sphere-475327-ball-sphereh4)
-- [#### 3.2.8 Tangent Plane of a Ball, a Cylinder and a Cone](#h4-id328-tangent-plane-of-a-ball-a-cylinder-and-a-cone-475328-tangent-plane-of-a-ball-a-cylinder-and-a-coneh4)
-- [#### 3.2.9 Solid Angles](#h4-id329-solid-angles-475329-solid-anglesh4)
-- [#### 3.2.10 Regular Polyhedrons](#h4-id3210-regular-polyhedrons-4753210-regular-polyhedronsh4)
-- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-4753211-symmetry-symmetry-of-plane-figuresh4)
-- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-4753212-similarity-of-bodiesh4)
-- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-4753213-volumes-and-areas-of-bodies-surfacesh4)
+- [3.15 Cone](#315-cone)
+- [3.16 Ball (Sphere)](#316-ball-sphere)
+- [3.17 Tangent Plane of a Ball, a Cylinder and a Cone](#317-tangent-plane-of-a-ball-a-cylinder-and-a-cone)
+- [#### 3.2.9 Solid Angles](#h4-id329-solid-angles-325329-solid-anglesh4)
+- [#### 3.2.10 Regular Polyhedrons](#h4-id3210-regular-polyhedrons-3253210-regular-polyhedronsh4)
+- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-3253211-symmetry-symmetry-of-plane-figuresh4)
+- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-3253212-similarity-of-bodiesh4)
+- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-3253213-volumes-and-areas-of-bodies-surfacesh4)
 
 Plane Geometry
 ================================================================================
@@ -194,15 +194,31 @@ Solid Geometry
 - cylinder: a body limited by cylindrical surface (with a closed directrix) and 2 parallel planes
 - right cylinder (generatrices are perpendicular to its base), oblique cylinder
 - circular cylinder (base is circle), round cylinder (both right and circular)
-- prism as a particular case of a cylinder. Cylindrical sections.
+- prism as a particular case of a cylinder
+- cylindrical sections
 
-#### 3.2.6 Cone
+3.15 Cone
 --------------------------------------------------------------------------------
 
-#### 3.2.7 Ball (Sphere)
+- conic surface（圆锥曲面）: formed by a motion of a straight line (generatrices), which goes constantly through an immovable point (vertex of a conic surface), and intersects the directrix
+- cone: a body limited by one of parts of a conic surface (with a closed derectrix) and a plane
+- pyramid as a particular case of a cone
+- circular cone, axis of a cone, round cone, conic sections
+
+3.16 Ball (Sphere)
 --------------------------------------------------------------------------------
 
-#### 3.2.8 Tangent Plane of a Ball, a Cylinder and a Cone
+- spherical surface（球面）, ball (sphere)（球体）
+- center, radius and diameter of a ball
+- Archimedean theorem: a volume of a ball is less than a volume of a curcumscribed cylinder in one and a half times; same to surface areas  
+  $S_{ball} = 2/3 S_{cyl}$ $V_{ball} = 2/3 S_{cyl}$
+- parts of a ball:
+  - spherical segment
+  - spherical layer
+  - spherical zone
+  - spherical sector
+
+3.17 Tangent Plane of a Ball, a Cylinder and a Cone
 --------------------------------------------------------------------------------
 
 #### 3.2.9 Solid Angles
