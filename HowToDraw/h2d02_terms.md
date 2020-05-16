@@ -22,7 +22,8 @@ This knowledge will apply to the guessed perspective, the constructed perspectiv
 2. picture plane (PP) (like a plate of glass perpendicular to line of sight)
    - how far doesnot matter as the proportions do not change
 
-### Cone of Vision (COV)
+2.2 Cone of Vision (COV)
+--------------------------------------------------------------------------------
 
 The lens determines how much of the area will be seen through the lens.
 
@@ -33,7 +34,7 @@ and this translates into the drawing as a 60deg cone of vision.
 2. 2-point and 3-point linear persp: 60deg
 3. 5-point curvilinear persp: open choice
 
-2.2 Finding Vanishing Points on the Picture Plane
+2.3 Finding Vanishing Points on the Picture Plane
 --------------------------------------------------------------------------------
 
 1. parallel lines converge to a VP
@@ -44,5 +45,14 @@ and this translates into the drawing as a 60deg cone of vision.
 6. to find degree of any VP measures its deviation from the perpendicular line to HL from SP; to achieve 90deg box, the deviation of LVP and RVP will added up to 90deg
 7. the 30deg VP located at edge of 60deg COV, while center of COV is CVP
 
-2.3 Physical Parallel Lines Converge to a Common Vanishing Point
-> p24
+2.4 Physical Parallel Lines Converge to a Common Vanishing Point
+--------------------------------------------------------------------------------
+
+Exceptions: in linear constructions for 1-point and 2-point perspective.  
+Bacause 1- and 2- are made for more efficiency by not having all parallel lines converge.
+
+- in 1-point perspective, only convergence into the depth of drawing, all lines parallel to PP do not converge
+- in 2-point perspective, verticals do not converge
+
+2.5 Horizon Line Relative to Position
+> p25
