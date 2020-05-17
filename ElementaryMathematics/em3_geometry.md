@@ -23,12 +23,11 @@ A~-1h02
 - [3.14 Cylinder](#314-cylinder)
 - [3.15 Cone](#315-cone)
 - [3.16 Ball (Sphere)](#316-ball-sphere)
-- [3.17 Tangent Plane of a Ball, a Cylinder and a Cone](#317-tangent-plane-of-a-ball-a-cylinder-and-a-cone)
-- [#### 3.2.9 Solid Angles](#h4-id329-solid-angles-325329-solid-anglesh4)
-- [#### 3.2.10 Regular Polyhedrons](#h4-id3210-regular-polyhedrons-3253210-regular-polyhedronsh4)
-- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-3253211-symmetry-symmetry-of-plane-figuresh4)
-- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-3253212-similarity-of-bodiesh4)
-- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-3253213-volumes-and-areas-of-bodies-surfacesh4)
+- [3.17 Solid Angles](#317-solid-angles)
+- [3.18 Regular Polyhedrons](#318-regular-polyhedrons)
+- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-5383211-symmetry-symmetry-of-plane-figuresh4)
+- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-5383212-similarity-of-bodiesh4)
+- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-5383213-volumes-and-areas-of-bodies-surfacesh4)
 
 Plane Geometry
 ================================================================================
@@ -218,14 +217,25 @@ Solid Geometry
   - spherical zone
   - spherical sector
 
-3.17 Tangent Plane of a Ball, a Cylinder and a Cone
+3.17 Solid Angles
 --------------------------------------------------------------------------------
 
-#### 3.2.9 Solid Angles
+- solid angle（立体角） is a part of a space, concluded inside of one part of a conic surface with a closed directrix
+- a measure of a solid angle: a ratio of the solid angle cutting out area of a spherical surface whose center is the vertex of the angle to a square of the radius of the sphere:  
+  $α = Area / R^2$
+- the measure unit is a steradian（球面度）
+
+3.18 Regular Polyhedrons
 --------------------------------------------------------------------------------
 
-#### 3.2.10 Regular Polyhedrons
---------------------------------------------------------------------------------
+- regular polygon: all faces are equal polygons and the number of faces join in each vertex is the same
+- known only 5 convex and 4 non-convex regular polyhedrons
+- 5 convex regular polyhedrons
+  - tetrahedron（正四面体）
+  - hexahedron (cube)（正六面体）
+  - octahedron（正八面体）
+  - dodecahedron（正十二面体）
+  - icosahedron（正二十面体）
 
 #### 3.2.11 Symmetry, Symmetry of Plane Figures
 --------------------------------------------------------------------------------
