@@ -55,4 +55,12 @@ Bacause 1- and 2- are made for more efficiency by not having all parallel lines 
 - in 2-point perspective, verticals do not converge
 
 2.5 Horizon Line Relative to Position
-> p25
+--------------------------------------------------------------------------------
+
+When the line of sight parallel to the ground, HL split the COV in half, and will be higher or lower with the SP.
+
+When tilting head (line of sight not parallel to ground), there will be a 3-point perspective, HL not split COV in half, still stay with the SP height.
+
+--------------------------------------------------------------------------------
+
+EOF
