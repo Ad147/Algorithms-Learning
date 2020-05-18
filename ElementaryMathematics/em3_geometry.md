@@ -25,9 +25,9 @@ A~-1h02
 - [3.16 Ball (Sphere)](#316-ball-sphere)
 - [3.17 Solid Angles](#317-solid-angles)
 - [3.18 Regular Polyhedrons](#318-regular-polyhedrons)
-- [#### 3.2.11 Symmetry, Symmetry of Plane Figures](#h4-id3211-symmetry-symmetry-of-plane-figures-5383211-symmetry-symmetry-of-plane-figuresh4)
-- [#### 3.2.12 Similarity of Bodies](#h4-id3212-similarity-of-bodies-5383212-similarity-of-bodiesh4)
-- [#### 3.2.13 Volumes and Areas of Bodies' Surfaces](#h4-id3213-volumes-and-areas-of-bodies-surfaces-5383213-volumes-and-areas-of-bodies-surfacesh4)
+- [3.19 Symmetry, Symmetry of Plane Figures](#319-symmetry-symmetry-of-plane-figures)
+- [3.20 Similarity of Bodies](#320-similarity-of-bodies)
+- [3.21 Volumes and Areas of Bodies' Surfaces](#321-volumes-and-areas-of-bodies-surfaces)
 
 Plane Geometry
 ================================================================================
@@ -237,14 +237,75 @@ Solid Geometry
   - dodecahedron（正十二面体）
   - icosahedron（正二十面体）
 
-#### 3.2.11 Symmetry, Symmetry of Plane Figures
+3.19 Symmetry, Symmetry of Plane Figures
 --------------------------------------------------------------------------------
 
-#### 3.2.12 Similarity of Bodies
+- mirror symmetry（镜像对称）, symmetry plane, symmetrical figures are called mirror equal
+- central symmetry, symmetry center
+- rotation symmetry, symmetry axis, axial symmetry
+
+3.20 Similarity of Bodies
 --------------------------------------------------------------------------------
 
-#### 3.2.13 Volumes and Areas of Bodies' Surfaces
+- similar bodies: one can be received from another by increasing/decreasing of all its linear dimentions by the same ratio
+- mirror similar bodies: similar to a mirror image of another
+- in similar and mirror similar figures all corresponding angles ( linear and dihedral ones) are equal
+- in similar bodies polyhedral and solid angles are equal; in mirror similar bodies they are mirror equal
+- if two tetrahedrons (two triangle pyramids) have correspondingly proportional edges (or correspondingly similar faces), then they are similar or mirror similar
+- two regular prisms or pyramids with the same number of faces are similar, if radii of their bases are proportional to their heights
+- two circular cylinders or cones are similar, if radii of their bases are proportional to their heights
+- if two or more bodies are similar, then areas of all corresponding plane and curved surfaces of these bodies are proportional to squares of any corresponding segments
+- if two or more bodies are similar, then their volumes and also volumes of any their corresponding parts are proportional to cubes of any corresponding segments
+
+3.21 Volumes and Areas of Bodies' Surfaces
 --------------------------------------------------------------------------------
+
+- prism (right and oblique) and parallelepiped: $V = Sh$
+- right prism: $S_{lat} = ph$
+- right-angled parallelepiped: $V = abc$; $P = 2(ab+bc+ac)$
+- cube: $V = a^3%$; $P = 6a^2$
+- pyramid (regular and irregular): $V = 1/3Sh$
+- regular pyramid: $S_{lat} = 1/2pA$
+- truncated pyramid (regular and irregular): $V = 1/3(S_1 + \sqrt{S_1 S_2} + S_2)h$
+- regular truncated pyramid: $S_{lat} = 1/2(p_1 + p_2)A$
+- circular cylinder(right = oblique): $V = Sh = \pi r^2h = 1/4\pi d^2h$
+- round cylinder: $S_{lat} = 2\pi rh = \pi dh$
+- circular cone (round and oblique): $V = 1/3Sh = 1/3\pi r^2h = 1/12\pi d^2h$
+- round cone: $S_{lat} = 1/2pL = \pi rL = 1/2\pi dL$
+- truncated circular cone (round and oblique): $V = 1/3\pi h(r_1^2 + r_1 r_2 + r_2^2) = 1/12\pi h(d_1^2 + d_1 d_2 + d_2^2)$
+- truncated round cone: $S_{lat} = \pi(r_1+r_2)L = 1/2\pi (d_1+d_2)L$
+- sphere (ball):  
+  $$ V = 4/3\pi R^3 = 1/6\pi D^3; P = 4\pi R^2 = \pi D^2 $$
+- hemisphere:  
+  $$ V = 2/3\pi R^3 = 1/12\pi D^3; S = \pi R^2 = 1/4\pi D^2 $$  
+  $$ S_{lat} = 2\pi R^2 = 1/2\pi D^2; P = 3\pi R^2 = 3/4\pi D^2 $$
+- spherical segment:  
+  $$ V = \pi h^2(R-h/3) = \pi h/6 (h^2 + 3r^2) $$
+  $$ S_{lat} = 2\pi Rh = \pi (r^2 + h^2); P = \pi (2r^2 + h^2) $$
+- spherical layer:  
+  $$ V = 1/6\pi h^3 + 1/2 \pi (r_1^2 + r_2^2)h; S_{lat} = 2\pi Rh $$
+- spherical sector:  
+  $$ V = 2/3\pi Rh^* $$
+  here the h*: a height of a segment, contained in the sector
+- hollow ball:  
+  $$ V = 4/3\pi (R_1^3 - R_2^3) = 1/6\pi (D_1^3 - D_2^3); P = 4\pi (R_1^2 + R_2^2) = \pi (D_1^2 + D_2^2) $$
+
+designations:
+
+- V – a volume;
+- S – a base area;
+- S_lat – a lateral surface area;
+- P – a full surface area;
+- h – a height;
+- a, b, c – dimensions of a right angled parallelepiped;
+- A – an apothem of a regular pyramid and a regular truncated pyramid;
+- L – a generatrix of a cone;
+- p –  a perimeter or a circumference of a base;
+- r – a radius of a base;
+- d – a diameter of a base;
+- R – a radius of a ball;
+- D – a diameter of a ball;
+- indices 1 and 2 are related to radii, diameters, perimeters and areas of upper and lower bases of truncated prism and pyramid
 
 --------------------------------------------------------------------------------
 
