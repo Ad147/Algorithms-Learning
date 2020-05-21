@@ -9,6 +9,7 @@ A~0e19
 
 - [4.1 Radian and Degree Measures of Angles](#41-radian-and-degree-measures-of-angles)
 - [4.2 Trigonometric Functions of an Acute Angle](#42-trigonometric-functions-of-an-acute-angle)
+- [4.3 Relations between Trigonometric Functions of the same Angle](#43-relations-between-trigonometric-functions-of-the-same-angle)
 
 Trigonometric Transformations
 ================================================================================
@@ -45,7 +46,12 @@ Trigonometric Transformations
 | 60    | √3/2 | 1/2  | √3   | 1/√3 | 2    | 2/√3   |
 | 90    | 1    | 0    | inf  | 0    | inf  | 1      |
 
-4.3
+4.3 Relations between Trigonometric Functions of the same Angle
+--------------------------------------------------------------------------------
+
+$$ \sin^2\alpha + \cos^2\alpha = 1 ; \tan\alpha * \cot\alpha = 1 $$
+$$ \tan\alpha = \frac{\sin\alpha}{\cos\alpha} ; \cot\alpha = \frac{\cos\alpha}{\sin\alpha} $$
+
 
 Trigonometric Equations
 ================================================================================
