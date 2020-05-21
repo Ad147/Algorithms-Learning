@@ -26,14 +26,19 @@ A~0e20
 - tip: choose shorter diagonal to draw, as it isprecise with hand draw
 - watch out when making corrections, avoid adding multiple lines to find the right one, just draw one line and correct it by making an educated guess as to where the actual subdivision line should be, this will produce cleaner drawings and be faster
 
-2.2 Multiplying and Dividing Reactangles
+3.2 Dividing into Odd-Numbered Proportions
 --------------------------------------------------------------------------------
 
-### Multiplying and Dividing Boxes
+1. define the plane
+2. draw a line parallel to HL, starting at front edge of plane; devide the line into serval equal segments
+3. connect last subdivision point to end of plane and continue the line to HL
+4. draw parallel lines in perspective from each segment point to VP
+5. draw vertical lines at each of intersection points to transfer subdivisions
 
-Dividing into Odd-Numbered Proportions
+3.3 Mirroring in Perspective
+--------------------------------------------------------------------------------
 
-Mirroring in Perspective
+
 
 Mirroring Tilted Planes
 
