@@ -9,7 +9,9 @@ A~0e19
 
 - [4.1 Radian and Degree Measures of Angles](#41-radian-and-degree-measures-of-angles)
 - [4.2 Trigonometric Functions of an Acute Angle](#42-trigonometric-functions-of-an-acute-angle)
-- [4.3 Relations between Trigonometric Functions of the same Angle](#43-relations-between-trigonometric-functions-of-the-same-angle)
+- [4.3 Relations between Trigonometric Functions of the Same Angle](#43-relations-between-trigonometric-functions-of-the-same-angle)
+- [4.4 Trigonomatric Functions of Any Angle](#44-trigonomatric-functions-of-any-angle)
+- [4.5 Reduction Formulas](#45-reduction-formulas)
 
 Trigonometric Transformations
 ================================================================================
@@ -46,12 +48,30 @@ Trigonometric Transformations
 | 60    | √3/2 | 1/2  | √3   | 1/√3 | 2    | 2/√3   |
 | 90    | 1    | 0    | inf  | 0    | inf  | 1      |
 
-4.3 Relations between Trigonometric Functions of the same Angle
+4.3 Relations between Trigonometric Functions of the Same Angle
 --------------------------------------------------------------------------------
 
-$$ \sin^2\alpha + \cos^2\alpha = 1 ; \tan\alpha * \cot\alpha = 1 $$
+$$ \sin^2\alpha + \cos^2\alpha = 1 ; \tan\alpha \cdot \cot\alpha = 1 $$
 $$ \tan\alpha = \frac{\sin\alpha}{\cos\alpha} ; \cot\alpha = \frac{\cos\alpha}{\sin\alpha} $$
+$$ \sin\alpha \cdot \cosec\alpha = 1 ; \cos\alpha \cdot \sec\alpha = 1 $$
+$$ \sec^2\alpha = 1 + \tan^2\alpha ; \cosec^2\alpha = 1 + \cot^2\alpha $$
+$$ cos^2\alpha = \frac{1}{1 + \tan^2\alpha} = \frac{\cot^2\alpha}{1 + \cot^2\alpha} $$
+$$ \sin^2\alpha = \frac{1}{1 + \cot^2\alpha} = \frac{\tan^2\alpha}{1 + \tan^2\alpha} $$
 
+4.4 Trigonomatric Functions of Any Angle
+--------------------------------------------------------------------------------
+
+- unit circle（单位圆）
+- negative angle (clockwise), positive angle
+- quarters of a unit circle
+- sine line is a vertical diameter, cosine line is a horizontal diameter
+- signs of sine in quarters: ++--; signs of cosine in quarters: +--+
+- tangent and cotangent lines: tangents of unit circle
+- signs of tangent and cotangent in quarters: +-+-
+- secant and cosecant are determined as reciprocal（倒数） values of cosine and sine correspondingly
+
+4.5 Reduction Formulas
+--------------------------------------------------------------------------------
 
 Trigonometric Equations
 ================================================================================
