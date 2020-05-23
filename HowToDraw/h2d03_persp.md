@@ -35,17 +35,22 @@ A~0e20
 4. draw parallel lines in perspective from each segment point to VP
 5. draw vertical lines at each of intersection points to transfer subdivisions
 
-3.3 Mirroring in Perspective
 --------------------------------------------------------------------------------
 
+- 3.3 Mirroring in Perspective
+  - Mirroring Horizontal Planes
+  - Mirroring Vertical Planes
+  - Mirroring Offset Planes
+- 3.4 Mirroring Tilted Planes
+- 3.5 Mirroring Rotated, Tilted Planes
+- 3.6 Mirroring 2D Curves
+- 3.7 Mirroring a 2D Curve on a Tilted Surface
+- 3.8 Mirroring 3D Curves in Perspective: The 2-Curve Combo
 
+--------------------------------------------------------------------------------
 
-Mirroring Tilted Planes
+![h2d03pic](x0b_h2d_03.jpg)
 
-Mirroring Rotated, Tilted Planes
+--------------------------------------------------------------------------------
 
-Mirroring 2D Curves
-
-Mirroring a 2D Curve on a Tilted Surface
-
-Mirroring 3D Curves in Perspective: The 2-Curve Combo
+EOF
