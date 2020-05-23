@@ -12,6 +12,7 @@ A~0e19
 - [4.3 Relations between Trigonometric Functions of the Same Angle](#43-relations-between-trigonometric-functions-of-the-same-angle)
 - [4.4 Trigonomatric Functions of Any Angle](#44-trigonomatric-functions-of-any-angle)
 - [4.5 Reduction Formulas](#45-reduction-formulas)
+- [4.6 Addition and Subtraction Formulas](#46-addition-and-subtraction-formulas)
 
 Trigonometric Transformations
 ================================================================================
@@ -71,6 +72,21 @@ $$ \sin^2\alpha = \frac{1}{1 + \cot^2\alpha} = \frac{\tan^2\alpha}{1 + \tan^2\al
 - secant and cosecant are determined as reciprocal（倒数） values of cosine and sine correspondingly
 
 4.5 Reduction Formulas
+--------------------------------------------------------------------------------
+
+|        | sin   | cos   | tan   | cot   |
+| -----: | ----- | ----- | ----- | ----- |
+|     -A | -sinA | +cosA | -tanA | -cotA |
+|   90-A | +cosA | +sinA | +cotA | +tanA |
+|   90+A | +cosA | -sinA | -cotA | -tanA |
+|  180-A | +sinA | -cosA | -tanA | -cotA |
+|  180+A | -sinA | -cosA | +tanA | +cotA |
+|  270-A | -cosA | -sinA | +cotA | +tanA |
+|  270+A | -cosA | +sinA | -cotA | -tanA |
+| 360k-A | -sinA | +cosA | -tanA | -cotA |
+| 360k+A | +sinA | +cosA | +tanA | +cotA |
+
+4.6 Addition and Subtraction Formulas
 --------------------------------------------------------------------------------
 
 Trigonometric Equations
