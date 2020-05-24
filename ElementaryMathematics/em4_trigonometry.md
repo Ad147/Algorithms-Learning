@@ -13,6 +13,8 @@ A~0e19
 - [4.4 Trigonomatric Functions of Any Angle](#44-trigonomatric-functions-of-any-angle)
 - [4.5 Reduction Formulas](#45-reduction-formulas)
 - [4.6 Addition and Subtraction Formulas](#46-addition-and-subtraction-formulas)
+- [4.7 Double-, Triple-, and Half-Angle Formulas](#47-double--triple--and-half-angle-formulas)
+- [4.8](#48)
 
 Trigonometric Transformations
 ================================================================================
@@ -87,6 +89,33 @@ $$ \sin^2\alpha = \frac{1}{1 + \cot^2\alpha} = \frac{\tan^2\alpha}{1 + \tan^2\al
 | 360k+A | +sinA | +cosA | +tanA | +cotA |
 
 4.6 Addition and Subtraction Formulas
+--------------------------------------------------------------------------------
+
+$$ \sin(\alpha + \beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta $$
+$$ \sin(\alpha - \beta) = \sin\alpha\cos\beta - \cos\alpha\sin\beta $$
+$$ \cos(\alpha + \beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta $$
+$$ \cos(\alpha - \beta) = \cos\alpha\cos\beta + \sin\alpha\sin\beta $$
+$$ \tan(\alpha + \beta) = \frac{\tan\alpha + \tan\beta}{1 - \tan\alpha\tan\beta} $$
+$$ \tan(\alpha - \beta) = \frac{\tan\alpha - \tan\beta}{1 - \tan\alpha\tan\beta} $$
+$$ \cot(\alpha + \beta) = \frac{1 - \cot\alpha\cot\beta}{\cot\alpha + \cot\beta} $$
+$$ \cot(\alpha - \beta) = \frac{1 + \cot\alpha\cot\beta}{\cot\alpha - \cot\beta} $$
+
+4.7 Double-, Triple-, and Half-Angle Formulas
+--------------------------------------------------------------------------------
+
+$$ \sin2\alpha = 2\sin\alpha\cdot\cos\alpha $$
+$$ \cos2\alpha = \cos^2\alpha - \sin^2\alpha = 1 - 2\sin^2\alpha = 2\cos^2\alpha - 1 $$
+$$ \tan2\alpha = \frac{2\tan\alpha}{1 - \tan^2\alpha} ; \cot2\alpha = \frac{\cot^2\alpha - 1}{2\cot\alpha}$$
+$$ \sin3\alpha = 3\sin\alpha - 4\sin^3\alpha = 3\cos^2\alpha\cdot\sin\alpha - \sin^3\alpha $$
+$$ \cos3\alpha = 4\cos^3\alpha - 3\cos\alpha = \cos^3\alpha - 3\cos\alpha\cdot\sin^2\alpha $$
+$$ \tan3\alpha = \frac{3\tan\alpha - \tan^3\alpha}{1 - 3\tan^2\alpha} ; \cot3\alpha = \frac{\cot^3\alpha - 3\cot\alpha}{3\cot^2\alpha - 1} $$
+$$ \sin\frac{\alpha}{2} = \pm\sqrt{\frac{1 - \cos\alpha}{2}} ; \cos\frac{\alpha}{2} = \pm\sqrt{\frac{1 + \cos\alpha}{2}} $$
+$$ \tan\frac{\alpha}{2} = \pm\sqrt{\frac{1 - \cos\alpha}{1 + \cos\alpha}} = \frac{\sin\alpha}{1 + \cos\alpha} = \frac{1 - \cos\alpha}{\sin\alpha} $$
+$$ \cot\frac{\alpha}{2} = \pm\sqrt{\frac{1 + \cos\alpha}{1 - \cos\alpha}} = \frac{\sin\alpha}{1 - \cos\alpha} = \frac{1 + \cos\alpha}{\sin\alpha} $$
+
+Signs before roots depend on the quarter.
+
+4.8
 --------------------------------------------------------------------------------
 
 Trigonometric Equations
