@@ -14,7 +14,10 @@ A~0e19
 - [4.5 Reduction Formulas](#45-reduction-formulas)
 - [4.6 Addition and Subtraction Formulas](#46-addition-and-subtraction-formulas)
 - [4.7 Double-, Triple-, and Half-Angle Formulas](#47-double--triple--and-half-angle-formulas)
-- [4.8](#48)
+- [4.8 Transforming of Trigonomatric Expressions to Product](#48-transforming-of-trigonomatric-expressions-to-product)
+- [4.9 Some Important Correlations](#49-some-important-correlations)
+- [4.10 Basic Relations between Elements of Triangle](#410-basic-relations-between-elements-of-triangle)
+- [4.11 Solving of Oblique Triangles](#411-solving-of-oblique-triangles)
 
 Trigonometric Transformations
 ================================================================================
@@ -115,8 +118,79 @@ $$ \cot\frac{\alpha}{2} = \pm\sqrt{\frac{1 + \cos\alpha}{1 - \cos\alpha}} = \fra
 
 Signs before roots depend on the quarter.
 
-4.8
+4.8 Transforming of Trigonomatric Expressions to Product
 --------------------------------------------------------------------------------
+
+$$ \sin\alpha + \sin\beta = 2\sin\frac{\alpha + \beta}{2} \cdot \cos\frac{\alpha - \beta}{2} $$
+$$ \sin\alpha - \sin\beta = 2\cos\frac{\alpha + \beta}{2} \cdot \sin\frac{\alpha - \beta}{2} $$
+$$ \cos\alpha + \cos\beta = 2\cos\frac{\alpha + \beta}{2} \cdot \cos\frac{\alpha - \beta}{2} $$
+$$ \cos\alpha - \cos\beta = 2\sin\frac{\alpha + \beta}{2} \cdot \sin\frac{\alpha - \beta}{2} $$
+$$ \tan\alpha \pm \tan\beta = \frac{\sin(\alpha \pm \beta)}{\cos\alpha \cdot \cos\beta} $$
+$$ \cot\alpha \pm \cot\beta = \frac{\sin(\alpha \pm \beta)}{\sin\alpha \cdot \sin\beta} $$
+$$ \cos\alpha + \sin\alpha = \sqrt2 \cdot \cos(45\degree - \alpha) $$
+$$ \cos\alpha - \sin\alpha = \sqrt2 \cdot \sin(45\degree - \alpha) $$
+$$ \tan\alpha + \cot\beta = \frac{\cos(\alpha - \beta)}{\cos\alpha \cdot \sin\beta} $$
+$$ \tan\alpha - \cot\beta = -\frac{\cos(\alpha + \beta)}{\cos\alpha \cdot \sin\beta} $$
+$$ 1 + \cos\alpha = 2\cos^2\alpha/2 ; 1 - \cos\alpha = 2\sin^2\alpha/2 $$
+$$ 1 + \sin\alpha = 2\cos^2(45\degree - \alpha/2) ; 1 - \sin\alpha = 2\sin^2(45\degree - \alpha/2) $$
+$$ 1 + \tan\alpha\tan\beta = \frac{\cos(\alpha - \beta)}{\cos\alpha \cdot \cos\beta} $$
+$$ 1 - \tan\alpha\tan\beta = \frac{\cos(\alpha + \beta)}{\cos\alpha \cdot \cos\beta} $$
+$$ \cot\alpha\cot\beta + 1 = \frac{\cos(\alpha - \beta)}{\sin\alpha \cdot \sin\beta} $$
+$$ \cot\alpha\cot\beta - 1 = \frac{\cos(\alpha + \beta)}{\sin\alpha \cdot \sin\beta} $$
+
+4.9 Some Important Correlations
+--------------------------------------------------------------------------------
+
+- transforming product to sum
+
+$$ \sin\alpha \cdot \sin\beta = \frac{1}{2} [\cos(\alpha - \beta) - \cos(\alpha + \beta)]$$
+$$ \cos\alpha \cdot \cos\beta = \frac{1}{2} [\cos(\alpha - \beta) + \cos(\alpha + \beta)]$$
+$$ \sin\alpha \cdot \cos\beta = \frac{1}{2} [\sin(\alpha - \beta) + \sin(\alpha + \beta)]$$
+
+- universal substitution
+
+$$ \sin\alpha = \frac{2\tan\alpha/2}{1 + \tan^2\alpha/2} $$
+$$ \cos\alpha = \frac{1 - \tan^2\alpha/2}{1 + \tan^2\alpha/2} $$
+$$ \sin\alpha = \frac{2\tan\alpha/2}{1 - \tan^2\alpha/2} $$
+
+- quadruple-angle formulas（四倍角公式）
+
+$$ \cos4\alpha = \cos^4\alpha - 6\cos^2\alpha \cdot \sin^2\alpha + \sin^4\alpha $$
+$$ \sin4\alpha = 4\cos^3\alpha \cdot \sin\alpha - 4\cos\alpha \cdot \sin^3\alpha $$
+
+4.10 Basic Relations between Elements of Triangle
+--------------------------------------------------------------------------------
+
+- law of cosines
+
+$$ a^2 = b^2 + c^2 - 2bc \cdot \cos A ; \cos A = \frac{b^2 + c^2 - a^2}{2bc} $$
+
+- law of sines
+
+$$ \frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C} = 2R $$
+
+- law of tangents
+
+$$ \frac{a + b}{a - b} = \frac{\tan\frac{A + B}{2}}{\tan\frac{A - B}{2}} = \frac{\cot\frac{C}{2}}{\tan\frac{A - B}{2}} $$
+
+- area formulas
+
+$$ S = \frac{bc \cdot \sin A}{2} = \frac{b^2 \cdot \sin A \cdot \sin C}{2\sin B} = \frac{h^2 \cdot \sin B}{2\sin A \cdot \sin C} $$
+$$ S = \sqrt{p(p-a)(p-b)(p-c)} (Heron's  formula) $$
+$$ S = r^2 \cdot \cot\frac{A}{2} \cdot \cot\frac{B}{2} \cdot \cot\frac{C}{2} = p^2 \cdot \tan\frac{A}{2} \cdot \tan\frac{B}{2} \cdot \tan\frac{C}{2} $$
+$$ S = p(p-a) \cdot \tan\frac{A}{2} $$
+
+- radii of circumscribed and inscribed circles
+
+$$ R = \frac{a}{2\sin A} = \frac{abc}{4S} = \frac{p}{4\cos\frac{A}{2} \cdot \cos\frac{B}{2} \cdot \cos\frac{C}{2}} $$
+$$ r = \frac{S}{p} = (p-a) \cdot \tan\frac{A}{2} = \frac{a \cdot \sin B/2 \cdot \sin C/2}{\cos A/2} = 4R\sin\frac{A}{2} \cdot \sin\frac{B}{2} \cdot \sin\frac{C}{2} \cdot $$
+
+Designations: a, b, c – sides; A, B, C – angles of triangle; p = (a + b + c) / 2  - a half-perimeter; h – a height; S – an area; R, r – radii of circumscribed and inscribed circles correspondingly.
+
+4.11 Solving of Oblique Triangles
+--------------------------------------------------------------------------------
+
+
 
 Trigonometric Equations
 ================================================================================
