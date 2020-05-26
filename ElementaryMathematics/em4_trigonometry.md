@@ -17,7 +17,8 @@ A~0e19
 - [4.8 Transforming of Trigonomatric Expressions to Product](#48-transforming-of-trigonomatric-expressions-to-product)
 - [4.9 Some Important Correlations](#49-some-important-correlations)
 - [4.10 Basic Relations between Elements of Triangle](#410-basic-relations-between-elements-of-triangle)
-- [4.11 Solving of Oblique Triangles](#411-solving-of-oblique-triangles)
+- [4.11 Inverse Trigonometric Functions](#411-inverse-trigonometric-functions)
+- [4.12 Basic Relations for Inverse Trigonometric Functions](#412-basic-relations-for-inverse-trigonometric-functions)
 
 Trigonometric Transformations
 ================================================================================
@@ -187,13 +188,37 @@ $$ r = \frac{S}{p} = (p-a) \cdot \tan\frac{A}{2} = \frac{a \cdot \sin B/2 \cdot 
 
 Designations: a, b, c – sides; A, B, C – angles of triangle; p = (a + b + c) / 2  - a half-perimeter; h – a height; S – an area; R, r – radii of circumscribed and inscribed circles correspondingly.
 
-4.11 Solving of Oblique Triangles
+4.11 Inverse Trigonometric Functions
 --------------------------------------------------------------------------------
 
+- inverse trigonometric functions: arcsin, arccos, arctan, arccot, arcsec, arccosec
+- multiple-valued function: for one value of argument and innumerable set of a function values is in accordance
+- principal values of inverse trigonometric functions:
+  - $-\pi/2 \leq \arcsin x \leq +\pi/2$
+  - $0 \leq \arccos x \leq \pi$
+  - $-\pi/2 \leq \arctan x \leq +\pi/2$
+  - $0 \leq arccot x \leq \pi$
+- any of values of inverse trigonometric functions:
+  - $Arcsin x = (-1)^k \cdot \arcsin x + k\pi$
+  - $Arccos x = \pm\arccos x + 2k\pi$
+  - $Arctan x = \arctan x + k\pi$
+  - $Arccot x = arccot x + k\pi$
 
+4.12 Basic Relations for Inverse Trigonometric Functions
+--------------------------------------------------------------------------------
+
+$$ \arcsin a = \arccos\sqrt{1-a^2} = \arctan\frac{a}{\sqrt{1-a^2}} $$
+$$ \arccos a = \arcsin\sqrt{1-a^2} = \arcctg\frac{a}{\sqrt{1-a^2}} $$
+$$ \arctan a = \arcctg\frac{1}{a} = \arcsin\frac{a}{\sqrt{1+a^2}} = \arccos\frac{1}{\sqrt{1+a^2}} $$
+above 3 are at a > 0
+$$ \arcsin a + \arccos a = \pi/2 $$
+$$ \arctan a + \arcctg a = \pi/2 $$
+$$ arcsec a + arccosec a = \pi/2 $$
 
 Trigonometric Equations
 ================================================================================
+
+4.13
 
 Trigonometric Inequalities
 ================================================================================
