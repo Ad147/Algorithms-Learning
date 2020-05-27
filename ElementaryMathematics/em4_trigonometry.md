@@ -19,8 +19,9 @@ A~0e19
 - [4.10 Basic Relations between Elements of Triangle](#410-basic-relations-between-elements-of-triangle)
 - [4.11 Inverse Trigonometric Functions](#411-inverse-trigonometric-functions)
 - [4.12 Basic Relations for Inverse Trigonometric Functions](#412-basic-relations-for-inverse-trigonometric-functions)
+- [4.13 Trigonometric Equations, Main Methods for Solving](#413-trigonometric-equations-main-methods-for-solving)
 
-Trigonometric Transformations
+Trigonometric Functions and Transformations
 ================================================================================
 
 4.1 Radian and Degree Measures of Angles
@@ -215,10 +216,28 @@ $$ \arcsin a + \arccos a = \pi/2 $$
 $$ \arctan a + \arcctg a = \pi/2 $$
 $$ arcsec a + arccosec a = \pi/2 $$
 
-Trigonometric Equations
+Trigonometric Equations and Inequalities
 ================================================================================
 
-4.13
+4.13 Trigonometric Equations, Main Methods for Solving
+--------------------------------------------------------------------------------
 
-Trigonometric Inequalities
-================================================================================
+- simplest trigonometric equations
+  - $\sin x = a, |a| < 1 \Rightarrow x = (-1)^k \cdot \arcsin a + k\pi$
+  - $\cos x = a, |a| < 1 \Rightarrow x = \pm\arccos a + 2k\pi$
+  - $\tan x = a \Rightarrow x = \arctan a + k\pi$
+  - $\cot x = a \Rightarrow x = \arcctg a + k\pi$
+- methods of solving: transform to simplest shape and solve
+  1. algebraic method
+  2. factoring
+  3. reducing to a homogeneous equation (if and only if all its terms are of the same degree in sin and cos of the same angle)
+  4. transition to a half-angle
+  5. introducing an auxiliary angle
+  6. transforming a product to a sum
+  7. universal substitution
+- systems of simultanuous trigonometric equations
+- trigonometric inequalities
+
+--------------------------------------------------------------------------------
+
+EOF
