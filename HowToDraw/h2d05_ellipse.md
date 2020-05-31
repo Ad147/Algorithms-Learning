@@ -49,11 +49,44 @@ just redraw a defining prespective square to double-check the degree
 Minor axis is the hinge in drawing;  
 Ellipse is path of points rotated.
 
---------------------------------------------------------------------------------
-> p74
---------------------------------------------------------------------------------
+5.6 Subdividing Ellipses
 --------------------------------------------------------------------------------
 
+1. set up ellipse in perspective; take vertical height of ellipse and extend to side and close with a half-circle
+2. add subdivisions starting at center of semi-circle using a protractor
+3. draw horizontal, parallel lines through intersection points of circle over to vertical line of ellipse, extend lines to perspective
+4. connect intersetion points to center of ellipse
+
+### Spirals
+
+1. subdivide ellipse on the ground
+2. preparet to lift the stairs
+   1. mark height of steps in center of staircase
+   2. then transfer the height to side, out of the way of construction
+   3. draw a vertical line, mark intersection points
+   4. extend transferred height into perspective, add parallel lines that converge to VP
+3. build steps
+   1. draw 2 vertical on ellipse intersection points
+   2. draw 2 horizontal until intersect the side height scale
+   3. draw vertical up to next height line
+   4. draw back horizontal to stair verticals and define correct height of step
+   5. connect intersection points to center
+
+5.7 Shortcuts to Dividing Ellipse
+--------------------------------------------------------------------------------
+
+- 5-spoke wheel construction subdivision
+  1. divide upper half of a vertical centerline into thirds, lower half into quarters
+  2. draw horizontals in perspective through lower third point of upper half, and lower quarter of lower half
+  3. the intersection points with ellipse provide endpoints of spokes
+- tread subdivision cheat
+  1. extend minor axis with a parallel construction
+  2. subdivide from there instead of using vertical line
+  3. (it is not technically correct, but efficient)
+
+5.8 Placing a Circle on a Sloped Surface
+--------------------------------------------------------------------------------
+> p77
 
 
 <!-- ![h2d05pic](x0b_h2d_05.jpg) -->
