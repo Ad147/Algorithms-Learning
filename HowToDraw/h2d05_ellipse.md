@@ -86,7 +86,18 @@ Ellipse is path of points rotated.
 
 5.8 Placing a Circle on a Sloped Surface
 --------------------------------------------------------------------------------
-> p77
 
+1. determine minor axis
+   1. draw a ellipse around an edge of sloped surface
+   2. quarter the ellipse
+   3. observe how much the sloped surface angle has rotated from vertical, estimate same amount of rotation to horizontal
+2. draw a light ellipse around minor axis, estimate degree
+3. to check the degree, draw 3 sides of a bounding box, matching perspective grid of sloped surface
 
-<!-- ![h2d05pic](x0b_h2d_05.jpg) -->
+--------------------------------------------------------------------------------
+
+![h2d05pic](x0b_h2d_05.jpg)
+
+--------------------------------------------------------------------------------
+
+EOF
