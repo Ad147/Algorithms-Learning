@@ -11,6 +11,9 @@ A~0e30
 - [6.2 Limits of Functions](#62-limits-of-functions)
 - [6.3 Derivative, Geometrical and Mechanical Meaning of Derivative](#63-derivative-geometrical-and-mechanical-meaning-of-derivative)
 - [6.4 Differential and Its Relation with Derivative](#64-differential-and-its-relation-with-derivative)
+- [6.5 Basic Properties of Derivatives and Differentials](#65-basic-properties-of-derivatives-and-differentials)
+- [6.6 Derivatives of Elementary Functions](#66-derivatives-of-elementary-functions)
+- [6.7 De L'Hospital’s Rule](#67-de-lhospitals-rule)
 
 Limits
 ================================================================================
@@ -75,7 +78,38 @@ Derivative
   - $$ df = f'(x_0) \cdot \Delta x $$
 - geometrical meaning of a differential
 
-6.5 Basic
+6.5 Basic Properties of Derivatives and Differentials
+--------------------------------------------------------------------------------
+
+- if $u(x) ≡ const$, then $u'(x) ≡ 0, du≡ 0$
+- if $u(x), v(x)$ are differentiable functions at a point x_0, then:
+  - $$ (c u)' = c u', d(c u) = c du $$
+  - $$ (u ± v)' = u' ± v', d(u ± v) = du ± dv $$
+  - $$ (u v)' = u' v + u v', d(u v) = v du + u dv $$
+  - $$ (u/v)' = \frac{u' v - u v'}{v^2}, d(u/v) = \frac{u dv - v du}{v^2}, (v(x_0) != 0) $$
+- derivative of a composite function (argument of which is also a function: $h(x) = g(f(x))$)
+  - if a function f has a derivative at a point x_0, and a function g has a derivative at a point f(x_0), then a composite function h has also a derivative at a point x_0, calculated by the formula:
+  - $$ h'(x_0) = g'(f(x_0)) · f'(x_0) $$
+
+6.6 Derivatives of Elementary Functions
+--------------------------------------------------------------------------------
+
+$$ (x^n)' = n x^{n-1}, (n: a natural number) $$
+
+$$ (\sin x)' = \cos x ; (\cos x)' = -\sin x $$
+
+$$ (\tan x)' = 1 / \cos^2 x ; (\cot x)' = -1 / \sin^2 x $$
+
+$$ (\arcsin x)' = 1 / \sqrt{1-x^2} ; (\arccos)' = -1 / \sqrt{1-x^2} $$
+
+$$ (\arctan x)' = 1 / (1+x^2) ; (\arcctg)' = -1 / (1+x^2) $$
+
+$$ (a^x)' = a^x · \ln a ; (\log_a x)' = 1 / (x·\ln a) $$
+
+$$ (x^x)' = x^x · (\ln x + 1) $$
+
+6.7 De L'Hospital’s Rule
+--------------------------------------------------------------------------------
 
 Integral
 ================================================================================
