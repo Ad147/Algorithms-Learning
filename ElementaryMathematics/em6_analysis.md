@@ -14,6 +14,7 @@ A~0e30
 - [6.5 Basic Properties of Derivatives and Differentials](#65-basic-properties-of-derivatives-and-differentials)
 - [6.6 Derivatives of Elementary Functions](#66-derivatives-of-elementary-functions)
 - [6.7 De L'Hospital’s Rule](#67-de-lhospitals-rule)
+- [6.8 Application of Derivative in Investigation of Functions](#68-application-of-derivative-in-investigation-of-functions)
 
 Limits
 ================================================================================
@@ -31,7 +32,7 @@ Limits
 - Weierstrass's theorem: each monotone and bounded sequence has a limit
 - basic properties of limits (6)
 - some remarkable limits
-  - $$ \underset{n \rightarrow \infty}{\lim} \left() 1 + \frac{1}{n} \right)^n = e $$
+  - $$ \underset{n \rightarrow \infty}{\lim} \left( 1 + \frac{1}{n} \right)^n = e $$
   - $$ \underset{n \rightarrow \infty}{\lim} \frac{a^n}{n!} = 0, a > 0 $$
   - $$ \underset{n \rightarrow \infty}{\lim} \sqrt[n]{a} = 1, a > 0 $$
   - $$ \underset{n \rightarrow \infty}{\lim} \sqrt[n]{n} = 1 $$
@@ -109,6 +110,25 @@ $$ (a^x)' = a^x · \ln a ; (\log_a x)' = 1 / (x·\ln a) $$
 $$ (x^x)' = x^x · (\ln x + 1) $$
 
 6.7 De L'Hospital’s Rule
+--------------------------------------------------------------------------------
+
+- L'Hospital's rule:
+  - let at $x → a$ for functions f(x) and g(x), differentiable in some neighborhood of point a, the conditions are executed:
+    1. either $f(x) → 0, g(x) → 0$, or $f(x) → ∞, g(x) → ∞$
+    2. the limit $\underset{x→a}{\lim} \frac{f'(x)}{g'(x)}$ exists,
+  - then
+  - $$ \underset{x→a}{\lim} \frac{f(x)}{g(x)} = \underset{x→a}{\lim} \frac{f'(x)}{g'(x)} $$
+- as mathematicians say, de L'Hospital's rule permits to get rid of indeterminacies of types 0/0 and ∞/∞
+- indeterminacies of other types: $∞-∞, ∞•0, 0^0, ∞^0, 1^∞$, can be transformed to either 0/0 or ∞/∞:
+  1. ∞-∞ reduced to 0/0:  
+     $$ f(x) - g(x) = \frac{1/g(x) - 1/f(x)}{1/[f(x)•g(x)]} $$
+  2. ∞•0 reduced to 0/0 or ∞/∞:  
+     $$ f(x) • g(x) = \frac{f(x)}{1/g(x)} = \frac{g(x)}{1/f(x)} $$
+  3. rest are reduced to the first ones by the logarithmic transformation:  
+     $$ \log f(x)^{g(x)} = g(x) • \log f(x) $$
+- if after using L'Hospital's rule, 0/0 or ∞/∞ remain, repeat
+
+6.8 Application of Derivative in Investigation of Functions
 --------------------------------------------------------------------------------
 
 Integral
