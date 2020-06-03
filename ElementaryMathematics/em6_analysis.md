@@ -15,6 +15,8 @@ A~0e30
 - [6.6 Derivatives of Elementary Functions](#66-derivatives-of-elementary-functions)
 - [6.7 De L'Hospital’s Rule](#67-de-lhospitals-rule)
 - [6.8 Application of Derivative in Investigation of Functions](#68-application-of-derivative-in-investigation-of-functions)
+- [6.9 Convexity, Concavity and Inflexion Points of a Function](#69-convexity-concavity-and-inflexion-points-of-a-function)
+- [6.10 Primitive, Indefinite Integral](#610-primitive-indefinite-integral)
 
 Limits
 ================================================================================
@@ -131,5 +133,47 @@ $$ (x^x)' = x^x · (\ln x + 1) $$
 6.8 Application of Derivative in Investigation of Functions
 --------------------------------------------------------------------------------
 
+- if a function is differentiable at some point, then it is a continuous function at this point; contrary is invalid
+- sufficient conditions of functions monotony:
+  - if f'(x) > 0 at every point of an interval (a, b), then a function f(x) increases within this interval
+  - < 0 => decreases
+- Darboux's theorem:
+  -  points, at which a derivative of a function is equal to 0 or does not exist, divide a function domain for such intervals that within each of them a derivative saves a constant sign
+- critical points:
+  - a domain interior points, in which a derivative of a function is equal to zero or does not exist
+- extreme（极值） (minimum（极小值）, maximum（极大值）), points of extreme
+- necessary condition of extreme:
+  - f'(x_0) = 0 (if derivative exists)
+- sufficient conditions of extreme:
+  - a derivative changes its sign from plus to minus => point of maximum
+  - from minus to plus => point of minimum
+- plan of function investigation: to draw a graph of a function it is necessary:
+    1. to find a domain and a codomain of a function
+    2. to ascertain if the function is even or odd
+    3. to determine if the function is periodic or not
+    4. to find zeros of the function and its values at x = 0
+    5. to find intervals of a sign constancy,
+    6. to find intervals of monotony
+    7. to find points of extreme and values of a function in these points
+    8. to analyze the behavior of a function near “special” points and at a great odulus of x
+
+6.9 Convexity, Concavity and Inflexion Points of a Function
+--------------------------------------------------------------------------------
+
+- the second derivative f"(x)
+- convex and concave function:
+  - convex: in an interval (a, b), function graph is placed lower than a tangent line, going through any point (x_0, f(x_0))
+  - concave: higher than tangent
+- sufficient condition of concavity/convexity of a function:
+  - let a function be twice defferentiable (i.e. it has the second derivative) in an interval (a, b), then:
+  - if f"(x) > 0 for x ∈（a, b) => concave
+  - < 0 => convex
+- inflexion point:
+  - at which a function changes a convexity to a concavity or vice versa
+  - f"(x_0) = 0
+
 Integral
 ================================================================================
+
+6.10 Primitive, Indefinite Integral
+--------------------------------------------------------------------------------
