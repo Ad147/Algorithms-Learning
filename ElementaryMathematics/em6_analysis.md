@@ -17,6 +17,7 @@ A~0e30
 - [6.8 Application of Derivative in Investigation of Functions](#68-application-of-derivative-in-investigation-of-functions)
 - [6.9 Convexity, Concavity and Inflexion Points of a Function](#69-convexity-concavity-and-inflexion-points-of-a-function)
 - [6.10 Primitive, Indefinite Integral](#610-primitive-indefinite-integral)
+- [6.11 Basic Properties of Indefinite Integral](#611-basic-properties-of-indefinite-integral)
 
 Limits
 ================================================================================
@@ -176,4 +177,14 @@ Integral
 ================================================================================
 
 6.10 Primitive, Indefinite Integral
+--------------------------------------------------------------------------------
+
+- primitive（原函数）:
+  - $F'(x) = f(x)$
+- finding of primitive has an infinite set of solutions
+- indefinite integral（不定积分）:
+  - $\int f(x)dx = F(x) + C$
+  - C: constant of integration
+
+6.11 Basic Properties of Indefinite Integral
 --------------------------------------------------------------------------------
