@@ -7,22 +7,24 @@ A~0e30
 
 --------------------------------------------------------------------------------
 
-- [6.1 Sequences, Limits of Numerical Sequences](#61-sequences-limits-of-numerical-sequences)
-- [6.2 Limits of Functions](#62-limits-of-functions)
-- [6.3 Derivative, Geometrical and Mechanical Meaning of Derivative](#63-derivative-geometrical-and-mechanical-meaning-of-derivative)
-- [6.4 Differential and Its Relation with Derivative](#64-differential-and-its-relation-with-derivative)
-- [6.5 Basic Properties of Derivatives and Differentials](#65-basic-properties-of-derivatives-and-differentials)
-- [6.6 Derivatives of Elementary Functions](#66-derivatives-of-elementary-functions)
-- [6.7 De L'Hospital’s Rule](#67-de-lhospitals-rule)
-- [6.8 Application of Derivative in Investigation of Functions](#68-application-of-derivative-in-investigation-of-functions)
-- [6.9 Convexity, Concavity and Inflexion Points of a Function](#69-convexity-concavity-and-inflexion-points-of-a-function)
-- [6.10 Primitive, Indefinite Integral](#610-primitive-indefinite-integral)
-- [6.11 Basic Properties of Indefinite Integral](#611-basic-properties-of-indefinite-integral)
+- [6.11 Sequences, Limits of Numerical Sequences](#611-sequences-limits-of-numerical-sequences)
+- [6.12 Limits of Functions](#612-limits-of-functions)
+- [6.21 Derivative, Geometrical and Mechanical Meaning of Derivative](#621-derivative-geometrical-and-mechanical-meaning-of-derivative)
+- [6.22 Differential and Its Relation with Derivative](#622-differential-and-its-relation-with-derivative)
+- [6.23 Basic Properties of Derivatives and Differentials](#623-basic-properties-of-derivatives-and-differentials)
+- [6.24 Derivatives of Elementary Functions](#624-derivatives-of-elementary-functions)
+- [6.25 De L'Hospital’s Rule](#625-de-lhospitals-rule)
+- [6.26 Application of Derivative in Investigation of Functions](#626-application-of-derivative-in-investigation-of-functions)
+- [6.27 Convexity, Concavity and Inflexion Points of a Function](#627-convexity-concavity-and-inflexion-points-of-a-function)
+- [6.31 Primitive, Indefinite Integral](#631-primitive-indefinite-integral)
+- [6.32 Basic Properties of Indefinite Integral](#632-basic-properties-of-indefinite-integral)
+- [6.32 Integration Methods](#632-integration-methods)
+- [6.33 Some Indefinite Integrals of Elementary Functions](#633-some-indefinite-integrals-of-elementary-functions)
 
 Limits
 ================================================================================
 
-6.1 Sequences, Limits of Numerical Sequences
+6.11 Sequences, Limits of Numerical Sequences
 --------------------------------------------------------------------------------
 
 - numerical sequences（数列）, general term（通项）, general term formula（通项公式）
@@ -42,7 +44,7 @@ Limits
   - $$ \underset{n \rightarrow \infty}{\lim} \frac{\sin 1/n}{1/n} = 1, a > 0 $$
   - $$ \underset{n \rightarrow \infty}{\lim} \frac{\tan 1/n}{1/n} = 1, a > 0 $$
 
-6.2 Limits of Functions
+6.12 Limits of Functions
 --------------------------------------------------------------------------------
 
 - limit of a function
@@ -60,7 +62,7 @@ Limits
 Derivative
 ================================================================================
 
-6.3 Derivative, Geometrical and Mechanical Meaning of Derivative
+6.21 Derivative, Geometrical and Mechanical Meaning of Derivative
 --------------------------------------------------------------------------------
 
 - derivative（导数） of a function y = f(x) at a point x_0:
@@ -75,14 +77,14 @@ Derivative
   - a derivative of a coordinate with respect to time is a instantaneous velocity
   - an acceleration is a derivative of velocity with respective to time
 
-6.4 Differential and Its Relation with Derivative
+6.22 Differential and Its Relation with Derivative
 --------------------------------------------------------------------------------
 
 - differential（微分） of a function: is a product of a derivative and an increment of argument:
   - $$ df = f'(x_0) \cdot \Delta x $$
 - geometrical meaning of a differential
 
-6.5 Basic Properties of Derivatives and Differentials
+6.23 Basic Properties of Derivatives and Differentials
 --------------------------------------------------------------------------------
 
 - if $u(x) ≡ const$, then $u'(x) ≡ 0, du≡ 0$
@@ -95,7 +97,7 @@ Derivative
   - if a function f has a derivative at a point x_0, and a function g has a derivative at a point f(x_0), then a composite function h has also a derivative at a point x_0, calculated by the formula:
   - $$ h'(x_0) = g'(f(x_0)) · f'(x_0) $$
 
-6.6 Derivatives of Elementary Functions
+6.24 Derivatives of Elementary Functions
 --------------------------------------------------------------------------------
 
 $$ (x^n)' = n x^{n-1}, (n: a natural number) $$
@@ -112,7 +114,7 @@ $$ (a^x)' = a^x · \ln a ; (\log_a x)' = 1 / (x·\ln a) $$
 
 $$ (x^x)' = x^x · (\ln x + 1) $$
 
-6.7 De L'Hospital’s Rule
+6.25 De L'Hospital’s Rule
 --------------------------------------------------------------------------------
 
 - L'Hospital's rule:
@@ -131,7 +133,7 @@ $$ (x^x)' = x^x · (\ln x + 1) $$
      $$ \log f(x)^{g(x)} = g(x) • \log f(x) $$
 - if after using L'Hospital's rule, 0/0 or ∞/∞ remain, repeat
 
-6.8 Application of Derivative in Investigation of Functions
+6.26 Application of Derivative in Investigation of Functions
 --------------------------------------------------------------------------------
 
 - if a function is differentiable at some point, then it is a continuous function at this point; contrary is invalid
@@ -158,7 +160,7 @@ $$ (x^x)' = x^x · (\ln x + 1) $$
     7. to find points of extreme and values of a function in these points
     8. to analyze the behavior of a function near “special” points and at a great odulus of x
 
-6.9 Convexity, Concavity and Inflexion Points of a Function
+6.27 Convexity, Concavity and Inflexion Points of a Function
 --------------------------------------------------------------------------------
 
 - the second derivative f"(x)
@@ -176,7 +178,7 @@ $$ (x^x)' = x^x · (\ln x + 1) $$
 Integral
 ================================================================================
 
-6.10 Primitive, Indefinite Integral
+6.31 Primitive, Indefinite Integral
 --------------------------------------------------------------------------------
 
 - primitive（原函数）:
@@ -186,5 +188,24 @@ Integral
   - $\int f(x)dx = F(x) + C$
   - C: constant of integration
 
-6.11 Basic Properties of Indefinite Integral
+6.32 Basic Properties of Indefinite Integral
+--------------------------------------------------------------------------------
+
+$$ \int kf(x)dx = k\int f(x)dx $$
+
+$$ \int [f(x) + g(x)]dx = \int f(x)dx + \int g(x)dx $$
+
+$$ \frac{d}{dx} \int f(x)dx = f(x) $$
+
+$$ \int df(x) = f(x) + C $$
+
+6.32 Integration Methods
+--------------------------------------------------------------------------------
+
+- integration by parts（分部积分法）:
+  - $$ \int u dv = uv - \int v du $$
+- integration by substitution (exchange)（换元积分法）
+  - $$ \int F(x)dx = \int f[g(x)] • g'(x)dx = \int f(z)dz $$
+
+6.33 Some Indefinite Integrals of Elementary Functions
 --------------------------------------------------------------------------------
