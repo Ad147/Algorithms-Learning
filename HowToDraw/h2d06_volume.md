@@ -30,9 +30,18 @@ also called draft views, orthos, orthogonal views.
 
 6.4 Putting It All Together: X-Y-Z Section Drawing
 --------------------------------------------------------------------------------
->p84
+
+1. start with a Y plane to define the centerline of the form
+2. define a flat plane that the volume will be sitting on by adding some persp guidelines going to LVP; locate guidelines at intersection of vertical guidelines and bottom of centerline; determine the width of the top view by adding guidelines going to RVP; draw top view on Z plane
+3. mirror top view to the far side of Z plane
+4. sketch a line of the mirrored top view through ref points
+5. add X sections at any of the section loactions defined by persp guidelines crossing Y and Z planes; they can be sketched on either side of centerline; just sketch one half for now
+6. add and mirror remaining X sections
+7. the X-Y-Z shape comes together with the drawing of silhouette line
 
 6.5 Extending the Sections
+--------------------------------------------------------------------------------
+
 6.6 2-Curve Combo
 6.7 Cutting Volumes
 6.8 Adding Radii and Fillets
