@@ -209,3 +209,12 @@ $$ \int df(x) = f(x) + C $$
 
 6.33 Some Indefinite Integrals of Elementary Functions
 --------------------------------------------------------------------------------
+
+$$ \int x^{α+1}dx = \frac{x^{α+1}}{α+1} + C, (α != -1); \int \frac{dx}{x} = \ln |x| + C $$
+In the last integral the integration segmenty does not contain x = 0.
+
+Below constant C will be ignored.
+
+$$ \int a^x dx = \frac {a^x}{\ln a} $$
+
+$$ \int \sin x dx = -\cos x ; \int \cos x dx = \sin x $$
