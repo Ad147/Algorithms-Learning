@@ -20,6 +20,8 @@ A~0e30
 - [6.32 Basic Properties of Indefinite Integral](#632-basic-properties-of-indefinite-integral)
 - [6.32 Integration Methods](#632-integration-methods)
 - [6.33 Some Indefinite Integrals of Elementary Functions](#633-some-indefinite-integrals-of-elementary-functions)
+- [6.34 Definite Integral, Newton-Leibniz Formula](#634-definite-integral-newton-leibniz-formula)
+- [6.35 Basic Properties of Definite Integral](#635-basic-properties-of-definite-integral)
 
 Limits
 ================================================================================
@@ -218,3 +220,29 @@ Below constant C will be ignored.
 $$ \int a^x dx = \frac {a^x}{\ln a} $$
 
 $$ \int \sin x dx = -\cos x ; \int \cos x dx = \sin x $$
+
+$$ \int \tan x dx = -\ln |\cos x| ; \int \cot x dx = \ln |\sin x| $$
+
+$$ \int \frac{dx}{\sin^2 x} = -\cot x ; \int \frac{dx}{\cos^2 x} = \tan x $$
+
+$$ \int \frac{dx}{x^2 + a^2} = 1/a \arctan{x/a} ; \int \frac{dx}{x^2 - a^2} = 1/2a \ln |\frac{x-a}{x+a}| , a != 0 $$
+
+$$ \int \frac{dx}{\sqrt{a^2 - x^2}} = \arcsin{x/a} , (|x|<a) ; \int \frac{dx}{\sqrt{x^2 ± a^2}} = \ln |x + \sqrt{x^2 ± a^2}| , a != 0 $$
+
+$$ \int \frac{dx}{\sin x} = \ln |\tan{x/2}| ; \int \frac{dx}{\cos x} = \ln |\tan(x/2 + π/4)| $$
+
+6.34 Definite Integral, Newton-Leibniz Formula
+--------------------------------------------------------------------------------
+
+- curvilinear trapezoid（曲边梯形）
+- area of a curvilinear trapezoid:
+  - $S = F(b) - F(a)$
+- definite integral:
+  - $\int^b_a f(x)dx$
+  - limits of integration (a, b)
+  - integrand（被积函数）
+- Newton-Leibniz formula:
+  -  $$ \int^b_a f(x)dx = F(b) - F(a) $$
+
+6.35 Basic Properties of Definite Integral
+--------------------------------------------------------------------------------
