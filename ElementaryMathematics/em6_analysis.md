@@ -22,6 +22,7 @@ A~0e30
 - [6.33 Some Indefinite Integrals of Elementary Functions](#633-some-indefinite-integrals-of-elementary-functions)
 - [6.34 Definite Integral, Newton-Leibniz Formula](#634-definite-integral-newton-leibniz-formula)
 - [6.35 Basic Properties of Definite Integral](#635-basic-properties-of-definite-integral)
+- [6.36 Geometrical and Mechanical Application of Definite Integral](#636-geometrical-and-mechanical-application-of-definite-integral)
 
 Limits
 ================================================================================
@@ -245,4 +246,18 @@ $$ \int \frac{dx}{\sin x} = \ln |\tan{x/2}| ; \int \frac{dx}{\cos x} = \ln |\tan
   -  $$ \int^b_a f(x)dx = F(b) - F(a) $$
 
 6.35 Basic Properties of Definite Integral
+--------------------------------------------------------------------------------
+
+$$ \int^b_a dx = b - a $$
+
+if a <= c <= b, then
+$$ \int^b_a f(x)dx = \int^c_a f(x)dx + \int^b_c f(x)dx$$
+
+$$ \int^b_a kf(x)dx = k\int^b_a f(x)dx $$
+
+$$ \int^b_a kf(x)dx = -\int^a_b f(x)dx $$
+
+$$ \int^b_a [f(x) + g(x)]dx = \int^b_a f(x)dx + \int^b_a g(x)dx $$
+
+6.36 Geometrical and Mechanical Application of Definite Integral
 --------------------------------------------------------------------------------
