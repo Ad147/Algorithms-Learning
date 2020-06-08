@@ -77,13 +77,39 @@ also called draft views, orthos, orthogonal views.
   4. transfer intersections of new section planes and the desired cutting curve outward along X-axis until they intersect outer surface of the form, creating ref points
   5. sketch a curve through ref points
 
-6.8 Adding Radii and Fillets
+6.8 Adding Radii and Fillets (fil'-itz)
 --------------------------------------------------------------------------------
-> p90
 
+It is common to blend 2 intersecting planes with either a radius or a fillet ("fill it").  
+A radius connects planes with an outward curve, removing volume;  
+and a fillet connects planes with an inward curve, adding volume.
+
+1. start with 2 boxes to blend together, decide what corners to radius
+2. draw ellipse on sides of the box as if theyare ends of cylinders running parallel to corners to radius; draw tangencies of cylinder surfaces on sides of box
+3. draw corner parts, notice cut off parts
+4. add a fillet, and therefore volume, to blend 2 boxes forms together; draw ellipses that touch tangent to surfaces of boxes
+5. extend fillet vertically until it intersects with the one running horizontally, blending the top of small box with the side of larger one; add extra line weight to define final hard edges
 
 6.9 Wrapping Graphics
+--------------------------------------------------------------------------------
+
+Wrapping graphics onto an object is like wrapping a label on a bottle or adding a sticker onto a surface.
+
+1. start with a volume that the graphic will wrap onto
+2. the graphic is floating in space with left edge touching the surface of cylinder
+3. try to predict the wrapping of label by first rotating it around the contact edge of cylinder
+   - use an ellipse with its minor axis places at left edge of label
+   - this foreshortens the length and gets it close to correct area
+4. as the label wraps across the curvature of surface it becomes even narrower and not reaching the line created by ellipse; make a guess
+
 6.10 Detailing and Sculpting Surfaces
+--------------------------------------------------------------------------------
+
+1. start with a basic 2-curve combo and a top view placed a bit wider on the ground plane
+2. connect front ground line and outside top-view line on both sides with symmetrical sections; draw a tangency ref line for X sections on side of form
+
+>p92
+
 6.11 More Tips for Modifying Complex Volumes
 6.12 Contour Lines, Overlapping and Line Weight
 6.13 X-Y-Z Section Drawing Applied
