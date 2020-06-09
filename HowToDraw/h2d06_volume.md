@@ -107,10 +107,34 @@ Wrapping graphics onto an object is like wrapping a label on a bottle or adding 
 
 1. start with a basic 2-curve combo and a top view placed a bit wider on the ground plane
 2. connect front ground line and outside top-view line on both sides with symmetrical sections; draw a tangency ref line for X sections on side of form
-
->p92
+3. modify X sections with radii using ref line from step 2, mirror them to far side
+4. to add a notch into upper-front corners
+   1. draw notch in side view at centerline
+   2. transfer notch to left and right and intersect it with surface of the form
+   3. project bottom of notch, resulting in section lines
+   4. to define inside corner, prject a line, starght across to LVP from one side to the other
+   5. drop a vertical to intersect the line and connect points
+5. project a curved line onto side of form by drawing it first on centerline plane, then project it out to vertical X-section lines, creating ref points
+6. draw the resulting curve through ref points  
+   more surface variation can be made by punching holes into surface by either defining new X sections  
+   or by defining top and bottom of an opening, and then adjusting centerline section to move front surface back into volume
+7. to define surface of indented detail
+   1. draw top view of new curving vertical surface on the ground plane
+   2. slice new X-section lines to LVP wherever to place
+   3. draw angled fillet that leads from front corner back to X section first drawn
+   4. draw new section lines, mirror one to far side to see visibility
+8. working in reverse can also be done by sketching a line anywhere on the surface and then determining X sections, if any, or leaving as a design line
+9. this design line can be the start of a tansitional form change; all that is needed are a few X sections to communicate the form
+10. add a new hole at the lower front; also 2 ares, where forms will be added, are defined on top
+11. create the 2 added forms on top by first drawing a centerline along with 2 X sctions for each
+12. after sections drawn, add silhouette of each
+13. section lines communicate design lines to form changes
 
 6.11 More Tips for Modifying Complex Volumes
+--------------------------------------------------------------------------------
+
+
+
 6.12 Contour Lines, Overlapping and Line Weight
 6.13 X-Y-Z Section Drawing Applied
 
