@@ -23,6 +23,8 @@ A~0e30
 - [6.34 Definite Integral, Newton-Leibniz Formula](#634-definite-integral-newton-leibniz-formula)
 - [6.35 Basic Properties of Definite Integral](#635-basic-properties-of-definite-integral)
 - [6.36 Geometrical and Mechanical Application of Definite Integral](#636-geometrical-and-mechanical-application-of-definite-integral)
+- [6.37 Some Definite Integrals](#637-some-definite-integrals)
+- [6.38 Integral with Variable Upper Limit of Integration](#638-integral-with-variable-upper-limit-of-integration)
 
 Limits
 ================================================================================
@@ -261,3 +263,38 @@ $$ \int^b_a [f(x) + g(x)]dx = \int^b_a f(x)dx + \int^b_a g(x)dx $$
 
 6.36 Geometrical and Mechanical Application of Definite Integral
 --------------------------------------------------------------------------------
+
+- volume of revolution body
+  - $$ V = π\int^b_a f^2(x)dx $$
+- work of variable force
+  - $$ A = \int^b_a f(x)dx $$
+
+6.37 Some Definite Integrals
+--------------------------------------------------------------------------------
+
+$$ \int^{π/2}_0 \sin^2{mx}dx = \int^{π/2}_0 \cos^2{mx}dx = π/4, m=1,2... $$
+
+$$ \int^π_0 \sin^2{mx}dx = \int^π_0 \cos^2{mx}dx = π/2, m=1,2... $$
+
+$$ \int^{2π}_0 \sin^2{mx}dx = \int^{2π}_0 \cos^2{mx}dx = π, m=1,2... $$
+
+$$ \int^1_0 \frac{\ln x}{x-1} dx = π^2 / 6 $$
+
+$$ \int^∞_0 \sin{x}/x dx = π/2 $$
+
+$$ \int^∞_0 \frac{dx}{(x+1)^2} = 1 $$
+
+$$ \int^1_0 \ln(1/x) = 1 $$
+
+6.38 Integral with Variable Upper Limit of Integration
+--------------------------------------------------------------------------------
+
+$$ F(x) = \int^x_a f(t) dt $$
+
+$$ F'(x) = f(x) $$
+
+--------------------------------------------------------------------------------
+
+ref: bymath.com
+
+EOF
