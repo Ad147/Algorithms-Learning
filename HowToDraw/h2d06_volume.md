@@ -133,11 +133,32 @@ Wrapping graphics onto an object is like wrapping a label on a bottle or adding 
 6.11 More Tips for Modifying Complex Volumes
 --------------------------------------------------------------------------------
 
-
+- intersecting volumes using a temporary construction plane
+  1. start with a 2-curve combo with slightly convex X sections running across it
+  2. to project a teardrop shape onto surface, located on its cneterline
+     - draw the shape where it can be seen clearly, which makes it easier to draw
+     - if drawing on ground is tough, extend persp grid down, creating a temp construction Z plane
+  3. project shape up into main surface; use X sections to locate ref points to sketch projected teardrop onto surface
+  4. float a smaller, similar shape directly above centerline of the main surface and project it downward
+  5. transfer width of X sections and sketch the resulting projection on surface
 
 6.12 Contour Lines, Overlapping and Line Weight
+--------------------------------------------------------------------------------
+
+1. contour lines are the same as section lines but they are not constrained bt the X-Y-Z persp grid, they can run in any direction that helps to define the surface
+2. line weight can bring a sketch to life after main persp work done
+   - eyes are drawn first to thepoint of highest contrast, use this to your advantage
+   - make sketch more attractive by increasing the contrast and line weight in areas where viewers should look first; this become natural facal points so be sure that the outlining and increased values align with visual message of sketch
+3. where one line overlaps another, the weight is thicker to visully set it in front of the other
+4. to strenthen persp and overlap effects, use increased line weight to make overlapping forms more obvious, and keep this techique going into distance while also lowering overall value andscale of lines to give a stronger impression of persp
+
 6.13 X-Y-Z Section Drawing Applied
+--------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
 ![h2d06pic](x0b_h2d_06.jpg)
+
+--------------------------------------------------------------------------------
+
+EOF
