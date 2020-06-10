@@ -22,3 +22,38 @@ A~0f09
 
 7.2 Operations with Sets
 --------------------------------------------------------------------------------
+
+- designation of sets and their elements
+  - $a ∈ R ; a \notin R$
+- equality of sets: consist of the same elems
+- subset (inclusion)
+  - $A ⊂ B$
+- sum (union) of sets
+  - $A ∪ B$
+- product (intersection) of sets
+  - $A ∩ B$
+- difference (complement) of sets
+  - $A - B$
+- symmetric difference of sets
+  - $A \ B = (A-B) ∪ (B-A)$
+- properties of operations with sets
+  1. $A ⊂ B, B ⊂ C => A ⊂ C$ (transitivity)
+  2. $A ⊂ B, B ⊂ A => A = B$
+  3. $A ∪ A = A$
+  4. $A ∪ ∅ = A$
+  5. $A ∩ A = A$
+  6. $A ∩ ∅ = ∅$
+  7. $A - A = ∅$
+  8. $A ∪ B = B ∪ A$ (commutability of addition)
+  9. $A ∩ B = B ∩ A$ (commutability of multiplication)
+  10. $(A ∪ B) ∪ C = A ∪ (B ∪ C)$ (associativity of addition)
+  11. $(A ∩ B) ∩ C = A ∩ (B ∩ C)$ (associativity of multiplication)
+  12. $A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)$ (distributivity of multiplication over addition)
+  13. $A ∩ (B - C) = (A ∩ B) - (A ∩ C)$ (distributivity of multiplication over subtraction)
+  14. $A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)$ (distributivity of addition over multiplication)
+
+--------------------------------------------------------------------------------
+
+ref: bymath.com
+
+EOF
