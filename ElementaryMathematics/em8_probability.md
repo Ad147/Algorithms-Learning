@@ -73,3 +73,14 @@ A~0f11
 
 8.6 Normal (Gaussian) Distribution
 --------------------------------------------------------------------------------
+
+- density distribution:
+  - $$ f(x) = 1/(σ√2π) \exp(-\frac{(x-m)^2}{2σ^2}) $$
+  - where $m = M(X), σ = √D(X)$
+- if m = 0, σ = 1, the normal distribution is called standard
+
+--------------------------------------------------------------------------------
+
+ref: bymath.com
+
+EOF
