@@ -39,6 +39,39 @@ Analytic Geometry in a Plane
 9.12 Straight Line
 --------------------------------------------------------------------------------
 
+- general equation of straight line:
+  - $$ Ax + By + C = 0 $$
+  - where A, B are aoordinates of normal vector of the straight line
+- at B != 0, receive an equation of straight line with slope:
+  - $$ y = -A/B x - C/B = mx + k $$
+  - line through (x_0, y_0) and not parallel to OY:
+  - $$ y - y_0 = m(x - x_0) $$
+  - where m is a slope
+- at A, B, C !=0, receive an equation of straight line in segments on axes:
+  - $$ x/a + y/b = 1 $$
+  - where a=-C/A, b=-C/B
+  - this line through (a, 0) and (0, b)
+- equation of straight line going through two different points:
+  - $$ \frac{y-y_1}{y_2-y_1} = \frac{x-x_1}{x_2-x_1} $$
+  - at x_1 != x_2, y_1 != y_2
+- parametric（参数） equation of straight line:
+  - going through (x_0, y_0) and parallel to vector (a, b)
+  - $$ x = x_0 + at $$
+  - $$ y = y_0 + bt $$
+- parallelism condition of straight lines:
+  - for Ax+By+c=0 and Dx+Ey+F=0: $AE-BD=0$
+  - for y=mx+k and y=px+q: $m=p$
+
+Perpendicularity condition of straight lines.
+
+Distance between two points.
+
+Distance from point to straight line.
+
+Distance between parallel straight lines.
+
+Angle between straight lines.
+
 9.13 Circle
 
 9.14 Ellipse
