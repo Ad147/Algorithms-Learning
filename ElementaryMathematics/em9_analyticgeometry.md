@@ -59,26 +59,72 @@ Analytic Geometry in a Plane
   - $$ x = x_0 + at $$
   - $$ y = y_0 + bt $$
 - parallelism condition of straight lines:
-  - for Ax+By+c=0 and Dx+Ey+F=0: $AE-BD=0$
-  - for y=mx+k and y=px+q: $m=p$
-
-Perpendicularity condition of straight lines.
-
-Distance between two points.
-
-Distance from point to straight line.
-
-Distance between parallel straight lines.
-
-Angle between straight lines.
+  1. for Ax+By+c=0 and Dx+Ey+F=0: $AE-BD=0$
+  2. for y=mx+k and y=px+q: $m=p$
+- perpendicularity condition of straight lines:
+  1. for Ax+By+c=0 and Dx+Ey+F=0: $AD+BE=0$
+  2. for y=mx+k and y=px+q: $mp=-1$
+- distance between two points:
+  - $$ d = √(x_1 - x_2)^2 + (y_1 - y_2)^2 $$
+- distance from point to straight line:
+  - $$ d = |Ax_0 + By_0 + C| / √(A^2+B^2) $$
+- distance between parallel straight lines Ax+By+C=0 and Ax+By+F=0:
+  - $$ l = |C-F| / √(A^2+B^2) $$
+- angle between straight lines
+  1. y=mx+k and y=px+q:
+     - $$ \tan α = |\frac{m-p}{1+mp}| $$
+  1. Ax+By+c=0 and Dx+Ey+F=0:
+     - $$ \cos α = \frac{|AD+BE|}{√(A^2+B^2) √(D^2+E^2)} $$
 
 9.13 Circle
+--------------------------------------------------------------------------------
+
+- circle
+  - a locus of points
+  - equidistant from center of circle, at distance R, radius of circle
+- equation of circle
+  - $$ (x-x_0)^2 + (y-y_0)^2 = R^2 $$
+- equation of tangent line to circle at (x_1, y_1):
+  - $$ (x_1-x_0)(x-x_0)+(y_1-y_0)(y-y_0) = R^2 $$
+- tangency condition of straight line y=mx+k and circle x^2+y^2=R^2:
+  - $$ k^2 / (1+m^2) = R^2 $$
 
 9.14 Ellipse
+--------------------------------------------------------------------------------
+
+- ellipse
+  - a locus of points, a sum of distances from which to 2 given points F_1 and F_2, called focuses of ellipse, is a constant value
+- equation of ellipse
+  - $$ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 $$
+- focal length: $F_1 F_2 = 2c, c=√|a^2-b^2|$
+- large and small axes of ellipse (2a and 2b)
+- eccentricity（离心率）: e = c/a, e<1
+- equation of tangent line to ellipse:
+  - $$ \frac{x_1 x}{a^2} + \frac{y_1 y}{b^2} = 1 $$
+- tangency condition of straight line y=mx+k and ellipse x^2/a^2+y^2/b^2=1:
+  - $$ k^2 = m^2 a^2 + b^2 $$
 
 9.15 Hyperbola
+--------------------------------------------------------------------------------
+
+- hyperbola（双曲线）
+  - a locus of points, a modulus of difference of distances from which to the two given points F1 and F2, called focuses of hyperbola, is a constant value
+- equation of hyperbola
+  - $$ \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1 $$
+- focal length: $F_1 F_2 = 2c, c=√(a^2+b^2)$
+- real and imaginary axes of hyperbola (2a and 2b)
+- eccentricity: e = c/a, e>1
+- asymptotes（渐近线） of hyperbola
+  - $$ y = ± (b/a) x $$
+- equation of tangent line to hyperbola:
+  - $$ \frac{x_1 x}{a^2} - \frac{y_1 y}{b^2} = 1 $$
+- tangency condition of straight line y=mx+k and hyperbola x^2/a^2-y^2/b^2=1:
+  - $$ k^2 = m^2 a^2 - b^2 $$
 
 9.16 Parabola
+--------------------------------------------------------------------------------
+
+- parabola（抛物线）
 
 Analytic Geometry in a Space
 ================================================================================
