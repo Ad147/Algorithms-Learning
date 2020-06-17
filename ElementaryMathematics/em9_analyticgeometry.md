@@ -125,11 +125,28 @@ Analytic Geometry in a Plane
 --------------------------------------------------------------------------------
 
 - parabola（抛物线）
+  - a locus of points, equidistant from the given point F (focus（焦点） of parabola, $(p/2, 0)$) and the given straight line (directrix（准线） of parabola, $x = -p/2$)
+- equation of parabola:
+  - $$ y^2 = 2px $$
+- equation of tangent line to parabola:
+  - $$ y_1 y = p(x + x_1) $$
+- tangency condition of straight line y=mx+k and parabola y^2=2px
+  - $$ 2mk = p $$
 
 Analytic Geometry in a Space
 ================================================================================
 
 9.21 Transformations of Coordinates
+--------------------------------------------------------------------------------
+
+- translation of axes
+  - move origin O to O'(a, b, c), a point P in new and old coordinate systems are
+  - $$ x' = x-a $$
+  - $$ y' = y-b $$
+  - $$ z' = z-c $$
+- homothetic transformation
+- symmetry
+- affine transformation
 
 9.22 Plane
 
