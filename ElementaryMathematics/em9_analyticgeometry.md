@@ -144,12 +144,48 @@ Analytic Geometry in a Space
   - $$ x' = x-a $$
   - $$ y' = y-b $$
   - $$ z' = z-c $$
-- homothetic transformation
-- symmetry
+- homothetic transformation with a center O(a, b, c) and a coefficient k != 0:
+  - $$ x' - a = k (x-a) $$
+  - $$ y' - b = k (y-b) $$
+  - $$ z' - c = k (z-c) $$
 - affine transformation
+  - $$ x' = ax + by + cz + d $$
+  - $$ y' = ex + fy + gz + h $$
+  - $$ z' = px + qy + rz + s $$
+  - where $\begin{vmatrix} a & b & c \\ e & f & g \\ p & q & r \end{vmatrix} \neq 0$
+  - an affine transformation transfers straight lines to straight lines, intersecting lines to intersecting lines, crossing straight lines to crossing straight lines, parallel straight lines to parallel straight lines; all above mentioned transformations of coordinates are affine transformations
 
 9.22 Plane
+--------------------------------------------------------------------------------
+
+- general equation of plane
+  - $$ Ax + By + Cz + D = 0 $$
+  - A, B, and C are coordinates of normal vector
+- equation of plane in segments on axes (A, B, C != 0):
+  - $$ x/a + y/b + z/c = 1 $$
+  - where $a=-D/A, b=-D/B, c=-D/C$
+  - this plane goes through $(a, 0, 0), (0, b, 0), (0, 0, c)$
+- equation of plane going through the given point and perpendicular to the given vector:
+  - $$ A(x–x_0) + B(y-y_0) + C(z-z_0) = 0 $$
+- parametric equation of plane
+  - passing through a point (х0, у0, z0) and two noncollinear vectors (a1, b1, c1) and (a2, b2, c2), set in a rectangular cartesian system of soordinates
+  - $$ x = x_0 + a_1 s + a_2 t $$
+  - $$ y = y_0 + b_1 s + b_2 t $$
+  - $$ z = z_0 + c_1 s + c_2 t $$
+- parallelism condition of planes
+  - $$ AF - BE = BG - CF = AG - CE = 0 $$
+- perpendicularity condition of planes
+  - $$ AE + BF + CG = 0 $$
+- distance between two points:
+  - $$ d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2 + (z_1 - z_2)^2} $$
+- distance from point to plane:
+  - $$ d = \frac{|Ax_0 + By_0 + Cz_0 + D|}{√{A^2 + B^2 + C^2}} $$
+- distance between parallel planes:
+  - $$ d = |E-D| / √{A^2 + B^2 + C^2} $$
+- angle between planes:
+  - $$ \cos α = \frac{|AE+BF+CG|}{√{A^2 + B^2 + C^2} √{E^2 + F^2 + G^2}} $$
 
 9.23 Straight Line
+--------------------------------------------------------------------------------
 
 9.24 Sphere
