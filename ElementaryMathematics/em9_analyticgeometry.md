@@ -188,4 +188,34 @@ Analytic Geometry in a Space
 9.23 Straight Line
 --------------------------------------------------------------------------------
 
+- equation of straight line going through two different points:
+  - $$ \frac{x-x_1}{x_2-x_1} = \frac{y-y_1}{y_2-y_1} = \frac{z-z_1}{z_2-z_1} $$
+- parametric equation of straight line:
+  - going through (x_0, y_0, z_0) and parallel to vector (a, b, c)
+  - $$ x = x_0 + at $$
+  - $$ y = y_0 + bt $$
+  - $$ z = z_0 + ct $$
+- equation of intersection line of two planes:
+  - $$ Ax + By + Cz + D = 0 $$
+  - $$ Ex + Fy + Gz + H = 0 $$
+- parallelism condition of straight lines:
+  - (a,b,c) and (p, q, r) are direction vectors of 2 straight lines
+  - $$ aq - bp = br - cq = ar - cp = 0 $$
+- perpendicularity condition of straight lines:
+  - $$ ap + bq + cr = 0 $$
+- angle between straight lines:
+  - $$ \cos α = \frac{|ap + bq + cr|}{√(a^2+b^2+c^2) √(p^2 + q^2 + r^2)} $$
+- angle between straight line and plane:
+  - $$ \cos α = \frac{|Aa + Bb + Cc|}{√(a^2+b^2+c^2) √(A^2 + B^2 + C^2)} $$
+
 9.24 Sphere
+--------------------------------------------------------------------------------
+
+- equation of sphere of center (a, b, c):
+  - $$ (x-a)^2 + (y-b)^2 + (z-c)^2 = R^2 $$
+
+--------------------------------------------------------------------------------
+
+ref: bymath.com
+
+EOF
