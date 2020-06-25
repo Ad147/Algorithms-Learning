@@ -155,6 +155,8 @@ Wrapping graphics onto an object is like wrapping a label on a bottle or adding 
 6.13 X-Y-Z Section Drawing Applied
 --------------------------------------------------------------------------------
 
+~
+
 --------------------------------------------------------------------------------
 
 ![h2d06pic](x0b_h2d_06.jpg)
