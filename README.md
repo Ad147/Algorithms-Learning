@@ -10,6 +10,8 @@ Learning Notes
 - [Elementary Mathematics](https://github.com/alaxion/Learning/tree/master/ElementaryMathematics)
 - [How to Draw](https://github.com/alaxion/Learning/tree/master/HowToDraw)
 - [Anatomy for Sculptors](https://github.com/alaxion/Learning/tree/master/AnatomyForSculptors)
+- [新版中日交流标准日本语](https://github.com/alaxion/Learning/tree/master/XnbjVsriJclqBcvpRibfyu)
+- [Python Documentation](https://github.com/alaxion/Learning/tree/master/PythonDocumentation)
 
 --------------------------------------------------------------------------------
 
