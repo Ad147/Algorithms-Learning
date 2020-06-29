@@ -51,4 +51,22 @@ One exception to the first line rule is a UNIX "shebang" line, like:
 Chapter 3 An Informal Introduction to Python
 --------------------------------------------------------------------------------
 
-> p15
+Comments start with the hash character `#`, and extend to the end of the physical line.
+
+### 3.1 Using Python as a Calculator
+
+#### 3.1.1 Numbers
+
+Operators: `+` `-` `*` `/` `//` `%` `**`
+
+Division `/` always returns a float, `//` returns int.
+
+In interactive mode, the last printed expression is assigned to variable `_`.
+
+In addition to int and float, there are other types of numbers: `Decimal` and `Fraction`.
+
+Built-in support for complex numbers, use `j` or `J` suffix to indicate imaginary part (3+5j).
+
+#### 3.1.2 Strings
+
+> p17
