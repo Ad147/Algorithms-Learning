@@ -69,4 +69,15 @@ Built-in support for complex numbers, use `j` or `J` suffix to indicate imaginar
 
 #### 3.1.2 Strings
 
-> p17
+- strings enclosed in `'...'` or `"..."`
+- concatenate by `+`
+- repeat by `*`
+- strings can be indexed
+- strings are immutable (cannot assign)
+
+#### 3.1.3 Lists
+
+> p20
+
+- negative index (start with -1)
+- slice (end index exclusive)
