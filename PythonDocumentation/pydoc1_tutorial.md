@@ -77,7 +77,42 @@ Built-in support for complex numbers, use `j` or `J` suffix to indicate imaginar
 
 #### 3.1.3 Lists
 
-> p20
-
+- `lst = [1, 2, 3]`
 - negative index (start with -1)
 - slice (end index exclusive)
+- concatenation: `[1, 2] + [3, 4]`
+- `list.append()`
+- assignment to slices: `lst[2:4] = [4, 5]`
+- `len(lst)`
+
+### 3.2 First Steps Towards Programming
+
+- multiple assignment: `a, b = 0, 1`
+- in conditions, zero and empty sequences are false
+- in `print()`
+  - items are split by a space
+  - the keyword argument `end` can be used to avoid newline or end output with custom string: `print(a, end=',')`
+
+Chapter 4 More Control Flow Tools
+--------------------------------------------------------------------------------
+
+### 4.1 `if` Statements
+
+> p23
+
+--------------------------------------------------------------------------------
+
+#### 7.1.1 Formatted String Literals
+
+- also called f-strings for short
+- can include expression values inside a string
+- prefix with `f` or `F`, write expressions as `{expr}`
+- optional format specifier control the format:
+  - `f"{math.pi:.3f}"`
+  - integer after `:` for padding
+  - convert the value before formatted:
+    - `!a` applies ascii()
+    - `!s` applies str()
+    - `!r` applies repr()
+
+for ref on format specifications, see ref guide for formatspec
