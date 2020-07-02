@@ -98,7 +98,36 @@ Chapter 4 More Control Flow Tools
 
 ### 4.1 `if` Statements
 
-> p23
+- `if` `elif` `else`
+- `if...elif...elif...` sequence is a subtitute for switch or case statements in other languages
+
+### 4.2 `for` Statements
+
+- python's `for` iterates over items of any sequence
+
+### 4.3 The `range()` Function
+
+- `range(end)`
+- `range(beg, end, step)`
+- to iterate over indices of a sequence:
+  - `range(len(lst))`
+  - `enumerate(lst)`
+- to get a list from a range: `list(rang(7))`
+
+### 4.4 `break` and `continue` Statements, and `else` Clauses on Loops
+
+- loops can have an `else` clause, executed when the loop terminated *not* by a `break`
+- `try` (exception handling) can also have a `else`, runs when no exception occurs
+
+### 4.5 `pass` Statements
+
+`pass` does nothing, like `;` in C
+
+### 4.6 Defining Functions
+
+- `def functionName(formalParameters)`
+- first line of function body can optionally be a string literal, as documentation string, or docstring
+- > p27
 
 --------------------------------------------------------------------------------
 
