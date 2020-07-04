@@ -125,9 +125,51 @@ Chapter 4 More Control Flow Tools
 
 ### 4.6 Defining Functions
 
-- `def functionName(formalParameters)`
+- `def functionName(formalParameters):`
 - first line of function body can optionally be a string literal, as documentation string, or docstring
-- > p27
+- `global` `nonlocal`
+- even functions without a return do return a value: `None`
+
+### 4.7 More on Defining Functions
+
+Arguments of functions have 3 forms:
+
+#### 4.7.1 Default Argument Values
+
+- `def func(arg1, arg2=2, arg3="hi"):`
+- `in` tests whether sequence contains
+- **important warning**: the default value evaluated only once, if the default is a mutable (list, dict, instance of classes), the result will accumulate:
+```py
+def f(a, L=[]):
+    L.append(a)
+    return L
+
+f(1)
+f(2)
+# will get
+[1]
+[1, 2]
+
+# to avoid:
+def f(a, L=None):
+    if L is None:
+        L = []
+    L.append(a)
+    return L
+```
+
+#### 4.7.2 Keyword Arguments
+
+- use keyword arg can ignore order of args:
+  - `func(1, arg4=[1], arg3="hello")`
+  - but keyword args must follow positional args
+- a final formal parameter of the form `**name` receives a dictionary containing all keyword arguments except for those corresponding to a formal parameter
+- this may be combined with a formal parameter of the form `*name` which receives a tuple containing the positional arguments beyond the formal parameter list
+- `*name` must occur before `**name`
+
+#### 4.7.3 Special Parameters
+
+>p30
 
 --------------------------------------------------------------------------------
 
