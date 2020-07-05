@@ -169,7 +169,82 @@ def f(a, L=None):
 
 #### 4.7.3 Special Parameters
 
->p30
+```py
+def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+      -----------    ----------     ----------
+          |              |              |
+          |     Positional or keyword   |
+          |                             - Keyword only
+          -- Positional only
+```
+
+Use case of the 3 parameters:
+- Use positional-only if you want the name of the parameters to not be available to the user. This is useful when parameter names have no real meaning, if you want to enforce the order of the arguments when the function is called or if you need to take some positional parameters and arbitrary keywords.
+- Use keyword-only when names have meaning and the function definition is more understandable by being explicit with names or you want to prevent users relying on the position of the argument being passed.
+- For an API, use positional-only to prevent breaking API changes if the parameter’s name is modified in the future.
+
+#### 4.7.4 Arbitary Argument Lists
+
+- `def f(*args)`
+- the args will be wrapped up in a tuple
+
+#### 4.7.5 Unpacking Argument Lists
+
+- when args are already in a list or tuple but need to be unpacked for a function call requiring separate positional args:
+  - use `*` to unpack list or tuple
+  - `range(*lst)`
+- use `**` to unpack dict
+
+#### 4.7.6 Lambda Expressions
+
+- small anonymous functions can be created with the `lambda` keyword
+- `lambda a, b: a+b` returns the sum of its two args
+- lambda functions can be used wherever function objects are required
+- lambdas are syntactically restricted to a single expression
+- semantically, they are just syntactic sugar for a normal function definition
+- like nested function definitions, lambda functions can reference variables from the containing scope
+
+#### 4.7.7 Documentation Strings
+
+- first line should always be a short, concise summary of purpose, begin with a capital letter and end with a period
+- if there are more lines, the second line should be blank
+- example:
+```py
+def my_function():
+    """Do nothing, but document it.
+
+    No, really, it doesn't do anything.
+    """
+    pass
+
+>>> print(my_function.__doc__)
+Do nothing, but document it.
+
+    No, really, it doesn't do anything.
+```
+
+#### 4.7.8 Function Annotations
+
+- function annotations are completely optional metadata information about the types used by user-defined functions
+- annotations are stored in the `__annotations__` attribute of the function as a dictionary and have no effect on any other part of the function
+- parameter annotations: `(param: str = "default")`
+- return annotations: `f() -> int`
+
+The following example has a positional argument, a keyword argument, and the return value annotated:
+```py
+>>> def f(ham: str, eggs: str = 'eggs') -> str:
+...     print("Annotations:", f.__annotations__)
+...     print("Arguments:", ham, eggs)
+...     return ham + ' and ' + eggs
+...
+>>> f('spam')
+Annotations: {'ham': <class 'str'>, 'return': <class 'str'>, 'eggs': <class 'str'>}
+Arguments: spam eggs
+'spam and eggs'
+```
+
+### 4.8 Intermezzo: Coding Style
+>P35
 
 --------------------------------------------------------------------------------
 
