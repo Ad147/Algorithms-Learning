@@ -244,7 +244,18 @@ Arguments: spam eggs
 ```
 
 ### 4.8 Intermezzo: Coding Style
->P35
+
+Every Python developer should read PEP8 at some point;  
+here are the most important points extracted from PEP8:
+
+- 4-space indentation, no tabs
+- wrap lines, do not exceed 79 chars
+- use blank lines to separate funcs, classes and blocks inside funcs
+- when possible, put comments on a line of their own
+- use docstrings
+- use spaces around ops and commas, but not brackets
+- `UpperCamelCase` for classes, `lowercase_with_underscores` for funcs, always use `self` as first method arg
+- >35
 
 --------------------------------------------------------------------------------
 
