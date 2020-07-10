@@ -255,7 +255,19 @@ here are the most important points extracted from PEP8:
 - use docstrings
 - use spaces around ops and commas, but not brackets
 - `UpperCamelCase` for classes, `lowercase_with_underscores` for funcs, always use `self` as first method arg
-- >35
+
+Chapter 5 Data Structures
+--------------------------------------------------------------------------------
+
+### 5.1 More on Lists
+
+All list methods:
+- `append(x)` == `a[len(a):] = [x]`
+- `extend(iterable)`: append all items from iterable, == `a[len(a):] = iterable`
+- `insert(i, x)`
+- `remove(x)`: remove the first item with value x
+- `pop([i])`: remove item at i, and return it; if no i, remove tail
+- >p37
 
 --------------------------------------------------------------------------------
 
