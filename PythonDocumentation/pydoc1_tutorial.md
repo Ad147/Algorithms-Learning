@@ -267,7 +267,70 @@ All list methods:
 - `insert(i, x)`
 - `remove(x)`: remove the first item with value x
 - `pop([i])`: remove item at i, and return it; if no i, remove tail
-- >p37
+- `clear()` == `del a[:]`
+- `index(x[, start[, end]])`: return index of first value x
+- `count(x)`
+- `sort(key=None, reverse=False)`
+- `reverse()`: reverse in place
+- `copy()` == `a[:]`
+
+int can not be compared to str, None can not be compared to other types
+
+#### 5.1.2 Queue
+
+Lists are not efficient to be queues;  
+use `colloections.deque`:
+- `append()`
+- `popleft()`
+
+#### 5.1.3 List Comprehensions
+
+```py
+lst = [(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]
+
+# is equivalent to:
+
+lst = []
+for x in [1, 2, 3]:
+    for y in [4, 5, 6]:
+        if x != y:
+            lst.append((x, y))
+```
+
+#### 5.1.4 Nested List Comprehensions
+
+```py
+matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+]
+
+# transpose rows and columns:
+
+[[row[i] for row in matrix] for i in range(4)]
+
+# get [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+
+# is equivalent to:
+
+transposed = []
+for i in range(4):
+    transposed.append([row[i] for row in matrix])
+
+# and is the same as:
+
+transposed = []
+for i in range(4):
+    transposed_row = []
+    for row in matrix:
+        transposed_row.append(row[i])
+        transposed.append(transposed_row)
+```
+
+### 5.2 The del Statement
+
+>p41
 
 --------------------------------------------------------------------------------
 
