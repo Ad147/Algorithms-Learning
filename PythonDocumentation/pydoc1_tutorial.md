@@ -330,7 +330,32 @@ for i in range(4):
 
 ### 5.2 The del Statement
 
->p41
+- delete slices: `del a[0:7]`
+- delete entire variable: `del a`
+
+### 5.3 Tuples and Sequences
+
+Tuples are immutable, but it is possible to create tuples containing mutable objects.
+
+Tuples usually contain a heterogeneous sequence of elems that are accessed via unpacking or indexing
+
+- create tuple of size 1: `t = "hello",`
+- unpacking: `x, y, z = t`
+
+### 5.4 Sets
+
+- create: `{1, 2,...}`
+- empty set creating: `set()`
+- math ops:
+  - union: `a | b`
+  - intersection: `a & b`
+  - diff: `a - b`
+  - `a ^ b` (in a or b but not both)
+- set comprehension: `a = {x for x in "abractaw" if x not in "abc"}`
+
+### 5.5 Dictionaries
+
+>p43
 
 --------------------------------------------------------------------------------
 
