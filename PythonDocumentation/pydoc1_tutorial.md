@@ -355,7 +355,19 @@ Tuples usually contain a heterogeneous sequence of elems that are accessed via u
 
 ### 5.5 Dictionaries
 
->p43
+- only immutable can be keys
+- empty dict: `d = {}`
+- creating: `d = {"apple": 1, "banana": 2}`
+- add: `d["peach"] = 3`
+- `list(d)`: a list of keys in insertion order
+- `sorted(d)`: a list of keys in sorted order
+- constructor: `dict([("a", 1), ("b", 2)])`
+- dict comprehension: `{x: x**2 for x in (2, 4)}` 
+- when keys are simple strings: `dict(a=1, b=2)`
+
+### 5.6 Looping Techiques
+
+>p44
 
 --------------------------------------------------------------------------------
 
