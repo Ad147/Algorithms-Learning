@@ -367,7 +367,30 @@ Tuples usually contain a heterogeneous sequence of elems that are accessed via u
 
 ### 5.6 Looping Techiques
 
->p44
+- retrieve index/key and value at the same time:
+  - `enumerate(lst)` for lists
+  - `dict.items()` for dicts
+- loop over 2+ seqs at the same time:
+  - `zip(lst1, lst2)`
+- loop seq in reverse:
+  - `reversed(lst)`
+- loop seq in sorted order:
+  - `sorted(lst)`
+- sometimes need to change a list while loop; but it is simpler and safer to create a new
+
+### 5.7 More on Conditions
+
+Used in conditions:
+- `in` `not in`
+- `is` `is not` (check identity)
+- chained comparison `a < b == c`
+
+Note that in Python, unlike C, assignment inside expressions must be done explicitly with the walrus operator :=.
+This avoids a common class of problems encountered in C programs: typing = in an expression when == was intended.
+
+### 5.8 Comparing Sequences and Other Types
+
+>p46
 
 --------------------------------------------------------------------------------
 
