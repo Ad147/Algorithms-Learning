@@ -388,9 +388,11 @@ Used in conditions:
 Note that in Python, unlike C, assignment inside expressions must be done explicitly with the walrus operator :=.
 This avoids a common class of problems encountered in C programs: typing = in an expression when == was intended.
 
-### 5.8 Comparing Sequences and Other Types
+Chapter 6 Modules
+--------------------------------------------------------------------------------
 
->p46
+A module is a file containing Python definitions and statements;  
+the file name is the module name (available in `__name__`)
 
 --------------------------------------------------------------------------------
 
