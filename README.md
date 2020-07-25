@@ -3,15 +3,14 @@ Learning
 Learning Notes
 ================================================================================
 
-- [C++ Primer](https://github.com/alaxion/Learning/tree/master/CppPrimer)
-- [Algorithms](https://github.com/alaxion/Learning/tree/master/Algorithms)
-- [Data Structures and Algorithm Analysis in C++](https://github.com/alaxion/Learning/tree/master/DataStructuresAlgorithmAnalysis)
-- [The C Programming Language](https://github.com/alaxion/Learning/tree/master/TheCProgrammingLanguage)
-- [Elementary Mathematics](https://github.com/alaxion/Learning/tree/master/ElementaryMathematics)
-- [How to Draw](https://github.com/alaxion/Learning/tree/master/HowToDraw)
-- [Anatomy for Sculptors](https://github.com/alaxion/Learning/tree/master/AnatomyForSculptors)
-- [新版中日交流标准日本语](https://github.com/alaxion/Learning/tree/master/XnbjVsriJclqBcvpRibfyu)
-- [Python Documentation](https://github.com/alaxion/Learning/tree/master/PythonDocumentation)
+1. [C++ Primer](https://github.com/alaxion/Learning/tree/master/CppPrimer)
+2. [Algorithms](https://github.com/alaxion/Learning/tree/master/Algorithms)
+3. [Data Structures and Algorithm Analysis in C++](https://github.com/alaxion/Learning/tree/master/DataStructuresAlgorithmAnalysis)
+4. [The C Programming Language](https://github.com/alaxion/Learning/tree/master/TheCProgrammingLanguage)
+5. [Elementary Mathematics](https://github.com/alaxion/Learning/tree/master/ElementaryMathematics)
+6. [How to Draw](https://github.com/alaxion/Learning/tree/master/HowToDraw)
+7. [Xnbj Vsri Jclq Bcvp Ribfyu](https://github.com/alaxion/Learning/tree/master/XnbjVsriJclqBcvpRibfyu)
+8. [Python Documentation](https://github.com/alaxion/Learning/tree/master/PythonDocumentation)
 
 --------------------------------------------------------------------------------
 
