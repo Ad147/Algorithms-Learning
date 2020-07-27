@@ -394,6 +394,36 @@ Chapter 6 Modules
 A module is a file containing Python definitions and statements;  
 the file name is the module name (available in `__name__`)
 
+### 6.1 More on Modules
+
+Variants of `import`:
+- `from module import function, function2`
+- `from module import *`: imports all except begining with `_`
+- `import module as mod`
+- `from module import function as fun`
+
+If modules changed, interpreter shouldbe restarted;  
+or use `import importlib; importlib.reload(modulename)`
+
+#### 6.1.1 Executing modules as scripts
+
+When run module with  
+`python module.py <arguments>`  
+the code will be executed with `__name__` set to `__main__`.
+
+Therefore, to make file a script as well as module, add to end:
+```py
+if __name__ == "__main__":
+    import sys
+    function(int(sys.argv[1]))
+```
+
+This is often used either to provide a convenient user interface to a module, or for testing purposes (running the module as a script executed a test suite)
+
+### 6.2 Standard Modules
+
+>p50
+
 --------------------------------------------------------------------------------
 
 #### 7.1.1 Formatted String Literals
