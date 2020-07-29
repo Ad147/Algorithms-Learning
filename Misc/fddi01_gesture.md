@@ -29,17 +29,46 @@ Throughout the book, a "gesture drawing" as considered the frame work for everyt
 
 The most important thing to keep in mind while darwing the figure is that the human form is essentially（本质） a balancing act.
 
+Head, neck, rib cage, pelvis, legs are in "S" shapes for balance.
+
 3 Symmetry and Asymmetry
 --------------------------------------------------------------------------------
->p12
+
+Use asymmetrical "S" lines to develop gesture;  
+this emphasize a natural sense of balance and movement;  
+the eye is forced to move through lines, that gives control viewer's eye goes.
+
+Avoid using symmetry (mirroring or parallel), this closes off the form visually
 
 4 Repetition and Timing
+--------------------------------------------------------------------------------
+
+A similar curve or shape is repeated twice or more, it provokes a visual movement, lines lead the eye.
 
 5 Wrapping Lines
+--------------------------------------------------------------------------------
+
+In a quick sketch, wrapping lines are curves that move across and around a form to indicate perspective (describe the way the form is moving through space).
+
+At this point, keep the head shape a sphere, the rib cage an egg, the pelvis an oval laying.
 
 6 The Spine
+--------------------------------------------------------------------------------
+
+The spine is responsible for the organization and balancing of the 3 major masses, as well as arms and legs,  
+most everything in the figure can be explained as a consequence of the spine
+
+The "S" curve of spine:
+- cervical（颈椎）
+- thoracic（胸椎）
+- lumbar（腰椎）
+
+in different spatical direction.
 
 7 Center of Gravity
+--------------------------------------------------------------------------------
+
+>p24
 
 8 Rib Cage and Pelvis
 
