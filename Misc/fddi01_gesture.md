@@ -68,12 +68,33 @@ in different spatical direction.
 7 Center of Gravity
 --------------------------------------------------------------------------------
 
->p24
+Creating a dynamic pose involves creating a sense of tension with the figure's center of gravity.
+
+Avoid straight figure, make major masses move around the center of gravity (vertical line based on feet?) without lining up on it.
 
 8 Rib Cage and Pelvis
+--------------------------------------------------------------------------------
 
-9 The "About to ...: Pose
+When placing rib cage and pelvis, make sure they are consistent with the spine and the balance of the gesture.
+
+When the majority of weight is positioned on one leg, it usually cases this large area of bone to raise, dropping the other side
+
+9 The "About to ..." Pose
+--------------------------------------------------------------------------------
+
+The "about to ..." pose is somewhere in mid-action, presenting dynamic sense, and making viewers wanting to anticipate the story.
+
+The diff between a stable pose and one in mid-action is determined by how weight is distributed and balanced;  
+build a triangle between the feet and either the belly button（肚脐） or nose, in stable poses, the tri mostly appears very stable at the bottom, in out of balance poses, the tri looks more irregular.
 
 10 Economy of Line
+--------------------------------------------------------------------------------
+
+Harder/sharper lines describe abrupt changes in plane or light: box edge, cast shadow edge, head, landmark points, bone.
+
+Softer edge gives slower visual exp, is for smoother, softer areas: muscle, fat.
 
 11 Creating a Story
+--------------------------------------------------------------------------------
+
+>p30
