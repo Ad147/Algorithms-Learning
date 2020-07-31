@@ -97,4 +97,12 @@ Softer edge gives slower visual exp, is for smoother, softer areas: muscle, fat.
 11 Creating a Story
 --------------------------------------------------------------------------------
 
->p30
+In a getsture drawing, do not worry about developing a likeness or contour lines;  
+focus on the movement caused by line  
+---- think of these drawings as being abstract exercises in using line to move the eye.
+
+Figure drawing is not so much about making something that looks like a person, but instead developing incredibly comlex artistic practices and skills, that will allow to easily create any variety of figure or character desired.
+
+--------------------------------------------------------------------------------
+
+EOF
