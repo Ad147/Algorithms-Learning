@@ -420,9 +420,39 @@ if __name__ == "__main__":
 
 This is often used either to provide a convenient user interface to a module, or for testing purposes (running the module as a script executed a test suite)
 
-### 6.2 Standard Modules
+### 6.3 The `dir()` Function
 
->p50
+`dir(module)` lists names that a module defines, including variables, functions, modules, etc.
+
+Without args, dir() lists names currently defined.
+
+### 6.4 Packages
+
+Packages are colloctions of subpackages and submodules:
+```
+package/
+    __init__.py
+    subpackage1/
+        __init__.py
+        submodule1.py
+        submodule2.py
+        ...
+    subpackage2/
+        __init__.py
+        submodule3.py
+        ...
+```
+
+The `__init__.py` files are required to make Python treat directories containing the files as packages.
+
+Using of packages:
+```py
+import package.subpackage1.submodule1
+# must be referenced with full name
+package.subpackage1.submodule1.function1(arg1, arg2)
+
+>>>p53
+```
 
 --------------------------------------------------------------------------------
 
