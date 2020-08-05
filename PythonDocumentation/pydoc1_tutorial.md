@@ -430,16 +430,16 @@ Without args, dir() lists names currently defined.
 
 Packages are colloctions of subpackages and submodules:
 ```
-package/
+pack/
     __init__.py
-    subpackage1/
+    subpack1/
         __init__.py
-        submodule1.py
-        submodule2.py
+        submod1.py
+        submod2.py
         ...
-    subpackage2/
+    subpack2/
         __init__.py
-        submodule3.py
+        submod3.py
         ...
 ```
 
@@ -447,14 +447,42 @@ The `__init__.py` files are required to make Python treat directories containing
 
 Using of packages:
 ```py
-import package.subpackage1.submodule1
+import pack.subpack1.submod1
+# the last item can be a mod/pack, but not a class/func/var
 # must be referenced with full name
-package.subpackage1.submodule1.function1(arg1, arg2)
+pack.subpack1.submod1.func1(arg)
 
->>>p53
+from pack.subpack1 import submod1
+submod1.func1(arg)
+
+from pack.subpack1.submod import func1
+func1(arg)
 ```
 
+#### 6.4.1 Importing * From a Package
+
+`import *` imports what defined in `__all__` in `__init__.py`;  
+so the use of `*` is controled by package author.
+
+If `__all__` is not defined, only imports `pack.submod`
+
+#### 6.4.2 Intra-package Reference
+
+Refer to submods of siblings packages with relative imports:
+```py
+# in module submod1.py
+from . import submod2
+from .. import subpack2
+from ..subpack2 import submod3
+```
+
+Chapter 7 Input and Output
 --------------------------------------------------------------------------------
+
+### 7.1 Fancier Output Formatting
+
+>p55
+
 
 #### 7.1.1 Formatted String Literals
 
