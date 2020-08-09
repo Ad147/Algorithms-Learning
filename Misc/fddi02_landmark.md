@@ -62,4 +62,12 @@ the "S" clearly communicates an elongation or stretch between the 2 areas of bon
 6. knee（膝）
 7. ankle（踝）
 
->p53
+Steps to develop an arm in perspective:
+1. 1 line for direction and length
+2. 2 liness parallel for width
+3. ellipse for perspective
+4. an arc in open end
+
+--------------------------------------------------------------------------------
+
+EOF
