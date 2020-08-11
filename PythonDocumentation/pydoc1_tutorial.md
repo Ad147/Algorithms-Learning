@@ -481,9 +481,6 @@ Chapter 7 Input and Output
 
 ### 7.1 Fancier Output Formatting
 
->p55
-
-
 #### 7.1.1 Formatted String Literals
 
 - also called f-strings for short
@@ -493,8 +490,19 @@ Chapter 7 Input and Output
   - `f"{math.pi:.3f}"`
   - integer after `:` for padding
   - convert the value before formatted:
-    - `!a` applies ascii()
+    - `!a` applies ascii() (`f"{val!a}"`)
     - `!s` applies str()
     - `!r` applies repr()
 
 for ref on format specifications, see ref guide for formatspec
+
+#### 7.1.2 The String format() Method
+
+- `"{}, {}".format("hello", "world")`
+- `"{1}, {0} from {lang}".format("world", "hello", lang="Python")"`
+- use a dict as arg of format(), ref using `{0[key]}`
+- use `**dict` as arg, use `{key}`
+
+#### 7.1.3 Manual String Formatting
+
+>p58
