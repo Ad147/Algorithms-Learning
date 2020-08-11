@@ -505,4 +505,52 @@ for ref on format specifications, see ref guide for formatspec
 
 #### 7.1.3 Manual String Formatting
 
->p58
+- `str.rjust`: right-justifies a string by padding it with space on the left
+- `str.ljust()`
+- `str.center()`
+- `str.zfill()`: pads a numeric string on the left with zeros
+
+#### 7.1.4 Old string formatting
+
+`"pi is %5.3f." % math.pi`
+
+### 7.2 Reading and Writing File
+
+- `open(filename, mode)` returns a *file object*
+- `mode`:
+  - `r`: read only (default)
+  - `w`: write only
+  - `a`: append
+  - `r+`: read and write
+- `f.close()` to free up resources
+- it is good practice to use `with`:
+  - `with open("file") as f:`
+  - f will be automatically closed
+
+#### 7.1.2 Methods of File Objects
+
+- `f.read(size)`: reads at most size chars (text) or bytes (binary) and return as a string or bytes object
+- `f.readline()`: read a single line, `\n` is left
+- `for line in f:`: loop over to read lines; memory efficient, fast and leads to simple code
+- `list(f)`/`f.readlines()`: read all lines in a list
+- `f.write(str)`: return number of chars written
+- other types need to be converted to a string or a bytes object before written
+- `f.tell()`: return an int giving current position
+- `f.seek(offset, whence)`: change the position by adding `offset` to a ref point decided by `whence`:
+  - 0: from beginning
+  - 1: from current pos
+  - 2: from end
+
+#### 7.2.2 Saving Structured Data with json
+
+The standard module `json` can take Python data hierarchies and convert them to string, this process is called serializing;  
+reconstructing data called deserializing.
+
+- `json.dumps(struct)`
+- `json.dump(struct, f)` (f is a file obj)
+- `x = json.load(f)`
+
+Chapter 8 Errors and Exceptions
+--------------------------------------------------------------------------------
+
+>p63
