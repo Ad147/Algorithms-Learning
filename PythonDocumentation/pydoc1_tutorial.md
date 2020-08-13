@@ -553,4 +553,37 @@ reconstructing data called deserializing.
 Chapter 8 Errors and Exceptions
 --------------------------------------------------------------------------------
 
->p63
+### 8.3 Handling Exceptions
+
+```py
+try:
+    ...
+except ValueError:
+    ...
+```
+
+### 8.4 Raising Exceptions
+
+`raise NameError("Hello")`
+
+### 8.6 Defining Clean-up Actions
+
+```py
+try:
+    ...
+finally:
+    ...
+```
+
+### 8.7 Predefined Clean-up Actions
+
+```py
+with open("file") as f:
+    for line in f:
+        print(line)
+```
+
+Chapter 9 Classes
+--------------------------------------------------------------------------------
+
+>p71
