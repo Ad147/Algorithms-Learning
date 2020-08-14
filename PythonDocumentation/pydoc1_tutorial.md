@@ -586,4 +586,10 @@ with open("file") as f:
 Chapter 9 Classes
 --------------------------------------------------------------------------------
 
->p71
+### 9.2 Python Scopes and Namespaces
+
+`global` `nonlocal`
+
+#### 9.2.1 Scopes and Namespaces Example
+
+>p73
