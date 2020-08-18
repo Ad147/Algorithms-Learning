@@ -588,8 +588,43 @@ Chapter 9 Classes
 
 ### 9.2 Python Scopes and Namespaces
 
-`global` `nonlocal`
+`global` `nonlocal` declarations.
 
-#### 9.2.1 Scopes and Namespaces Example
+### 9.3 A First Look at Classes
 
->p73
+#### 9.3.1 Class Definition Syntax
+
+```py
+class ClassName:
+    def __init__(self, arg):
+        self.data = arg
+    ...
+```
+
+#### 9.3.2 Class Object
+
+Class objects support 2 kinds of operations:
+1. attribute references (variable, function)
+2. instantiation: `x = MyClass(arg)`, arg will be passed to `__init__()`
+
+#### 9.3.3 Instace Objects
+
+The only operation of instance object: attribute references;  
+there are 2 kinds of attribute names:
+1. data attributes (data member in C++)
+2. methods
+
+A method is a function that "belongs to" an object,  
+valid method names of an instance depend on its class;  
+but the method object is not the same thing as the function object in class.
+
+#### 9.3.4 Method Objects
+
+`instance.func()` == `Class.func(instance)`
+
+#### 9.3.5 Class and Instance Variables
+
+Generally speaking, instance variables are for data unique to each instance  
+and class variables are for attributes and methods shared by all instances of the class.
+
+### 9.4 Random Remarks
