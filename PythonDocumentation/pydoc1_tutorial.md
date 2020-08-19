@@ -627,4 +627,17 @@ but the method object is not the same thing as the function object in class.
 Generally speaking, instance variables are for data unique to each instance  
 and class variables are for attributes and methods shared by all instances of the class.
 
-### 9.4 Random Remarks
+### 9.5 Inheritance
+
+Syntax for a derived class definition:
+```py
+class DerivedClassName(BaseClassName):
+    <statement1>
+    ...
+```
+
+All methods in Python are effectively `virtual`.
+
+#### 9.5.1 Multiple Inheritance
+
+>p79
