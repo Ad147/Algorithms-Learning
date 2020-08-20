@@ -640,4 +640,31 @@ All methods in Python are effectively `virtual`.
 
 #### 9.5.1 Multiple Inheritance
 
->p79
+`class DerivedClass(Base1, Base2, ...)`
+
+the search for attributes inheriited from a parent class is a depth-first, left-to-right, not searching twice in the same class where there is an overlap in the hierarchy;  
+for example, search order: `DerivedClass` -> `Base1` -> base classes of `Base1` -> `Base2` -> ...
+
+### 9.6 Private Variables
+
+Convention: a name prefixed with an underscore (`_spam`) should be treated as a non-public part of the API.
+
+To aviod name clashes with subclass, there is a mechanism, called name mangling:  
+identifiers with at least 2 leading underscores and at most 1 trailing underscore is textually replaced with `_classname__spam`.
+
+### 9.7 Odds and Ends
+
+For a data type similar to `struct` of C, an empty class definition will do nicely:
+```py
+class Employee:
+    pass
+
+john = Employee()
+john.name = "John Doe"
+john.dept = "computer lab"
+...
+```
+
+### 9.8 Iterators
+
+>p81
