@@ -667,4 +667,60 @@ john.dept = "computer lab"
 
 ### 9.8 Iterators
 
->p81
+In `for` loop, `for` calls `iter()` on the container object.  
+The function returns an iterator object that defines the `__next__()` which accesses elements in the container one at a time.  
+When there are no more elements, `__next__()` raises a `StopIteration` exception which tells the for loop to terminate.
+
+`__next__()` can be called using the `next()` built-in function:
+```py
+>>> s = 'ab'
+>>> it = iter(s)
+>>> it
+<iterator object at 0x00AAAAAA>
+>>> next(it)
+'a'
+>>> next(it)
+'b'
+>>> next(it)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    next(it)
+StopIteration
+```
+
+Add iterator behavior to classes:  
+Define an `__iter__()` method which returns an object with a `__next__()` method;  
+if the class defines `__next__()`, then `__iter__()` can just return self:
+```py
+class Reverse:
+    """Iterator for looping over a sequence backwards."""
+    def __init__(self, data):
+        self.data = data
+        self.index = len(data)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        self.index = self.index - 1
+        return self.data[self.index]
+
+# -----------------------------------------------------------
+
+>>> rev = Reverse('spam')
+>>> iter(rev)
+<__main__.Reverse object at 0x00A1DB50>
+>>> for char in rev:
+... print(char)
+...
+m
+a
+p
+s
+```
+
+### 9.9 Generators
+
+>p82
