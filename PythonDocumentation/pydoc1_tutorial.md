@@ -723,4 +723,38 @@ s
 
 ### 9.9 Generators
 
->p82
+Generators are written like regular funcs but use `yield`;  
+the `__iter__()` and `__next__()` are created automatically;  
+auto raise `StopIteration`;  
+a key feature is that the local vars and execution state are automatically saved between calls.
+
+### 9.10 Generator Expressions
+
+Syntax similar to list comprehensions but with parentheses instead of square brackets.
+
+`sum(i*i for i in range(10))`
+
+`uniqueWords = set(word for line in page for word in line.split())`
+
+Chapter 10 Brief Tour of the Standard Library
+--------------------------------------------------------------------------------
+
+### 10.1 Operating System Interface
+
+Use `import os` instead of `from os import *`, as `os.open()` will shadow `open()`
+
+- `os.getcwd()`: get current working directory
+- `os.chdir("")`: change directory
+- `os.system("")`: run system shell command
+
+For daily file and dir management tasks, the `shutil` mod provides a higher lvl interface:
+- `shutil.copyfile("", "")`
+- `shutil.move("", "")`
+
+### 10.2 File Wildcards
+
+`glob.glob("*.py")`: make file lists from dir wildcard searches
+
+### 10.3 Command Line Arguments
+
+>p86
