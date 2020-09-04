@@ -757,4 +757,40 @@ For daily file and dir management tasks, the `shutil` mod provides a higher lvl 
 
 ### 10.3 Command Line Arguments
 
->p86
+- `sys.argv`
+
+### 10.4 Error Output Redirection and Program Termination
+
+- `sys.stderr.write("warning")`
+- `sys.exit()`
+
+### 10.5 String Pattern Matching
+
+- `re` mod provide regular expression tools
+- `re.findall(r"\bf[a-z]*", str)`
+- `re.sub(r"\b[a-z]+) \1", r"\1", str)`
+- string methods for simple use: `str.replace(w1, w2)`
+
+### 10.6 Mathematics
+
+`math` mod gives access to underlying C lib funcs for floating point math:
+- `math.cos()`
+- `math.pi`
+- `math.log()`
+
+`random`:
+- `random.choice(list)`
+- `random.sample(range(100), 10)`: sampling without replacement
+- `random.random()`: random float
+- `random.randrange(int)`: random int from range
+
+`statistics` calculates basic statistical properties:
+- `statistics.mean(data)`
+- `statistics.median(data)`
+- `statistics.variance(data)`
+
+Other mods for numerical computations see scipy.
+
+### 10.7 Internet Access
+
+>p87
