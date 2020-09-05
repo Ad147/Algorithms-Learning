@@ -793,4 +793,60 @@ Other mods for numerical computations see scipy.
 
 ### 10.7 Internet Access
 
->p87
+- `urllib.request` for retrieving data from URLs
+- `smtplib` for sending mail
+
+### 10.8 Dates and Times `datetime`
+
+### 10.9 Data Compression
+
+- `zlib`
+- `gzip`
+- `bz2`
+- `lzma`
+- `zipfile`
+- `tarfile`
+
+### 10.10 Performance Measurement
+
+```py
+>>> from timeit import Timer
+>>> Timer('t=a; a=b; b=t', 'a=1; b=2').timeit()
+0.57535828626024577
+>>> Timer('a,b = b,a', 'a=1; b=2').timeit()
+0.54962537085770791
+```
+
+> In contrast to `timeit`’s fine level of granularity, the `profile` and `pstats` modules provide tools for identifying time critical sections in larger blocks of code.
+
+### 10.11 Quality Control
+
+- `doctest`: validating tests embedded in a program's docstring
+- `unittest`
+
+Chapter 11 Brief Tour of the Standard Library -- Part II
+--------------------------------------------------------------------------------
+
+This part covers advanced mods for professional programming which rarely occur in small scripts
+
+11.1 Output Formatting
+11.2 Templating
+11.3 Working with Binary Data Record Layouts
+11.4 Multi-threading
+11.5 Logging
+11.6 Weak References
+
+### 11.7 Tools for Working with Lists
+
+- `array`: stores only homogeneous data more compactly
+- `collections.deque()`
+- `bisect`: manipulate sorted lists
+- `heapq`: heaps based on regular lists
+
+11.8 Decimal Floating Point Arithmetic
+
+
+Chapter 12 Virtual Environments and Packages
+--------------------------------------------------------------------------------
+
+>p97
