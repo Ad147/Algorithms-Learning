@@ -1,4 +1,4 @@
-pydoc1_tutorial.md
+pydoc_tutorial.md
 
 Python Tutorial (3.8.3)
 ================================================================================
@@ -845,8 +845,6 @@ This part covers advanced mods for professional programming which rarely occur i
 
 11.8 Decimal Floating Point Arithmetic
 
-
-Chapter 12 Virtual Environments and Packages
 --------------------------------------------------------------------------------
 
->p97
+EOF
