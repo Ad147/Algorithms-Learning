@@ -26,4 +26,9 @@ A~0v07
 - class dict(**kwarg)
 - class dict(mapping, **kwarg)
 - class dict(iterable, **kwarg)
-- >p19
+- dir([obj]): without args, return list of names in current local scope; with arg, return list of valid attrs for that obj
+- divmod(a, b) == (a // b, a % b)
+- enumerate(itr, start=0)
+- eval(...): evaluate Python expression
+- exec(...)
+- P21
