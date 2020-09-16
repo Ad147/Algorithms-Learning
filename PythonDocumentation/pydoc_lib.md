@@ -31,4 +31,11 @@ A~0v07
 - enumerate(itr, start=0)
 - eval(...): evaluate Python expression
 - exec(...)
-- P21
+- filter(func, iter) == (item for item in iter if func(item))
+- class float([x]); ("inf")
+- class frozenset([iter]) (?)
+- getattr(obj, name[, default]) == obj.name
+- globals() return a dict representing current global symbol table
+- hasattr(obj, name): check if obj has attr name (by calling getattr())
+- hash(obj): return hash value of the obj
+- p23
