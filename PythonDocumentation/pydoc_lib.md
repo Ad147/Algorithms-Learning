@@ -38,4 +38,14 @@ A~0v07
 - globals() return a dict representing current global symbol table
 - hasattr(obj, name): check if obj has attr name (by calling getattr())
 - hash(obj): return hash value of the obj
-- p23
+- help([obj]) (interactive)
+- hex(x): convert to "0xaaaa...", other ways:
+  - `'%#x' % 255, '%x' % 255, '%X' % 255` -> ('0xff', 'ff', 'FF')
+  - `format(255, '#x'), format(255, 'x'), format(255, 'X')` -> ('0xff', 'ff', 'FF')
+  - `f'{255:#x}', f'{255:x}', f'{255:X}'` -> ('0xff', 'ff', 'FF')
+  - for a float, `float.hex()`
+- id(obj): return "identity" (an unique int) of obj; in CPython, it is memory address
+- input([prompt])
+- class int([x])
+- class int(x, base=10)
+- p24
