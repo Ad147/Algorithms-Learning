@@ -48,4 +48,18 @@ A~0v07
 - input([prompt])
 - class int([x])
 - class int(x, base=10)
-- p24
+- isinstance(obj, classinfo)
+- issubclass(class, classinfo)
+- iter(obj[, sentinel]): return an iterator obj
+- len(s)
+- class list([iterable])
+- locals(): return a dict representing local symbol table
+- map(func, iter,...): return an iterator applies func to every item of iter
+- max(iter, *[,key, default])
+- max(arg1, arg2, *args[, key])
+- class memoryview(obj)
+- min(iter, *[,key, default])
+- min(arg1, arg2, *args[, key])
+- next(iter[, default])
+- class object: return a new featureless object
+- p26
