@@ -62,4 +62,49 @@ A~0v07
 - min(arg1, arg2, *args[, key])
 - next(iter[, default])
 - class object: return a new featureless object
-- p26
+- oct(x): similar to hex()
+- open()
+- ord(c): unicode of c, inverse of chr()
+- pow(base, exp[, mod]) == base**exp, efficient than pow(base, exp) % mod
+- print()
+- class property(fget=None, fset=None, fdel=None, doc=None): return a property attribute, typically used to define a managed attr:
+```py
+class C:
+    def __init__(self):
+        self._x = None
+
+    def getx(self):
+        return self._x
+
+    def setx(self, value):
+        self._x = value
+
+    def delx(self):
+        del self._x
+
+    x = property(getx, setx, delx, "I am the "x" property.")
+
+# property() can be used as a decorator
+# below is equivalent to above
+
+class C:
+    def __init__(self):
+        self._x = None
+
+    @property
+    def x(self):
+        """I am the "x" property."""
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        self._x = value
+
+    @x.deleter
+    def x(self):
+        del self._x
+```
+
+- class range()
+- repr(obj): a string containing a printable representation of obj
+- p31
