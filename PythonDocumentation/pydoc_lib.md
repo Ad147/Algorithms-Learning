@@ -107,4 +107,16 @@ class C:
 
 - class range()
 - repr(obj): a string containing a printable representation of obj
-- p31
+- reversed(seq)
+- round(number[, ndigits]): round to ndigits precision
+- class set([iterable])
+- setattr(obj, name, value)
+- class slice(stop)
+- class slice(start, stop[, step]): generated when extende indexing syntax is used
+- sorted(iterable, *, key=None, reverse=False): stable sort, key take 1 arg
+- @staticmethod: transform a method into static
+- p32
+
+
+collections module
+decorator
