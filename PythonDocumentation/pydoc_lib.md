@@ -115,8 +115,22 @@ class C:
 - class slice(start, stop[, step]): generated when extende indexing syntax is used
 - sorted(iterable, *, key=None, reverse=False): stable sort, key take 1 arg
 - @staticmethod: transform a method into static
-- p32
+- class str()
+- sum(iter, /, start=0)
+- super([type[, obj-or-type]])
+- class tuple([iter])
+- class type(obj)
+- class type(name, bases, dict)
+- vars([obj]): return `__dict__`
+- zip(*iter)
 
+3 Built-in Constants
+--------------------------------------------------------------------------------
+
+4 Built-in Types
+--------------------------------------------------------------------------------
+
+- p39
 
 collections module
 decorator
