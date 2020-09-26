@@ -130,7 +130,57 @@ class C:
 4 Built-in Types
 --------------------------------------------------------------------------------
 
-- p39
+- 4.1 Truth Value Testing
+  - None or False
+  - 0, 0.0, 0j...
+  - empty seq
+- 4.2 Boolean Operations -- and, or, not
+- 4.3 Comparisons
+- 4.4 Numeric Types -- int, float, complex
+  - 4.4.1 Bitwise Operations on Integer Types
+  - 4.4.2 Additional Methods on Integer Types
+  - 4.4.3 Additional Methods on Float
+  - 4.4.4 Hashing of Numeric Types
+- 4.5 Iterator Types
+  - 4.5.1 Generator Types
+- 4.6 Sequence Types -- list, tuple, range
+  - 4.6.1 Common Sequence Operations
+  - 4.6.2 Immutable Sequence Types
+  - 4.6.3 Mutable Sequence Types
+  - 4.6.4 Lists
+  - 4.6.5 Tuples
+  - 4.6.6 Ranges
+- 4.7 Text Sequence Type -- str
+  - 4.7.1 String Methods
+  - 4.7.2 printf-style String Formatting
+- 4.8 Binary Sequence Types -- bytes, bytearray, memoryview
+  - 4.8.1 Bytes Object
+  - 4.8.2 Bytearray Objects
+  - 4.8.3 Bytes and Bytearray Operations
+  - 4.8.4 printf-style Bytes Formatting
+  - 4.8.5 Memory Views
+- 4.9 Set Types -- set, frozenset
+- 4.10 Mapping Types -- dict
+  - 4.10.1 Dictionary View Objects
+- 4.11 Context Manager Types
+- 4.12 Other Built-in Types
+  - 4.12.1 Modules
+  - 4.12.2 Claases and Class Instance
+  - 4.12.3 Functions
+  - 4.12.4 Methods
+  - 4.12.5 Code Objects
+  - 4.12.6 Type Objects
+  - 4.12.7 The Null Object
+  - 4.12.8 The Ellipsis Object
+  - 4.12.9 The NotImplemented Object
+  - 4.12.10 Boolean Values
+  - 4.12.11 Internal Objects
+- 4.13 Special Attributes
+
+5 Built-in Exceptions
+--------------------------------------------------------------------------------
+
+-p93
 
 collections module
 decorator
