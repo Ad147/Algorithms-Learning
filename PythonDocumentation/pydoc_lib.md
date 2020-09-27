@@ -180,7 +180,29 @@ class C:
 5 Built-in Exceptions
 --------------------------------------------------------------------------------
 
--p93
+6 Text Processing Sercvices
+--------------------------------------------------------------------------------
 
-collections module
-decorator
+7 Binary Data Services
+--------------------------------------------------------------------------------
+
+8 Data Types
+--------------------------------------------------------------------------------
+
+### 8.3 collections -- Container Datatypes
+
+- namedtuple()
+- deque
+- ChainMap
+- Counter
+- OrderedDict
+- defaultdict
+- UserDict
+- UserList
+- UserString
+
+### 8.5 heapq -- Heap Queue Algorithm
+
+--------------------------------------------------------------------------------
+
+EOF
